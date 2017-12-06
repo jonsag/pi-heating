@@ -52,8 +52,8 @@
 
             echo '<br>';
 
-            $subnet_inet = shell_exec('ifconfig wlan0 | grep "inet " | cut -d":" -f2 | cut -d" " -f1');
-            $subnet_mask = shell_exec('ifconfig wlan0 | grep "inet " | cut -d":" -f4 | cut -d" " -f1');
+            $subnet_inet = shell_exec("ifconfig eth0 | grep 'inet ' | sed 's/^.*broadcast //' | awk '{print $1}'");
+            $subnet_mask = shell_exec("ifconfig eth0 | grep 'inet ' | sed 's/^.*netmask //' | awk '{print $1}'");
             
             $subnet_inet_octets = explode( '.', $subnet_inet );
             $subnet_mask_octets = explode( '.', $subnet_mask );
@@ -68,23 +68,23 @@
             
             
             
-            $subnet_cidr = '192.168.0.0/24';
+            $subnet_cidr = '192.168.10.0/24';
             
-            $subnet_scan = shell_exec('nmap -sP $subnet_cidr | grep report | grep -v router | cut -d" " -f5');
+            $subnet_scan = shell_exec("nmap -sP $subnet_cidr | grep report | grep -v router | cut -d' ' -f5 | tr -d '()'");
 
             $subnet_devices = explode( "\n", $subnet_scan);
 
             foreach( $subnet_devices as $device_ip ) {
 
-                set_error_handler(function() { $sensor_count = '0'; });
-                $sensor_count = file_get_contents("http://".$device_ip.":8080/count.php");
+		set_error_handler(function() { $sensor_count = '0'; });
+		$sensor_count = file_get_contents("http://".$device_ip.":8081/count.php");
                 restore_error_handler();
 
                 if( $sensor_count > 0 ) {
 
                     for ($sensor_ref =1 ; $sensor_ref <= $sensor_count; $sensor_ref++) { 
 
-                        $sensor_name = file_get_contents("http://".$device_ip.":8080/name.php?id=".$sensor_ref);
+                        $sensor_name = file_get_contents("http://".$device_ip.":8081/name.php?id=".$sensor_ref);
                         $sensor_unit = "deg C";
 
                         $sql = "INSERT INTO sensors (ip, ref, name, unit) select '".$device_ip."', '".$sensor_ref."', '".$sensor_name."', '".$sensor_unit."' from  dual WHERE not exists (SELECT 1 FROM sensors WHERE ip='".$device_ip."' AND ref='".$sensor_ref."');";

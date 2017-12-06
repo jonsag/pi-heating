@@ -236,7 +236,7 @@
 
     if( $SENSOR_NAME != '' ) {
         create_graph( $rrd_dir.$GET_GRAPH_ID.".rrd", $img_dir.$GET_GRAPH_ID.$GET_GRAPH_SP.".png", 	$GET_GRAPH_SP, 	$SENSOR_NAME,	 	   "180", "700");
-        echo "<img src='".$img_dir.$GET_GRAPH_ID.$GET_GRAPH_SP.".png' alt='RRD image'>";  
+       echo "<img src='".$img_dir.$GET_GRAPH_ID.$GET_GRAPH_SP.".png' alt='RRD image'>";
     }
     
     echo "</td></tr>";
@@ -257,7 +257,7 @@
     mysqli_close($conn);
     
     function create_graph($rrdfile, $output, $start, $title, $height, $width) {
-
+      
       $options = array(
         "--slope-mode",
         "--start", $start,
@@ -276,7 +276,7 @@
         "-nTITLE:10",
         "-nAXIS:12",
         "-nUNIT:10",
-        "-y 1:5",
+        #"-y 1:5",
         "-cFRAME#1a1a1a",
         "-cARROW#1a1a1a",
         "DEF:callmax=$rrdfile:data:MAX",
@@ -289,6 +289,9 @@
     #    "GPRINT:transcalldatamax:MAX:Data %6.2lf"
         "COMMENT:\\n"
       );
+      #foreach($options as $option) {
+      #    echo $option, '<br>';
+      #}
      $ret = rrd_graph( $output, $options );
       if (! $ret) {
         echo "<b>Graph error: </b>".rrd_error()."\n";
