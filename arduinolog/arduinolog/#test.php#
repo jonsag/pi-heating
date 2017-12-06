@@ -1,0 +1,3 @@
+<?php
+header('Content-type: text/plain');
+echo date("d.m.Y-H:i:s") . " Temperatur= " . $_GET['t0'];
