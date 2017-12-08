@@ -187,7 +187,7 @@ a2ensite pi-heating-weather.conf
 service apache2 restart
 
 
-printf "\n\n Installing additional database tablse ...\n
+printf "\n\n Installing additional database tablse ...\n"
 
 source "/home/pi/pi-heating-hub/config/config.ini"
 
