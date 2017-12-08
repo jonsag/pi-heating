@@ -186,5 +186,50 @@ VHOST
 a2ensite pi-heating-weather.conf
 service apache2 restart
 
+
+printf "\n\n Installing additional database tablse ...\n
+
+source "/home/pi/pi-heating-hub/config/config.ini"
+
+mysql -u$user -p$password $database<< DATABASE
+
+CREATE TABLE IF NOT EXISTS powerLog (
+	id							INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    ts							TIMESTAMP,
+	currentR1					FLOAT,
+	currentS2					FLOAT,
+	currentT3					FLOAT,
+	currentAverageR1			FLOAT,
+	currentAverageS2			FLOAT,
+	currentAverageT3			FLOAT,
+	pulses						INT,
+	event						char(255),
+    PRIMARY KEY (id)
+) CHARACTER SET UTF8;
+
+CREATE TABLE IF NOT EXISTS tempLog (
+    id							INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    ts							TIMESTAMP,
+	sensorid					bigint(11),
+	value						float,
+    event						char(255),
+    PRIMARY KEY (id)
+) CHARACTER SET UTF8;
+
+CREATE TABLE IF NOT EXISTS weatherLog (
+    id							INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    ts							TIMESTAMP,
+    windDirection				char(3),
+    windDirectionValue			FLOAT,
+    averageWindDirectionValue	FLOAT,
+    windSpeed					FLOAT,
+    averageWindSpeed			FLOAT,
+    rainSinceLast				FLOAT,
+    event						char(255),
+    PRIMARY KEY (id)
+) CHARACTER SET UTF8;
+
+DATABASE
+
 printf "\n\n Installation Complete. Some changes might require a reboot. \n\n"
 exit 1

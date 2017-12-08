@@ -14,8 +14,7 @@ $ git clone https://github.com/jonsag/pi-heating.git
 
 On pi running as hub or hub/remote:
 $ sudo pi-heating/pi-heating-hub-install.sh
-$ sudo pi-heating/pi-heating-hub-mysql-install.s
-$ sudo pi-heating/pi-heating-remote-install.sh
+$ sudo pi-heating/pi-heating-hub-mysql-install.sh
 $ sudo pi-heating/pi-heating-hub-secure.sh
 
 
@@ -24,7 +23,7 @@ $ sudo pi-heating/pi-heating-weather-install.sh
 		wget "http://www.triconsole.com/php/calendar_download.php" -O "/home/pi/calendar.zip"
 
 
-On pi running solely as remote:
+On pi running solely as remote or as hub/remote:
 $ sudo pi-heating/pi-heating-remote-install.sh
 
 
