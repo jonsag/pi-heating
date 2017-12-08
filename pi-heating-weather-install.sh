@@ -189,9 +189,11 @@ service apache2 restart
 
 printf "\n\n Installing additional database tablse ...\n"
 
-source "/home/pi/pi-heating-hub/config/config.ini"
+DB_USER=$(cat /home/pi/pi-heating-hub/config/config.ini | grep user | awk '{print $3}')
+DB_PASSWORD=$(cat /home/pi/pi-heating-hub/config/config.ini | grep password | awk '{print $3}')
+DB=$(cat /home/pi/pi-heating-hub/config/config.ini | grep database | awk '{print $3}')
 
-mysql -u$user -p$password $database<< DATABASE
+mysql -u$DB_USER -p$DB_PASSWORD $DB<< DATABASE
 
 CREATE TABLE IF NOT EXISTS powerLog (
 	id							INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
