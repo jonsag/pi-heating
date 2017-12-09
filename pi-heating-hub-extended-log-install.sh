@@ -60,10 +60,10 @@ else
   printf "\n\n pi-heating-hub-extended-log is already installed. \n"
 fi
 
-if [ ! -f "/etc/cron.d/pi-weather" ]
+if [ ! -f "/etc/cron.d/pi-heating-hub-extended-log" ]
   then
     cat > /etc/cron.d/pi-heating-hub-extended-log <<CRON
-* * * * * pi /bin/bash /home/pi/pi-heating-hub-extended-log/cron/wrapper.sh
+*/2 * * * * pi /bin/bash /home/pi/pi-heating-hub-extended-log/cron/wrapper.sh
 CRON
     service cron restart
 fi

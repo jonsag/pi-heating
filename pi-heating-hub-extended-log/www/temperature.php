@@ -6,42 +6,39 @@
 </head>
 <body>
 <h1><center>JS Temperature</center></h1>
-<center>- part of jsPowerTempLog</center>
+<center>- part of pi-heating</center>
 <br>
 
 <?php
-include ('config.php');
-include ('functions/functions.php');
-
-//var_dump($dallasTemps);
-
-$numberOfTemps = 0;
-$dallasId = "";
-$temperature = 0;
-
-// connect to mysql
-if (!$db_con) {
-  die('Could not connect: ' . mysql_error());
-}
-
-// select database
-mysql_select_db($db_name) or die(mysql_error());
-
-$sql = "SELECT * FROM 1wireDevices WHERE deviceType='temp'";
-
-$query = mysql_query($sql);
-
-while($row = mysql_fetch_array($query)) {
-  $dallasInfo = file_get_contents('/sys/bus/w1/devices/'. $row['devicePath'] . '/w1_slave');
-  $dallasId = substr( $dallasInfo, 0,strrpos( $dallasInfo, ':' ) );
-  $temperature = (substr( $dallasInfo, strrpos( $dallasInfo, '=' )+1 )) / 1000;
-  echo "Temperature sensor " . $numberOfTemps . ": " . $temperature . " C \t Id: " . $dallasId . "\t Place: " . $row['place'];
-  $numberOfTemps++;
-  lf();
-}
-
-// close connection to mysql                                                                                                                                                    
-mysql_close($db_con);
+    include ('config.php');
+    include ('functions/functions.php');
+    
+    //var_dump($dallasTemps);
+    
+    $numberOfTemps = 0;
+    $dallasId = "";
+    $temperature = 0;
+    
+    
+    $sql = "SELECT * FROM sensors";
+    
+    $result = $conn->query($sql);
+    
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+            echo "id: " . $row["id"]. "<br>\n";
+            echo "ip: " . $row["ip"]. "<br>\n";
+            echo "ref: " . $row["ref"]. "<br>\n";
+            echo "name: " . $row["name"]. "<br>\n";
+            echo "value: " . $row["value"]. " ". $row["unit"]. "<br>\n";
+            echo "<br>\n";
+        }
+    } else {
+        echo "0 results";
+    }
+    
+    mysqli_close($conn);
 
 ?>
 
