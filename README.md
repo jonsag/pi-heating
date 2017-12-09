@@ -19,7 +19,7 @@ $ sudo pi-heating/pi-heating-hub-secure.sh
 
 
 If hub also will have extended weather and power logging:
-$ sudo pi-heating/pi-heating-weather-install.sh
+$ sudo pi-heating/pi-heating-extende-log-install.sh
 		wget "http://www.triconsole.com/php/calendar_download.php" -O "/home/pi/calendar.zip"
 
 
