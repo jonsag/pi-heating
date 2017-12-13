@@ -27,3 +27,4 @@ On pi running solely as remote or as hub/remote:
 $ sudo pi-heating/pi-heating-remote-install.sh
 
 
+$ rsync -rci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-hub-extended-log/www/* pi@raspberry03:/var/www/pi-heating-hub-extended-log/

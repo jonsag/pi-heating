@@ -34,4 +34,29 @@ function is_cli() {
     return (1);
   }
 }
+
+function table3columns($column1texts, $column2texts, $column3texts) {
+    $cellpadding = 0;
+    $cellspacing = 10;
+    $columns = 3;
+    $rows = sizeof($column1texts);    
+    
+    echo "<table cellpadding=" . $cellpadding . " cellspacing=" . $cellspacing . ">\n";
+    for ($row = 0; $row <= ($rows - 1); $row++) {
+        echo "<tr>" . "\n";
+        
+        $text =  [ $column1texts[$row],
+            $column2texts[$row],
+            $column3texts[$row]
+        ];
+        
+        for ($column = 0; $column <= ($columns - 1); $column++) {
+            echo "<th>" . $text[$column] . "</th>" . "\n";
+        }
+        
+        echo "</tr>" . "\n";
+    }
+    echo "</table>" . "\n";
+    
+}
 ?>
