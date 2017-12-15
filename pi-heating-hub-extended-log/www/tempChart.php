@@ -1,80 +1,103 @@
 <html>
   <head>
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-   google.load("visualization", "1", {packages:["corechart"]});
-google.setOnLoadCallback(drawChart);
-function drawChart() {
+  	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  	<script type="text/javascript">
+  	google.charts.load('current', {'packages':['corechart']});
+  	google.charts.setOnLoadCallback(drawChart);
 
-  var data = google.visualization.arrayToDataTable([
-
-     <?php
-     include ('config.php');
-     include ('getSql.php');
-     
-     // connect to mysql
-     if (!$db_con) {
-       die('Could not connect: ' . mysql_error());
-     }
-     
-     // select database
-     mysql_select_db($db_name) or die(mysql_error());
-     
-     $placeSql = "SELECT * FROM 1wireDevices WHERE deviceType='temp'";
-     
-     $query = mysql_query($placeSql);
-
-     echo "['Time', ";
-     
-     while($row = mysql_fetch_array($query)) {
-       echo "'" . $row['place'] . "',";
-     }
-     
-     echo "],";
-     
-    // select sql
-    //$sql = "SELECT * FROM powerLog";
-    // do the query
-    $query = mysql_query($sql);
-    
-    // read result
-    while($row = mysql_fetch_array($query)) {
-      $rows++;
-      echo "['{$row['ts']}', {$row['temp0']}, {$row['temp1']}]";
-      echo ",\n";
-    }
-
-    // close connection to mysql
-    mysql_close($db_con);
-    ?>
-
-    ]);
-
-  var options = {
-  title: 
+  	function drawChart() {
+  	var data = google.visualization.arrayToDataTable([
 
 <?php
+    // Turn off all error reporting
+    error_reporting(0);
+    
+     include ("config.php");
+     include ('functions/functions.php');
+     include ('functions/getSql.function.php');
+     
+     $selected = false;
+     
+     ///// catch attributes
+     if (isset($_GET['time'])) {
+         $timeSelection = $_GET['time'];
+     }
+     
+     if (isset($_GET['table'])) {
+         $table = $_GET['table'];
+     }
+     
+     
+     // find sensor ids
+     $sql = "SELECT id FROM sensors";
+     $result = $conn->query($sql);
+     if ($result->num_rows > 0) {
+         $sensorids = [];
+         $i = 0;
+         echo "['Time'";
+         while($row = $result->fetch_assoc()) {
+             ++$i;
+             $sensorids[$i] = $row['id'];
+             echo ", '" . $row['id'] . "'";
+         }
+         echo "]";
+     }
+     
+     // create selection
+     $selection = "ts";
+     $i = 0;
+     foreach ($sensorids as $sensorid) {
+         $selection .= ", ROUND(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END), 1) AS sensor" . $sensorid;
+     }
+     
+     $condition = "";
+     $groupby = "GROUP BY ts";
+     
+     $answer = getSQL($selection, $table, $condition, $groupby);
+     
+     $sql = $answer[0];
+     $selection = $answer[1];
+     
+     $result = $conn->query($sql);
+    
+     // read result
+     if ($result->num_rows > 0) {
+         while($row = $result->fetch_assoc()) {
+             $output = ",\n['{$row['ts']}'";
+             foreach ($sensorids as $sensorid) {
+                 $output .= ", {$row['sensor' . $sensorid]}";
+             }
+             $output .= "]";
+             //echo "['{$row['ts']}', {$row['temp0']}, {$row['temp1']}]";
+             echo $output;
+         }
+     }
+     
+     echo "\n]);\n\n";
 
-echo "'" . $table . " - Temps ";
-echo $selection;
-echo "',";
-
+    // close connection to mysql
+    mysqli_close($conn);;
+    
+    echo "var options = {\n";
+    echo " title:' " . $table . " - Temps ";
+    echo $selection;
+    echo "',\n";
+    //echo " width: 1200,\n";
+    //echo " height: 550,\n";
+    //echo " lineWidth: 1\n";
+    //echo " colors: ['red', 'green', 'blue']\n";
+    echo " curveType: 'function',\n";
+    echo " legend: { position: 'bottom' }\n";
+    echo "};\n";
 ?>
 
-  width: 1200,
-  height: 550,
-  lineWidth: 1,
-
-  colors: ['red', 'green', 'blue']
-  };
-
-  var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+  var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
   chart.draw(data, options);
 }
 
     </script>
   </head>
   <body>
-    <div id="chart_div"></div>
+    <div id="curve_chart" style="width: 900px; height: 500px"></div>
   </body>
 </html>

@@ -1,6 +1,6 @@
  <?php 
     include ('config.php');
-    include ('getSql.php');
+    include ('functions/getSql.function.php');
     
     $selected = false;
     
@@ -8,21 +8,21 @@
     if (isset($_GET['time'])) {
       $timeSelection = $_GET['time'];
     }
+        
+    $answer = getSQL($table, $get);
     
-    ///// connect to database
-    if (!$db_con) {
-      die('Could not connect: ' . mysql_error());
+    $sql = $answer[0];
+    $selection = $answer[1];
+    
+    echo $sql;
+    
+    $result = $conn->query($sql);
+    
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            $i++;
+        }
     }
-    
-    ///// choose database
-    mysql_select_db($db_name) or die(mysql_error());
-    
-    $query = mysql_query($query);
-    
-    while($row = mysql_fetch_array( $query )) 
-      { 
-        $i++;
-      } 
     
     Print "Selecting " . $selection . " will give " . $i . " rows.";
     //return $i;

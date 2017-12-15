@@ -28,3 +28,27 @@ $ sudo pi-heating/pi-heating-remote-install.sh
 
 
 $ rsync -rci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-hub-extended-log/www/* pi@raspberry03:/var/www/pi-heating-hub-extended-log/
+
+
+below works
+SELECT value AS temp5 
+FROM tempLog 
+WHERE 
+sensorid='5' 
+AND  
+ts IN (SELECT DISTINCT(ts) AS ts FROM tempLog WHERE DATE(ts) = CURDATE())
+
+SELECT ts, 
+       MAX(CASE WHEN sensorid = 3 THEN value ELSE 0 END) AS sensor3,
+       MAX(CASE WHEN sensorid = 4 THEN value ELSE 0 END) AS sensor4,
+       MAX(CASE WHEN sensorid = 5 THEN value ELSE 0 END) AS sensor5
+FROM tempLog
+GROUP BY ts
+
+
+
+
+
+
+
+
