@@ -1,22 +1,36 @@
 <html>
   <head>
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-   google.load("visualization", "1", {packages:["corechart"]});
-google.setOnLoadCallback(drawChart);
-function drawChart() {
+  	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  	<script type="text/javascript">
+  	google.charts.load('current', {'packages':['corechart']});
+  	google.charts.setOnLoadCallback(drawChart);
 
-  var data = google.visualization.arrayToDataTable([
-						    ['Time', 'Power kW'],
+  	function drawChart() {
+  	var data = google.visualization.arrayToDataTable([
 
-    <?php
-    include ('config.php');
-    include ('getSql.php');
+<?php
+    // Turn off all error reporting
+    error_reporting(0);
+    
+     include ("config.php");
+     include ('functions/functions.php');
+     include ('functions/getSql.function.php');
+     
+     ///// catch attributes
+     if (isset($_GET['time'])) {
+         $timeSelection = $_GET['time'];
+     }
+     
+     if (isset($_GET['table'])) {
+         $table = $_GET['table'];
+     }
 
     if(isset($_GET['values']) && !isset($_GET['groupBy'])) {
       $values = $_GET['values'];
     }
-
+    else {
+        $values = 0;
+    }
 
     if(isset($_GET['groupBy'])) {
      if ($_GET['groupBy'] == "hour") {
@@ -39,61 +53,63 @@ function drawChart() {
      }
     }
 
+    $R1 = 0;
+    $S2 = 0;
+    $T3 = 0;
     $counter = 0;
     $valuesDisplayed = 0;
 
-    // connect to mysql
-    if (!$db_con) {
-      die('Could not connect: ' . mysql_error());
-    }
-
-    // select database
-    mysql_select_db($db_name) or die(mysql_error());
-
-    $sql = $sql . $groupBy;
-
-    $result = mysql_query($sql);
+    // create selection
+    $selection = "ts, currentAverageR1, currentAverageS2, currentAverageT3";
     
-    $noRows = mysql_num_rows($result);
+    $condition = "";
+    $groupby = "GROUP BY ts";
+    
+    $answer = getSQL($selection, $table, $condition, $groupby);
+    
+    $sql = $answer[0];
+    $selection = $answer[1];
+    
+    $result = $conn->query($sql);
+    
+    $noRows = mysqli_num_rows($result);
 
-    $averages = round($noRows / $values, 0, PHP_ROUND_HALF_UP);
-
+    if ($values) {
+        $averages = round($noRows / $values, 0, PHP_ROUND_HALF_UP);
+    }
+    
+    echo "['Time', 'Power'],";
     // read result
-    while($row = mysql_fetch_array($result)) {
+    while($row = $result->fetch_assoc()) {
       if ( !empty($row['currentAverageR1']) && !empty($row['currentAverageS2']) && !empty($row['currentAverageT3']) ) {
-	if(isset($values)) {
-	  $R1 = $R1 + $row['currentAverageR1'];
-	  $S2 = $S2 + $row['currentAverageS2'];
-	  $T3 = $T3 + $row['currentAverageT3'];
-	  $counter++;
-	  if ($counter >= $averages) {
-	    echo "['{$row['ts']}', ($R1 + $S2 + $T3) * 230 * 1.732 / 1000 / $counter]";
-	    echo ",\n";
-	    $R1 = 0;
-	    $S2 = 0;
-	    $T3 = 0;
-	    $counter = 0;
-	    $valuesDisplayed++;
-	  }
-	}
-	else {
-	  echo "['{$row['ts']}', ({$row['currentAverageR1']} + {$row['currentAverageS2']} + {$row['currentAverageT3']}) * 230 * 1.732 / 1000]";
-	  echo ",\n";
-	  $valuesDisplayed++;
-	}
+    	if($values) {
+    	  $R1 = $R1 + $row['currentAverageR1'];
+    	  $S2 = $S2 + $row['currentAverageS2'];
+    	  $T3 = $T3 + $row['currentAverageT3'];
+    	  $counter++;
+    	  if ($counter >= $averages) {
+    	    echo "\n['" . $row['ts'] . "'," .  ($R1 + $S2 + $T3) * 230 * 1.732 / 1000 / $counter . "],";
+    	    $R1 = 0;
+    	    $S2 = 0;
+    	    $T3 = 0;
+    	    $counter = 0;
+    	    $valuesDisplayed++;
+    	  }
+    	}
+    	else {
+    	  echo "\n['" . $row['ts'] . "', " . ($row['currentAverageR1'] + $row['currentAverageS2'] + $row['currentAverageT3']) * 230 * 1.732 / 1000 . "],";
+    	  $valuesDisplayed++;
+    	}
       }
     }
 
     // close connection to mysql
-    mysql_close($db_con);
-    ?>
+    mysqli_close($conn);;
+    
+    echo "\n]);\n\n";
 
-    ]);
-
-  var options = {
-  title:
-<?php
-  echo "'Power " . $selection;
+  	echo "var options = {\n";
+    echo " title:' Power " . $selection;
   if(isset($values)) {
     echo ", averaging to " . $valuesDisplayed . " values, " . $averages . " measurements per point";
   }
@@ -105,25 +121,25 @@ function drawChart() {
   }
 
   echo ", sql=" . $sql;
-  echo "',";
+  echo "',\n";
+  //echo " width: 1200,\n";
+  //echo " height: 550,\n";
+  //echo " lineWidth: 1,\n";
+  //echo " curveType: 'function',\n";
+  //echo " colors: ['red','blue']\n";
+echo " curveType: 'function',\n";
+echo " legend: { position: 'bottom' }\n";
+echo "};\n";
+
 ?>
 
-  width: 1200,
-  height: 550,
-  lineWidth: 1,
-
-  curveType: 'function',
-
-  colors: ['red','blue']
-  };
-
-  var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-  chart.draw(data, options);
+var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+chart.draw(data, options);
 }
 
-    </script>
-  </head>
-  <body>
-    <div id="chart_div"></div>
-  </body>
+  </script>
+</head>
+<body>
+  <div id="curve_chart" style="width: 1350px; height: 600px"></div>
+</body>
 </html>
