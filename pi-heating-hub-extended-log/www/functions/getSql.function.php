@@ -2,6 +2,8 @@
 
 function getSQL($selection, $table, $condition, $groupby) {
 
+  $selected = false;
+    
   ///// last number of months, days, hours
   if (isset($_GET['years'])) {
     $selected = true;

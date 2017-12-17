@@ -34,8 +34,10 @@
 </head>
 
 <body>
-<h1><center>JS Power Temp Log</center></h1>
-<center>- part of jsPowerTempLog</center>
+<div style="text-align:center">
+<h1>JS Power Temp Log</h1>
+- part of pi-heating -
+</div>
 <br>
 
 <form>

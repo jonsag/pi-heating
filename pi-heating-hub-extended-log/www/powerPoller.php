@@ -40,6 +40,10 @@ if ($argv[3] != "") {
   $event = $argv[3];
 }
 
+if (!$event) {
+    $event = "null";
+}
+
 $thisTime =  date('Y\-m\-d\ H\:i\:s');
 
 ///// get web page
@@ -205,14 +209,12 @@ for ($s = 1; $s <= 3; $s++) {
   }
 }
 
-
-for ($s = 0; $s <= 5; $s++) {
-  if ($tempValue[$s] != "") {
-    echo "tempValue" . $s . ": " . $tempValue[$s];
-    lf();
-  }
-}
-
+//for ($s = 0; $s <= 5; $s++) {
+//  if ($tempValue[$s] != "") {
+//    echo "tempValue" . $s . ": " . $tempValue[$s];
+//    lf();
+//  }
+//}
 
 //echo "pulsesSinceStart: " . $pulsesSinceStart . "<br>\n";
 //echo "pulsesLastInterval: " . $pulsesLastInterval . "<br>\n";
@@ -224,18 +226,17 @@ if ($event != "") {
   lf();
 }
 
+if ($debug) {
+    echo "-----------------------------------------------------";
+    lf();
+}
+
 if ($poll) {
   
   echo "Writing to MySQL...";
   lf();
   
-  if (!$db_con) {
-    die('Could not connect: ' . mysql_error());
-  }
-  
-  mysql_select_db($db_name);
-  
-  $sql = "INSERT INTO powerLog (currentR1, currentS2, currentT3, currentAverageR1, currentAverageS2, currentAverageT3, temp, pulses, event)
+  $sql = "INSERT INTO powerLog (currentR1, currentS2, currentT3, currentAverageR1, currentAverageS2, currentAverageT3, pulses, event)
    VALUES (
    '$currentValue[1]',
    '$currentValue[2]',
@@ -243,23 +244,29 @@ if ($poll) {
    '$currentAverageValue[1]',
    '$currentAverageValue[2]',
    '$currentAverageValue[3]',
-   '$tempValue[0]',
    '$pulses',
    '$event')";
-  
-  $result = mysql_query($sql);
-  
-  if ($result) {
-    echo "OK";
-    lf();
-    echo "Resetting pulses";
-    lf();
-    file($powerPollReset);      
-  }
-  else {
-    die('Invalid query: ' . mysql_error());
+
+  if ($debug) {
+      echo "SQL: " . $sql;
+      lf();
   }
   
-  mysql_close($db_con);
+  if ($conn->query($sql) === TRUE) {
+      if ($debug) {
+          echo "New records created successfully";
+          lf();
+          echo "Resetting pulses";
+          lf();
+      }
+      file($powerPollReset);
+  } else {
+      if ($debug) {
+          echo "Error: " . $sql . "<br>" . $conn->error;
+      }
+  }
+  
+  // close connection to mysql
+  mysqli_close($conn);;
 }
 ?>

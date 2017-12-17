@@ -21,8 +21,8 @@
         die("Connection failed: " . $conn->connect_error);
     }
     
-    $powerUrl = 'http://arduino01';
-    $powerPollReset = 'http://arduino01/?pollReset';
+    $powerUrl = 'http://192.168.10.10';
+    $powerPollReset = 'http://192.168.10.10/?pollReset';
     
     $tempUrl = 'http://localhost/jsPowerTempLog/temperature.php';
     $tempPollReset = 'http://localhost/jsPowerTempLog/tempPollReset.php';

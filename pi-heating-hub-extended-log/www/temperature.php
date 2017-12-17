@@ -8,6 +8,7 @@
 <div style="text-align:center">
 <h1>JS Temperature</h1>
 - part of pi-heating -
+</div>
 <br>
 <br>
 
@@ -162,7 +163,6 @@ sensorid='" . $row["id"] . "'";
     mysqli_close($conn);
 
 ?>
-</div>
 </body>
 </html>
 

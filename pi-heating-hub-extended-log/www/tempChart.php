@@ -38,7 +38,16 @@
          while($row = $result->fetch_assoc()) {
              ++$i;
              $sensorids[$i] = $row['id'];
-             echo ", '" . $row['id'] . "'";
+             $namesql = "SELECT name FROM sensors WHERE id='" . $row['id'] . "'";
+             $nameresult = $conn->query($namesql);
+             if ($result->num_rows > 0) {
+                 while($namerow = $nameresult->fetch_assoc()) {
+                     //echo ", '" . $i . "'";
+                     echo ", '" . trim($namerow['name']) . "'";
+                     //$output .= ", {$namerow['name']}";
+                 }
+             }
+             //echo ", '" . $row['id'] . "'";
          }
          echo "]";
      }
@@ -68,7 +77,6 @@
                  $output .= ", {$row['sensor' . $sensorid]}";
              }
              $output .= "]";
-             //echo "['{$row['ts']}', {$row['temp0']}, {$row['temp1']}]";
              echo $output;
          }
      }
@@ -98,6 +106,6 @@
     </script>
   </head>
   <body>
-    <div id="curve_chart" style="width: 900px; height: 500px"></div>
+    <div id="curve_chart" style="width: 1350px; height: 600px"></div>
   </body>
 </html>
