@@ -57,8 +57,8 @@
         Print "</tr>\n";
         while($row = $result->fetch_assoc()) {
             Print "<tr>"; 
-            Print "<th>".$row['ts'] . "</th> "; 
-            //Print "<td>".$row['sensorid'] . "</td>";
+            Print "<th>" . $row['ts'] . "</th> "; 
+            //Print "<td>" . $row['sensorid'] . "</td>";
             foreach ($sensorids as $sensorid) {
                 Print "<th>" . $row["sensor" . $sensorid ] . "</th>";
             }

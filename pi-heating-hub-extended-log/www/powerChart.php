@@ -34,7 +34,7 @@
 
     if(isset($_GET['groupBy'])) {
      if ($_GET['groupBy'] == "hour") {
-       $groupby = " GROUP BY HOUR(ts)";
+       $groupby = " GROUP BY DATE(ts), HOUR(ts)";
        $groupedby = "hour";
      }
      else if ($_GET['groupBy'] == "day") {
@@ -66,7 +66,13 @@
     $valuesDisplayed = 0;
 
     // create selection
-    $selection = "ts, currentAverageR1, currentAverageS2, currentAverageT3";
+    if ($groupedby) {
+        $selection = "ts, AVG(currentAverageR1) AS currentAverageR1, AVG(currentAverageS2) AS currentAverageS2, AVG(currentAverageT3) AS currentAverageT3";
+        //$selection = "ts, currentAverageR1, currentAverageS2, currentAverageT3";
+    }
+    else {
+        $selection = "ts, currentAverageR1, currentAverageS2, currentAverageT3";
+    }
     
     $condition = "";
     

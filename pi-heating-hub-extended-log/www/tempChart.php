@@ -27,6 +27,35 @@
          $table = $_GET['table'];
      }
      
+     if(isset($_GET['groupBy'])) {
+         if ($_GET['groupBy'] == "hour") {
+             $groupby = " GROUP BY DATE(ts), HOUR(ts)";
+             $groupedby = "hour";
+         }
+         else if ($_GET['groupBy'] == "day") {
+             $groupby = " GROUP BY DAY(ts)";
+             $groupedby = "day";
+         }
+         else if ($_GET['groupBy'] == "week") {
+             $groupby = " GROUP BY WEEK(ts)";
+             $groupedby = "week";
+         }
+         else if ($_GET['groupBy'] == "month") {
+             $groupby = " GROUP BY MONTH(ts)";
+             $groupedby = "month";
+         }
+         else if ($_GET['groupBy'] == "year") {
+             $groupby = " GROUP BY YEAR(ts)";
+             $groupedby = "year";
+         }
+     }
+     else {
+         $groupby = "GROUP BY ts";
+         $groupedby = "";
+     }
+     
+     $groupby = "GROUP BY ts";
+     $groupedby = "";
      
      // find sensor ids
      $sql = "SELECT id FROM sensors";
@@ -54,19 +83,26 @@
      
      // create selection
      $selection = "ts";
-     $i = 0;
      foreach ($sensorids as $sensorid) {
-         $selection .= ", ROUND(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END), 1) AS sensor" . $sensorid;
-     }
+         if ($groupedby) {
+             $selection .= ", ROUND(AVG(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END)), 1) AS sensor" . $sensorid;
+             
+             //$selection .= ", AVG(ROUND(MAX(CASE WHEN sensorid = " . $sensorid . " THEN AVG(value) ELSE 0 END), 1)) AS sensor" . $sensorid;
+         }
+         else {
+             $selection .= ", ROUND(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END), 1) AS sensor" . $sensorid;
+             
+         }
+     }     
      
      $condition = "";
-     $groupby = "GROUP BY ts";
      
      $answer = getSQL($selection, $table, $condition, $groupby);
      
      $sql = $answer[0];
      $selection = $answer[1];
      
+     //echo $sql;
      $result = $conn->query($sql);
     
      // read result
@@ -76,7 +112,7 @@
              $output .= $row['ts'];
              $output .= "'";
              foreach ($sensorids as $sensorid) {
-                 $output .= ", {$row['sensor' . $sensorid]}";
+                 $output .= ", " . $row['sensor' . $sensorid];
              }
              $output .= "]";
              echo $output;
@@ -91,6 +127,10 @@
     echo "var options = {\n";
     echo " title:' " . $table . " - Temps ";
     echo $selection;
+    if ($groupedby) {
+        echo ", grouped by " . $groupedby;
+    }
+    //echo ", sql= " . $sql;
     echo "',\n";
     //echo " width: 1200,\n";
     //echo " height: 550,\n";
