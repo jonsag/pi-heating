@@ -42,12 +42,12 @@
              $nameresult = $conn->query($namesql);
              if ($result->num_rows > 0) {
                  while($namerow = $nameresult->fetch_assoc()) {
-                     //echo ", '" . $i . "'";
-                     echo ", '" . trim($namerow['name']) . "'";
-                     //$output .= ", {$namerow['name']}";
+                     echo ", '";
+                     echo trim($namerow['name']);
+                     echo " \u00B0C";
+                     echo "'";
                  }
              }
-             //echo ", '" . $row['id'] . "'";
          }
          echo "]";
      }
@@ -72,7 +72,9 @@
      // read result
      if ($result->num_rows > 0) {
          while($row = $result->fetch_assoc()) {
-             $output = ",\n['{$row['ts']}'";
+             $output = ",\n['";
+             $output .= $row['ts'];
+             $output .= "'";
              foreach ($sensorids as $sensorid) {
                  $output .= ", {$row['sensor' . $sensorid]}";
              }

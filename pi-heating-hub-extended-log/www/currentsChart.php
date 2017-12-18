@@ -20,13 +20,33 @@
          $table = $_GET['table'];
      }
      
+     if(isset($_GET['groupBy'])) {
+         if ($_GET['groupBy'] == "hour") {
+             $groupby = " GROUP BY HOUR(ts)";
+         }
+         else if ($_GET['groupBy'] == "day") {
+             $groupby = " GROUP BY DAY(ts)";
+         }
+         else if ($_GET['groupBy'] == "week") {
+             $groupby = " GROUP BY WEEK(ts)";
+         }
+         else if ($_GET['groupBy'] == "month") {
+             $groupby = " GROUP BY MONTH(ts)";
+         }
+         else if ($_GET['groupBy'] == "year") {
+             $groupby = " GROUP BY YEAR(ts)";
+         }
+     }
+     else {
+         $groupby = "GROUP BY ts";
+     }
+     
     $rows = 0;
 
     // create selection
     $selection = "ts, currentAverageR1, currentAverageS2, currentAverageT3";
     
     $condition = " AND 'currentR1'!='0'";
-    $groupby = "GROUP BY ts";
     
     $answer = getSQL($selection, $table, $condition, $groupby);
     
@@ -41,7 +61,15 @@
     // read result
     while($row = $result->fetch_assoc()) {
       $rows++;
-      echo "\n['" . $row['ts'] . "'," .  $row['currentAverageR1'] . "," .  $row['currentAverageS2'] . "," . $row['currentAverageT3'] . "],";
+      echo "\n['";
+      echo $row['ts'];
+      echo "',";
+      echo $row['currentAverageR1'];
+      echo ",";
+      echo $row['currentAverageS2'];
+      echo ",";
+      echo $row['currentAverageT3'];
+      echo"],";
     }
 
     // close connection to mysql
@@ -53,7 +81,7 @@
   echo "title:"; 
   echo "'" . $table . " - Average currents ";
   echo $selection;
-  echo ", sql=" . $sql;
+  //echo ", sql=" . $sql;
   echo "',\n";
 
 //echo "width: 1200,\n";

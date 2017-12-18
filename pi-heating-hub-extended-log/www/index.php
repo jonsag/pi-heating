@@ -91,7 +91,7 @@ Pick a predefined interval<br>
 <input type="button" name="button4" id="button4" value="Create power excel" onClick="parent.location='excelData.php?table=powerLog&'+this.form.predef_interval.value">
 <input type="button" name="button5" id="button5" value="Create power csv" onClick="parent.location='csvData.php?table=powerLog&'+this.form.predef_interval.value">
 <br>
-<input type="button" name="button30" id="button30" value="Show currents chart" onClick="parent.location='currentsChart.php?table=powerLog&'+this.form.predef_interval.value+'&'+this.form.no_of_values.value">
+<input type="button" name="button30" id="button30" value="Show currents chart" onClick="parent.location='currentsChart.php?table=powerLog&'+this.form.predef_interval.value+'&'+this.form.no_of_values.value+'&'+this.form.group_by.value">
 <br>
 <input type="button" name="button6" id="button6" value="Show temp chart" onClick="parent.location='tempChart.php?table=tempLog&'+this.form.predef_interval.value+'&'+this.form.no_of_values.value">
 <input type="button" name="button7" id="button7" value="Print temp table" onClick="parent.location='printTempData.php?table=tempLog&'+this.form.predef_interval.value">
@@ -105,6 +105,8 @@ Pick a predefined interval<br>
 <br>
 <input type="button" name="button27" id="button27" value="Show chill factor chart" onClick="parent.location='chillFactorChart.php?'+this.form.predef_interval.value+'&'+this.form.no_of_values.value">
 <input type="button" name="button28" id="button28" value="Print chill factor table" onClick="parent.location='printChillFactorData.php?'+this.form.predef_interval.value">
+<br>
+<input type="button" name="button33" id="button33" value="Show power/temp chart" onClick="parent.location='powerTempChart.php?table=tempLog&'+this.form.predef_interval.value+'&'+this.form.no_of_values.value">
 <br>
 <input type="button" name="button29" id="button29" value="Show power/chill chart" onClick="parent.location='powerChillChart.php?table=powerLog&'+this.form.predef_interval.value+'&'+this.form.no_of_values.value">
 <br>

@@ -34,25 +34,31 @@
 
     if(isset($_GET['groupBy'])) {
      if ($_GET['groupBy'] == "hour") {
-       $groupBy = " GROUP BY HOUR(ts)";
+       $groupby = " GROUP BY HOUR(ts)";
+       $groupedby = "hour";
      }
      else if ($_GET['groupBy'] == "day") {
-       $groupBy = " GROUP BY DAY(ts)";
+       $groupby = " GROUP BY DAY(ts)";
+       $groupedby = "day";
      }
      else if ($_GET['groupBy'] == "week") {
-       $groupBy = " GROUP BY WEEK(ts)";
+       $groupby = " GROUP BY WEEK(ts)";
+       $groupedby = "week";
      }
      else if ($_GET['groupBy'] == "month") {
-       $groupBy = " GROUP BY MONTH(ts)";
+       $groupby = " GROUP BY MONTH(ts)";
+       $groupedby = "month";
      }
      else if ($_GET['groupBy'] == "year") {
-       $groupBy = " GROUP BY YEAR(ts)";
-     }
-     else {
-       $groupBy = "";
+       $groupby = " GROUP BY YEAR(ts)";
+       $groupedby = "year";
      }
     }
-
+    else {
+        $groupby = "GROUP BY ts";
+        $groupedby = "";
+    }
+    
     $R1 = 0;
     $S2 = 0;
     $T3 = 0;
@@ -63,7 +69,6 @@
     $selection = "ts, currentAverageR1, currentAverageS2, currentAverageT3";
     
     $condition = "";
-    $groupby = "GROUP BY ts";
     
     $answer = getSQL($selection, $table, $condition, $groupby);
     
@@ -77,8 +82,11 @@
     if ($values) {
         $averages = round($noRows / $values, 0, PHP_ROUND_HALF_UP);
     }
+    else {
+        $averages = 1;
+    }
     
-    echo "['Time', 'Power'],";
+    echo "['Time', 'kW'],";
     // read result
     while($row = $result->fetch_assoc()) {
       if ( !empty($row['currentAverageR1']) && !empty($row['currentAverageS2']) && !empty($row['currentAverageT3']) ) {
@@ -88,7 +96,11 @@
     	  $T3 = $T3 + $row['currentAverageT3'];
     	  $counter++;
     	  if ($counter >= $averages) {
-    	    echo "\n['" . $row['ts'] . "'," .  ($R1 + $S2 + $T3) * 230 * 1.732 / 1000 / $counter . "],";
+    	    echo "\n['";
+    	    echo $row['ts'];
+    	    echo "',";
+    	    echo ($R1 + $S2 + $T3) * 230 * 1.732 / 1000 / $counter;
+    	    echo "],";
     	    $R1 = 0;
     	    $S2 = 0;
     	    $T3 = 0;
@@ -97,7 +109,11 @@
     	  }
     	}
     	else {
-    	  echo "\n['" . $row['ts'] . "', " . ($row['currentAverageR1'] + $row['currentAverageS2'] + $row['currentAverageT3']) * 230 * 1.732 / 1000 . "],";
+    	  echo "\n['";
+    	  echo $row['ts'];
+    	  echo "', ";
+    	  echo ($row['currentAverageR1'] + $row['currentAverageS2'] + $row['currentAverageT3']) * 230 * 1.732 / 1000;
+    	  echo "],";
     	  $valuesDisplayed++;
     	}
       }
@@ -110,17 +126,17 @@
 
   	echo "var options = {\n";
     echo " title:' Power " . $selection;
-  if(isset($values)) {
+  if($values) {
     echo ", averaging to " . $valuesDisplayed . " values, " . $averages . " measurements per point";
   }
-  else if (isset($groupBy)) {
-    echo ", grouped by " . $_GET['groupBy'];
+  else if ($groupedby) {
+    echo ", grouped by " . $groupedby;
   }
   else {
     echo ", showing all " . $valuesDisplayed . " values";
   }
 
-  echo ", sql=" . $sql;
+  //echo ", sql=" . $sql;
   echo "',\n";
   //echo " width: 1200,\n";
   //echo " height: 550,\n";
