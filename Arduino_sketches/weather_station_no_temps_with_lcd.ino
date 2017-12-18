@@ -1,4 +1,7 @@
 /*
+weather_station_no_temps_with_lcd
+140122
+
  The circuit:
  *                             GND            display pin 1
  *  supply voltage for logic   +5V            display pin 2
