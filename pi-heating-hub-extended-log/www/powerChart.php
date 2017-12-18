@@ -66,12 +66,31 @@
     $valuesDisplayed = 0;
 
     // create selection
+    if ($groupedby == "hour") {
+        $selection = "DATE_FORMAT(ts, '%Y-%m-%d %H:%i') AS ts";
+    }
+    else if ($groupedby == "day") {
+        $selection = "DATE_FORMAT(ts, '%Y-%m-%d') AS ts";
+    }
+    else if ($groupedby == "week") {
+        $selection = "DATE_FORMAT(ts, '%Y-%m-%d') AS ts";;
+    }
+    else if ($groupedby == "month") {
+        $$selection = "DATE_FORMAT(ts, '%Y-%m') AS ts";
+    }
+    else if ($groupedby == "year") {
+        $selection = "DATE_FORMAT(ts, '%Y') AS ts";
+    }
+    else {
+        $selection = "ts";
+    }
+    
     if ($groupedby) {
-        $selection = "ts, AVG(currentAverageR1) AS currentAverageR1, AVG(currentAverageS2) AS currentAverageS2, AVG(currentAverageT3) AS currentAverageT3";
+        $selection .= ", AVG(currentAverageR1) AS currentAverageR1, AVG(currentAverageS2) AS currentAverageS2, AVG(currentAverageT3) AS currentAverageT3";
         //$selection = "ts, currentAverageR1, currentAverageS2, currentAverageT3";
     }
     else {
-        $selection = "ts, currentAverageR1, currentAverageS2, currentAverageT3";
+        $selection .= ", currentAverageR1, currentAverageS2, currentAverageT3";
     }
     
     $condition = "";

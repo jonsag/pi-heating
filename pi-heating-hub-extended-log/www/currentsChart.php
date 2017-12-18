@@ -22,29 +22,59 @@
      
      if(isset($_GET['groupBy'])) {
          if ($_GET['groupBy'] == "hour") {
-             $groupby = " GROUP BY HOUR(ts)";
+             $groupby = " GROUP BY DATE(ts), HOUR(ts)";
+             $groupedby = "hour";
          }
          else if ($_GET['groupBy'] == "day") {
              $groupby = " GROUP BY DAY(ts)";
+             $groupedby = "day";
          }
          else if ($_GET['groupBy'] == "week") {
              $groupby = " GROUP BY WEEK(ts)";
+             $groupedby = "week";
          }
          else if ($_GET['groupBy'] == "month") {
              $groupby = " GROUP BY MONTH(ts)";
+             $groupedby = "month";
          }
          else if ($_GET['groupBy'] == "year") {
              $groupby = " GROUP BY YEAR(ts)";
+             $groupedby = "year";
          }
      }
      else {
          $groupby = "GROUP BY ts";
+         $groupedby = "";
      }
      
     $rows = 0;
 
     // create selection
-    $selection = "ts, currentAverageR1, currentAverageS2, currentAverageT3";
+    if ($groupedby == "hour") {
+        $selection = "DATE_FORMAT(ts, '%Y-%m-%d %H:%i') AS ts";
+    }
+    else if ($groupedby == "day") {
+        $selection = "DATE_FORMAT(ts, '%Y-%m-%d') AS ts";
+    }
+    else if ($groupedby == "week") {
+        $selection = "DATE_FORMAT(ts, '%Y-%m-%d') AS ts";;
+    }
+    else if ($groupedby == "month") {
+        $$selection = "DATE_FORMAT(ts, '%Y-%m') AS ts";
+    }
+    else if ($groupedby == "year") {
+        $selection = "DATE_FORMAT(ts, '%Y') AS ts";
+    }
+    else {
+        $selection = "ts";
+    }
+    
+    if ($groupedby) {
+        $selection .= ", AVG(currentAverageR1) AS currentAverageR1, AVG(currentAverageS2) AS currentAverageS2, AVG(currentAverageT3) AS currentAverageT3";
+    }
+    else {
+        $selection .= ", currentAverageR1, currentAverageS2, currentAverageT3";
+    }
     
     $condition = " AND 'currentR1'!='0'";
     
@@ -81,6 +111,9 @@
   echo "title:"; 
   echo "'" . $table . " - Average currents ";
   echo $selection;
+  if ($groupedby) {
+      echo ", grouped by " . $groupedby;
+  }
   //echo ", sql=" . $sql;
   echo "',\n";
 
