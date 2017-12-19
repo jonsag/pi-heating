@@ -4,6 +4,7 @@ Some scripts tweaked from https://github.com/JeffreyPowell
 
 Installation
 =============================
+
 $ wget "https://github.com/jonsag/pi-heating/archive/0.2.tar.gz" -O "/home/pi/pi-heating.tar.gz"
 $ cd /home/pi
 $ tar -xvzf pi-heating.tar.gz
@@ -47,6 +48,7 @@ $ dmesg | grep tty
 
 Installing and running Arduino IDE:
 =============================
+
 Download Arduino IDE from https://www.arduino.cc/en/Main/Software
 $ mv arduino-*.tar.xz ~/bin
 $ cd ~/bin
@@ -70,7 +72,7 @@ $ stty -F /dev/ttyUSB0 cs8 9600 ignbrk -brkint -imaxbel -opost -onlcr -isig -ica
 $ stty -F /dev/ttyS0 ispeed 9600 ospeed 9600 -ignpar cs8 -cstopb -echo
 
 Connect to arduino with screen:
-$ screen /dev/ttyACM0 9600 -S <session name>
+$ screen /dev/ttyACM1 9600 -S <session name>
 To get screen command promp, enter
 [C-a] :
 Then type
