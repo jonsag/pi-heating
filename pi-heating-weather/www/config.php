@@ -7,7 +7,7 @@
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
     
-    $ini_array = parse_ini_file("/home/pi/pi-heating-hub/config/config.ini", true);
+    $ini_array = parse_ini_file("/home/pi/pi-heating-weather/config/config.ini", true);
     
     $servername = $ini_array['db']['server'];
     $username =$ini_array['db']['user'];
@@ -21,26 +21,8 @@
         die("Connection failed: " . $conn->connect_error);
     }
     
-    $powerUrl = 'http://192.168.10.10';
-    $powerPollReset = 'http://192.168.10.10/?pollReset';
-    
-    $tempUrl = 'http://localhost/jsPowerTempLog/temperature.php';
-    $tempPollReset = 'http://localhost/jsPowerTempLog/tempPollReset.php';
-    
-    // power poller
-    $powerCurrentTimeMatch = "Current time: ";
-    // $lastSyncMatch = "";
-    // $skewMatch = "";
-    $powerUnixTimeMatch = "Unix time: ";
-    // $loopTimeMatch = "";
-    $powerCurrentValueMatch = "Current phase ";
-    $powerCurrentAverageValueMatch = "Current average phase ";
-    $powerTempValueMatch = "Temperature sensor ";
-    $powerPulsesLastIntervalMatch = "Pulses last interval: ";
-    $powerPulsesMatch = "Pulses since last poll: ";
-    
-    // temp poller
-    $tempTempValueMatch = "Temperature sensor ";
+    $weatherUrl = 'http://localhost/pi-heating-weather/weather.php';
+    $weatherPollReset = 'http://localhost/pi-heating-weather/weather.php?poll=1';
     
     // weather poller
     $weatherPollStartMatch = "pollStart";
@@ -52,5 +34,9 @@
     $weatherWindSpeedMatch = "Wind speed: ";
     $weatherAverageWindSpeedMatch = "Average wind speed: ";
     $weatherRainSinceLastMatch = "Rain since last poll: ";
-
+    
+    
 ?>
+
+
+
