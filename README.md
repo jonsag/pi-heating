@@ -12,34 +12,45 @@ or
 $ cd /home/pi
 $ git clone https://github.com/jonsag/pi-heating.git
 
+$ cd /home/pi/pi-heating
 
 On pi running as hub or hub/remote:
 -----------------------------
-$ sudo pi-heating/pi-heating-hub-install.sh
-$ sudo pi-heating/pi-heating-hub-mysql-install.sh
-$ sudo pi-heating/pi-heating-hub-secure.sh
+$ sudo ./pi-heating-hub-install.sh
+$ sudo ./pi-heating-hub-mysql-install.sh
+$ sudo ./pi-heating-hub-secure.sh
 
 
 If hub also will have extended weather and power logging:
 -----------------------------
-$ sudo pi-heating/pi-heating-extende-log-install.sh
+$ sudo ./pi-heating-extended-log-install.sh
 		$ wget "http://www.triconsole.com/php/calendar_download.php" -O "/home/pi/calendar.zip"
+
+Build arduino-power-logger
+Edit sketch passive_logger_no_time_static_ip.ino
+Change lines 41-43
+	byte mac[] = {  
+	  0x90, 0xA2, 0xDA, 0x0C, 0x00, 0x76 }; // MAC address, printed on a sticker on the shield
+	IPAddress ip(192,168,10,10); // ethernet shields wanted IP
+to your boards MAC and desired IP
+
+Start up your arduino hooked up to your LAN
+
+Edit /var/www/pi-heating-extended-log/config.php
+Change lines 24-25
+	$powerUrl = 'http://192.168.10.10';
+	$powerPollReset = 'http://192.168.10.10/?pollReset';
+to same IP as above
 
 
 On pi running solely as remote or as hub/remote:
 -----------------------------
-$ sudo pi-heating/pi-heating-remote-install.sh
-
-
-
-
-
-
-
+$ sudo ./pi-heating-remote-install.sh
 
 
 On pi running as weather logger:
 -----------------------------
+$ sudo ./pi-heating-weather-install.sh
 
 Find out tty-device
 $ dmesg | grep tty

@@ -26,11 +26,19 @@ printf "\n\n\n Please enter IP of pi-heating-hub : "
 read -s HUB_IP
 echo
 
-if [ ! -f "/home/pi/pi-heating-hub/README.md" ]
+if [ ssh $HUB_IP test "/home/pi/pi-heating-hub/README.md" > /dev/null 2>&1 ]
 then
+  echo "Hub exists"
+else
   printf "\n\n First you must install pi-heating-hub. \n\n"
   exit 1
 fi
+
+#if [ ! -f "/home/pi/pi-heating-hub/README.md" ]
+#then
+#  printf "\n\n First you must install pi-heating-hub. \n\n"
+#  exit 1
+#fi
 
 
 if [ ! -f "/home/pi/pi-heating-weather/README.md" ]
