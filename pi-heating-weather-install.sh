@@ -36,12 +36,6 @@ else
   exit 1
 fi
 
-#if [ ! -f "/home/pi/pi-heating-hub/README.md" ]
-#then
-#  printf "\n\n First you must install pi-heating-hub. \n\n"
-#  exit 1
-#fi
-
 
 if [ ! -f "/home/pi/pi-heating-weather/README.md" ]
 then

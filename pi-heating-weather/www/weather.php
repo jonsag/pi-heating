@@ -5,14 +5,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=7" />
 </head>
 <body>
-<h1><center>JS Weather Station</center></h1>
-<center>- part of jsPowerTempLog</center>
+<div style="text-align:center">
+<h1>JS Weather Station</h1>
+- part of pi-heating -
+</div>
 <br>
 
 <?php
     include ('config.php');
     include ('functions/functions.php');
-    include "classes/php_serial.class.php";
+    require ('classes/php_serial.class.php');
     
     if($_GET['poll']) {
       $poll = "true";
@@ -27,14 +29,15 @@
     $startOK = 0;
     $endOK = 0;
     
-    define("PORT","/dev/ttyAMC0");
+    //define("PORT","/dev/ttyACM0");
     $serial = new phpSerial;
-    $serial->deviceSet(PORT);
+    //$serial->deviceSet(PORT);
+    $serial->deviceSet("/dev/ttyACM0");
     $serial->confBaudRate(9600);
     $serial->confParity("none");
     $serial->confCharacterLength(8);
     $serial->confStopBits(1);
-    $serial->confFlowControl("none");
+    //$serial->confFlowControl("none");
     
     // open serial
     $serial->deviceOpen();
@@ -49,15 +52,27 @@
       // read answer
       $read = $serial->readPort();
       
+      //echo $read;
+      
       $string2 = explode(",", $read);
       
-      for ($counter1; $counter1 <= 6; $counter1++) {
+      //foreach ($string2 as $row) {
+      //    lf();
+      //    echo "'" . $row . "'";
+      //}
+      
+      for ($counter1; $counter1 <= 7; $counter1++) {
+          //echo $counter1 . ": " . $string2[$counter1];
+          //lf();
         if ($string2[$counter1] == $weatherPollStartMatch) { 
           $startOK = 1;
+          //echo "Start OK";
           dlf();
         }
+        //else if ($string2[$counter1] == $weatherPollEndMatch) {
         else if (substr($string2[$counter1], 0, 7) == $weatherPollEndMatch) {
           $endOK = 1;
+          //echo "End OK";
           dlf();
         }
         else {
