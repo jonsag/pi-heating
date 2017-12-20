@@ -23,10 +23,12 @@ then
 fi
 
 printf "\n\n\n Please enter IP of pi-heating-hub : "
-read -s HUB_IP
+read HUB_IP
 echo
 
-if [ ssh $HUB_IP test "/home/pi/pi-heating-hub/README.md" > /dev/null 2>&1 ]
+curl -s --head http://$HUB_IP:8080 | sed -n 4p | grep 'Secure Heating Hub' > /dev/null
+
+if [ $? -eq 0 ]
 then
   echo "Hub exists"
 else
