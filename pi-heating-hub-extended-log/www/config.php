@@ -27,6 +27,10 @@
     $tempUrl = 'http://localhost/jsPowerTempLog/temperature.php';
     $tempPollReset = 'http://localhost/jsPowerTempLog/tempPollReset.php';
     
+    $weatherUrl = 'http://localhost/pi-heating-weather/weather.php';
+    $weatherPollReset = 'http://localhost/pi-heating-weather/weather.php?poll=1';
+    
+    
     // power poller
     $powerCurrentTimeMatch = "Current time: ";
     // $lastSyncMatch = "";
@@ -41,5 +45,17 @@
     
     // temp poller
     $tempTempValueMatch = "Temperature sensor ";
+    
+    
+    // weather poller
+    $weatherPollStartMatch = "pollStart";
+    $weatherPollEndMatch = "pollEnd";
+    
+    $weatherWindDirMatch = "Wind direction: ";
+    $weatherWindDirDegMatch = "Wind direction degrees: ";
+    $weatherAvgWindDirDegMatch = "Average wind direction degrees: ";
+    $weatherWindSpeedMatch = "Wind speed: ";
+    $weatherAverageWindSpeedMatch = "Average wind speed: ";
+    $weatherRainSinceLastMatch = "Rain since last poll: ";
     
 ?>
