@@ -33,7 +33,7 @@ printf "\n\n\n Please enter IP of pi-heating-weather : "
 read WEATHER_IP
 echo
 
-curl -s --head http://$WEATHER_IP/weather.php | sed -n 1p | grep 'HTTP/1.1 200 OK' > /dev/null
+curl -s --head http://$WEATHER_IP:8083/weather.php | sed -n 1p | grep 'HTTP/1.1 200 OK' > /dev/null
 
 if [ $? -eq 0 ]
 then
