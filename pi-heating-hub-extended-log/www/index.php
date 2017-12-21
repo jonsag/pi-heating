@@ -104,7 +104,7 @@ Temps<br>
 <br>
 Weather<br>
 -------------------------------------------------<br>
-<input type="button" name="button19" id="button19" value="Show average wind chart" onClick="parent.location='averageWindChart.php?table=weatherLog&'+this.form.predef_interval.value+'&'+this.form.no_of_values.value">
+<input type="button" name="button19" id="button19" value="Show average wind chart" onClick="parent.location='averageWindChart.php?table=weatherLog&'+this.form.predef_interval.value+'&'+this.form.no_of_values.value+'&'+this.form.group_by.value">
 <input type="button" name="button20" id="button20" value="Print weather table" onClick="parent.location='printWeatherData.php?table=weatherLog&'+this.form.predef_interval.value">
 <input type="button" name="button21" id="button21" value="Create weather excel" onClick="parent.location='excelData.php?table=weatherLog&'+this.form.predef_interval.value">
 <input type="button" name="button22" id="button22" value="Create weather csv" onClick="parent.location='csvData.php?table=weatherLog&'+this.form.predef_interval.value">

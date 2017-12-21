@@ -15,26 +15,34 @@
         $table = $_GET['table'];
     }
     
-    // find sensor ids
-    $sql = "SELECT id FROM sensors";
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
-        $sensorids = [];
+    if ( $table == "tempLog") {
+        // find sensor ids
+        $sql = "SELECT id FROM sensors";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            $sensorids = [];
+            $i = 0;
+            //echo "['Time'";
+            while($row = $result->fetch_assoc()) {
+                ++$i;
+                $sensorids[$i] = $row['id'];
+            }
+        }
+        
+        // create selection
+        $selection = "ts";
         $i = 0;
-        //echo "['Time'";
-        while($row = $result->fetch_assoc()) {
-            ++$i;
-            $sensorids[$i] = $row['id'];
+        foreach ($sensorids as $sensorid) {
+            $selection .= ", ROUND(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END), 1) AS sensor" . $sensorid;
         }
     }
-    
-    // create selection
-    $selection = "ts";
-    $i = 0;
-    foreach ($sensorids as $sensorid) {
-        $selection .= ", ROUND(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END), 1) AS sensor" . $sensorid;
+    elseif ( $table == "powerLog") {
+        $selection = "ts, currentR1, currentS2, currentT3, currentAverageR1, currentAverageS2, currentAverageT3, pulses";
     }
-    
+    elseif ( $table == "weatherLog") {
+        $selection = "ts, windDirection, windDirectionValue, averageWindDirectionValue, windSpeed, averageWindSpeed, rainSinceLast";
+    }
+        
     $condition = "";
     $groupby = "GROUP BY ts";
     
@@ -78,7 +86,7 @@
     $file = file_get_contents('data.csv');
     $date = date('Ymd-His', time());
     header('Content-Type: application/csv');
-    header('Content-Disposition: attachment; filename="csvData-' . $selection . "-" . $date . '.csv"');
+    header('Content-Disposition: attachment; filename="csvData-' . $table . "-". $selection . "-" . $date . '.csv"');
     header('Content-Length: ' . strlen($file));
     echo $file;
     

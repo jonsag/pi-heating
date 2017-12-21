@@ -80,7 +80,25 @@
      }
      
      // create selection
-     $selection = "ts";
+     if ($groupedby == "hour") {
+         $selection = "DATE_FORMAT(ts, '%Y-%m-%d %H:%i') AS ts";
+     }
+     else if ($groupedby == "day") {
+         $selection = "DATE_FORMAT(ts, '%Y-%m-%d') AS ts";
+     }
+     else if ($groupedby == "week") {
+         $selection = "DATE_FORMAT(ts, '%Y-%m-%d') AS ts";;
+     }
+     else if ($groupedby == "month") {
+         $$selection = "DATE_FORMAT(ts, '%Y-%m') AS ts";
+     }
+     else if ($groupedby == "year") {
+         $selection = "DATE_FORMAT(ts, '%Y') AS ts";
+     }
+     else {
+         $selection = "ts";
+     }
+     
      foreach ($sensorids as $sensorid) {
          if ($groupedby) {
              $selection .= ", ROUND(AVG(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END)), 1) AS sensor" . $sensorid;
