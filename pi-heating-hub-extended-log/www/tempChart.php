@@ -9,8 +9,6 @@
   	var data = google.visualization.arrayToDataTable([
 
 <?php
-    // Turn off all error reporting
-    error_reporting(0);
     
      include ("config.php");
      include ('functions/functions.php');

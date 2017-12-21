@@ -8,9 +8,7 @@
       }
     // IMPORTANT: Request the selected date from the calendar
     $mydate = isset($_POST["date1"]) ? $_POST["date1"] : "";
-?>
 
-<?php
     ///// include configuration file
     include ('config.php');
     include ('functions/functions.php');
@@ -155,9 +153,7 @@ Specify an interval<br>
     
     $date4_default = date('Y-m-d', $dayTimes[0]);
     $date5_default = date('Y-m-d', $dayTimes[(sizeof($dayTimes)-1)]);
-?>
-  
-<?php
+
     $myCalendar = new tc_calendar("date4", true, false);
     $myCalendar->setIcon("calendar/images/iconCalendar.gif");
     $myCalendar->setDate(date('d', strtotime($date4_default)), date('m', strtotime($date4_default)), date('Y', strtotime($date4_default)));
@@ -220,14 +216,16 @@ View poller pages<br>
 -------------------------------------------------<br>
 <a href="powerPoller.php">powerPoller.php</a>
 <br>
-<a href="tempPoller.php">tempPoller.php</a>
-<br>
+<!--<a href="tempPoller.php">tempPoller.php</a>
+<br>-->
 <a href="weatherPoller.php">weatherPoller.php</a>
 <br>
 <br>
-Actual arduino01 webserver - power<br>
-
 <?php
+
+echo "Actual power webserver - " . gethostbyaddr($powerIP);
+    lf();
+
     echo '<a href="' . $powerUrl . '">' . $powerUrl . '</a>';
     lf();
     echo "-------------------------------------------------";
@@ -239,27 +237,26 @@ Actual arduino01 webserver - power<br>
       Print $line . "\n";
     }
     dlf();
-?>
 
-Actual raspberry02 webserver - temp<br>
+    
+	//echo "Actual raspberry02 webserver - temp";
+	//lf();
 
-<?php
-    echo '<a href="' . $tempUrl . '">' . $tempUrl . '</a>';
-    lf();
-    echo "-------------------------------------------------";
-    dlf();
-    $html = file($tempUrl);
-    $numLines = count($html);
-    for ($i = 0; $i < $numLines; $i++) {
-      $line = trim($html[$i]);
-      Print $line . "\n";
-    }
-    dlf();
-?>
+    //echo '<a href="' . $tempUrl . '">' . $tempUrl . '</a>';
+    //lf();
+    //echo "-------------------------------------------------";
+    //dlf();
+    //$html = file($tempUrl);
+    //$numLines = count($html);
+    //for ($i = 0; $i < $numLines; $i++) {
+    //  $line = trim($html[$i]);
+    //  Print $line . "\n";
+    //}
+    //dlf();
 
-Actual raspberry02 webserver - weather<br>
+    echo "Actual weather webserver - " . gethostbyaddr($weatherIP);
+	lf();
 
-<?php
     echo '<a href="' . $weatherUrl . '">' . $weatherUrl . '</a>';
     lf();
     echo "-------------------------------------------------";

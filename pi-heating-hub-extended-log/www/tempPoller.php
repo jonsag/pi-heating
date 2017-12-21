@@ -1,7 +1,4 @@
 <?php
-
-    ///// turn off error reporting
-    error_reporting (E_ALL ^ E_NOTICE);
     
     ///// include configuration file
     include ('config.php');

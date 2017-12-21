@@ -130,19 +130,6 @@ CREATE TABLE IF NOT EXISTS tempLog (
     PRIMARY KEY (id)
 ) CHARACTER SET UTF8;
 
-CREATE TABLE IF NOT EXISTS weatherLog (
-    id							INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-    ts							TIMESTAMP,
-    windDirection				char(3),
-    windDirectionValue			FLOAT,
-    averageWindDirectionValue	FLOAT,
-    windSpeed					FLOAT,
-    averageWindSpeed			FLOAT,
-    rainSinceLast				FLOAT,
-    event						char(255),
-    PRIMARY KEY (id)
-) CHARACTER SET UTF8;
-
 DATABASE
 
 printf "\n\n Installation Complete. Some changes might require a reboot. \n\n"

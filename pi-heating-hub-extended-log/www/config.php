@@ -1,5 +1,21 @@
 <?php
 
+    $powerIP = "192.168.10.10";
+    //$tempIP = "localhost";
+    $weatherIP ="192.168.10.42";
+
+    // arduino logging the currents
+    $powerUrl = 'http://' . $powerIP;
+    $powerPollReset = 'http://' . $powerIP . '/?pollReset';
+    
+    // NA
+    //$tempUrl = 'http://' . $tempIP . '/jsPowerTempLog/temperature.php';
+    //$tempPollReset = 'http://' . $tempIP . '/jsPowerTempLog/tempPollReset.php';
+    
+    // raspberry hosting the weather arduino
+    $weatherUrl = 'http://' . $weatherIP . ':8083/weather.php';
+    $weatherPollReset = 'http://' . $weatherIP . ':8083/weather.php?poll=1';
+
     date_default_timezone_set('Europe/Stockholm');
     //setlocale(LC_ALL, 'en_US');
     
@@ -20,16 +36,7 @@
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    
-    $powerUrl = 'http://192.168.10.10';
-    $powerPollReset = 'http://192.168.10.10/?pollReset';
-    
-    $tempUrl = 'http://localhost/jsPowerTempLog/temperature.php';
-    $tempPollReset = 'http://localhost/jsPowerTempLog/tempPollReset.php';
-    
-    $weatherUrl = 'http://localhost/pi-heating-weather/weather.php';
-    $weatherPollReset = 'http://localhost/pi-heating-weather/weather.php?poll=1';
-    
+       
     
     // power poller
     $powerCurrentTimeMatch = "Current time: ";
@@ -44,7 +51,7 @@
     $powerPulsesMatch = "Pulses since last poll: ";
     
     // temp poller
-    $tempTempValueMatch = "Temperature sensor ";
+    //$tempTempValueMatch = "Temperature sensor ";
     
     
     // weather poller
