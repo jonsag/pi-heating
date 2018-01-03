@@ -115,7 +115,7 @@ Weather<br>
 <br>
 Combined<br>
 -------------------------------------------------<br>
-<input type="button" name="button33" id="button33" value="Show power/temp chart" onClick="parent.location='powerTempChart.php?table=tempLog&'+this.form.predef_interval.value+'&'+this.form.no_of_values.value">
+<input type="button" name="button33" id="button33" value="Show power/temp chart" onClick="parent.location='powerTempChart.php?table=tempLog&'+this.form.predef_interval.value+'&'+this.form.no_of_values.value+'&'+this.form.group_by.value">
 <br>
 <input type="button" name="button29" id="button29" value="Show power/chill chart" onClick="parent.location='powerChillChart.php?table=powerLog&'+this.form.predef_interval.value+'&'+this.form.no_of_values.value">
 <br>
