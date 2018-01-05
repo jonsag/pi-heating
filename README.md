@@ -98,7 +98,7 @@ $ screen -X -S <session name> quit
 Kill screen with ^ak or control-a k  
 
 $ rsync -rci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-hub-extended-log/www/* pi@raspberry03:/var/www/pi-heating-hub-extended-log/
-
+$ rsync -rci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-hub/www/* pi@raspberry03:/var/www/pi-heating-hub/
 
 
 
