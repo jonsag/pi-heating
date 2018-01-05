@@ -1,108 +1,140 @@
 <?php
 
-function getSQL($selection, $table, $condition, $groupby) {
-
-  $selected = false;
+function getSQL($selection, $table, $condition, $groupby)
+{
+    $selected = false;
     
-  ///// last number of months, days, hours
-  if (isset($_GET['years'])) {
-    $selected = true;
-    $years = $_GET['years'];
-    $sql = "SELECT $selection FROM $table WHERE DATE_SUB(CURDATE(),INTERVAL $years YEAR) <= ts " . $groupby;
-    $selection = "last " . $years . " years";
-  }
-  
-  if (isset($_GET['months'])) {
-    $selected = true;
-    $months = $_GET['months'];
-    $sql = "SELECT $selection FROM $table WHERE DATE_SUB(CURDATE(),INTERVAL $months MONTH) <= ts " . $groupby;
-    $selection = "last " . $months . " months";
-  }
-  
-  if (isset($_GET['weeks'])) {
-    $selected = true;
-    $weeks = $_GET['weeks'];
-    $sql = "SELECT $selection FROM $table WHERE DATE_SUB(CURDATE(),INTERVAL $weeks WEEK) <= ts " . $groupby;
-    $selection = "last " . $weeks . " weeks";
-  }
-  
-  
-  if (isset($_GET['days'])) {
-    $selected = true;
-    $days = $_GET['days'];
-    $sql = "SELECT $selection FROM $table WHERE DATE_SUB(CURDATE(),INTERVAL $days DAY) <= ts " . $groupby;
-    $selection = "last " . $days . " days";
-  }
-  
-  if (isset($_GET['hours'])) {
-    $selected = true;
-    $hours = $_GET['hours'];
-    $sql = "SELECT $selection FROM $table WHERE DATE_SUB(NOW(),INTERVAL $hours HOUR) <= ts " . $groupby;
-    $selection = "last " . $hours . " hours";
-  }
-  
-  ///// this year month, week, yesterday
-  if (isset($_GET['this'])) {
-    $selected = true;
-    if ($_GET['this'] == "year") {
-      $sql = "SELECT $selection FROM $table WHERE YEAR(ts) = YEAR(CURDATE()) " . $groupby;
-      $selection = "this year";
+    // /// last number of months, days, hours
+    if (isset($_GET['years'])) {
+        $selected = true;
+        $years = $_GET['years'];
+        $sql = "SELECT $selection FROM $table WHERE DATE_SUB(CURDATE(),INTERVAL $years YEAR) <= ts " . $groupby;
+        $selection = "last " . $years . " years";
     }
-    if ($_GET['this'] == "month") {
-      $sql = "SELECT $selection FROM $table WHERE MONTH(ts) = MONTH(CURDATE()) " . $groupby;
-      $selection = "this month";
+    
+    if (isset($_GET['months'])) {
+        $selected = true;
+        $months = $_GET['months'];
+        $sql = "SELECT $selection FROM $table WHERE DATE_SUB(CURDATE(),INTERVAL $months MONTH) <= ts " . $groupby;
+        $selection = "last " . $months . " months";
     }
-    if ($_GET['this'] == "week") {
-      $sql = "SELECT $selection FROM $table WHERE WEEK(ts) = WEEK(CURDATE()) " . $groupby;
-      $selection = "this week";
+    
+    if (isset($_GET['weeks'])) {
+        $selected = true;
+        $weeks = $_GET['weeks'];
+        $sql = "SELECT $selection FROM $table WHERE DATE_SUB(CURDATE(),INTERVAL $weeks WEEK) <= ts " . $groupby;
+        $selection = "last " . $weeks . " weeks";
     }
-    if ($_GET['this'] == "day") {
-        $sql = "SELECT $selection FROM $table WHERE DATE(ts) = CURDATE() " . $groupby;
-      $selection = "today";
+    
+    if (isset($_GET['days'])) {
+        $selected = true;
+        $days = $_GET['days'];
+        $sql = "SELECT $selection FROM $table WHERE DATE_SUB(CURDATE(),INTERVAL $days DAY) <= ts " . $groupby;
+        $selection = "last " . $days . " days";
     }
-  }
-  
-  ///// last year month, week, yesterday
-  if (isset($_GET['last'])) {
-    $selected = true;
-    if ($_GET['last'] == "year") {
-        $sql = "SELECT $selection FROM $table WHERE YEAR(ts) = YEAR(CURDATE()) - 1 " . $groupby;
-      $selection = "last year";
+    
+    if (isset($_GET['hours'])) {
+        $selected = true;
+        $hours = $_GET['hours'];
+        $sql = "SELECT $selection FROM $table WHERE DATE_SUB(NOW(),INTERVAL $hours HOUR) <= ts " . $groupby;
+        $selection = "last " . $hours . " hours";
     }
-    if ($_GET['last'] == "month") {
-        $sql = "SELECT $selection FROM $table WHERE MONTH(ts) = MONTH(CURDATE()) - 1 " . $groupby;
-      $selection = "last month";
+    
+    // /// this year month, week, yesterday
+    if (isset($_GET['this'])) {
+        $selected = true;
+        if ($_GET['this'] == "year") {
+            $sql = "SELECT $selection FROM $table WHERE YEAR(ts) = YEAR(CURDATE()) " . $groupby;
+            $selection = "this year";
+        }
+        if ($_GET['this'] == "month") {
+            $sql = "SELECT $selection FROM $table WHERE MONTH(ts) = MONTH(CURDATE()) " . $groupby;
+            $selection = "this month";
+        }
+        if ($_GET['this'] == "week") {
+            $sql = "SELECT $selection FROM $table WHERE WEEK(ts) = WEEK(CURDATE()) " . $groupby;
+            $selection = "this week";
+        }
+        if ($_GET['this'] == "day") {
+            $sql = "SELECT $selection FROM $table WHERE DATE(ts) = CURDATE() " . $groupby;
+            $selection = "today";
+        }
     }
-    if ($_GET['last'] == "week") {
-        $sql = "SELECT $selection FROM $table WHERE WEEK(ts) = WEEK(CURDATE()) - 1 " . $groupby;
-      $selection = "last week";
+    
+    // /// last year month, week, yesterday
+    if (isset($_GET['last'])) {
+        $selected = true;
+        if ($_GET['last'] == "year") {
+            $sql = "SELECT $selection FROM $table WHERE YEAR(ts) = YEAR(CURDATE()) - 1 " . $groupby;
+            $selection = "last year";
+        }
+        if ($_GET['last'] == "month") {
+            $sql = "SELECT $selection FROM $table WHERE MONTH(ts) = MONTH(CURDATE()) - 1 " . $groupby;
+            $selection = "last month";
+        }
+        if ($_GET['last'] == "week") {
+            $sql = "SELECT $selection FROM $table WHERE WEEK(ts) = WEEK(CURDATE()) - 1 " . $groupby;
+            $selection = "last week";
+        }
+        if ($_GET['last'] == "day") {
+            $sql = "SELECT $selection FROM $table WHERE DATE(ts) = CURDATE() - 1 " . $groupby;
+            $selection = "yesterday";
+        }
     }
-    if ($_GET['last'] == "day") {
-        $sql = "SELECT $selection FROM $table WHERE DATE(ts) = CURDATE() - 1 " . $groupby;
-      $selection = "yesterday";
+    
+    // /// date interval
+    if (isset($_GET['start']) && isset($_GET['end'])) {
+        $selected = true;
+        $start = $_GET['start'];
+        $end = $_GET['end'];
+        $sql = "SELECT $selection FROM $table WHERE DATE(ts) BETWEEN '$start' AND '$end' " . $groupby;
+        $selection = "between " . $start . " and " . $end . "";
     }
-  }
-  
-  ///// date interval
-  if (isset($_GET['start']) && isset($_GET['end'])) {
-    $selected = true;
-    $start=$_GET['start'];
-    $end=$_GET['end'];
-    $sql = "SELECT $selection FROM $table WHERE DATE(ts) BETWEEN '$start' AND '$end' " . $groupby;
-    $selection = "between " . $start . " and " . $end . "";
-  }
-  
-  ///// if nothing selected above
-  if (!$selected) {
-      $sql = "SELECT $selection FROM $table " . $groupby;
-    $selection = "since start";
-  }
-  
-  $answer[0] = $sql;
-  $answer[1] = $selection;
-  
-  return($answer);
-  
+    
+    // /// if nothing selected above
+    if (! $selected) {
+        $sql = "SELECT $selection FROM $table " . $groupby;
+        $selection = "since start";
+    }
+    
+    $answer[0] = $sql;
+    $answer[1] = $selection;
+    
+    return ($answer);
+}
+
+function create_selection($groupBy)
+{
+    
+    $answer = [];
+    
+    if ($_GET['groupBy'] == "hour") {
+        $groupby = " GROUP BY DATE(ts), HOUR(ts)";
+        $groupedby = "hour";
+        $selection = "DATE_FORMAT(ts, '%Y-%m-%d %H:%i') AS ts";
+    } else if ($_GET['groupBy'] == "day") {
+        $groupby = " GROUP BY DAY(ts)";
+        $groupedby = "day";
+        $selection = "DATE_FORMAT(ts, '%Y-%m-%d') AS ts";
+    } else if ($_GET['groupBy'] == "week") {
+        $groupby = " GROUP BY WEEK(ts)";
+        $groupedby = "week";
+        $selection = "DATE_FORMAT(ts, '%Y-%m-%d') AS ts";
+    } else if ($_GET['groupBy'] == "month") {
+        $groupby = " GROUP BY MONTH(ts)";
+        $groupedby = "month";
+        $selection = "DATE_FORMAT(ts, '%Y-%m') AS ts";
+    } else if ($_GET['groupBy'] == "year") {
+        $groupby = " GROUP BY YEAR(ts)";
+        $groupedby = "year";
+        $selection = "DATE_FORMAT(ts, '%Y') AS ts";
+    }    
+    
+    $answer[0] = $groupby;
+    $answer[1] = $groupedby;
+    $answer[2] = $selection;
+    
+    return $answer;
 }
 
 ?>
