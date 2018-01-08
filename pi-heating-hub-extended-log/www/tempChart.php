@@ -13,6 +13,7 @@
 include ("config.php");
 include ('functions/functions.php');
 include ('functions/getSql.function.php');
+require_once ('functions/SqlFormatter.php');
 
 $selected = false;
 
@@ -36,9 +37,9 @@ if (isset($_GET['groupBy'])) {
     $selection = "ts";
 }
 
-$groupby = "GROUP BY ts";
-$groupedby = "";
-$selection = "ts";
+//$groupby = "GROUP BY ts";
+//$groupedby = "";
+//$selection = "ts";
 
 // find sensor ids
 $sql = "SELECT id FROM sensors";
@@ -66,11 +67,15 @@ if ($result->num_rows > 0) {
 
 foreach ($sensorids as $sensorid) {
     if ($groupedby) {
-        $selection .= ", ROUND(AVG(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END)), 1) AS sensor" . $sensorid;
+        //$selection .= ", ROUND(AVG(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END)), 1) AS sensor" . $sensorid;
+        //$selection .= ", AVG(ROUND(MAX(CASE WHEN sensorid = " . $sensorid . " THEN AVG(value) ELSE 0 END), 1)) AS sensor" . $sensorid;
+        //$selection .= ", ROUND(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END), 1) AS sensor" . $sensorid;
+        $selection .= ", AVG(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END) AS sensor" . $sensorid;
         
-        // $selection .= ", AVG(ROUND(MAX(CASE WHEN sensorid = " . $sensorid . " THEN AVG(value) ELSE 0 END), 1)) AS sensor" . $sensorid;
     } else {
-        $selection .= ", ROUND(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END), 1) AS sensor" . $sensorid;
+        //$selection .= ", ROUND(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END), 1) AS sensor" . $sensorid;
+        $selection .= ", MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END) AS sensor" . $sensorid;
+        
     }
 }
 
@@ -81,7 +86,7 @@ $answer = getSQL($selection, $table, $condition, $groupby);
 $sql = $answer[0];
 $selection = $answer[1];
 
-// echo $sql;
+//echo "<br>\n" . $sql . "<br>\n";
 $result = $conn->query($sql);
 
 // read result
@@ -100,25 +105,36 @@ if ($result->num_rows > 0) {
 
 echo "\n]);\n\n";
 
-// close connection to mysql
-mysqli_close($conn);
-;
-
 echo "var options = {\n";
 echo " title:' " . $table . " - Temps ";
 echo $selection;
 if ($groupedby) {
     echo ", grouped by " . $groupedby;
 }
-// echo ", sql= " . $sql;
+//echo ", sql= " . $sql;
 echo "',\n";
 // echo " width: 1200,\n";
 // echo " height: 550,\n";
 // echo " lineWidth: 1\n";
 // echo " colors: ['red', 'green', 'blue']\n";
 echo " curveType: 'function',\n";
-echo " legend: { position: 'bottom' }\n";
+echo " legend: { position: 'bottom' },\n";
+
+$answer = getSQL("MIN(value) as min, MAX(value) as max", $table, $condition, "");
+$sql2 = $answer[0];
+$selection = $answer[1];
+// echo "<br>\n" . $sql . "<br>\n";
+$result = $conn->query($sql2);
+$row = ($result->fetch_assoc());
+$minValue = $row['min'];
+$maxValue = $row['max'];
+chartOptions1($minValue, $maxValue);
+
 echo "};\n";
+
+// close connection to mysql
+mysqli_close($conn);
+
 ?>
 
   var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
@@ -129,5 +145,13 @@ echo "};\n";
 </head>
 <body>
 	<div id="curve_chart" style="width: 1350px; height: 600px"></div>
+	
+<?php
+
+lf();
+echo "SQL: \n" . SqlFormatter::format($sql);
+
+?>
+
 </body>
 </html>

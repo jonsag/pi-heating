@@ -13,6 +13,7 @@
 include ("config.php");
 include ('functions/functions.php');
 include ('functions/getSql.function.php');
+require_once ('functions/SqlFormatter.php');
 
 $selected = false;
 
@@ -62,9 +63,7 @@ while ($row = $result->fetch_assoc()) {
 
 echo "\n]);\n\n";
 
-// close connection to mysql
-mysqli_close($conn);
-;
+
 
 echo "var options = {\n";
 echo " title:' " . $table . " - Average wind speed ";
@@ -79,8 +78,22 @@ echo "',\n";
 // echo " lineWidth: 1\n";
 // echo " colors: ['red', 'green', 'blue']\n";
 echo " curveType: 'function',\n";
-echo " legend: { position: 'bottom' }\n";
+echo " legend: { position: 'bottom' },\n";
+
+$answer = getSQL("MAX(averageWindSpeed) as max", $table, $condition, "");
+$sql = $answer[0];
+$selection = $answer[1];
+// echo "<br>\n" . $sql . "<br>\n";
+$result = $conn->query($sql);
+$row = ($result->fetch_assoc());
+$maxValue = $row['max'];
+chartOptions1(0, $maxValue);
+
 echo "};\n";
+
+// close connection to mysql
+mysqli_close($conn);
+
 ?>
 
   var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
@@ -91,6 +104,14 @@ echo "};\n";
 </head>
 <body>
 	<div id="curve_chart" style="width: 1350px; height: 600px"></div>
+
+<?php
+
+lf();
+echo "SQL: \n" . SqlFormatter::format($sql);
+
+?>
+
 </body>
 </html>
 

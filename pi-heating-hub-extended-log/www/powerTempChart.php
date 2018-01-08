@@ -13,6 +13,7 @@
 include ("config.php");
 include ('functions/functions.php');
 include ('functions/getSql.function.php');
+require_once ('functions/SqlFormatter.php');
 
 $selected = false;
 
@@ -36,9 +37,9 @@ if (isset($_GET['groupBy'])) {
     $selection = "ts";
 }
 
-$groupby = "GROUP BY ts";
-$groupedby = "";
-$selection = "ts";
+// $groupby = "GROUP BY ts";
+// $groupedby = "";
+// $selection = "ts";
 
 // find sensor ids
 $sql = "SELECT id FROM sensors";
@@ -69,7 +70,11 @@ if ($result->num_rows > 0) {
 
 $i = 0;
 foreach ($sensorids as $sensorid) {
-    $selection .= ", ROUND(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END), 1) AS sensor" . $sensorid;
+    if ($groupedby) {
+        $selection .= ", AVG(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END) AS sensor" . $sensorid;
+    } else {
+        $selection .= ", MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END) AS sensor" . $sensorid;
+    }
 }
 
 $condition = "";
@@ -88,10 +93,31 @@ if ($result->num_rows > 0) {
         $output .= $row['ts'];
         $output .= "'";
         
-        $powerSql = "SELECT ts, currentAverageR1, currentAverageS2, currentAverageT3 FROM powerLog WHERE ";
-        $powerSql .= "ts > DATE_SUB('" . $row['ts'] . "', INTERVAL 1 MINUTE) AND ";
-        $powerSql .= "ts < DATE_ADD('" . $row['ts'] . "', INTERVAL 1 MINUTE) ";
-        $powerSql .= "LIMIT 1";
+        // $powerSql = "SELECT ts, currentAverageR1, currentAverageS2, currentAverageT3 ";
+        $powerSql = "SELECT ";
+        if ($groupedby) {
+            $powerSql .= "AVG(currentAverageR1) AS currentAverageR1, ";
+            $powerSql .= "AVG(currentAverageS2) AS currentAverageS2, ";
+            $powerSql .= "AVG(currentAverageT3) AS currentAverageT3 ";
+        } else {
+            $powerSql .= "currentAverageR1, ";
+            $powerSql .= "currentAverageS2, ";
+            $powerSql .= "currentAverageT3, ";
+        }
+        $powerSql .= "FROM powerLog WHERE ";
+        // $powerSql .= "ts > DATE_SUB('" . $row['ts'] . "', INTERVAL 1 ". $groupedby . ") AND ";
+        // $powerSql .= "ts < DATE_ADD('" . $row['ts'] . "', INTERVAL 1 ". $groupedby . ") ";
+        if ($groupedby) {
+            $powerSql .= "DATE(ts) = DATE('" . $row['ts'] . "') AND HOUR(ts) = HOUR('" . $row['ts'] . "')";
+        } else {
+            $powerSql .= "ts > DATE_SUB('" . $row['ts'] . "', INTERVAL 1 MINUTE) AND ";
+            $powerSql .= "ts < DATE_ADD('" . $row['ts'] . "', INTERVAL 1 MINUTE) ";
+        }
+        if ($groupedby) {
+            $powerSql .= $groupby;
+        } else {
+            $powerSql .= "LIMIT 1 ";
+        }
         // echo $powerSql;
         $powerResult = $conn->query($powerSql);
         
@@ -131,7 +157,10 @@ echo "',\n";
 // echo " lineWidth: 1\n";
 // echo " colors: ['red', 'green', 'blue']\n";
 echo " curveType: 'function',\n";
-echo " legend: { position: 'bottom' }\n";
+echo " legend: { position: 'bottom' },\n";
+
+chartOptions1(- 10, 10);
+
 echo "};\n";
 ?>
 
@@ -143,5 +172,16 @@ echo "};\n";
 </head>
 <body>
 	<div id="curve_chart" style="width: 1350px; height: 600px"></div>
+
+<?php
+
+lf();
+echo "SQL to get temperatures: \n" . SqlFormatter::format($sql);
+
+dlf();
+echo "Last SQL to get power: \n" . SqlFormatter::format($powerSql);
+
+?>
+
 </body>
 </html>

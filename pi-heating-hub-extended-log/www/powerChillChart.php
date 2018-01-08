@@ -94,5 +94,12 @@ function drawChart() {
   </head>
   <body>
     <div id="chart_div"></div>
+    
+<?php 
+
+lf();
+echo "SQL = : " . $sql;
+
+?>
   </body>
 </html>

@@ -109,7 +109,7 @@ Weather<br>
 <input type="button" name="button21" id="button21" value="Create weather excel" onClick="parent.location='excelData.php?table=weatherLog&'+this.form.predef_interval.value">
 <input type="button" name="button22" id="button22" value="Create weather csv" onClick="parent.location='csvData.php?table=weatherLog&'+this.form.predef_interval.value">
 <br>
-<input type="button" name="button27" id="button27" value="Show chill factor chart" onClick="parent.location='chillFactorChart.php?'+this.form.predef_interval.value+'&'+this.form.no_of_values.value">
+<input type="button" name="button27" id="button27" value="Show chill factor chart" onClick="parent.location='chillFactorChart.php?'+this.form.predef_interval.value+'&'+this.form.no_of_values.value+'&'+this.form.group_by.value">
 <input type="button" name="button28" id="button28" value="Print chill factor table" onClick="parent.location='printChillFactorData.php?'+this.form.predef_interval.value">
 <br>
 <br>

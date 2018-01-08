@@ -13,6 +13,7 @@
 include ("config.php");
 include ('functions/functions.php');
 include ('functions/getSql.function.php');
+require_once ('functions/SqlFormatter.php');
 
 if (isset($_GET['table'])) {
     $table = $_GET['table'];
@@ -80,9 +81,10 @@ echo "',\n";
 // echo "height: 550,\n";
 // echo "lineWidth: 1,\n";
 
-// echo "colors: ['black', 'brown', 'blue']\n";
-echo " curveType: 'function',\n";
-echo " legend: { position: 'bottom' }\n";
+echo "colors: ['black', 'brown', 'blue'],\n";
+echo "curveType: 'function',\n";
+echo "legend: { position: 'bottom' },\n";
+chartOptions1(0, 10);
 echo "};\n";
 
 ?>
@@ -95,5 +97,13 @@ chart.draw(data, options);
 </head>
 <body>
 	<div id="curve_chart" style="width: 1350px; height: 600px"></div>
+	
+<?php
+
+lf();
+echo "SQL: \n" . SqlFormatter::format($sql);
+
+?>
+
 </body>
 </html>
