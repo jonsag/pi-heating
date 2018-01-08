@@ -1,4 +1,0 @@
-CREATE DATABASE if not exists arduino1;
-GRANT ALL ON arduino1.* TO arduino@'%' IDENTIFIED BY "arduinopass" WITH GRANT OPTION;
-FLUSH PRIVILEGES;
-ALTER DATABASE arduino DEFAULT CHARACTER SET latin1;

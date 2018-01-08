@@ -120,13 +120,13 @@ function chartOptions1($minValue, $maxValue)
     echo "chartArea: {left:100,top:100,width:'80%',height:'60%'},\n";
     
     echo "hAxis: {\n";
-    //echo "    title: 'Hello',\n";
-    //echo "    titleTextStyle: {\n";
-    //echo "    color: '#FF0000'\n";
-    //echo "    },\n";
+    // echo " title: 'Hello',\n";
+    // echo " titleTextStyle: {\n";
+    // echo " color: '#FF0000'\n";
+    // echo " },\n";
     echo "    gridlines: {color: '#FF0000', count: -1}\n";
     echo "},\n";
-
+    
     echo "vAxis: {\n";
     echo "    gridlines: {count: -1},\n";
     echo "    baseline: 0,\n";
@@ -137,5 +137,15 @@ function chartOptions1($minValue, $maxValue)
     echo "animation: {duration: 2000, easing: 'out', startup: true}\n";
 }
 
+function getWindChill($wind, $temp)
+{
+    $wind = $wind * 1.852;
+    $wind2 = pow($wind, 0.16);
+    $wind_chill = (13.12 + 0.6215 * $temp - 11.37 * $wind2 + 0.3965 * $temp * $wind2);
+    $wind_chill = round($wind_chill, 2);
+    $wind_chill = ($wind <= 4.8) ? $temp : $wind_chill;
+    $wind_chill = ($temp > 10) ? $temp : $wind_chill;
+    return $wind_chill;
+}
 
 ?>

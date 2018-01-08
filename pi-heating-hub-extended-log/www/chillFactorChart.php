@@ -121,7 +121,16 @@ if ($result->num_rows > 0) {
                 $outdoorTemp = $row['sensor5'];
                 $averageWindSpeed = $weatherRow['averageWindSpeed'];
                 $chillFactor = round((13.12 + 0.6215 * $outdoorTemp - 13.956 * pow($averageWindSpeed, 0.16) + 0.48669 * $outdoorTemp * pow($averageWindSpeed, 0.16)), 2, PHP_ROUND_HALF_UP);
-                $output .= $chillFactor;
+                
+                //$windc = round((13.12 + 0.6215 * $c - 11.37 * pow($kmh,0.16) + 0.3965 * $c * pow($kmh,0.16)), 1);
+                $c = $outdoorTemp;
+                $kmh = $averageWindSpeed * 3.6;
+                $windc = round((13.12 + 0.6215 * $c - 11.37 * pow($kmh,0.16) + 0.3965 * $c * pow($kmh,0.16)), 1);
+                
+                //$windc = getWindChill($kmh, $c);
+                
+                $output .= $windc;
+                //$output .= $chillFactor;
                 $output .= ", ";
                 $output .= $averageWindSpeed;
             }
