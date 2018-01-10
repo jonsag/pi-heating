@@ -120,7 +120,7 @@ Change line 32
 	define("PORT","/dev/ttyACM0");  
 so it matches the output from above  
 
-Setup if using LCD:
+If using LCD:
 =============================
 $ sudo apt-get install python-dev python-setuptools  
 $ sudo easy_install -U distribute  
