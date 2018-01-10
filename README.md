@@ -29,8 +29,31 @@ $ sudo touch /mnt/tmp/ssh
 
 Remove SD-card and insert it a Rpi connected to your local network and boot it up 
 
+Rpi configuration
+-----------------------------
 Connect to Rpi via ssh  
-Login with user: pi and password:raspberry  
+Login with user: pi and password:raspberry 
+
+Update  
+$ sudo apt-get update && sudo apt-get upgrade  
+
+Configure  
+$ sudo raspi-config   
+1		Change password  
+2 N1	Change hostname  
+3 T1	Set locales  
+3 T2	Set time zone  
+3 T3	Choose keyboard layout    
+3 T4	Set wifi country  
+5 P7	Enable 1-wire at boot  
+7 A1	Expand file system to use whole SD-card  
+7 A3	Set memory split to 16  
+Reboot to set new options  
+
+Install requisites
+-----------------------------
+$ sudo apt-get install git  
+
 
 Installation
 =============================
@@ -42,7 +65,13 @@ $ cd /home/pi/pi-heating
 On pi running as hub or hub/remote:
 -----------------------------
 $ sudo ./pi-heating-hub-install.sh  
-$ sudo ./pi-heating-hub-mysql-install.sh  
+
+Initialize mysql  
+$ sudo mysql -u root -p  
+Use the same password as pi login  
+Quit with exit  
+
+$ sudo ./pi-heating-hub-mysql-setup.sh  
 $ sudo ./pi-heating-hub-secure.sh  
 
 
