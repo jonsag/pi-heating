@@ -1,5 +1,6 @@
-på# pi-heating
-Some scripts tweaked from https://github.com/JeffreyPowell
+pi-heating  
+
+Some scripts tweaked from https://github.com/JeffreyPowell  
 
 Installing OS
 =============================
@@ -11,7 +12,7 @@ $ unzip 2017-11-29-raspbian-stretch-lite.zip
 
 Insert SD-card and find out drive letter  
 $ dmesg  
-Mine was /dev/mmcblk0  
+For example /dev/mmcblk0 or /dev/sdb  
 
 Unmount if mounted  
 $ umount /dev/mmcblk0p1  
