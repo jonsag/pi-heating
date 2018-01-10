@@ -122,11 +122,15 @@ so it matches the output from above
 
 If using LCD:
 =============================
-$ sudo apt-get install python-dev python-setuptools  
+$ sudo apt-get install python-dev python-setuptools build-essential python-smbus  
 $ sudo easy_install -U distribute  
 $ sudo apt-get install python-pip  
 $ sudo pip install rpi.gpio  
 
+$ cd /home/pi  
+$ git clone https://github.com/adafruit/Adafruit_Python_CharLCD.git    
+$ cd Adafruit_Python_CharLCD  
+$ sudo python setup.py install  
 
 Installing and running Arduino IDE:
 =============================
