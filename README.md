@@ -120,6 +120,13 @@ Change line 32
 	define("PORT","/dev/ttyACM0");  
 so it matches the output from above  
 
+Setup if using LCD:
+=============================
+$ sudo apt-get install python-dev python-setuptools  
+$ sudo easy_install -U distribute  
+$ sudo apt-get install python-pip  
+$ sudo pip install rpi.gpio  
+
 
 Installing and running Arduino IDE:
 =============================
