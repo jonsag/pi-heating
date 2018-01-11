@@ -1,0 +1,10 @@
+[Unit]
+ Description=Read GPIO Service
+ After=multi-user.target
+
+ [Service]
+ Type=idle
+ ExecStart=/usr/bin/gpio-watch -s /home/pi/pi-heating-LCD/gpio-scripts -e switch 21 22 23 -l /home/pi/pi-heating-LCD/gpio-watch.log > /dev/null2>&1
+
+ [Install]
+ WantedBy=multi-user.target

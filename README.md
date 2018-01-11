@@ -75,6 +75,11 @@ Quit with exit
 $ sudo ./pi-heating-hub-mysql-setup.sh  
 $ sudo ./pi-heating-hub-secure.sh  
 
+Hook up relay to hub:
+-----------------------------
+Pin 2 - GPIO +5V to relay +  
+Pin 6 - GPIO GND to relay GND  
+Pin 10 - GPIO 15 to heating relay signal  
 
 If hub also will have extended weather and power logging:
 -----------------------------
@@ -102,6 +107,18 @@ On pi running solely as remote or as hub/remote:
 -----------------------------
 $ sudo ./pi-heating-remote-install.sh  
 
+Hook up 1-wire temp sensors to remote:
+-----------------------------
+Pin 1 - GPIO 3,3V to 1-wire power  
+Pin 6 - GPIO GND to 1-wire GND  
+Pin 7 - GPIO 4 to 1-wire signal  
+Connect 4,7k resistor between power and signal  
+
+Find 1-wire devices serial numbers  
+$ ls /sys/bus/w1/devices/  
+
+Edit /home/pi/pi-heating-remote/configs/sensors and insert serials and names, for example  
+28-0516b4ff09ff = Out
 
 On pi running as weather logger:
 -----------------------------
