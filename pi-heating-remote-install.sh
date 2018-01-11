@@ -25,6 +25,21 @@ then
 fi
 
 
+printf "\n\n\n Please enter IP of pi-heating-hub : "
+read HUB_IP
+echo
+
+curl -s --head http://$HUB_IP:8080 | sed -n 4p | grep 'Secure Heating Hub' > /dev/null
+
+if [ $? -eq 0 ]
+then
+  echo "Hub exists"
+else
+  printf "\n\n First you must install pi-heating-hub. \n\n"
+  exit 1
+fi
+
+
 ENABLE_W1=$( cat /boot/config.txt | grep '^dtoverlay=w1-gpio$' )
 if [[ $ENABLE_W1 == "" ]]
 then

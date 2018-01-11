@@ -4,6 +4,8 @@
 
 import getopt, sys
 
+from datetime import datetime
+
 from modules import initialize_lcd, onError, usage
 
 try:
@@ -23,10 +25,15 @@ for option, argument in myopts:
     elif option in ('-h', '--help'):  # display help text
         usage(0)
     
-
+#load lcd
 lcd = initialize_lcd()
 
-print lcd
+# clear screen
+lcd.clear()
+
+# display time
+lcd.message(datetime.now().strftime('%b %d  %H:%M\n'))
+
 
 
 

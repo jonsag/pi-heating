@@ -132,6 +132,11 @@ $ git clone https://github.com/adafruit/Adafruit_Python_CharLCD.git
 $ cd Adafruit_Python_CharLCD  
 $ sudo python setup.py install  
 
+Install gpio-watch by larsks from https://github.com/larsks/gpio-watch
+$ cd /home/pi/pi-heating/gpio-watch  
+$ make  
+$ sudo make install
+
 Installing and running Arduino IDE:
 =============================
 
@@ -171,6 +176,7 @@ Kill screen with ^ak or control-a k
 $ rsync -rci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-hub-extended-log/www/* pi@raspberry03:/var/www/pi-heating-hub-extended-log/
 $ rsync -rci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-hub/www/* pi@raspberry03:/var/www/pi-heating-hub/
 
+$ rsync -rci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-LCD/* pi@raspberry05:/home/pi/pi-heating-LCD/
 
 
 
