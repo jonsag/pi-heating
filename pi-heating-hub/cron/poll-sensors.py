@@ -35,7 +35,7 @@ for i in results:
   sensor_ip = i[2]
   
     
-  sensor_url = "http://"+sensor_ip+":8080/value.php?id="+sensor_ref
+  sensor_url = "http://"+sensor_ip+":8081/value.php?id="+sensor_ref
 
   print sensor_url
   

@@ -118,7 +118,20 @@ Find 1-wire devices serial numbers
 $ ls /sys/bus/w1/devices/  
 
 Edit /home/pi/pi-heating-remote/configs/sensors and insert serials and names, for example  
-28-0516b4ff09ff = Out
+28-0516b4ff09ff = Out  
+
+To see value  
+$ cat /sys/bus/w1/devices/28-0416c1ec26ff/w1_slave  
+
+See how many devices added  
+$ curl localhost:8081/count.php && echo  
+
+See names  
+$ curl localhost:8081/name.php?id=1 && echo  
+change id=1 to id=2 etc  
+
+See values  
+$ curl localhost:8081/value.php?id=1 && echo  
 
 On pi running as weather logger:
 -----------------------------

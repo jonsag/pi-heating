@@ -50,7 +50,7 @@ then
   chown -R pi:pi "/home/pi/pi-heating-LCD"
   chmod -R 750 "/home/pi/pi-heating-LCD"
   
-  mv /home/pi/pi-heating-LCD/gpio.service /lib/systemd/system/
+  ln -s /home/pi/pi-heating-LCD/gpio.service /lib/systemd/system/gpio.service
   chmod 644 /lib/systemd/system/gpio.service
   systemctl daemon-reload
   systemctl enable gpio.service
