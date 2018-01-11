@@ -4,7 +4,7 @@
 
  [Service]
  Type=idle
- ExecStart=/usr/bin/gpio-watch -s /home/pi/pi-heating-LCD/gpio-scripts -e switch 21 22 23 -l /home/pi/pi-heating-LCD/gpio-watch.log > /dev/null2>&1
+ ExecStart=/usr/bin/gpio-watch -s /home/pi/pi-heating-LCD/gpio-scripts -e switch 11 -l /home/pi/pi-heating-LCD/gpio-watch.log > /dev/null2>&1
 
  [Install]
  WantedBy=multi-user.target

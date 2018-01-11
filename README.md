@@ -78,7 +78,7 @@ $ sudo ./pi-heating-hub-secure.sh
 Hook up relay to hub:
 -----------------------------
 Pin 2 - GPIO +5V to relay +  
-Pin 6 - GPIO GND to relay GND  
+Pin 14 - GPIO GND to relay GND  
 Pin 10 - GPIO 15 to heating relay signal  
 
 If hub also will have extended weather and power logging:
@@ -156,18 +156,20 @@ $ sudo make install
 
 Hook up LCD and buttons:
 -----------------------------
-Pin 34 - GPIO GND to LCD pin 1 GND  
-Pin  2 - GPIO +5V to LCD pin 2 VCC  
+Pin 34 - GPIO GND 	LCD pin 1 GND  
+Pin  2 - GPIO +5V 	LCD pin 2 VCC  
+					LCD pin 3 CONTR - brightness control  
+Pin 38 - GPIO 20  	LCD pin 4 RS  
+             GND  	LCD pin 5 R/W  
+Pin 40 - GPIO 21  	LCD pin 6 E  
+Pin 31 - GPIO  6  	LCD pin 11 D4  
+Pin 33 - GPIO 13  	LCD pin 12 D5  
+Pin 35 - GPIO 19  	LCD pin 13 D6  
+Pin 37 - GPIO 26  	LCD pin 14 D7  
+Pin 17 - GPIO +3,3V LCD pin 15 N_C1 - backlight  
+Pin 29 - GPIO 5		LCD pin 16 N_C2 - backlight on/off  
 
-Pin 38 - GPIO 20  to LCD pin pin 4 RS  
-             GND  to LCD pin 5 R/W  
-Pin 40 - GPIO 21  to LCD pin 6 E  
-Pin 31 - GPIO  6  to LCD pin 11 D4  
-Pin 33 - GPIO 13  to LCD pin 12 D5  
-Pin 35 - GPIO 19  to LCD pin 13 D6  
-Pin 37 - GPIO 26  to LCD pin 14 D7  
-             +5V  to LCD pin 15 N_C1  
-             GND  to LCD pin 16 N_C2  
+Pin 23 - button 1
 
 Installing and running Arduino IDE:
 =============================
