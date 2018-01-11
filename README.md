@@ -154,6 +154,21 @@ $ cd /home/pi/pi-heating/gpio-watch
 $ make  
 $ sudo make install
 
+Hook up LCD and buttons:
+-----------------------------
+Pin 34 - GPIO GND to LCD pin 1 GND  
+Pin  2 - GPIO +5V to LCD pin 2 VCC  
+
+Pin 38 - GPIO 20  to LCD pin pin 4 RS  
+             GND  to LCD pin 5 R/W  
+Pin 40 - GPIO 21  to LCD pin 6 E  
+Pin 31 - GPIO  6  to LCD pin 11 D4  
+Pin 33 - GPIO 13  to LCD pin 12 D5  
+Pin 35 - GPIO 19  to LCD pin 13 D6  
+Pin 37 - GPIO 26  to LCD pin 14 D7  
+             +5V  to LCD pin 15 N_C1  
+             GND  to LCD pin 16 N_C2  
+
 Installing and running Arduino IDE:
 =============================
 
