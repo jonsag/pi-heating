@@ -198,7 +198,7 @@ fi
 if [ ! -f "/etc/cron.d/pi-heating" ]
   then
     cat > /etc/cron.d/pi-heating <<CRON
-* * * * * pi /bin/bash /home/pi/pi-heating-hub/cron/wrapper.sh
+* * * * * pi /bin/bash /home/pi/pi-heating-hub/cron/pi-heating-hub-wrapper.sh
 CRON
     service cron restart
   fi

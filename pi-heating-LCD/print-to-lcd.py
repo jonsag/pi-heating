@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # Encoding: UTF-8
 
-import getopt, sys
+import getopt, sys, time
 
 from datetime import datetime
 
@@ -28,11 +28,18 @@ for option, argument in myopts:
 #load lcd
 lcd = initialize_lcd()
 
-# clear screen
+# clear screen and turn backlight on
 lcd.clear()
+lcd.set_backlight(1)
 
 # display time
 lcd.message(datetime.now().strftime('%b %d  %H:%M\n'))
+time.sleep(5.0)
+
+# clear screen and turn backlight off.
+lcd.clear()
+lcd.set_backlight(0)
+
 
 
 

@@ -212,7 +212,7 @@
     
     echo "<table class='ttab'>";
     echo "<tr>";
-    echo "<td width=1% align=center>";
+    echo "<td width=10% align=center>";
 
     $sql = "SELECT * FROM sensors;";
     $result = mysqli_query($conn, $sql);
@@ -232,11 +232,36 @@
 
     echo "</td>";
 
-    echo "<td width=99% align=center>";
+    echo "<td width=80% align=center>";
 
     if( $SENSOR_NAME != '' ) {
         create_graph( $rrd_dir.$GET_GRAPH_ID.".rrd", $img_dir.$GET_GRAPH_ID.$GET_GRAPH_SP.".png", 	$GET_GRAPH_SP, 	$SENSOR_NAME,	 	   "180", "700");
        echo "<img src='".$img_dir.$GET_GRAPH_ID.$GET_GRAPH_SP.".png' alt='RRD image'>";
+    }
+    
+    echo "</td>";
+    echo "<td width=10% align=center>";
+    
+    $sql = "SELECT * FROM devices order by name asc";
+    $result = mysqli_query($conn, $sql);
+    if (mysqli_num_rows($result) > 0) {
+        // output data of each row
+    }
+    while($row = mysqli_fetch_assoc($result)) {
+        
+        $DEVICE_ID = $row["d_id"];
+        $DEVICE_NAME = $row["name"];
+        $DEVICE_PIN = $row["pin"];
+        $DEVICE_ACTIVE_LEVEL = $row["active_level"];
+        $DEVICE_VALUE = $row["value"];
+        
+        echo $DEVICE_NAME . "<br>\n"; 
+        if ( $DEVICE_VALUE ) {
+            echo "<img src='/images/dot-green.png' alt='Schedule Active' height='32' width='32'>";
+        } else {
+            echo "<img src='/images/dot-red.png' alt='Schedule Inactive' height='32' width='32'>";
+        }
+        echo "<br>\n";
     }
     
     echo "</td></tr>";
