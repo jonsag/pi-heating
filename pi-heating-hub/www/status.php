@@ -255,7 +255,7 @@
         $DEVICE_ACTIVE_LEVEL = $row["active_level"];
         $DEVICE_VALUE = $row["value"];
         
-        echo $DEVICE_NAME . "<br>\n"; 
+        echo "<font size='4' color='white'>" . $DEVICE_NAME . "</font><br>\n"; 
         if ( $DEVICE_VALUE ) {
             echo "<img src='/images/dot-green.png' alt='Schedule Active' height='32' width='32'>";
         } else {

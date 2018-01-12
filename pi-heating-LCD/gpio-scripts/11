@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python /home/pi/pi-heating-LCD/print-to-lcd.py -v > /dev/null 2>&1
+python /home/pi/pi-heating-LCD/print-to-lcd.py -l > /dev/null 2>&1

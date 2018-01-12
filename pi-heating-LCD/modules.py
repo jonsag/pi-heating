@@ -2,15 +2,45 @@
 # -*- coding: utf-8 -*-
 # Encoding: UTF-8
 
-import ConfigParser, os, sys
+import os, sys, MySQLdb, time
 
 import Adafruit_CharLCD as LCD
 
-config = ConfigParser.ConfigParser()  # define config file
-config.read("%s/config.ini" % os.path.dirname(os.path.realpath(__file__)))  # read config file
+from ConfigParser import ConfigParser
+
+
+def db_connect():
+    dbconfig = ConfigParser()
+    dbconfig.read('/home/pi/pi-heating-hub/config/config.ini')
+
+    servername = dbconfig.get('db', 'server')
+    username = dbconfig.get('db', 'user')
+    password = dbconfig.get('db', 'password')
+    dbname = dbconfig.get('db', 'database')
+
+    cnx = MySQLdb.connect(host=servername, user=username, passwd=password, db=dbname)
+    cnx.autocommit(True)
+    cursorread = cnx.cursor()
+
+    return cnx, cursorread
+
+
+def db_disconnect(cnx, cursorread):
+    cursorread.close()
+    cnx.close()
+
+
+def db_query(cursorread, query):
+    cursorread.execute(query)
+    results =cursorread.fetchall()
+    
+    return results
 
 
 def initialize_lcd():
+    config = ConfigParser()  # define config file
+    config.read("%s/config.ini" % os.path.dirname(os.path.realpath(__file__)))  # read config file
+
     # read config for LCD
     lcd_rs = int(config.get('lcd', 'lcd_rs').strip(" "))
     lcd_en = int(config.get('lcd', 'lcd_en').strip(" "))
@@ -23,11 +53,36 @@ def initialize_lcd():
     lcd_columns = int(config.get('lcd', 'lcd_columns').strip(" "))
     lcd_rows = int(config.get('lcd', 'lcd_rows').strip(" "))
     
+    lcd_wake_time = int(config.get('lcd', 'lcd_wake_time').strip(" "))
+    
     # Initialize the LCD using the pins from config
     lcd = LCD.Adafruit_CharLCD(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7,
                            lcd_columns, lcd_rows, lcd_backlight)
     
-    return lcd
+    return lcd, lcd_wake_time, lcd_columns
+
+
+def print_to_LCD(lcd, cursor, row, line, message, lcd_columns, verbose):
+    lcd.set_cursor(cursor, row) # insert text at column 0 and row 0
+    
+    orig_length = len(message)
+    
+    spaces = lcd_columns - orig_length
+    
+    if spaces > 0:
+        message = message.ljust(16, ' ')
+    if verbose:
+        print "+++ Added %s space(s)" % spaces
+        
+    lcd.message(message)
+    if verbose:
+        print "Line %s: '%s' - %s" % (line, message, orig_length)
+    if len(message) > lcd_columns:
+        if verbose:
+            print "--- Scrolling"
+        for i in range(lcd_columns - orig_length):
+            time.sleep(0.5)
+            lcd.move_left()
     
     
 def onError(errorCode, extra):
