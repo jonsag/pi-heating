@@ -6,7 +6,8 @@ import getopt, sys, time
 
 from datetime import datetime
 
-from modules import db_connect, db_disconnect, db_query, initialize_lcd, print_to_LCD, onError, usage
+from modules import (db_connect, db_disconnect, db_query, initialize_lcd, print_to_LCD, 
+                     onError, usage, random_chars)
 
 try:
     myopts, args = getopt.getopt(sys.argv[1:],
@@ -60,7 +61,8 @@ temp = results[0][0]
 if not line_1:
     line_1 = "%s %s" % (datetime.now().strftime('%d/%m %H:%M'), temp)
 if not line_2:
-    line_2 = "Hej, hej Monica!!!"
+    line_2 = "Hej, hej Monica!"
+    line_2 = random_chars()
 
 if light:   
     # clear screen and turn backlight on

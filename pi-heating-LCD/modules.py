@@ -83,7 +83,19 @@ def print_to_LCD(lcd, cursor, row, line, message, lcd_columns, verbose):
         for i in range(lcd_columns - orig_length):
             time.sleep(0.5)
             lcd.move_left()
+            
+            
+def random_chars():
+    import string
+    import random
     
+    count = random.randint(1, 16)
+    
+    message = ""
+    for number in range(1, count):
+        message = message + random.choice(string.letters)
+        
+    return message
     
 def onError(errorCode, extra):
     print "\nError %s" % errorCode
