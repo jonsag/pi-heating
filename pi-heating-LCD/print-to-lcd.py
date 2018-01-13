@@ -11,11 +11,9 @@ from modules import (db_connect, db_disconnect, db_query, initialize_lcd, print_
 
 try:
     myopts, args = getopt.getopt(sys.argv[1:],
-                                 '1:'
-                                 '2:'
                                  'l'
                                  'vh',
-                                 ['line1:', 'line2', 'light', 'verbose', 'help'])
+                                 ['11', 'line1=', 'line2=', 'light', 'verbose', 'help'])
 
 except getopt.GetoptError as e:
     onError(1, str(e))
@@ -26,20 +24,31 @@ if len(sys.argv) == 1:  # no options passed
 light = False
 line_1 = ""
 line_2 = ""
+button_1 = False
 verbose = False
     
-for option, argument in myopts:
+for option, argument in myopts:     
     if option in ('-l', '--light'):  # turn backlight on
         light = True
-    elif option in ('-1', '--line1'):  # first line of LCD
+    elif option == '--line1':  # first line of LCD
         line_1 = argument
-    elif option in ('-2', '--line2'):  # second line of LCD
+    elif option == '--line2':  # second line of LCD
         line_2 = argument
+    elif option == '--11':  # button 11 - light LCD
+        button_1 = True
     elif option in ('-v', '--verbose'):  # verbose output
         verbose = True
     elif option in ('-h', '--help'):  # display help text
         usage(0)
-    
+
+if verbose:
+    i = 1
+    print "+++ Script run with:"
+    for option, argument in myopts:     
+        print "        Option %s: %s" % (i, option)
+        print "        Argument %s: %s" % (i, argument)
+        i += 1
+        
 #load lcd
 if verbose:
     print "+++ Initializing LCD..."
@@ -49,6 +58,12 @@ lcd, lcd_wake_time, lcd_columns  = initialize_lcd()
 if verbose:
     print "+++ Connecting to db..."
 cnx, cursorread = db_connect()
+
+# button 1 - light LCD
+if button_1:
+    light = True
+    if verbose:
+        print "+++ Button 1 pressed"
 
 # get first temperature
 query = "SELECT value FROM sensors LIMIT 1"

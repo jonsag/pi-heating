@@ -1,5 +1,11 @@
 #!/bin/bash
 
-$gpio=$1
+gpio=--$1
 
-python /home/pi/pi-heating-LCD/print-to-lcd.py -l -$gpio > /dev/null 2>&1
+if [ "$2" == "-v" ]; then
+	arg2=$2
+	echo "/home/pi/pi-heating-LCD/print-to-lcd.py $gpio $arg2"
+	python /home/pi/pi-heating-LCD/print-to-lcd.py $gpio $arg2
+else
+	python /home/pi/pi-heating-LCD/print-to-lcd.py $gpio $arg2 > /dev/null 2>&1
+fi
