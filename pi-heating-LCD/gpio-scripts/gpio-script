@@ -1,0 +1,5 @@
+#!/bin/bash
+
+$gpio=$1
+
+python /home/pi/pi-heating-LCD/print-to-lcd.py -l -$gpio > /dev/null 2>&1
