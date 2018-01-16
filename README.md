@@ -152,6 +152,11 @@ so it matches the output from above
 
 If using LCD:
 =============================
+The LCD and buttons will work if:  
+* there is a schedule that always keep a low temperature  
+* a single mode that pulls up the temperature  
+* a single timer that pulls up the temperature  
+
 $ sudo ./pi-heating-LCD-install.sh  
 
 $ sudo apt-get install python-dev python-setuptools build-essential python-smbus  
