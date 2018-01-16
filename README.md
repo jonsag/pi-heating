@@ -153,9 +153,9 @@ so it matches the output from above
 If using LCD:
 =============================
 The LCD and buttons will work if:  
-* there is a schedule that always keep a low temperature  
-* a single mode that pulls up the temperature  
-* a single timer that pulls up the temperature  
+* you have a schedule that always keep a low temperature  
+* you have a single mode that pulls up the temperature  
+* you have a single timer that pulls up the temperature  
 
 $ sudo ./pi-heating-LCD-install.sh  
 
