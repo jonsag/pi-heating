@@ -8,6 +8,11 @@ import Adafruit_CharLCD as LCD
 
 from ConfigParser import ConfigParser
 
+config = ConfigParser()  # define config file
+config.read("%s/config.ini" % os.path.dirname(os.path.realpath(__file__)))  # read config file
+
+unicode_degree_sign = config.get('misc', 'unicode_degree_sign').strip(" ")
+
 def onError(errorCode, extra):
     print "\nError %s" % errorCode
     if errorCode in (1, 12):
@@ -79,8 +84,6 @@ def db_update(cursor, query, verbose):
 def initialize_lcd(verbose):
     if verbose:
         print "+++ Initializing LCD..."
-    config = ConfigParser()  # define config file
-    config.read("%s/config.ini" % os.path.dirname(os.path.realpath(__file__)))  # read config file
 
     # read config for LCD
     lcd_rs = int(config.get('lcd', 'lcd_rs').strip(" "))
@@ -108,24 +111,67 @@ def remove_leading_zero(string):
         
     return string
 
+def degree_sign(lcd):
+    # degree symbol
+    lcd.create_char(1, [0b01100,
+                        0b10010,
+                        0b10010,
+                        0b01100,
+                        0b00000,
+                        0b00000,
+                        0b00000,
+                        0b00000])
+    
+    lcd.message("\x01")
+    
+    return lcd
+    
+def hourglass_symbol(lcd):
+    # hourglass
+    lcd.create_char(2, [0b11111,
+                        0b10001,
+                        0b01110,
+                        0b00100,
+                        0b01010,
+                        0b10001,
+                        0b11111,
+                        0b00000])
+    
+    lcd.message("Hourglass: \x02")
 
 def print_to_LCD(lcd, cursor, row, line, message, lcd_columns, verbose):
-    #message = str(message)
+
+    t = u"\u00b0" # degree sign
     
     lcd.set_cursor(cursor, row) # insert text at column 0 and row 0
     
     orig_length = len(message)
-    
+    if verbose:
+        print "\nLine %s: '%s'" % (line, message)
+        print "+++ Length: %s" % orig_length
     spaces = lcd_columns - orig_length
     
     if spaces > 0:
         message = message.ljust(16, ' ')
     if verbose:
-        print "\n+++ Added %s space(s)" % spaces
+        print "+++ Added %s space(s)" % spaces
+    
+    lcd_message = message
+    
+    if t in message:
+        if verbose:
+            print "+++ Message contains degree sign"
+            print "    at position %s" % message.find(t)
+        #lcd_message = message.replace(t, chr(223))
+        #if verbose:
+        #    print "+++ New message: '%s'" % lcd_message
+        #lcd.message("Temperature: "+ "8"+ chr(176)+ "C")
+        #lcd.message(lcd_message)
+        #lcd = degree_sign(lcd)
+        lcd_message = message.replace(t, 'd')
+    else:    
+        lcd.message(lcd_message)
         
-    lcd.message(message)
-    if verbose:
-        print "Line %s: '%s' - %s" % (line, message, orig_length)
     if len(message) > lcd_columns:
         if verbose:
             print "--- Scrolling"

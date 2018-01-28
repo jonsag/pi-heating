@@ -168,7 +168,7 @@ Install Adafruit_Python_CharLCD python module by Adafruit from https://github.co
 $ cd /home/pi/pi-heating/Adafruit_Python_CharLCD  
 $ sudo python setup.py install  
 
-Install gpio-watch by larsks from https://github.com/larsks/gpio-watch
+Install gpio-watch by larsks from https://github.com/larsks/gpio-watch  
 $ cd /home/pi/pi-heating/gpio-watch  
 $ make  
 $ sudo make install

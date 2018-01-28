@@ -186,19 +186,20 @@ timeNow = datetime.now()
 activeNow, nextEvent = process_schedules(cursor, cnx, timeNow, False)
     
 # what to write to lcd
+t = u"\u00b0" # degree sign
 if not line_1:
     day = remove_leading_zero(timeNow.strftime('%d'))
     month = remove_leading_zero(timeNow.strftime('%m'))
     hour = remove_leading_zero(timeNow.strftime('%H'))
     minute = timeNow.strftime('%m')
-    line_1 = "%s/%s %s:%s %s" % (day, month, hour, minute, temp_value)
+    line_1 = "%s/%s %s:%s %s%s" % (day, month, hour, minute, temp_value, t)
 if not line_2:    
     if mode_value:
-        line_2 = "%s" % (activeNow[0]['setPoint'])
+        line_2 = "%s%s" % (activeNow[0]['setPoint'], t)
     elif timer_value != 0:
-        line_2 = "%s -%sm" % (activeNow[0]['setPoint'], timer_value)
+        line_2 = "%s%s -%sm" % (activeNow[0]['setPoint'], t, timer_value)
     else:
-        line_2 = "%s" % (activeNow[0]['setPoint'])
+        line_2 = "%s%s" % (activeNow[0]['setPoint'], t)
     #    #line_2 = random_chars()
     #    line_2 = str(temp_value)
 
