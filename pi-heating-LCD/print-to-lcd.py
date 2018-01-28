@@ -183,7 +183,7 @@ if stopModeTimer:
      
 # check and run schedules
 timeNow = datetime.now()
-activeNow, nextEvent = process_schedules(cursor, cnx, timeNow, False)
+activeNow, nextEvent = process_schedules(cursor, cnx, timeNow, False) # last variable is 'verbose'
     
 # what to write to lcd
 t = u"\u00b0" # degree sign
@@ -195,11 +195,11 @@ if not line_1:
     line_1 = "%s/%s %s:%s %s%s" % (day, month, hour, minute, temp_value, t)
 if not line_2:    
     if mode_value:
-        line_2 = "%s%s" % (activeNow[0]['setPoint'], t)
+        line_2 = "%s%s" % (int(activeNow[0]['setPoint']), t)
     elif timer_value != 0:
-        line_2 = "%s%s -%sm" % (activeNow[0]['setPoint'], t, timer_value)
+        line_2 = "%s%s -%sm" % (int(activeNow[0]['setPoint']), t, timer_value)
     else:
-        line_2 = "%s%s" % (activeNow[0]['setPoint'], t)
+        line_2 = "%s%s" % (int(activeNow[0]['setPoint']), t)
     #    #line_2 = random_chars()
     #    line_2 = str(temp_value)
 

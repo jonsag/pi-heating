@@ -111,7 +111,7 @@ def remove_leading_zero(string):
         
     return string
 
-def degree_sign(lcd):
+def degree_sign(lcd, cursor, row):
     # degree symbol
     lcd.create_char(1, [0b01100,
                         0b10010,
@@ -121,6 +121,8 @@ def degree_sign(lcd):
                         0b00000,
                         0b00000,
                         0b00000])
+    
+    lcd.set_cursor(cursor, row)
     
     lcd.message("\x01")
     
@@ -143,8 +145,6 @@ def print_to_LCD(lcd, cursor, row, line, message, lcd_columns, verbose):
 
     t = u"\u00b0" # degree sign
     
-    lcd.set_cursor(cursor, row) # insert text at column 0 and row 0
-    
     orig_length = len(message)
     if verbose:
         print "\nLine %s: '%s'" % (line, message)
@@ -156,20 +156,18 @@ def print_to_LCD(lcd, cursor, row, line, message, lcd_columns, verbose):
     if verbose:
         print "+++ Added %s space(s)" % spaces
     
-    lcd_message = message
-    
-    if t in message:
-        if verbose:
-            print "+++ Message contains degree sign"
-            print "    at position %s" % message.find(t)
-        #lcd_message = message.replace(t, chr(223))
-        #if verbose:
-        #    print "+++ New message: '%s'" % lcd_message
-        #lcd.message("Temperature: "+ "8"+ chr(176)+ "C")
-        #lcd.message(lcd_message)
-        #lcd = degree_sign(lcd)
-        lcd_message = message.replace(t, 'd')
+    if t in message: # message contains degree sign        
+        message_list = list(message)
+        for char in message_list:
+            lcd.set_cursor(cursor, row) # insert text at column and row
+            if char == t:
+                lcd = degree_sign(lcd, cursor, row) # print degree sign
+            else:
+                lcd.message(char)
+            cursor += 1
+
     else:    
+        lcd.set_cursor(cursor, row) # insert text at column and row
         lcd.message(lcd_message)
         
     if len(message) > lcd_columns:
