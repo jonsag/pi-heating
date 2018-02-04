@@ -7,5 +7,5 @@ if [ "$2" == "-v" ]; then
 	echo "/home/pi/pi-heating-LCD/print-to-lcd.py -g $gpio $arg2"
 	python /home/pi/pi-heating-LCD/print-to-lcd.py -g $gpio $arg2
 else
-	python /home/pi/pi-heating-LCD/print-to-lcd.py -g $gpio $arg2 > /dev/null 2>&1
+	python /home/pi/pi-heating-LCD/print-to-lcd.py -g $gpio >> /dev/null 2>&1
 fi

@@ -39,10 +39,13 @@ for option, argument in myopts:
     if option in ('-l', '--light'):  # turn backlight on
         light = True
     elif option in ('-1', '--line1'):  # first line of LCD
+        light = True
         line_1 = argument
     elif option in ('-2', '--line2'):  # second line of LCD
+        light = True
         line_2 = argument
     elif option in ('-g', '--gpio'):  # button 11 - light LCD
+        light = True
         gpio = argument
     elif option in ('-v', '--verbose'):  # verbose output
         verbose = True
@@ -65,30 +68,22 @@ if gpio:
     if verbose:
         print
     if gpio == "11":
-        light = True
         if verbose:
             print "+++ Button 1 pressed, pin %s" % gpio
     elif gpio == "25":
         toggleMode = True
-        light = True
         if verbose:
             print "+++ Button 2 pressed, pin %s" % gpio
     elif gpio == "7":
         toggleTimer = True
-        light = True
         if verbose:
             print "+++ Button 3 pressed, pin %s" % gpio
     elif gpio == "8":
         stopModeTimer = True
-        light = True
         if verbose:
             print "+++ Button 4 pressed, pin %s" % gpio
     else:
         onError(3, "No action for gpio %s" % gpio)
-
-#load lcd
-if light:
-    lcd, lcd_wake_time, lcd_columns  = initialize_lcd(verbose)
 
 # get first temperature
 temp_query = "SELECT id, name, value FROM sensors LIMIT 1"
@@ -266,7 +261,9 @@ if not line_2:
     #    line_2 = str(temp_value)
 
 # print to lcd
-if light:   
+if light:
+    lcd, lcd_wake_time, lcd_columns  = initialize_lcd(verbose) #load lcd
+    
     # clear screen and turn backlight on
     lcd.clear()
     lcd.set_backlight(1)

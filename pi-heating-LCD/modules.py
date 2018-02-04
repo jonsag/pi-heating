@@ -147,7 +147,7 @@ def hourglass_symbol(lcd, cursor, row):
 
 def infinity_symbol(lcd, cursor, row):
     # infinity
-    lcd.create_char(1, [0b00000,
+    lcd.create_char(3, [0b00000,
                         0b00000,
                         0b01010,
                         0b10101,
@@ -158,7 +158,7 @@ def infinity_symbol(lcd, cursor, row):
     
     lcd.set_cursor(cursor, row)
     
-    lcd.message("\x01")
+    lcd.message("\x03")
     
     return lcd
 
@@ -188,15 +188,15 @@ def print_to_LCD(lcd, cursor, row, line, message, lcd_columns, verbose):
             if char == t:
                 lcd = degree_sign(lcd, cursor, row) # print degree sign
             elif char == inf:
-                lcd.message('e')
-                #lcd = infinity_symbol(lcd, cursor, row) # print infinity sign
+                #lcd.message('e')
+                lcd = infinity_symbol(lcd, cursor, row) # print infinity sign
             else:
                 lcd.message(char)
             cursor += 1
 
     else:    
         lcd.set_cursor(cursor, row) # insert text at column and row
-        lcd.message(lcd_message)
+        lcd.message(message)
         
     if len(message) > lcd_columns:
         if verbose:
