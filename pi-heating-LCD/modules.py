@@ -171,8 +171,8 @@ def print_to_LCD(lcd, cursor, row, line, message, lcd_columns, verbose):
     if verbose:
         print "\nLine %s: '%s'" % (line, message)
         print "+++ Length: %s" % orig_length
-    else:
-        print "%s" % (message)
+    #else:
+    #    print "%s" % (message)
         
     spaces = lcd_columns - orig_length
     
