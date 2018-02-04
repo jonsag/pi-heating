@@ -128,7 +128,7 @@ def degree_sign(lcd, cursor, row):
     
     return lcd
     
-def hourglass_symbol(lcd):
+def hourglass_symbol(lcd, cursor, row):
     # hourglass
     lcd.create_char(2, [0b11111,
                         0b10001,
@@ -139,16 +139,41 @@ def hourglass_symbol(lcd):
                         0b11111,
                         0b00000])
     
-    lcd.message("Hourglass: \x02")
+    lcd.set_cursor(cursor, row)
+    
+    lcd.message("\x02")
+    
+    return lcd
+
+def infinity_symbol(lcd, cursor, row):
+    # infinity
+    lcd.create_char(1, [0b00000,
+                        0b00000,
+                        0b01010,
+                        0b10101,
+                        0b10101,
+                        0b01010,
+                        0b00000,
+                        0b00000])
+    
+    lcd.set_cursor(cursor, row)
+    
+    lcd.message("\x01")
+    
+    return lcd
 
 def print_to_LCD(lcd, cursor, row, line, message, lcd_columns, verbose):
 
     t = u"\u00b0" # degree sign
+    inf = u"\u221e" # infinity symbol
     
     orig_length = len(message)
     if verbose:
         print "\nLine %s: '%s'" % (line, message)
         print "+++ Length: %s" % orig_length
+    else:
+        print "%s" % (message)
+        
     spaces = lcd_columns - orig_length
     
     if spaces > 0:
@@ -156,12 +181,15 @@ def print_to_LCD(lcd, cursor, row, line, message, lcd_columns, verbose):
     if verbose:
         print "+++ Added %s space(s)" % spaces
     
-    if t in message: # message contains degree sign        
+    if t in message or inf in message: # message contains special characters        
         message_list = list(message)
         for char in message_list:
             lcd.set_cursor(cursor, row) # insert text at column and row
             if char == t:
                 lcd = degree_sign(lcd, cursor, row) # print degree sign
+            elif char == inf:
+                lcd.message('e')
+                #lcd = infinity_symbol(lcd, cursor, row) # print infinity sign
             else:
                 lcd.message(char)
             cursor += 1
@@ -244,11 +272,9 @@ def active_devices(cursor, cnx, verbose):
                                                                            value, 
                                                                            pin)
 
-def process_schedules(cursor, cnx, now, verbose):
+def process_schedules(cursor, cnx, now, process, verbose):
     conclusions = []
     activeNow = []
-    nextEvents = []
-    nextEventTime = 10000000
     
     DOW = now.weekday()
     
@@ -283,6 +309,8 @@ def process_schedules(cursor, cnx, now, verbose):
         SCHED_FRI = result[8]
         SCHED_SAT = result[9]
         SCHED_SUN = result[10]
+        
+        scheduleActive = result[11]
         
         if verbose:
             print "\nSchedule %s: %s" % (SCHED_ID, SCHED_NAME)
@@ -459,24 +487,28 @@ def process_schedules(cursor, cnx, now, verbose):
                 #print "Schedule test modes: %s" % SCHED_TEST_MODES
                 #print "Schedule test timers: %s" % SCHED_TEST_TIMERS     
         
-        if (SCHED_TEST_TIME 
-            and SCHED_TEST_DAY
-            and SCHED_TEST_SENSORS 
-            and SCHED_TEST_MODES 
-            and SCHED_TEST_TIMERS):
-            if verbose:
-                print "\nActivate schedule"
-            deviceActive = True    
-            query = ("UPDATE schedules SET active = 1 WHERE id ='" + SCHED_ID + "'")
-        else:
-            if verbose:
-                print "\nDeactivate schedule"
-            deviceActive = False
-            query = ("UPDATE schedules SET active = 0 WHERE id ='" + SCHED_ID + "'")
+        # check if schedule is active
+        
+        
+        if process: # should we really set devices
+            if (SCHED_TEST_TIME 
+                and SCHED_TEST_DAY
+                and SCHED_TEST_SENSORS 
+                and SCHED_TEST_MODES 
+                and SCHED_TEST_TIMERS):
+                if verbose:
+                    print "\nActivate schedule"
+                scheduleActive = True    
+                query = ("UPDATE schedules SET active = 1 WHERE id ='" + SCHED_ID + "'")
+            else:
+                if verbose:
+                    print "\nDeactivate schedule"
+                sheduleActive = False
+                query = ("UPDATE schedules SET active = 0 WHERE id ='" + SCHED_ID + "'")
             
-        cursor = db_create_cursor(cnx)
-        results_timers = db_update(cursor, query, verbose)
-        db_close_cursor(cnx, cursor)
+            cursor = db_create_cursor(cnx)
+            results_timers = db_update(cursor, query, verbose)
+            db_close_cursor(cnx, cursor)
             
         conclusions.append({'scheduleID': SCHED_ID, 
                             'scheduleName': SCHED_NAME, 
@@ -487,19 +519,7 @@ def process_schedules(cursor, cnx, now, verbose):
                             'sensorCalls': SCHED_TEST_SENSORS, 
                             'modeCalls': SCHED_TEST_MODES,
                             'timerCalls': SCHED_TEST_TIMERS, 
-                            'deviceActive': deviceActive})
-         
-        if minToStart < nextEventTime:
-            nextEvent = ({'scheduleID': SCHED_ID, 
-                            'scheduleName': SCHED_NAME, 
-                            'minToStart': minToStart, 
-                            'minToEnd': minToEnd, 
-                            'testToday': SCHED_TEST_DAY, 
-                            'setPoint': setPoint, 
-                            'sensorCalls': SCHED_TEST_SENSORS, 
-                            'modeCalls': SCHED_TEST_MODES,
-                            'timerCalls': SCHED_TEST_TIMERS, 
-                            'deviceActive': deviceActive})
+                            'scheduleActive': scheduleActive})
             
         cursor = db_create_cursor(cnx)
         results_timers = db_update(cursor, query, verbose)
@@ -522,22 +542,20 @@ def process_schedules(cursor, cnx, now, verbose):
         if conclusion['testToday'] and conclusion['modeCalls'] and conclusion['timerCalls']:
             activeNow.append(conclusion)
         
-    print        
+    if verbose:
+        print        
     
-    for setpoint in activeNow:
+    for schedule in activeNow:
         if verbose:
-            print "+++ Schedule %s: %s is active" % (setpoint['scheduleID'], setpoint['scheduleName'])
-            print "+++ Trying to reach %s degrees" % setpoint['setPoint']
-            if setpoint['deviceActive']:
-                print "+++ Device is activated"
+            print "+++ Schedule %s: %s is active" % (schedule['scheduleID'], schedule['scheduleName'])
+            print "+++ Trying to reach %s degrees" % schedule['setPoint']
+            if schedule['scheduleActive']:
+                print "+++ Schedule is activated"
             else:
-                print "+++ Device is not activated"
+                print "+++ Schedule is not activated"
             print
             
-    if nextEvent['setPoint'] != activeNow[0]['setPoint']:
-        print "+++ Will set to %s in %s minute(s)" % (nextEvent['setPoint'], nextEvent['minToStart'])
-    #sys.exit()
-    return activeNow, nextEvent
+    return activeNow
         
         
 

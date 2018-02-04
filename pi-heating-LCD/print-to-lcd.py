@@ -4,7 +4,7 @@
 
 import getopt, sys, time
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from modules import (db_connect, db_create_cursor, db_close_cursor, db_disconnect, db_query, 
                      initialize_lcd, print_to_LCD, 
@@ -62,7 +62,8 @@ cnx = db_connect(verbose)
 
 # buttons
 if gpio:
-    print
+    if verbose:
+        print
     if gpio == "11":
         light = True
         if verbose:
@@ -123,7 +124,15 @@ if verbose:
     print "+++ First timer: %s, ID: %s, Value: %s min" % (timer_name, timer_id, timer_value)
 db_close_cursor(cnx, cursor)
     
-    
+# find schedules that are not active all the time
+schedule_query = "SELECT id, name FROM schedules WHERE dow1='0' OR dow2='0' OR dow3='0' OR dow4='0' OR dow5='0' OR dow6='0' OR dow7='0'"
+cursor = db_create_cursor(cnx)
+schedule_results = db_query(cursor, schedule_query, verbose)
+for row in schedule_results:
+    if verbose:
+        print "\n+++ Schedule %s: %s is intermittent" % (row[0], row[1])
+db_close_cursor(cnx, cursor)
+
 # toggle mode
 if toggleMode:
     if verbose:
@@ -183,23 +192,76 @@ if stopModeTimer:
      
 # check and run schedules
 timeNow = datetime.now()
-activeNow, nextEvent = process_schedules(cursor, cnx, timeNow, False) # last variable is 'verbose'
-    
+activeNow = process_schedules(cursor, cnx, timeNow, True, False) # (cursor, cnx, timeNow, process, verbose)
+
+if activeNow:
+    for schedule in activeNow:
+        currentSetPoint = schedule['setPoint']
+        if verbose:
+            print "\n+++ Schedule %s: %s is active" % (schedule['scheduleID'], schedule['scheduleName'])
+            print "    Trying to reach %s degrees" % schedule['setPoint']
+            #if schedule['scheduleActive']:
+            #    print "+++ Schedule is activated"
+            #else:
+            #    print "+++ Schedule is not activated"
+            #print
+else:
+    if verbose:
+        print "+++ No active schedules now"
+
+#checkUpcoming = True
+#if checkUpcoming:       
+#    newSetpointFound = False 
+#    timeForward = timeNow
+#    nextSetPoint = -1
+#    for minutes in range(1, 10080, 60): # calculate what will happen the next week
+#        if newSetpointFound:
+#            break
+#        timeForward = timeNow + timedelta(minutes = minutes)
+#        if verbose:
+#            day = remove_leading_zero(timeForward.strftime('%d'))
+#            month = remove_leading_zero(timeForward.strftime('%m'))
+#            hour = timeForward.strftime('%H')
+#            minute = timeForward.strftime('%M')
+#            print "+++ Testing time: %s/%s %s:%s" % (day, month, hour, minute)
+#        activeNext = process_schedules(cursor, cnx, timeForward, False, False)
+#        for schedule in activeNext:
+#            if verbose:
+#                print "    Set point: %s" % schedule['setPoint']
+#            if schedule['setPoint'] != currentSetPoint:
+#                nextSetPoint = schedule['setPoint']
+#                newSetpointFound = True
+#                break
+
+#    print "+++ Next set point: %s" % nextSetPoint
+
+# what will happen next
+
+if not mode_value: # mode is not set
+
+    if timer_value != 0: # timer is active
+        timerEnd = (timeNow + timedelta(minutes = timer_value)).strftime('%H:%M')
+        # what would happen if timer_value == 0
+        
+    # are there any upcoming schedules
+            
 # what to write to lcd
 t = u"\u00b0" # degree sign
+inf = u"\u221e" # infinity symbol
+
 if not line_1:
     day = remove_leading_zero(timeNow.strftime('%d'))
     month = remove_leading_zero(timeNow.strftime('%m'))
-    hour = remove_leading_zero(timeNow.strftime('%H'))
-    minute = timeNow.strftime('%m')
+    hour = timeNow.strftime('%H')
+    minute = timeNow.strftime('%M')
     line_1 = "%s/%s %s:%s %s%s" % (day, month, hour, minute, temp_value, t)
 if not line_2:    
     if mode_value:
-        line_2 = "%s%s" % (int(activeNow[0]['setPoint']), t)
+        line_2 = "%s%s %s" % (int(activeNow[0]['setPoint']), t, inf)
     elif timer_value != 0:
-        line_2 = "%s%s -%sm" % (int(activeNow[0]['setPoint']), t, timer_value)
+        line_2 = "%s%s @%s" % (int(activeNow[0]['setPoint']), t, timerEnd )
     else:
-        line_2 = "%s%s" % (int(activeNow[0]['setPoint']), t)
+        line_2 = "%s%s %s" % (int(activeNow[0]['setPoint']), t, inf)
     #    #line_2 = random_chars()
     #    line_2 = str(temp_value)
 
