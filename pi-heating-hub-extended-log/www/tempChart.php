@@ -37,9 +37,9 @@ if (isset($_GET['groupBy'])) {
     $selection = "ts";
 }
 
-//$groupby = "GROUP BY ts";
-//$groupedby = "";
-//$selection = "ts";
+// $groupby = "GROUP BY ts";
+// $groupedby = "";
+// $selection = "ts";
 
 // find sensor ids
 $sql = "SELECT id FROM sensors";
@@ -67,15 +67,13 @@ if ($result->num_rows > 0) {
 
 foreach ($sensorids as $sensorid) {
     if ($groupedby) {
-        //$selection .= ", ROUND(AVG(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END)), 1) AS sensor" . $sensorid;
-        //$selection .= ", AVG(ROUND(MAX(CASE WHEN sensorid = " . $sensorid . " THEN AVG(value) ELSE 0 END), 1)) AS sensor" . $sensorid;
-        //$selection .= ", ROUND(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END), 1) AS sensor" . $sensorid;
+        // $selection .= ", ROUND(AVG(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END)), 1) AS sensor" . $sensorid;
+        // $selection .= ", AVG(ROUND(MAX(CASE WHEN sensorid = " . $sensorid . " THEN AVG(value) ELSE 0 END), 1)) AS sensor" . $sensorid;
+        // $selection .= ", ROUND(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END), 1) AS sensor" . $sensorid;
         $selection .= ", AVG(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END) AS sensor" . $sensorid;
-        
     } else {
-        //$selection .= ", ROUND(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END), 1) AS sensor" . $sensorid;
+        // $selection .= ", ROUND(MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END), 1) AS sensor" . $sensorid;
         $selection .= ", MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END) AS sensor" . $sensorid;
-        
     }
 }
 
@@ -86,7 +84,7 @@ $answer = getSQL($selection, $table, $condition, $groupby);
 $sql = $answer[0];
 $selection = $answer[1];
 
-//echo "<br>\n" . $sql . "<br>\n";
+// echo "<br>\n" . $sql . "<br>\n";
 $result = $conn->query($sql);
 
 // read result
@@ -111,7 +109,7 @@ echo $selection;
 if ($groupedby) {
     echo ", grouped by " . $groupedby;
 }
-//echo ", sql= " . $sql;
+// echo ", sql= " . $sql;
 echo "',\n";
 // echo " width: 1200,\n";
 // echo " height: 550,\n";

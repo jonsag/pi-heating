@@ -13,6 +13,7 @@ config.read("%s/config.ini" % os.path.dirname(os.path.realpath(__file__)))  # re
 
 unicode_degree_sign = config.get('misc', 'unicode_degree_sign').strip(" ")
 
+
 def onError(errorCode, extra):
     print "\nError %s" % errorCode
     if errorCode in (1, 12):
@@ -27,6 +28,7 @@ def onError(errorCode, extra):
     elif errorCode in (6, 14):
         print extra
         return
+
         
 def usage(exitCode):
     print "\nUsage:"
@@ -37,6 +39,7 @@ def usage(exitCode):
     print "-h    prints this"
 
     sys.exit(exitCode)
+
 
 def db_connect(verbose):
     if verbose:
@@ -50,18 +53,21 @@ def db_connect(verbose):
     dbname = dbconfig.get('db', 'database')
 
     cnx = MySQLdb.connect(host=servername, user=username, passwd=password, db=dbname, charset='utf8')
-    #cnx.autocommit(True)
+    # cnx.autocommit(True)
 
     return cnx
+
 
 def db_create_cursor(cnx):
     cursor = cnx.cursor()
     
     return cursor
 
+
 def db_close_cursor(cnx, cursor):
     cursor.close()
     cnx.commit()
+
 
 def db_disconnect(cnx, verbose):
     if verbose:
@@ -71,15 +77,17 @@ def db_disconnect(cnx, verbose):
 
 def db_query(cursor, query, verbose):
     cursor.execute(query)
-    results =cursor.fetchall()
+    results = cursor.fetchall()
     
     return results
+
 
 def db_update(cursor, query, verbose):
     cursor.execute(query)
     results = cursor.fetchall()
     
     return results
+
 
 def initialize_lcd(verbose):
     if verbose:
@@ -105,11 +113,13 @@ def initialize_lcd(verbose):
     
     return lcd, lcd_wake_time, lcd_columns
 
+
 def remove_leading_zero(string):
     if len(string) == 2:
         string = string.lstrip('0')
         
     return string
+
 
 def degree_sign(lcd, cursor, row):
     # degree symbol
@@ -127,6 +137,7 @@ def degree_sign(lcd, cursor, row):
     lcd.message("\x01")
     
     return lcd
+
     
 def hourglass_symbol(lcd, cursor, row):
     # hourglass
@@ -145,6 +156,7 @@ def hourglass_symbol(lcd, cursor, row):
     
     return lcd
 
+
 def infinity_symbol(lcd, cursor, row):
     # infinity
     lcd.create_char(3, [0b00000,
@@ -162,16 +174,17 @@ def infinity_symbol(lcd, cursor, row):
     
     return lcd
 
+
 def print_to_LCD(lcd, cursor, row, line, message, lcd_columns, verbose):
 
-    t = u"\u00b0" # degree sign
-    inf = u"\u221e" # infinity symbol
+    t = u"\u00b0"  # degree sign
+    inf = u"\u221e"  # infinity symbol
     
     orig_length = len(message)
     if verbose:
         print "\nLine %s: '%s'" % (line, message)
         print "+++ Length: %s" % orig_length
-    #else:
+    # else:
     #    print "%s" % (message)
         
     spaces = lcd_columns - orig_length
@@ -181,21 +194,21 @@ def print_to_LCD(lcd, cursor, row, line, message, lcd_columns, verbose):
     if verbose:
         print "+++ Added %s space(s)" % spaces
     
-    if t in message or inf in message: # message contains special characters        
+    if t in message or inf in message:  # message contains special characters        
         message_list = list(message)
         for char in message_list:
-            lcd.set_cursor(cursor, row) # insert text at column and row
+            lcd.set_cursor(cursor, row)  # insert text at column and row
             if char == t:
-                lcd = degree_sign(lcd, cursor, row) # print degree sign
+                lcd = degree_sign(lcd, cursor, row)  # print degree sign
             elif char == inf:
-                #lcd.message('e')
-                lcd = infinity_symbol(lcd, cursor, row) # print infinity sign
+                # lcd.message('e')
+                lcd = infinity_symbol(lcd, cursor, row)  # print infinity sign
             else:
                 lcd.message(char)
             cursor += 1
 
     else:    
-        lcd.set_cursor(cursor, row) # insert text at column and row
+        lcd.set_cursor(cursor, row)  # insert text at column and row
         lcd.message(message)
         
     if len(message) > lcd_columns:
@@ -217,6 +230,7 @@ def random_chars():
         message = message + random.choice(string.letters)
         
     return message
+
     
 def active_schedules(cursor, cnx, verbose):
     # Find devices that have active schedules
@@ -226,7 +240,7 @@ def active_schedules(cursor, cnx, verbose):
     db_close_cursor(cnx, cursor)
     
     for result in results_devices:
-        DEVICE_ACTIVE = bool( result[0] )
+        DEVICE_ACTIVE = bool(result[0])
         DEVICE_ID = result[1] 
         DEVICE_NAME = result[2]
         if verbose:
@@ -235,6 +249,7 @@ def active_schedules(cursor, cnx, verbose):
             else:
                 active = "inactive"
             print "Schedule %s %s: %s" % (DEVICE_ID, DEVICE_NAME, active)
+
     
 def active_devices(cursor, cnx, verbose):
     # find active devices
@@ -246,8 +261,8 @@ def active_devices(cursor, cnx, verbose):
     for result in results_devices:
         DEVICE_NAME = result[0]
         DEVICE_PIN = result[1]
-        DEVICE_ACTIVE_LEVEL = bool( result[2] )
-        DEVICE_VALUE = bool( result[3] )
+        DEVICE_ACTIVE_LEVEL = bool(result[2])
+        DEVICE_VALUE = bool(result[3])
         DEVICE_ID = result[4]
         
         if DEVICE_ACTIVE_LEVEL:
@@ -260,17 +275,18 @@ def active_devices(cursor, cnx, verbose):
         else:
             value = "not set"
         
-        if 1-(DEVICE_ACTIVE_LEVEL ^ DEVICE_VALUE):
+        if 1 - (DEVICE_ACTIVE_LEVEL ^ DEVICE_VALUE):
             pin = "active"
         else:
             pin = "inactive"    
         
         if verbose:    
-            print "Device %s %s, Pin %s, Active %s, Value %s, Pin %s" % (DEVICE_ID, DEVICE_NAME, 
-                                                                           DEVICE_PIN, 
-                                                                           active, 
-                                                                           value, 
+            print "Device %s %s, Pin %s, Active %s, Value %s, Pin %s" % (DEVICE_ID, DEVICE_NAME,
+                                                                           DEVICE_PIN,
+                                                                           active,
+                                                                           value,
                                                                            pin)
+
 
 def process_schedules(cursor, cnx, now, process, verbose):
     conclusions = []
@@ -315,7 +331,6 @@ def process_schedules(cursor, cnx, now, process, verbose):
         if verbose:
             print "\nSchedule %s: %s" % (SCHED_ID, SCHED_NAME)
             print "----------------------------------------"
-        
         
         SCHED_START_HOUR, start_remainder = divmod(SCHED_START.seconds, 3600)
         SCHED_START_MINUTE, start_sec = divmod(start_remainder, 60)
@@ -410,9 +425,9 @@ def process_schedules(cursor, cnx, now, process, verbose):
                 SCHED_TEST_SENSORS = False
             
             if SCHED_TEST_SENSORS and verbose:
-                #print "Sensor value: %s" % SENSOR_VALUE
-                #print "Sensor test: %s" % SENSOR_TEST
-                #print "Test value: %s" % TEST_VALUE
+                # print "Sensor value: %s" % SENSOR_VALUE
+                # print "Sensor test: %s" % SENSOR_TEST
+                # print "Test value: %s" % TEST_VALUE
                 print "Schedule test sensors: %s" % SCHED_TEST_SENSORS
                 
         # Check modes
@@ -442,9 +457,9 @@ def process_schedules(cursor, cnx, now, process, verbose):
                 SCHED_TEST_MODES = False
           
             if SCHED_TEST_MODES and verbose:
-                #print "Mode value: %s" % MODE_VALUE
-                #print "Mode test: %s" % MODE_TEST
-                #print "Test value: %s" % TEST_VALUE
+                # print "Mode value: %s" % MODE_VALUE
+                # print "Mode test: %s" % MODE_TEST
+                # print "Test value: %s" % TEST_VALUE
                 print "Schedule test modes: %s" % SCHED_TEST_MODES
     
         # Check timers
@@ -466,7 +481,7 @@ def process_schedules(cursor, cnx, now, process, verbose):
                 if verbose:
                     print "+++ Test value set, and timer value > 0"
                 TEST = True
-            elif ( not TEST_VALUE and TIMER_VALUE == 0):  # # Thanks to Alan Riley for spotting this.
+            elif (not TEST_VALUE and TIMER_VALUE == 0):  # # Thanks to Alan Riley for spotting this.
                 if verbose:
                     print "+++ Test value not set, and timer value == 0"
                 TEST = True
@@ -477,20 +492,19 @@ def process_schedules(cursor, cnx, now, process, verbose):
                 SCHED_TEST_TIMERS = False
         
             if verbose:
-                #print "Timer value: %s" % TIMER_VALUE
-                #print "Test value: %s" % TEST_VALUE
+                # print "Timer value: %s" % TIMER_VALUE
+                # print "Test value: %s" % TEST_VALUE
                 print "Schedule test timers: %s" % SCHED_TEST_TIMERS
               
-                #print "Schedule test time: %s" % SCHED_TEST_TIME
-                #print "Schedule test day: %s" % SCHED_TEST_DAY
-                #print "Schedule test sensors: %s" % SCHED_TEST_SENSORS
-                #print "Schedule test modes: %s" % SCHED_TEST_MODES
-                #print "Schedule test timers: %s" % SCHED_TEST_TIMERS     
+                # print "Schedule test time: %s" % SCHED_TEST_TIME
+                # print "Schedule test day: %s" % SCHED_TEST_DAY
+                # print "Schedule test sensors: %s" % SCHED_TEST_SENSORS
+                # print "Schedule test modes: %s" % SCHED_TEST_MODES
+                # print "Schedule test timers: %s" % SCHED_TEST_TIMERS     
         
         # check if schedule is active
         
-        
-        if process: # should we really set devices
+        if process:  # should we really set devices
             if (SCHED_TEST_TIME 
                 and SCHED_TEST_DAY
                 and SCHED_TEST_SENSORS 
@@ -510,34 +524,33 @@ def process_schedules(cursor, cnx, now, process, verbose):
             results_timers = db_update(cursor, query, verbose)
             db_close_cursor(cnx, cursor)
             
-        conclusions.append({'scheduleID': SCHED_ID, 
-                            'scheduleName': SCHED_NAME, 
-                            'minToStart': minToStart, 
-                            'minToEnd': minToEnd, 
-                            'testToday': SCHED_TEST_DAY, 
-                            'setPoint': setPoint, 
-                            'sensorCalls': SCHED_TEST_SENSORS, 
+        conclusions.append({'scheduleID': SCHED_ID,
+                            'scheduleName': SCHED_NAME,
+                            'minToStart': minToStart,
+                            'minToEnd': minToEnd,
+                            'testToday': SCHED_TEST_DAY,
+                            'setPoint': setPoint,
+                            'sensorCalls': SCHED_TEST_SENSORS,
                             'modeCalls': SCHED_TEST_MODES,
-                            'timerCalls': SCHED_TEST_TIMERS, 
+                            'timerCalls': SCHED_TEST_TIMERS,
                             'scheduleActive': scheduleActive})
             
         cursor = db_create_cursor(cnx)
         results_timers = db_update(cursor, query, verbose)
         db_close_cursor(cnx, cursor)
         
-        
-    #verbose = True    
+    # verbose = True    
     for conclusion in conclusions:
         if verbose:
             print "\nSchedule %s: %s\n--------------------" % (conclusion['scheduleID'], conclusion['scheduleName']) 
             print "Active today: %s" % conclusion['testToday']
             print "Minutes to start: %s" % conclusion['minToStart']
             print "Minutes to end: %s" % conclusion['minToEnd']
-            #print "Set point: %s" % conclusion['setPoint']
-            #print "Sensor calls: %s" % conclusion['sensorCalls']
-            #print "Mode calls: %s" % conclusion['modeCalls']
-            #print "Timer calls: %s" % conclusion['timerCalls']
-            #print "Device active: %s" % conclusion['deviceActive']
+            # print "Set point: %s" % conclusion['setPoint']
+            # print "Sensor calls: %s" % conclusion['sensorCalls']
+            # print "Mode calls: %s" % conclusion['modeCalls']
+            # print "Timer calls: %s" % conclusion['timerCalls']
+            # print "Device active: %s" % conclusion['deviceActive']
         
         if conclusion['testToday'] and conclusion['modeCalls'] and conclusion['timerCalls']:
             activeNow.append(conclusion)
@@ -556,9 +569,4 @@ def process_schedules(cursor, cnx, now, process, verbose):
             print
             
     return activeNow
-        
-        
-
-
-    
 

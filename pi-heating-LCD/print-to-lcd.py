@@ -6,10 +6,10 @@ import getopt, sys, time
 
 from datetime import datetime, timedelta
 
-from modules import (db_connect, db_create_cursor, db_close_cursor, db_disconnect, db_query, 
-                     initialize_lcd, print_to_LCD, 
-                     remove_leading_zero, random_chars, 
-                     active_schedules, active_devices, process_schedules, 
+from modules import (db_connect, db_create_cursor, db_close_cursor, db_disconnect, db_query,
+                     initialize_lcd, print_to_LCD,
+                     remove_leading_zero, random_chars,
+                     active_schedules, active_devices, process_schedules,
                      onError, usage)
 
 try:
@@ -187,7 +187,7 @@ if stopModeTimer:
      
 # check and run schedules
 timeNow = datetime.now()
-activeNow = process_schedules(cursor, cnx, timeNow, True, False) # (cursor, cnx, timeNow, process, verbose)
+activeNow = process_schedules(cursor, cnx, timeNow, True, False)  # (cursor, cnx, timeNow, process, verbose)
 
 if activeNow:
     for schedule in activeNow:
@@ -195,17 +195,17 @@ if activeNow:
         if verbose:
             print "\n+++ Schedule %s: %s is active" % (schedule['scheduleID'], schedule['scheduleName'])
             print "    Trying to reach %s degrees" % schedule['setPoint']
-            #if schedule['scheduleActive']:
+            # if schedule['scheduleActive']:
             #    print "+++ Schedule is activated"
-            #else:
+            # else:
             #    print "+++ Schedule is not activated"
-            #print
+            # print
 else:
     if verbose:
         print "+++ No active schedules now"
 
-#checkUpcoming = True
-#if checkUpcoming:       
+# checkUpcoming = True
+# if checkUpcoming:       
 #    newSetpointFound = False 
 #    timeForward = timeNow
 #    nextSetPoint = -1
@@ -232,17 +232,17 @@ else:
 
 # what will happen next
 
-if not mode_value: # mode is not set
+if not mode_value:  # mode is not set
 
-    if timer_value != 0: # timer is active
-        timerEnd = (timeNow + timedelta(minutes = timer_value)).strftime('%H:%M')
+    if timer_value != 0:  # timer is active
+        timerEnd = (timeNow + timedelta(minutes=timer_value)).strftime('%H:%M')
         # what would happen if timer_value == 0
         
     # are there any upcoming schedules
             
 # what to write to lcd
-t = u"\u00b0" # degree sign
-inf = u"\u221e" # infinity symbol
+t = u"\u00b0"  # degree sign
+inf = u"\u221e"  # infinity symbol
 
 if not line_1:
     day = remove_leading_zero(timeNow.strftime('%d'))
@@ -254,7 +254,7 @@ if not line_2:
     if mode_value:
         line_2 = "%s%s %s" % (int(activeNow[0]['setPoint']), t, inf)
     elif timer_value != 0:
-        line_2 = "%s%s @%s" % (int(activeNow[0]['setPoint']), t, timerEnd )
+        line_2 = "%s%s @%s" % (int(activeNow[0]['setPoint']), t, timerEnd)
     else:
         line_2 = "%s%s %s" % (int(activeNow[0]['setPoint']), t, inf)
     #    #line_2 = random_chars()
@@ -262,7 +262,7 @@ if not line_2:
 
 # print to lcd
 if light:
-    lcd, lcd_wake_time, lcd_columns  = initialize_lcd(verbose) #load lcd
+    lcd, lcd_wake_time, lcd_columns = initialize_lcd(verbose)  # load lcd
     
     # clear screen and turn backlight on
     lcd.clear()
@@ -292,7 +292,4 @@ if verbose:
 
 # close db
 db_disconnect(cnx, verbose)
-
-
-
 

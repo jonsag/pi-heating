@@ -70,8 +70,8 @@ function getSQL($selection, $table, $condition, $groupby)
         }
         if ($_GET['last'] == "month") {
             // $sql = "SELECT $selection FROM $table WHERE MONTH(ts) = MONTH(CURDATE()) - 1 " . $groupby;
-            $sql ="SELECT $selection FROM $table WHERE YEAR(ts) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(ts) = MONTH(CURDATE() - INTERVAL 1 MONTH)" . $groupby;
-            //$sql = "SELECT $selection FROM $table WHERE YEARMONTH(ts) = YEARMONTH(NOW() - INTERVAL 1 MONTH)" . $groupby;
+            $sql = "SELECT $selection FROM $table WHERE YEAR(ts) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(ts) = MONTH(CURDATE() - INTERVAL 1 MONTH)" . $groupby;
+            // $sql = "SELECT $selection FROM $table WHERE YEARMONTH(ts) = YEARMONTH(NOW() - INTERVAL 1 MONTH)" . $groupby;
             $selection = "last month";
         }
         if ($_GET['last'] == "week") {
@@ -117,15 +117,15 @@ function create_selection($groupBy)
         $groupedby = "hour";
         $selection = "DATE_FORMAT(ts, '%Y-%m-%d %H:%i') AS ts";
     } else if ($_GET['groupBy'] == "day") {
-        $groupby = " GROUP BY DAY(ts)";
+        $groupby = " GROUP BY DATE(ts)";
         $groupedby = "day";
         $selection = "DATE_FORMAT(ts, '%Y-%m-%d') AS ts";
     } else if ($_GET['groupBy'] == "week") {
-        $groupby = " GROUP BY WEEK(ts)";
+        $groupby = " GROUP BY YEAR(ts), WEEK(ts)";
         $groupedby = "week";
         $selection = "DATE_FORMAT(ts, '%Y-%m-%d') AS ts";
     } else if ($_GET['groupBy'] == "month") {
-        $groupby = " GROUP BY MONTH(ts)";
+        $groupby = " GROUP BY YEAR(ts), MONTH(ts)";
         $groupedby = "month";
         $selection = "DATE_FORMAT(ts, '%Y-%m') AS ts";
     } else if ($_GET['groupBy'] == "year") {
