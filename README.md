@@ -23,7 +23,7 @@ $ dd bs=4M if=2017-11-29-raspbian-stretch-lite.img of=/dev/mmcblk0 conv=fsync st
 Remove SD-card and insert it again to make new partitons visible     
 
 Mount the first partition  
-$ sudo mount /dev//dev/mmcblk0p1 /mnt/tmp  
+$ sudo mount /dev/mmcblk0p1 /mnt/tmp  
 
 Write empty file to boot partition to enable ssh at boot  
 $ sudo touch /mnt/tmp/ssh  
@@ -61,7 +61,7 @@ Installation
 $ cd /home/pi  
 $ git clone https://github.com/jonsag/pi-heating.git  
 
-$ cd /home/pi/pi-heating
+$ cd /home/pi/pi-heating  
 
 On pi running as hub or hub/remote:
 -----------------------------
@@ -171,7 +171,7 @@ $ sudo python setup.py install
 Install gpio-watch by larsks from https://github.com/larsks/gpio-watch  
 $ cd /home/pi/pi-heating/gpio-watch  
 $ make  
-$ sudo make install
+$ sudo make install  
 
 Hook up LCD and buttons:
 -----------------------------
