@@ -4,12 +4,13 @@
 from click.termui import clear
 
 # import modules
+import sys
 from math import sqrt
 
 from resistor import main
 
 
-verbose = True
+verbose = False
 
 E12 = [1.0, 1.2, 1.5, 
        1.8, 2.2, 2.7, 
@@ -57,6 +58,7 @@ E96 = [1.00, 1.02, 1.05,
        9.31, 9.53, 9.76]
 
 def findClosestResistor(idealResistance, verbose):
+    print "\nSingle resistor:"
     decade = 0
     difference = -1
     oldDifference = -1
@@ -84,8 +86,8 @@ def findClosestResistor(idealResistance, verbose):
             break
         
     
-    print "\nClosest in E12 series: %s ohm, %s%%" % (oldResistor, oldDifference * 100)
-    print "                       %s ohm, %s%%" % (thisResistor, difference * 100)
+    print "+++ Closest in E12 series: %s ohm, %s%%" % (oldResistor, oldDifference * 100)
+    print "                           %s ohm, %s%%" % (thisResistor, difference * 100)
     
     decade = 0
     difference = -1
@@ -114,8 +116,8 @@ def findClosestResistor(idealResistance, verbose):
             break
         
     
-    print "\nClosest in E24 series: %s ohm, %s%%" % (oldResistor, oldDifference * 100)
-    print "                       %s ohm, %s%%" % (thisResistor, difference * 100)
+    print "\n+++ Closest in E24 series: %s ohm, %s%%" % (oldResistor, oldDifference * 100)
+    print "                           %s ohm, %s%%" % (thisResistor, difference * 100)
     
     
     decade = 0
@@ -145,8 +147,8 @@ def findClosestResistor(idealResistance, verbose):
             break
         
     
-    print "\nClosest in E96 series: %sohm, %s%%" % (oldResistor, oldDifference * 100)
-    print "                       %sohm, %s%%" % (thisResistor, difference * 100)
+    print "\n+++ Closest in E96 series: %s ohm, %s%%" % (oldResistor, oldDifference * 100)
+    print "                           %s ohm, %s%%" % (thisResistor, difference * 100)
     
 print "\n\nThis will help you calculate the burden resistor for the YHDC SCT-013-000 CT sensor.\n\n"
 
@@ -207,13 +209,12 @@ if verbose:
 
 idealBurdenResistance = (arduinoVoltage / 2) / secondaryPeakCurrent
 
-if verbose:
-    print "--- Ideal burden resistor: %s ohm" % idealBurdenResistance
+print "\n+++ Ideal burden resistor: %s ohm" % idealBurdenResistance
     
 findClosestResistor(idealBurdenResistance, verbose)
     
 while True:
-    print "\nCombining two resistors: \nWhat tolerance on resistor do you use?\n1: E12, 10%\n2: E24, 5%\n3: E96, 1%"
+    print "\nCombining two resistors: \nWhat tolerance on resistor do you use?\n1: E12, 10%\n2: E24, 5%\n3: E96, 1%\n4: Exit"
     tolerance = raw_input("? ")
     if not tolerance:
         tolerance = "1"
@@ -227,6 +228,8 @@ while True:
     elif tolerance == "3":
         tolerance = 1
         break
+    elif tolerance == "4":
+        sys.exit(0)
     else:
         print "%s is not a valid choice!\nTry again\n" % tolerance
     

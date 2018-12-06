@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 # Encoding: UTF-8
 
@@ -162,12 +162,12 @@ def main(resistance, tolerance):
     
     #Sort and print result
     out.sort(key=lambda i: abs(i[4])) #Sort from lowest to highest error
-    print('Desired Resistance: ', toSI(rd, 'Ohm', 5))
+    print '\nDesired Resistance: ', toSI(rd, ' ohm', 5)
     for i in out:
-        print('{:>10}'.format(toSI(i[0], 'Ohm')), ' ', i[1],
-              '{:>10}'.format(toSI(i[2], 'Ohm')), '  =  ',
-              '{:10}'.format(toSI(i[3], 'Ohm')), '  ',
-              '({:+3.3%})'.format(i[4]))
+        print ("{:>10}".format(toSI(i[0], " ohm")), " ", i[1],
+               "{:>10}".format(toSI(i[2], " ohm")), "  =  ",
+               "{:10}".format(toSI(i[3], " ohm")), "  ",
+               "({:+3.3%})".format(i[4]))
         
 if __name__== "__main__":
     resistance = sys.argv[1]

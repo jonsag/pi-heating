@@ -145,7 +145,7 @@ Reboot pi
 Find out tty-device  
 $ dmesg | grep tty  
 Probably named someting like '/dev/ttyACM0'  
-Edit /var/www.pi-heating-weather/weather.php  
+Edit /var/www/pi-heating-weather/weather.php  
 Change line 32  
 	define("PORT","/dev/ttyACM0");  
 so it matches the output from above  
@@ -230,6 +230,10 @@ $ rsync -rci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-hub-extended-log
 $ rsync -rci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-hub/www/* pi@raspberry03:/var/www/pi-heating-hub/  
 
 $ rsync -raci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-LCD/* pi@raspberry05:/home/pi/pi-heating-LCD/  
+
+URLs:
+-----------------------------
+Pi heating hub: <IP>:8080/status.php  
 
 
 
