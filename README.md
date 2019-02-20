@@ -18,7 +18,7 @@ Unmount if mounted
 $ umount /dev/mmcblk0p1  
 
 Write image to SD-card  
-$ dd bs=4M if=2017-11-29-raspbian-stretch-lite.img of=/dev/mmcblk0 conv=fsync status=progress 
+$ sudo dd bs=4M if=2017-11-29-raspbian-stretch-lite.img of=/dev/mmcblk0 conv=fsync status=progress 
 
 Remove SD-card and insert it again to make new partitons visible     
 
@@ -233,7 +233,40 @@ $ rsync -raci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-LCD/* pi@raspbe
 
 URLs:
 -----------------------------
-Pi heating hub: <IP>:8080/status.php  
+On remote:  
+Sensors count: IP:8081/count.php  
+Sensor name for sensor #1: IP:8081/name.php?id=1  
+Sensor value for sensor #1: IP:8081/value.php?id=1
+
+On hub:  
+Pi heating hub: IP:8080/status.php  
+
+
+Calculate burden resistor:
+=============================
+$ python resistor.py <resistance> <tolerance>
+
+
+Testing:  
+-----------------------------
+Below is only for testing purpose  
+Use with caution!  
+
+On hub:  
+Test LCD: $HOME/pi-heating-LCD/print-to-lcd.py -1 test1 -2 test2  
+View config file: cat $HOME/pi-heating-hub/config/config.ini
+Login to database: mysql -u pi -ppassword pi_heating_db (using password from the above config)  
+Change ip on sensor: UPDATE sensors SET ip = 'new ip' WHERE ip = 'old ip';  
+
+On remote:  
+Show sensor ids: ls /sys/bus/w1/devices/  
+
+
+
+
+
+
+
 
 
 
