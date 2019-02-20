@@ -200,11 +200,13 @@ $ tar -xvJf arduino-*.tar.xz
 $ cd arduino-*  
 $ ./install.sh  
 
+
 Install Average library:
 -----------------------------
 Copy directory Average to your Arduino/libraries directory  
 
 Start Arduini IDE  
+
 
 Check settings and install sketch:
 -----------------------------
@@ -230,6 +232,7 @@ $ rsync -rci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-hub-extended-log
 $ rsync -rci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-hub/www/* pi@raspberry03:/var/www/pi-heating-hub/  
 
 $ rsync -raci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-LCD/* pi@raspberry05:/home/pi/pi-heating-LCD/  
+
 
 URLs:
 -----------------------------
