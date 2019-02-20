@@ -91,10 +91,8 @@ Build arduino-power-logger
 Edit sketch passive_logger_no_time_static_ip.ino  
 Change lines 41-43  
 
-	byte mac[] = {  
-		  0x90, 0xA2, 0xDA, 0x0C, 0x00, 0x76 }; // MAC address, printed on a sticker on the shield
-		IPAddress ip(192,168,10,10); // ethernet shields wanted IP  
-	to your boards MAC and desired IP  
+	byte mac[] = {0x90, 0xA2, 0xDA, 0x0C, 0x00, 0x76 }; // MAC address, printed on a sticker on the shield
+	IPAddress ip(192,168,10,10); // ethernet shields wanted IP to your boards MAC and desired IP  
 
 Start up your arduino hooked up to your LAN  
 
