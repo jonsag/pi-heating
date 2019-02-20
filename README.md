@@ -9,25 +9,26 @@ Download Raspbian Stretch Lite from https://www.raspberrypi.org/downloads/raspbi
 Choose the Light zip-file  
 
 Cd to where your download is  
-$ unzip 2017-11-29-raspbian-stretch-lite.zip  
+>$ unzip 2017-11-29-raspbian-stretch-lite.zip  
 
 Insert SD-card and find out drive letter  
-$ dmesg  
+>$ dmesg  
+
 For example /dev/mmcblk0 or /dev/sdb  
 
 Unmount if mounted  
-$ umount /dev/mmcblk0p1  
+>$ umount /dev/mmcblk0p1  
 
 Write image to SD-card  
-$ sudo dd bs=4M if=2017-11-29-raspbian-stretch-lite.img of=/dev/mmcblk0 conv=fsync status=progress 
+>$ sudo dd bs=4M if=2017-11-29-raspbian-stretch-lite.img of=/dev/mmcblk0 conv=fsync status=progress 
 
 Remove SD-card and insert it again to make new partitons visible     
 
 Mount the first partition  
-$ sudo mount /dev/mmcblk0p1 /mnt/tmp  
+>$ sudo mount /dev/mmcblk0p1 /mnt/tmp  
 
 Write empty file to boot partition to enable ssh at boot  
-$ sudo touch /mnt/tmp/ssh  
+>$ sudo touch /mnt/tmp/ssh  
 
 Remove SD-card and insert it a Rpi connected to your local network and boot it up 
 
@@ -37,10 +38,10 @@ Connect to Rpi via ssh
 Login with user: pi and password:raspberry 
 
 Update  
-$ sudo apt-get update && sudo apt-get upgrade  
+>$ sudo apt-get update && sudo apt-get upgrade  
 
 Configure  
-$ sudo raspi-config   
+>$ sudo raspi-config   
 1		Change password  
 2 N1	Change hostname  
 3 T1	Set locales  
@@ -54,27 +55,28 @@ Reboot to set new options
 
 Install requisites
 -----------------------------
-$ sudo apt-get install git  
+>$ sudo apt-get install git  
 
 
 Installation
 =============================
-$ cd /home/pi  
-$ git clone https://github.com/jonsag/pi-heating.git  
+>$ cd /home/pi  
+>$ git clone https://github.com/jonsag/pi-heating.git  
 
-$ cd /home/pi/pi-heating  
+>$ cd /home/pi/pi-heating  
 
 On pi running as hub or hub/remote:
 -----------------------------
-$ sudo ./pi-heating-hub-install.sh  
+>$ sudo ./pi-heating-hub-install.sh  
 
 Initialize mysql  
-$ sudo mysql -u root -p  
+>$ sudo mysql -u root -p  
+
 Use the same password as pi login  
 Quit with exit  
 
-$ sudo ./pi-heating-hub-mysql-setup.sh  
-$ sudo ./pi-heating-hub-secure.sh  
+>$ sudo ./pi-heating-hub-mysql-setup.sh  
+>$ sudo ./pi-heating-hub-secure.sh  
 
 Hook up relay to hub:
 -----------------------------
@@ -84,8 +86,8 @@ Pin 10 - GPIO 15 to heating relay signal
 
 If hub also will have extended weather and power logging:
 -----------------------------
-$ sudo ./pi-heating-extended-log-install.sh  
-		$ wget "http://www.triconsole.com/php/calendar_download.php" -O "/home/pi/calendar.zip"  
+>$ sudo ./pi-heating-extended-log-install.sh  
+>$ wget "http://www.triconsole.com/php/calendar_download.php" -O "/home/pi/calendar.zip"  
 
 Build arduino-power-logger  
 Edit sketch passive_logger_no_time_static_ip.ino  
@@ -98,13 +100,15 @@ Start up your arduino hooked up to your LAN
 
 Edit /var/www/pi-heating-extended-log/config.php  
 Change lines 24-25  
+
 	$powerUrl = 'http://192.168.10.10';  
 	$powerPollReset = 'http://192.168.10.10/?pollReset';  
+
 to same IP as above  
 
 On pi running solely as remote or as hub/remote:
 -----------------------------
-$ sudo ./pi-heating-remote-install.sh  
+>$ sudo ./pi-heating-remote-install.sh  
 
 Hook up 1-wire temp sensors to remote:
 -----------------------------
@@ -114,39 +118,43 @@ Pin 7 - GPIO 4 to 1-wire signal
 Connect 4,7k resistor between power and signal  
 
 Find 1-wire devices serial numbers  
-$ ls /sys/bus/w1/devices/  
+>$ ls /sys/bus/w1/devices/  
 
 Edit /home/pi/pi-heating-remote/configs/sensors and insert serials and names, for example  
 28-0516b4ff09ff = Out  
 
 To see value  
-$ cat /sys/bus/w1/devices/28-0416c1ec26ff/w1_slave  
+>$ cat /sys/bus/w1/devices/28-0416c1ec26ff/w1_slave  
 
 See how many devices added  
-$ curl localhost:8081/count.php && echo  
+>$ curl localhost:8081/count.php && echo  
 
 See names  
-$ curl localhost:8081/name.php?id=1 && echo  
+>$ curl localhost:8081/name.php?id=1 && echo  
+
 change id=1 to id=2 etc  
 
 See values  
-$ curl localhost:8081/value.php?id=1 && echo  
+>$ curl localhost:8081/value.php?id=1 && echo  
 
 On pi running as weather logger:
 -----------------------------
-$ sudo ./pi-heating-weather-install.sh  
+>$ sudo ./pi-heating-weather-install.sh  
 
 Add apache user to dialout and tty group  
-$ sudo usermod -a -G dialout, tty www-data  
+>$ sudo usermod -a -G dialout, tty www-data  
 
 Reboot pi  
 
 Find out tty-device  
-$ dmesg | grep tty  
+>$ dmesg | grep tty  
+
 Probably named someting like '/dev/ttyACM0'  
 Edit /var/www/pi-heating-weather/weather.php  
 Change line 32  
+
 	define("PORT","/dev/ttyACM0");  
+
 so it matches the output from above  
 
 
@@ -157,21 +165,21 @@ The LCD and buttons will work if:
 * you have a single mode that pulls up the temperature  
 * you have a single timer that pulls up the temperature  
 
-$ sudo ./pi-heating-LCD-install.sh  
+>$ sudo ./pi-heating-LCD-install.sh  
 
-$ sudo apt-get install python-dev python-setuptools build-essential python-smbus  
-$ sudo easy_install -U distribute  
-$ sudo apt-get install python-pip  
-$ sudo pip install rpi.gpio  
+>$ sudo apt-get install python-dev python-setuptools build-essential python-smbus  
+>$ sudo easy_install -U distribute  
+>$ sudo apt-get install python-pip  
+>$ sudo pip install rpi.gpio  
 
 Install Adafruit_Python_CharLCD python module by Adafruit from https://github.com/adafruit/Adafruit_Python_CharLCD.git  
-$ cd /home/pi/pi-heating/Adafruit_Python_CharLCD  
-$ sudo python setup.py install  
+>$ cd /home/pi/pi-heating/Adafruit_Python_CharLCD  
+>$ sudo python setup.py install  
 
 Install gpio-watch by larsks from https://github.com/larsks/gpio-watch  
-$ cd /home/pi/pi-heating/gpio-watch  
-$ make  
-$ sudo make install  
+>$ cd /home/pi/pi-heating/gpio-watch  
+>$ make  
+>$ sudo make install  
 
 Hook up LCD and buttons:
 -----------------------------
@@ -195,11 +203,11 @@ Installing and running Arduino IDE:
 =============================
 
 Download Arduino IDE from https://www.arduino.cc/en/Main/Software  
-$ mv arduino-*.tar.xz ~/bin  
-$ cd ~/bin  
-$ tar -xvJf arduino-*.tar.xz  
-$ cd arduino-*  
-$ ./install.sh  
+>$ mv arduino-*.tar.xz ~/bin  
+>$ cd ~/bin  
+>$ tar -xvJf arduino-*.tar.xz  
+>$ cd arduino-*  
+>$ ./install.sh  
 
 Install Average library:
 -----------------------------
@@ -213,24 +221,25 @@ Select Board and Port
 Open sketch  
 Compile and upload to arduino  
 
-$ stty -F /dev/ttyACM0 ispeed 9600 ospeed 9600 -ignpar cs8 -cstopb -echo  
+>$ stty -F /dev/ttyACM0 ispeed 9600 ospeed 9600 -ignpar cs8 -cstopb -echo  
 
 Connect to arduino with screen:  
-$ screen /dev/ttyACM0 9600 -S <session name>  
+>$ screen /dev/ttyACM0 9600 -S <session name>  
+
 To get screen command promp, enter  
 [C-a] :  
 Then type  
 quit  
 and [Return]  
 	or from outside of screen  
-$ screen -X -S <session name> quit  
+>$ screen -X -S <session name> quit  
 
 Kill screen with ^ak or control-a k    
 
-$ rsync -rci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-hub-extended-log/www/* pi@raspberry03:/var/www/pi-heating-hub-extended-log/  
-$ rsync -rci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-hub/www/* pi@raspberry03:/var/www/pi-heating-hub/  
+>$ rsync -rci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-hub-extended-log/www/* pi@raspberry03:/var/www/pi-heating-hub-extended-log/  
+>$ rsync -rci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-hub/www/* pi@raspberry03:/var/www/pi-heating-hub/  
 
-$ rsync -raci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-LCD/* pi@raspberry05:/home/pi/pi-heating-LCD/  
+>$ rsync -raci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-LCD/* pi@raspberry05:/home/pi/pi-heating-LCD/  
 
 URLs:
 -----------------------------
@@ -245,7 +254,7 @@ Pi heating hub: IP:8080/status.php
 
 Calculate burden resistor:
 =============================
-$ python resistor.py \<resistance\> \<tolerance\>
+>$ python resistor.py \<resistance\> \<tolerance\>
 
 
 Testing:  
