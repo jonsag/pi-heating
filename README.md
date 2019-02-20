@@ -2,6 +2,7 @@ pi-heating
 
 Some scripts tweaked from https://github.com/JeffreyPowell  
 
+
 Installing OS
 =============================
 Download Raspbian Stretch Lite from https://www.raspberrypi.org/downloads/raspbian/  
@@ -89,10 +90,11 @@ $ sudo ./pi-heating-extended-log-install.sh
 Build arduino-power-logger  
 Edit sketch passive_logger_no_time_static_ip.ino  
 Change lines 41-43  
+
 	byte mac[] = {  
-	  0x90, 0xA2, 0xDA, 0x0C, 0x00, 0x76 }; // MAC address, printed on a sticker on the shield
-	IPAddress ip(192,168,10,10); // ethernet shields wanted IP  
-to your boards MAC and desired IP  
+		  0x90, 0xA2, 0xDA, 0x0C, 0x00, 0x76 }; // MAC address, printed on a sticker on the shield
+		IPAddress ip(192,168,10,10); // ethernet shields wanted IP  
+	to your boards MAC and desired IP  
 
 Start up your arduino hooked up to your LAN  
 
@@ -101,7 +103,6 @@ Change lines 24-25
 	$powerUrl = 'http://192.168.10.10';  
 	$powerPollReset = 'http://192.168.10.10/?pollReset';  
 to same IP as above  
-
 
 On pi running solely as remote or as hub/remote:
 -----------------------------
@@ -150,6 +151,7 @@ Change line 32
 	define("PORT","/dev/ttyACM0");  
 so it matches the output from above  
 
+
 If using LCD:
 =============================
 The LCD and buttons will work if:  
@@ -190,6 +192,7 @@ Pin 29 - GPIO 5		LCD pin 16 N_C2 - backlight on/off
 
 Pin 23 - button 1
 
+
 Installing and running Arduino IDE:
 =============================
 
@@ -200,13 +203,11 @@ $ tar -xvJf arduino-*.tar.xz
 $ cd arduino-*  
 $ ./install.sh  
 
-
 Install Average library:
 -----------------------------
 Copy directory Average to your Arduino/libraries directory  
 
 Start Arduini IDE  
-
 
 Check settings and install sketch:
 -----------------------------
@@ -233,7 +234,6 @@ $ rsync -rci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-hub/www/* pi@ras
 
 $ rsync -raci ~/Documents/EclipseWorkspace/pi-heating/pi-heating-LCD/* pi@raspberry05:/home/pi/pi-heating-LCD/  
 
-
 URLs:
 -----------------------------
 On remote:  
@@ -247,11 +247,11 @@ Pi heating hub: IP:8080/status.php
 
 Calculate burden resistor:
 =============================
-$ python resistor.py <resistance> <tolerance>
+$ python resistor.py \<resistance\> \<tolerance\>
 
 
 Testing:  
------------------------------
+=============================
 Below is only for testing purpose  
 Use with caution!  
 
