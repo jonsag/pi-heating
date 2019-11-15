@@ -42,6 +42,7 @@ Update
 
 Configure  
 >$ sudo raspi-config   
+
 1		Change password  
 2 N1	Change hostname  
 3 T1	Set locales  
@@ -51,6 +52,7 @@ Configure
 5 P7	Enable 1-wire at boot  
 7 A1	Expand file system to use whole SD-card  
 7 A3	Set memory split to 16  
+
 Reboot to set new options  
 
 Install requisites
@@ -213,7 +215,7 @@ Install Average library:
 -----------------------------
 Copy directory Average to your Arduino/libraries directory  
 
-Start Arduini IDE  
+Start Arduino IDE  
 
 Check settings and install sketch:
 -----------------------------
