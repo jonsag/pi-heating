@@ -907,4 +907,10 @@ Connection ~ 5700 4550
 Connection ~ 5900 4550
 Wire Wire Line
 	5900 4550 5900 6200
+Text Notes 9250 4600 0    50   ~ 0
+Green
+Text Notes 9250 5150 0    50   ~ 0
+Red
+Text Notes 9250 4050 0    50   ~ 0
+Yellow
 $EndSCHEMATC
