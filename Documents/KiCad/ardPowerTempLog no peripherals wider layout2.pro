@@ -1,4 +1,4 @@
-update=Mon 17 Feb 2020 05:30:36 PM CET
+update=Wed 19 Feb 2020 09:38:49 PM CET
 version=1
 last_client=pcbnew
 [general]
@@ -33,6 +33,8 @@ ViaDiameter1=0.8
 ViaDrill1=0.4
 ViaDiameter2=2.032
 ViaDrill2=0.762
+ViaDiameter3=3.048
+ViaDrill3=0.762
 dPairWidth1=0.2
 dPairGap1=0.25
 dPairViaGap1=0.25
@@ -244,6 +246,17 @@ Clearance=0.2
 TrackWidth=0.508
 ViaDiameter=0.8
 ViaDrill=0.4
+uViaDiameter=0.3
+uViaDrill=0.1
+dPairWidth=0.2
+dPairGap=0.25
+dPairViaGap=0.25
+[pcbnew/Netclasses/2]
+Name=30
+Clearance=0.762
+TrackWidth=0.762
+ViaDiameter=3.048
+ViaDrill=0.762
 uViaDiameter=0.3
 uViaDrill=0.1
 dPairWidth=0.2
