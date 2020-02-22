@@ -19,7 +19,7 @@ require('calendar/tc_calendar.php');
 
 <html>
 <head>
-<title>JS Arduino pulseLog</title>
+<title>piPowerTempLog</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=7" />
 
@@ -33,7 +33,7 @@ require('calendar/tc_calendar.php');
 </head>
 
 <body>
-<h1><center>JS ArduinoLog</center></h1>
+<h1><center>piPowerTempLog</center></h1>
 
 <form>
 

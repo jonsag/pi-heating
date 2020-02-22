@@ -109,7 +109,7 @@ Installation
 ==========
 Install requisites
 ----------
->$ sudo apt install git
+>$ sudo apt install git ttf-mscorefonts-installer
 
 Other useful tools
 ----------
@@ -149,31 +149,27 @@ Download calendar_localized and unzip it ( http://www.triconsole.com/php/calenda
 >$ unzip calendar_localized*
 
 Move folder to correct location  
->$ sudo mv calendar /var/www/ardionolog/
+>$ sudo mv calendar /var/www/html/arduinolog/
 
-Install some fonts  
->$ sudo apt-get install ttf-mscorefonts-installer
-
-Add some symbolic link  
+Add symbolic links for fonts  
 >$ cd /usr/share/fonts/truetype
 >$ sudo ln -s msttcorefonts/arialbd.ttf arialbd.ttf
 >$ sudo ln -s msttcorefonts/arial.ttf arial.ttf
 
 Change ownership  
->$ sudo chown www-data:www-data -R /var/www/arduinolog
->$ sudo chown www-data:www-data -R /var/www/jpgraph*
+>$ sudo chown www-data:www-data -R /var/www/html
 
 Add a line to your crontab  
 >$ crontab -e
 Add the following:  
 
-	*/2 * * * * /usr/bin/php /var/www/arduinolog/arduinoPoller.php 0 1 cron > /dev/null 2>&1
+	*/2 * * * * /usr/bin/php /var/www/html/arduinolog/arduinoPoller.php 0 1 cron > /dev/null 2>&1
 
 Misc settings
 ----------
 Make sure your /etc/hosts has an entry for the arduino, for example:  
 
-	192.168.10.52   ardCurrentTempLog
+	192.168.10.52   arduino1
 	
 	
 	
