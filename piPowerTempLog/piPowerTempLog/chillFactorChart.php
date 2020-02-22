@@ -41,7 +41,7 @@ else {
 
 $query = mysqli_query($db_con, $answer[0]);
 
-while($tempRow = mysqli_fetch_array($db_con, $query )) {
+while($tempRow = mysqli_fetch_array($query )) {
   $timeStamp[$counter1] = $tempRow['ts'];
   $outdoorTemp[$counter1] = $tempRow[1 + $id];
   

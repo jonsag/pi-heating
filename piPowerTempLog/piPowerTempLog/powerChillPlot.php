@@ -47,7 +47,8 @@ function drawChart() {
         $deviceSql = "SELECT id FROM 1wireDevices WHERE place='ute'";
         $result = mysqli_query($db_con, $deviceSql);
         if ($result) {
-            $id = (mysqli_result($result, 0));
+            //$id = (mysqli_result($result, 0));
+            $id = mysqli_fetch_array($result);
         } else {
             die('Invalid query: ' . mysqli_error($db_con));
         }
