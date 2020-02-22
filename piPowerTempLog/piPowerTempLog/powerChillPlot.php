@@ -55,7 +55,8 @@ function drawChart() {
         $deviceSql = "SELECT temp1 FROM `tempLog` WHERE `ts` LIKE '{$time}%'";
         $result = mysqli_query($db_con, $deviceSql);
         if ($result) {
-            $temp = (mysqli_result($result, 0));
+            //$temp = (mysqli_result($result, 0));
+            $temp = mysqli_fetch_array($result);
         } else {
             die('Invalid query: ' . mysqli_error($db_con));
         }
