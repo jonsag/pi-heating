@@ -30,12 +30,12 @@ function drawChart() {
 
       ///// find average wind
       $weatherSql = "SELECT averageWindSpeed FROM `weatherLog` WHERE `ts` LIKE '{$time}%'";
-      $result = mysqli_query($weatherSql);
+      $result = mysqli_query($db_con, $weatherSql);
       if ($result) {
 	$averageWindSpeed = (mysqli_result($result,0));
       }
       else {
-	die('Invalid query: ' . mysqli_error());
+          die('Invalid query: ' . mysqli_error($db_con));
       }
 
       ///// find temp
