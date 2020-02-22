@@ -25,7 +25,7 @@ function drawChart() {
 
     $newSql = $sql . " AND 'currentR1'!='0'";
 
-    $query = mysqli_query($sql);
+    $query = mysqli_query($db_con, $sql);
 
     // read result
     while ($row = mysqli_fetch_array($query)) {
