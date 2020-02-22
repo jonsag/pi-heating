@@ -123,6 +123,9 @@ for ($i = 0; $i < $numLines; $i++) {
       $tempValue[$s] = $matches[2];
       $tempValue[$s] = substr($tempValue[$s], 0, -6);
     }
+    else {
+        $tempValue[$s] = 0;
+    }
   }
   
   ///// find pulsesSinceStart
@@ -203,7 +206,7 @@ if ($poll) {
     die('Could not connect: ' . mysqli_error());
   }
   
-  mysqli_select_db($db_name);
+  mysqli_select_db($db_con, $db_name);
   
   $query = "INSERT INTO pulseLog (currentTime, timeDiff, unixTime, currentR1, currentS2, currentT3, currentAverageR1, currentAverageS2, currentAverageT3, temp0, temp1, temp2, temp3, temp4, temp5,  pulses, event)
    VALUES (
@@ -225,7 +228,7 @@ if ($poll) {
    '$pulses',
    '$event')";
   
-  $result = mysqli_query($query);
+  $result = mysqli_query($db_con, $query);
   
   if ($result) {
     echo "OK<br>\n";
@@ -233,7 +236,7 @@ if ($poll) {
     file($pollReset);      
   }
   else {
-    die('Invalid query: ' . mysqli_error());
+    die('Invalid query: ' . mysqli_error($db_con));
   }
   
   mysqli_close($db_con);

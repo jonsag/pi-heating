@@ -9,7 +9,7 @@ $db_name = "arduino1";
 $username = "arduino";
 $password = "arduinopass";
 $db_con = mysqli_connect($db_host,$username,$password);
-$connection_string = mysqli_select_db($db_name);
+$connection_string = mysqli_select_db($db_con, $db_name);
 // Connection
 //mysqli_connect($db_host,$username,$password);
 //mysqli_select_db($db_name);

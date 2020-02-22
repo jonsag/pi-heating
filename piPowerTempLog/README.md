@@ -169,7 +169,7 @@ Misc settings
 ----------
 Make sure your /etc/hosts has an entry for the arduino, for example:  
 
-	192.168.10.52   arduino1
+	192.168.10.10   arduino1
 	
 	
 	
