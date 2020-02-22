@@ -38,7 +38,7 @@ function drawChart() {
      $query = mysqli_query($db_con, $sql);
     
     // read result
-     while($row = mysqli_fetch_array($db_con, $query)) {
+     while($row = mysqli_fetch_array($query)) {
       $rows++;
       echo "['{$row['ts']}', {$row['temp0']}, {$row['temp1']}]";
       echo ",\n";
