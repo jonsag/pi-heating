@@ -12,6 +12,10 @@ function drawChart() {
     <?php
     include ('config.php');
     include ('getSql.php');
+    
+    $groupBy = "";
+    $values = 1;
+    
 
     if(isset($_GET['values']) && !isset($_GET['groupBy'])) {
       $values = $_GET['values'];
@@ -48,11 +52,11 @@ function drawChart() {
     }
 
     // select database
-    mysqli_select_db($db_name) or die(mysqli_error());
+    mysqli_select_db($db_con, $db_name) or die(mysqli_error());
 
     $sql = $sql . $groupBy;
 
-    $result = mysqli_query($sql);
+    $result = mysqli_query($db_con, $sql);
     
     $noRows = mysqli_num_rows($result);
 
