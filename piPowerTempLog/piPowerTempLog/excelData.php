@@ -16,10 +16,10 @@ if (!$db_con) {
 }
 
 ///// choose database
-mysqli_select_db($db_name)
-or die(mysqli_error());
+mysqli_select_db($db_con, $db_name)
+or die(mysqli_error($db_con));
 
-$query = mysqli_query($sql);
+$query = mysqli_query($db_con, $sql);
 
 // first thing that we are going to do is make some functions for writing out
 // and excel file. These functions do some hex writing and to be honest I got

@@ -25,11 +25,11 @@ if (!$db_con) {
 }
 
 // select database
-mysqli_select_db($db_name) or die(mysqli_error());
+mysqli_select_db($db_con, $db_name) or die(mysqli_error($db_con));
 
 $sql = "SELECT * FROM 1wireDevices WHERE deviceType='temp'";
 
-$query = mysqli_query($sql);
+$query = mysqli_query($db_con, $sql);
 
 while($row = mysqli_fetch_array($query)) {
   $dallasInfo = file_get_contents('/sys/bus/w1/devices/'. $row['devicePath'] . '/w1_slave');

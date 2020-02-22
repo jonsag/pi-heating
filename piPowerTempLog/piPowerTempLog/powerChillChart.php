@@ -19,9 +19,9 @@ function drawChart() {
     }
 
     // select database
-    mysqli_select_db($db_name) or die(mysqli_error());
+    mysqli_select_db($db_con, $db_name) or die(mysqli_error($db_con));
     
-    $query = mysqli_query($sql);
+    $query = mysqli_query($db_con, $sql);
     
     // read result
     while($row = mysqli_fetch_array($query)) {

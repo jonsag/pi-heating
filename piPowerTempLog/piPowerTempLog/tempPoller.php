@@ -62,11 +62,11 @@ if (!$db_con) {
 }
 
 // select database                                                                   
-mysqli_select_db($db_name);
+mysqli_select_db($db_con, $db_name);
 
 $sql = "SELECT COUNT(*) FROM 1wireDevices WHERE deviceType='temp'";
 
-$query = mysqli_query($sql);
+$query = mysqli_query($db_con, $sql);
 
 $result = mysqli_fetch_row($query);
 
@@ -140,7 +140,7 @@ if ($poll) {
    '$tempValue[10]', 
    '$event')";
   
-  $result = mysqli_query($sql);
+  $result = mysqli_query($db_con, $sql);
   
   if ($result) {
     echo "OK";

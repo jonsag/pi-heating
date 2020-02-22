@@ -18,11 +18,11 @@ function drawChart() {
      }
      
      // select database
-     mysqli_select_db($db_name) or die(mysqli_error());
+     mysqli_select_db($db_con, $db_name) or die(mysqli_error($db_con));
      
      $placeSql = "SELECT * FROM 1wireDevices WHERE deviceType='temp'";
      
-     $query = mysqli_query($placeSql);
+     $query = mysqli_query($db_con, $placeSql);
 
      echo "['Time', ";
      

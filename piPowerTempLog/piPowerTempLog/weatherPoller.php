@@ -159,7 +159,7 @@ if ($poll) {
   }
 
   // select database
-  mysqli_select_db($db_name);
+  mysqli_select_db($db_con, $db_name);
   
   echo "Writing to MySQL...";
   lf();
@@ -175,7 +175,7 @@ if ($poll) {
    '$rainSinceLast',
    '$event')";
   
-  $result = mysqli_query($sql);
+  $result = mysqli_query($db_con, $sql);
   
   if ($result) {
     echo "OK";

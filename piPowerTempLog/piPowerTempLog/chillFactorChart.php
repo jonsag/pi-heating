@@ -25,11 +25,11 @@ if (!$db_con) {
 }
 
 ///// choose database
-mysqli_select_db($db_name) or die(mysqli_error());
+mysqli_select_db($db_con, $db_name) or die(mysqli_error($db_con));
 
 $sql = "SELECT id FROM 1wireDevices WHERE place='ute'";
 
-$result = mysqli_query($sql);
+$result = mysqli_query($db_con, $sql);
 
 if ($result) {
   $id = (mysqli_result($result,0));
