@@ -39,9 +39,9 @@ else {
   die('Invalid query: ' . mysqli_error());
 }
 
-$query = mysqli_query($answer[0]);
+$query = mysqli_query($db_con, $answer[0]);
 
-while($tempRow = mysqli_fetch_array( $query )) {
+while($tempRow = mysqli_fetch_array($db_con, $query )) {
   $timeStamp[$counter1] = $tempRow['ts'];
   $outdoorTemp[$counter1] = $tempRow[1 + $id];
   

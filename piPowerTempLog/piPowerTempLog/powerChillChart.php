@@ -40,11 +40,11 @@ function drawChart() {
 
         // /// find temp
         $deviceSql = "SELECT id FROM 1wireDevices WHERE place='ute'";
-        $result = mysqli_query($deviceSql);
+        $result = mysqli_query($db_con,$deviceSql);
         if ($result) {
             $id = (mysqli_result($result, 0));
         } else {
-            die('Invalid query: ' . mysqli_error());
+            die('Invalid query: ' . mysqli_error($db_con));
         }
         $deviceSql = "SELECT temp1 FROM `tempLog` WHERE `ts` LIKE '{$time}%'";
         $result = mysqli_query($deviceSql);
