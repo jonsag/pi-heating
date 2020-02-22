@@ -133,13 +133,17 @@ Copy contents of arduinolog to webroot
 
 Download jpgraph and extract ( http://jpgraph.net/download/ )  
 >$ sudo tar zxvf jpgraph* -C /var/www/html
->$ sudo cd /var/www/arduinolog
+>$ cd /var/www/html/arduinolog
 >$ sudo ln -s ../jpgraph*/src jpgraph
 
 Correct a line in jpgraph  
 >$ sudo emacs jpgraph/gd_image.inc.php
 
-Look for a line starting with "JpGraphError::RaiseL(25128);//('The function imageantialias()...", and comment it out with //  
+Look for a line starting with
+
+	JpGraphError::RaiseL(25128);//('The function imageantialias()...
+	
+, and comment it out with //  
 
 Download calendar_localized and unzip it ( http://www.triconsole.com/php/calendar_datepicker.php)  
 >$ unzip calendar_localized*
