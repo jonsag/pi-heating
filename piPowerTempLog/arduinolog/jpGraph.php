@@ -37,11 +37,11 @@ $timeSelection = $_GET['time'];
 
 ///// connect to database
 if (!$db_con) {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
 }
 
 ///// choose database
-mysql_select_db($db_name) or die(mysql_error());
+mysqli_select_db($db_name) or die(mysqli_error());
 
 /////
 ///// query mysql
@@ -49,37 +49,37 @@ mysql_select_db($db_name) or die(mysql_error());
 ///// last number of months, days, hours
 if (isset($_GET['years'])) {
   $yearss = $_GET['years'];
-  $query = mysql_query("SELECT * FROM pulseLog WHERE DATE_SUB(CURDATE(),INTERVAL $years YEAR) <= timeStamp")
-    or die(mysql_error());
+  $query = mysqli_query("SELECT * FROM pulseLog WHERE DATE_SUB(CURDATE(),INTERVAL $years YEAR) <= timeStamp")
+    or die(mysqli_error());
   $selection = "last " . $years . " years";
 }
 
 if (isset($_GET['months'])) {
   $months = $_GET['months'];
-  $query = mysql_query("SELECT * FROM pulseLog WHERE DATE_SUB(CURDATE(),INTERVAL $months MONTH) <= timeStamp")
-    or die(mysql_error());
+  $query = mysqli_query("SELECT * FROM pulseLog WHERE DATE_SUB(CURDATE(),INTERVAL $months MONTH) <= timeStamp")
+    or die(mysqli_error());
   $selection = "last " . $months . " months";
 }
 
 if (isset($_GET['weeks'])) {
   $weeks = $_GET['weeks'];
-  $query = mysql_query("SELECT * FROM pulseLog WHERE DATE_SUB(CURDATE(),INTERVAL $weeks MONTH) <= timeStamp")
-    or die(mysql_error());
+  $query = mysqli_query("SELECT * FROM pulseLog WHERE DATE_SUB(CURDATE(),INTERVAL $weeks MONTH) <= timeStamp")
+    or die(mysqli_error());
   $selection = "last " . $weeks . " weeks";
 }
 
 
 if (isset($_GET['days'])) {
   $days = $_GET['days'];
-  $query = mysql_query("SELECT * FROM pulseLog WHERE DATE_SUB(CURDATE(),INTERVAL $days DAY) <= timeStamp")
-        or die(mysql_error());
+  $query = mysqli_query("SELECT * FROM pulseLog WHERE DATE_SUB(CURDATE(),INTERVAL $days DAY) <= timeStamp")
+        or die(mysqli_error());
   $selection = "last " . $days . " days";
 }
 
 if (isset($_GET['hours'])) {
   $hours = $_GET['hours'];
-  $query = mysql_query("SELECT * FROM pulseLog WHERE DATE_SUB(NOW(),INTERVAL $hours HOUR) <= timeStamp")
-    or die(mysql_error());
+  $query = mysqli_query("SELECT * FROM pulseLog WHERE DATE_SUB(NOW(),INTERVAL $hours HOUR) <= timeStamp")
+    or die(mysqli_error());
   $selection = "last " . $hours . " hours";
 }
 
@@ -87,22 +87,22 @@ if (isset($_GET['hours'])) {
 if (isset($_GET['this'])) {
   if ($_GET['this'] == "year") {
 
-    //    or die(mysql_error());
+    //    or die(mysqli_error());
     $selection = "this year";
  }
   if ($_GET['this'] == "month") {
 
-    //    or die(mysql_error());
+    //    or die(mysqli_error());
     $selection = "this month";
   }
   if ($_GET['this'] == "week") {
 
-    //    or die(mysql_error());
+    //    or die(mysqli_error());
     $selection = "this week";
   }
   if ($_GET['this'] == "day") {
-    $query = mysql_query("SELECT * FROM pulseLog WHERE DATE(timeStamp) = CURDATE()")
-      or die(mysql_error());
+    $query = mysqli_query("SELECT * FROM pulseLog WHERE DATE(timeStamp) = CURDATE()")
+      or die(mysqli_error());
     $selection = "today";
   }
 }
@@ -111,29 +111,29 @@ if (isset($_GET['this'])) {
 if (isset($_GET['last'])) {
   if ($_GET['last'] == "year") {
 
-    //    or die(mysql_error());
+    //    or die(mysqli_error());
     $selection = "last year";
   }
   if ($_GET['last'] == "month") {
 
-    //    or die(mysql_error());
+    //    or die(mysqli_error());
     $selection = "last month";
   }
   if ($_GET['last'] == "week") {
 
-    //    or die(mysql_error());
+    //    or die(mysqli_error());
     $selection = "last week";
   }
   if ($_GET['last'] == "day") {
-    $query = mysql_query("SELECT * FROM pulseLog WHERE DATE(timeStamp) = CURDATE() - 1")
-    or die(mysql_error());
+    $query = mysqli_query("SELECT * FROM pulseLog WHERE DATE(timeStamp) = CURDATE() - 1")
+    or die(mysqli_error());
     $selection = "yesterday";
   }
 }
 
 //if ($timeSelection == "everything" || $timeSelection = "") {
-//  $query = mysql_query("SELECT * FROM pulseLog")
-//    or die(mysql_error());
+//  $query = mysqli_query("SELECT * FROM pulseLog")
+//    or die(mysqli_error());
 //  $selection = "since start";
 //}
 
@@ -142,7 +142,7 @@ if (isset($_GET['last'])) {
 
 
 ///// read data
-while($row = mysql_fetch_array($query)) 
+while($row = mysqli_fetch_array($query)) 
   { 
     $id[$i] = $row['id'];
 

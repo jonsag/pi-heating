@@ -12,14 +12,14 @@ if (isset($_GET['time'])) {
 
 ///// connect to database
 if (!$db_con) {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
 }
 
 ///// choose database
-mysql_select_db($db_name)
-or die(mysql_error());
+mysqli_select_db($db_name)
+or die(mysqli_error());
 
-$query = mysql_query($query);
+$query = mysqli_query($query);
 
 // first thing that we are going to do is make some functions for writing out
 // and excel file. These functions do some hex writing and to be honest I got
@@ -74,7 +74,7 @@ $row = 0;
 // This tells us that we are on the first row
 $first = true;
  
-while( $qrow = mysql_fetch_assoc( $query ) )
+while( $qrow = mysqli_fetch_assoc( $query ) )
   {
     // Ok we are on the first row
     // lets make some headers of sorts

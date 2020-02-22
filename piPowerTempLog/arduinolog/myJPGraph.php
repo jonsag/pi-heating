@@ -41,17 +41,17 @@ if (isset($_GET['time'])) {
 
 ///// connect to database
 if (!$db_con) {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
 }
 
 ///// choose database
-mysql_select_db($db_name)
-or die(mysql_error());
+mysqli_select_db($db_name)
+or die(mysqli_error());
 
-$query = mysql_query($query);
+$query = mysqli_query($query);
 
 ///// read data
-while($row = mysql_fetch_array($query)) 
+while($row = mysqli_fetch_array($query)) 
   { 
     $id[$i] = $row['id'];
 

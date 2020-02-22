@@ -11,19 +11,19 @@ if (isset($_GET['time'])) {
 
 ///// connect to database
 if (!$db_con) {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
 }
 
 ///// choose database
-mysql_select_db($db_name)
-or die(mysql_error());
+mysqli_select_db($db_name)
+or die(mysqli_error());
 
-$query = mysql_query($query);
+$query = mysqli_query($query);
 
 $fp = fopen('data.csv', "w");
 
 // fetch a row and write the column names out to the file
-$row = mysql_fetch_assoc($query);
+$row = mysqli_fetch_assoc($query);
 $line = "";
 $comma = "";
 foreach($row as $name => $value) {
@@ -34,10 +34,10 @@ $line .= "\n";
 fputs($fp, $line);
 
 // remove the result pointer back to the start
-mysql_data_seek($query, 0);
+mysqli_data_seek($query, 0);
 
 // and loop through the actual data
-while($row = mysql_fetch_assoc($query)) {
+while($row = mysqli_fetch_assoc($query)) {
   
   $line = "";
   $comma = "";

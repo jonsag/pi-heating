@@ -9,16 +9,16 @@ echo date("d.m.Y-H:i:s") . " Temp 1 = " . $_GET['temp1'] . "\n";
 echo date("d.m.Y-H:i:s") . " Temp 2 = " . $_GET['temp2'] . "\n";
 echo date("d.m.Y-H:i:s") . " Temp 3 = " . $_GET['temp3'] . "\n";
 
-$connect = mysql_connect("localhost", "arduino", "arduinopass");
+$connect = mysqli_connect("localhost", "arduino", "arduinopass");
 if (!$connect)
   {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
   }
 
-mysql_select_db("arduino1", $connect);
+mysqli_select_db("arduino1", $connect);
 
 
-mysql_query("INSERT INTO minuteLog (unixTime, minuteTicks, currentR, currentS, currentT, temp1, temp2, temp3)
+mysqli_query("INSERT INTO minuteLog (unixTime, minuteTicks, currentR, currentS, currentT, temp1, temp2, temp3)
 VALUES (
 '" . $_GET['unixTime'] . "',
 '" . $_GET['minuteTicks'] . "', 
@@ -29,5 +29,5 @@ VALUES (
 '" . $_GET['temp2'] . "', 
 '" . $_GET['temp3'] . "')");
 
-mysql_close($connect);
+mysqli_close($connect);
 ?>

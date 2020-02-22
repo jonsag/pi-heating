@@ -10,13 +10,13 @@ echo date("d.m.Y-H:i:s") . " Temp 2 = " . $_GET['temp2'] . "\n";
 echo date("d.m.Y-H:i:s") . " Temp 3 = " . $_GET['temp3'] . "\n";
 echo date("d.m.Y-H:i:s") . " Event = " . $_GET['event'] . "\n";
 
-$connect = mysql_connect("localhost", "arduino", "arduinopass");
+$connect = mysqli_connect("localhost", "arduino", "arduinopass");
 if (!$connect)
   {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
   }
 
-mysql_select_db("arduino1", $connect);
+mysqli_select_db("arduino1", $connect);
 
 
 $query = "INSERT INTO pulseLog (unixTime, pulses, currentR, currentS, currentT, temp1, temp2, temp3, event)
@@ -31,14 +31,14 @@ VALUES (
 '" . $_GET['temp3'] . "',
 '" . $_GET['event'] . "')";
 
-$result = mysql_query($query);
+$result = mysqli_query($query);
 
 if ($result) {
 echo "OK";
 }
 else {
-die('Invalid query: ' . mysql_error());
+die('Invalid query: ' . mysqli_error());
 }
 
-mysql_close($connect);
+mysqli_close($connect);
 ?>

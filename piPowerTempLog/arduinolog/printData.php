@@ -11,19 +11,19 @@ if (isset($_GET['time'])) {
 
 ///// connect to database
 if (!$db_con) {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
 }
 
 ///// choose database
-mysql_select_db($db_name) or die(mysql_error());
+mysqli_select_db($db_name) or die(mysqli_error());
 
-$query = mysql_query($query);
+$query = mysqli_query($query);
 
 Print "<table border cellpadding=3>";
 Print "<tr><td colspan=18>pulseLog " . $selection . "<td></tr>\n";
 Print "<tr>";
 Print "<th>Timestamp</th><th>Current time</th><th>Diff time</th><th>Unix time</th><th>Current R1</th><th>Current S2</th><th>Current T3</th><th>Avg Current R1</th><th>Avg Current S2</th><th>Avg Current T3</th><th>Temp 0</th><th>Temp 1</th><th>Temp 2</th><th>Temp 3</th><th>Temp 4</th><th>Temp 5</th><th>Pulses</th><th>Event</th></tr>\n";
-while($row = mysql_fetch_array( $query )) 
+while($row = mysqli_fetch_array( $query )) 
   { 
     Print "<tr>"; 
     Print "<td>".$row['timeStamp'] . "</td> "; 

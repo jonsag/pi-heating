@@ -200,10 +200,10 @@ if ($poll) {
   echo "Polling MySQL...<br>\n";
   
   if (!$db_con) {
-    die('Could not connect: ' . mysql_error());
+    die('Could not connect: ' . mysqli_error());
   }
   
-  mysql_select_db($db_name);
+  mysqli_select_db($db_name);
   
   $query = "INSERT INTO pulseLog (currentTime, timeDiff, unixTime, currentR1, currentS2, currentT3, currentAverageR1, currentAverageS2, currentAverageT3, temp0, temp1, temp2, temp3, temp4, temp5,  pulses, event)
    VALUES (
@@ -225,7 +225,7 @@ if ($poll) {
    '$pulses',
    '$event')";
   
-  $result = mysql_query($query);
+  $result = mysqli_query($query);
   
   if ($result) {
     echo "OK<br>\n";
@@ -233,9 +233,9 @@ if ($poll) {
     file($pollReset);      
   }
   else {
-    die('Invalid query: ' . mysql_error());
+    die('Invalid query: ' . mysqli_error());
   }
   
-  mysql_close($db_con);
+  mysqli_close($db_con);
 }
 ?>
