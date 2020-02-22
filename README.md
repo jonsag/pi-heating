@@ -62,6 +62,8 @@ Install requisites
 
 Installation
 =============================
+Install piHeating
+----------
 >$ cd /home/pi  
 >$ git clone https://github.com/jonsag/pi-heating.git  
 
