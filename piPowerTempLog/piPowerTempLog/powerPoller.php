@@ -233,7 +233,7 @@ if ($poll) {
     die('Could not connect: ' . mysqli_error());
   }
   
-  mysqli_select_db($db_name);
+  mysqli_select_db($db_con, $db_name);
   
   $sql = "INSERT INTO powerLog (currentR1, currentS2, currentT3, currentAverageR1, currentAverageS2, currentAverageT3, temp, pulses, event)
    VALUES (
@@ -257,7 +257,7 @@ if ($poll) {
     file($powerPollReset);      
   }
   else {
-    die('Invalid query: ' . mysqli_error());
+      die('Invalid query: ' . mysqli_error($db_con));
   }
   
   mysqli_close($db_con);

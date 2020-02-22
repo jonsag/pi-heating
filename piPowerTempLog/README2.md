@@ -76,7 +76,7 @@ If not:
 >$ sudo systemctl enable mariadb
 
 Run MariaDB post install script  
->$ sudo mysqli_secure_installation
+>$ sudo mysql_secure_installation
 
 Set MariaDB root password  
 Press 'enter'  to all remaining questions  
@@ -155,4 +155,4 @@ Host settings
 ----------
 Make sure your /etc/hosts has an entry for the arduino, for example:  
 
-	192.168.10.10   arduino1
+	192.168.10.10   arduino01
