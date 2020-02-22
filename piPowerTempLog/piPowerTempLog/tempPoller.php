@@ -58,20 +58,20 @@ if ($debug) {
 
 // connect to MySQL                                                                  
 if (!$db_con) {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
 }
 
 // select database                                                                   
-mysql_select_db($db_name);
+mysqli_select_db($db_name);
 
 $sql = "SELECT COUNT(*) FROM 1wireDevices WHERE deviceType='temp'";
 
-$query = mysql_query($sql);
+$query = mysqli_query($sql);
 
-$result = mysql_fetch_row($query);
+$result = mysqli_fetch_row($query);
 
 if (!$result) {
-  die('Invalid query: ' . mysql_error());
+  die('Invalid query: ' . mysqli_error());
 }
 
 $numberOfTemps = $result[0];
@@ -140,7 +140,7 @@ if ($poll) {
    '$tempValue[10]', 
    '$event')";
   
-  $result = mysql_query($sql);
+  $result = mysqli_query($sql);
   
   if ($result) {
     echo "OK";
@@ -150,9 +150,9 @@ if ($poll) {
     file($tempPollReset);      
   }
   else {
-    die('Invalid query: ' . mysql_error());
+    die('Invalid query: ' . mysqli_error());
   }
   
-  mysql_close($db_con);
+  mysqli_close($db_con);
 }
 ?>

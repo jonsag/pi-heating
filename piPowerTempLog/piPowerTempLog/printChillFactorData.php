@@ -22,24 +22,24 @@ $answer = getSQL($table, $_GET);
 
 ///// connect to database
 if (!$db_con) {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
 }
 
 ///// choose database
-mysql_select_db($db_name) or die(mysql_error());
+mysqli_select_db($db_name) or die(mysqli_error());
 
 $sql = "SELECT id FROM 1wireDevices WHERE place='ute'";
 
-$result = mysql_query($sql);
+$result = mysqli_query($sql);
 
 if ($result) {
-  $id = (mysql_result($result,0));
+  $id = (mysqli_result($result,0));
 }
 else {
-  die('Invalid query: ' . mysql_error());
+  die('Invalid query: ' . mysqli_error());
 }
 
-$query = mysql_query($answer[0]);
+$query = mysqli_query($answer[0]);
 
 Print "<table border cellpadding=3>";
 Print "<tr><td colspan=18>" . $table . " " . $answer[1];
@@ -47,7 +47,7 @@ lf();
 Print "sql=" . $answer[0] . "<td></tr>\n";
 Print "<tr>";
 Print "<th>Time</th><th>outdoor temp</th><th>wind</th><th>chill factor</th></tr>\n";
-while($tempRow = mysql_fetch_array( $query ))
+while($tempRow = mysqli_fetch_array( $query ))
   {
     Print "<tr>";
     Print "<td>".$tempRow['ts'] . "</td> ";
@@ -56,12 +56,12 @@ while($tempRow = mysql_fetch_array( $query ))
 
     $time = substr($tempRow['ts'], 0, -3);
     $sql = "SELECT averageWindSpeed FROM `weatherLog` WHERE `ts` LIKE '{$time}%'";
-    $result = mysql_query($sql);
+    $result = mysqli_query($sql);
     if ($result) {
-      $averageWindSpeed = (mysql_result($result,0));
+      $averageWindSpeed = (mysqli_result($result,0));
     }
     else {
-      die('Invalid query: ' . mysql_error());
+      die('Invalid query: ' . mysqli_error());
     }
     Print "<td>".$averageWindSpeed . "</td>";
 
@@ -83,7 +83,7 @@ while($tempRow = mysql_fetch_array( $query ))
 Print "</table>";
 
 // close connection to mysql
-mysql_close($db_con);
+mysqli_close($db_con);
 
 ?>
 

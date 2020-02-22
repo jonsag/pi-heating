@@ -21,46 +21,46 @@ $answer = getSQL($table, $_GET);
 
 ///// connect to database
 if (!$db_con) {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
 }
 
 ///// choose database
-mysql_select_db($db_name) or die(mysql_error());
+mysqli_select_db($db_name) or die(mysqli_error());
 
 $sql = "SELECT id FROM 1wireDevices WHERE place='ute'";
 
-$result = mysql_query($sql);
+$result = mysqli_query($sql);
 
 if ($result) {
-  $id = (mysql_result($result,0));
+  $id = (mysqli_result($result,0));
 }
 else {
-  die('Invalid query: ' . mysql_error());
+  die('Invalid query: ' . mysqli_error());
 }
 
-$query = mysql_query($answer[0]);
+$query = mysqli_query($answer[0]);
 
-while($tempRow = mysql_fetch_array( $query )) {
+while($tempRow = mysqli_fetch_array( $query )) {
   $timeStamp[$counter1] = $tempRow['ts'];
   $outdoorTemp[$counter1] = $tempRow[1 + $id];
   
   $time = substr($tempRow['ts'], 0, -3);
   $sql = "SELECT averageWindSpeed FROM `weatherLog` WHERE `ts` LIKE '{$time}%'";
-  $result = mysql_query($sql);
+  $result = mysqli_query($sql);
   if ($result) {
-    $averageWindSpeed[$counter1] = (mysql_result($result,0));
+    $averageWindSpeed[$counter1] = (mysqli_result($result,0));
     if (!empty($averageWindSpeed[$counter1])) {
       $chillFactor[$counter1] = round((13.12 + 0.6215 * $outdoorTemp[$counter1] - 13.956 * pow($averageWindSpeed[$counter1], 0.16) + 0.48669 * $outdoorTemp[$counter1] * pow($averageWindSpeed[$counter1], 0.16)), 2, PHP_ROUND_HALF_UP);
       $counter1++;
     }
   }
   else {
-    die('Invalid query: ' . mysql_error());
+    die('Invalid query: ' . mysqli_error());
   }
 }
 
 // close connection to mysql
-mysql_close($db_con);
+mysqli_close($db_con);
 
 ?>
 var data = google.visualization.arrayToDataTable([

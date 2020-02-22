@@ -20,45 +20,45 @@ function drawChart() {
 
     // connect to mysql
     if (!$db_con) {
-      die('Could not connect: ' . mysql_error());
+      die('Could not connect: ' . mysqli_error());
     }
 
     // select database
-    mysql_select_db($db_name) or die(mysql_error());
+    mysqli_select_db($db_name) or die(mysqli_error());
     
-    $query = mysql_query($sql);
+    $query = mysqli_query($sql);
     
     // read result
-    while($row = mysql_fetch_array($query)) {
+    while($row = mysqli_fetch_array($query)) {
 
       $time = substr($row['ts'], 0, -3);
 
       ///// find average wind
       $weatherSql = "SELECT averageWindSpeed FROM `weatherLog` WHERE `ts` LIKE '{$time}%'";
-      $result = mysql_query($weatherSql);
+      $result = mysqli_query($weatherSql);
       if ($result) {
-	$averageWindSpeed = (mysql_result($result,0));
+	$averageWindSpeed = (mysqli_result($result,0));
       }
       else {
-	die('Invalid query: ' . mysql_error());
+	die('Invalid query: ' . mysqli_error());
       }
 
       ///// find temp
       $deviceSql = "SELECT id FROM 1wireDevices WHERE place='ute'";
-      $result = mysql_query($deviceSql);
+      $result = mysqli_query($deviceSql);
       if ($result) {
-	$id = (mysql_result($result,0));
+	$id = (mysqli_result($result,0));
       }
       else {
-	die('Invalid query: ' . mysql_error());
+	die('Invalid query: ' . mysqli_error());
       }
       $deviceSql = "SELECT temp1 FROM `tempLog` WHERE `ts` LIKE '{$time}%'";
-      $result = mysql_query($deviceSql);
+      $result = mysqli_query($deviceSql);
       if ($result) {
-        $temp = (mysql_result($result,0));
+        $temp = (mysqli_result($result,0));
       }
       else {
-        die('Invalid query: ' . mysql_error());
+        die('Invalid query: ' . mysqli_error());
       }
 
       $chillFactor = round((13.12 + 0.6215 * $temp - 13.956 * pow($averageWindSpeed, 0.16) + 0.48669 * $temp * pow($averageWindSpeed, 0.16)), 2, PHP_ROUND_HALF_UP);
@@ -86,7 +86,7 @@ function drawChart() {
     }
 
     // close connection to mysql
-    mysql_close($db_con);
+    mysqli_close($db_con);
     ?>
 
     ]);

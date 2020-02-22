@@ -155,11 +155,11 @@ if ($poll) {
 
   // connect to MySQL
   if (!$db_con) {
-    die('Could not connect: ' . mysql_error());
+    die('Could not connect: ' . mysqli_error());
   }
 
   // select database
-  mysql_select_db($db_name);
+  mysqli_select_db($db_name);
   
   echo "Writing to MySQL...";
   lf();
@@ -175,7 +175,7 @@ if ($poll) {
    '$rainSinceLast',
    '$event')";
   
-  $result = mysql_query($sql);
+  $result = mysqli_query($sql);
   
   if ($result) {
     echo "OK";
@@ -213,10 +213,10 @@ if ($poll) {
     }
   }
   else {
-    die('Invalid query: ' . mysql_error());
+    die('Invalid query: ' . mysqli_error());
   }
   
-  mysql_close($db_con);
+  mysqli_close($db_con);
 }
   
 ?>

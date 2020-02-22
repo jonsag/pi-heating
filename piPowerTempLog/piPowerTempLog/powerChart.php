@@ -44,22 +44,22 @@ function drawChart() {
 
     // connect to mysql
     if (!$db_con) {
-      die('Could not connect: ' . mysql_error());
+      die('Could not connect: ' . mysqli_error());
     }
 
     // select database
-    mysql_select_db($db_name) or die(mysql_error());
+    mysqli_select_db($db_name) or die(mysqli_error());
 
     $sql = $sql . $groupBy;
 
-    $result = mysql_query($sql);
+    $result = mysqli_query($sql);
     
-    $noRows = mysql_num_rows($result);
+    $noRows = mysqli_num_rows($result);
 
     $averages = round($noRows / $values, 0, PHP_ROUND_HALF_UP);
 
     // read result
-    while($row = mysql_fetch_array($result)) {
+    while($row = mysqli_fetch_array($result)) {
       if ( !empty($row['currentAverageR1']) && !empty($row['currentAverageS2']) && !empty($row['currentAverageT3']) ) {
 	if(isset($values)) {
 	  $R1 = $R1 + $row['currentAverageR1'];
@@ -85,7 +85,7 @@ function drawChart() {
     }
 
     // close connection to mysql
-    mysql_close($db_con);
+    mysqli_close($db_con);
     ?>
 
     ]);

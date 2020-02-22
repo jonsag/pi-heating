@@ -17,25 +17,25 @@ function drawChart() {
 
     // connect to mysql
     if (!$db_con) {
-      die('Could not connect: ' . mysql_error());
+      die('Could not connect: ' . mysqli_error());
     }
 
     // select database
-    mysql_select_db($db_name) or die(mysql_error());
+    mysqli_select_db($db_name) or die(mysqli_error());
     
     $newSql=$sql . " AND 'currentR1'!='0'";
 
-    $query = mysql_query($sql);
+    $query = mysqli_query($sql);
     
     // read result
-    while($row = mysql_fetch_array($query)) {
+    while($row = mysqli_fetch_array($query)) {
       $rows++;
       echo "['{$row['ts']}', {$row['currentAverageR1']}, {$row['currentAverageS2']}, {$row['currentAverageT3']}]";
       echo ",\n";
     }
 
     // close connection to mysql
-    mysql_close($db_con);
+    mysqli_close($db_con);
     ?>
 
     ]);

@@ -21,17 +21,17 @@ $temperature = 0;
 
 // connect to mysql
 if (!$db_con) {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
 }
 
 // select database
-mysql_select_db($db_name) or die(mysql_error());
+mysqli_select_db($db_name) or die(mysqli_error());
 
 $sql = "SELECT * FROM 1wireDevices WHERE deviceType='temp'";
 
-$query = mysql_query($sql);
+$query = mysqli_query($sql);
 
-while($row = mysql_fetch_array($query)) {
+while($row = mysqli_fetch_array($query)) {
   $dallasInfo = file_get_contents('/sys/bus/w1/devices/'. $row['devicePath'] . '/w1_slave');
   $dallasId = substr( $dallasInfo, 0,strrpos( $dallasInfo, ':' ) );
   $temperature = (substr( $dallasInfo, strrpos( $dallasInfo, '=' )+1 )) / 1000;
@@ -41,7 +41,7 @@ while($row = mysql_fetch_array($query)) {
 }
 
 // close connection to mysql                                                                                                                                                    
-mysql_close($db_con);
+mysqli_close($db_con);
 
 ?>
 
