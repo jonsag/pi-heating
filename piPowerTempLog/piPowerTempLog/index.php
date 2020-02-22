@@ -20,7 +20,7 @@ require('calendar/tc_calendar.php');
 
 <html>
 <head>
-<title>JS Power Temp Log</title>
+<title>piPowerTempLog</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=7" />
 
@@ -34,8 +34,8 @@ require('calendar/tc_calendar.php');
 </head>
 
 <body>
-<h1><center>JS Power Temp Log</center></h1>
-<center>- part of jsPowerTempLog</center>
+<h1><center>piPowerTempLog</center></h1>
+<center>- part of piHeating -</center>
 <br>
 
 <form>
@@ -164,7 +164,7 @@ $myCalendar->setDatePair('date4', 'date5', $date4_default);
 $myCalendar->writeScript();
 ?>
 
-<input type="button" name="button10" id="button10" value="How many rows will this generate?" onClick="parent.location='countRows.php?start='+this.form.date4.value+'&&end='+this.form.date5.value">
+<input type="button" name="button10" id="button10" value="How many rows will this generate?" onClick="parent.location='countRows.php?table=powerLog&start='+this.form.date4.value+'&&end='+this.form.date5.value">
 <br>
 <br>
 
