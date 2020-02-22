@@ -1,7 +1,7 @@
 <html>
-  <head>
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
+<head>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
    google.load("visualization", "1", {packages:["corechart"]});
 google.setOnLoadCallback(drawChart);
 function drawChart() {
@@ -16,22 +16,22 @@ function drawChart() {
     $rows = 0;
 
     // connect to mysql
-    if (!$db_con) {
-      die('Could not connect: ' . mysqli_error());
+    if (! $db_con) {
+        die('Could not connect: ' . mysqli_error());
     }
 
     // select database
-    mysqli_select_db($db_name) or die(mysqli_error());
-    
-    $newSql=$sql . " AND 'currentR1'!='0'";
+    mysqli_select_db($db_con, $db_name) or die(mysqli_error($db_con));
+
+    $newSql = $sql . " AND 'currentR1'!='0'";
 
     $query = mysqli_query($sql);
-    
+
     // read result
-    while($row = mysqli_fetch_array($query)) {
-      $rows++;
-      echo "['{$row['ts']}', {$row['currentAverageR1']}, {$row['currentAverageS2']}, {$row['currentAverageT3']}]";
-      echo ",\n";
+    while ($row = mysqli_fetch_array($query)) {
+        $rows ++;
+        echo "['{$row['ts']}', {$row['currentAverageR1']}, {$row['currentAverageS2']}, {$row['currentAverageT3']}]";
+        echo ",\n";
     }
 
     // close connection to mysql
@@ -43,10 +43,10 @@ function drawChart() {
   var options = {
   title: 
 <?php
-  echo "'" . $table . " - Average currents ";
-  echo $selection;
-  echo ", sql=" . $sql;
-  echo "',";
+echo "'" . $table . " - Average currents ";
+echo $selection;
+echo ", sql=" . $sql;
+echo "',";
 ?>
   width: 1200,
   height: 550,
@@ -60,8 +60,8 @@ function drawChart() {
 }
 
     </script>
-  </head>
-  <body>
-    <div id="chart_div"></div>
-  </body>
+</head>
+<body>
+	<div id="chart_div"></div>
+</body>
 </html>
