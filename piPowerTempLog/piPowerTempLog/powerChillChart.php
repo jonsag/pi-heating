@@ -48,11 +48,11 @@ function drawChart() {
             die('Invalid query: ' . mysqli_error($db_con));
         }
         $deviceSql = "SELECT temp1 FROM `tempLog` WHERE `ts` LIKE '{$time}%'";
-        $result = mysqli_query($deviceSql);
+        $result = mysqli_query($db_con, $deviceSql);
         if ($result) {
             $temp = (mysqli_result($result, 0));
         } else {
-            die('Invalid query: ' . mysqli_error());
+            die('Invalid query: ' . mysqli_error($db_con));
         }
 
         $chillFactor = round((13.12 + 0.6215 * $temp - 13.956 * pow($averageWindSpeed, 0.16) + 0.48669 * $temp * pow($averageWindSpeed, 0.16)), 2, PHP_ROUND_HALF_UP);
