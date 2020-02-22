@@ -66,6 +66,7 @@ Check apache is running
 
 If not:
 >$ sudo systemctl start apache2
+
 >$ sudo systemctl enable apache2
 
 Check MariaDB is running  
@@ -73,10 +74,11 @@ Check MariaDB is running
 
 If not:
 >$ sudo systemctl start mariadb
+
 >$ sudo systemctl enable mariadb
 
 Run MariaDB post install script  
->$ sudo mysqli_secure_installation
+>$ sudo mysql_secure_installation
 
 Set MariaDB root password  
 Press 'enter'  to all remaining questions  
@@ -109,7 +111,7 @@ Installation
 ==========
 Install requisites
 ----------
->$ sudo apt install git ttf-mscorefonts-installer
+>$ sudo apt install git rsync ttf-mscorefonts-installer
 
 Other useful tools
 ----------
@@ -118,42 +120,28 @@ Other useful tools
 Get source files
 ----------
 >$ cd /home/pi  
+
 >$ git clone https://github.com/jonsag/pi-heating.git  
 
 >$ cd /home/pi/pi-heating/piPowerTempLog  
 
 Setup database and user  
->$ sudo mysql -u root < arduino-setup.sql
+>$ sudo mysql -u root < database-setup.sql
 
 Add tables to the new database  
->$ mysql -u arduino -parduinopass arduino1 < arduino-tables.sql
+>$ mysql -u arduino -parduinopass powerTempLog < tables-setup.sql
 
 Copy contents of arduinolog to webroot  
->$ sudo cp -r arduinolog /var/www/html
-
-Download jpgraph and extract ( http://jpgraph.net/download/ )  
->$ sudo tar zxvf jpgraph* -C /var/www/html
->$ cd /var/www/html/arduinolog
->$ sudo ln -s ../jpgraph*/src jpgraph
-
-Correct a line in jpgraph  
->$ sudo emacs jpgraph/gd_image.inc.php
-
-Look for a line starting with
-
-	JpGraphError::RaiseL(25128);//('The function imageantialias()...
-	
-, and comment it out with //  
+>$ sudo cp -r piPowerTempLog /var/www/html/
 
 Download calendar_localized and unzip it ( http://www.triconsole.com/php/calendar_datepicker.php)  
->$ unzip calendar_localized*
-
-Move folder to correct location  
->$ sudo mv calendar /var/www/html/arduinolog/
+>$ sudo unzip calendar_localized* -d /var/www/html/piPowerTempLog/
 
 Add symbolic links for fonts  
 >$ cd /usr/share/fonts/truetype
+
 >$ sudo ln -s msttcorefonts/arialbd.ttf arialbd.ttf
+
 >$ sudo ln -s msttcorefonts/arial.ttf arial.ttf
 
 Change ownership  
@@ -161,15 +149,14 @@ Change ownership
 
 Add a line to your crontab  
 >$ crontab -e
+
 Add the following:  
 
-	*/2 * * * * /usr/bin/php /var/www/html/arduinolog/arduinoPoller.php 0 1 cron > /dev/null 2>&1
+	*/2 * * * * /usr/bin/php /var/www/html/piPowerTempLog/powerPoller.php 0 1 cron > /dev/null 2>&1
+	*/2 * * * * /usr/bin/php /var/www/html/piPowerTempLog/tempPoller.php 0 1 cron > /dev/null 2>&1
 
-Misc settings
+Host settings
 ----------
 Make sure your /etc/hosts has an entry for the arduino, for example:  
 
-	192.168.10.10   arduino1
-	
-	
-	
+	192.168.10.10   arduino01
