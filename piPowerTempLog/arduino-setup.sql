@@ -1,5 +1,5 @@
-CREATE DATABASE if not exists CurrentTempLog;
+CREATE DATABASE if not exists arduino1;
 GRANT USAGE ON *.* to arduino@localhost IDENTIFIED BY 'arduinopass';
-GRANT ALL PRIVILEGES ON CurrentTempLog.* TO arduino@localhost WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON arduino1.* TO arduino@localhost WITH GRANT OPTION;
 FLUSH PRIVILEGES;
-ALTER DATABASE CurrentTempLog DEFAULT CHARACTER SET latin1;
+ALTER DATABASE arduino1 DEFAULT CHARACTER SET latin1;

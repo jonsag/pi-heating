@@ -110,6 +110,7 @@ Installation
 Install requisites
 ----------
 >$ sudo apt install git
+
 Other useful tools
 ----------
 >$ sudo apt install emacs screen
@@ -119,19 +120,19 @@ Get source files
 >$ cd /home/pi  
 >$ git clone https://github.com/jonsag/pi-heating.git  
 
->$ cd /home/pi/pi-heating  
+>$ cd /home/pi/pi-heating/piPowerTempLog  
 
 Setup database and user  
 >$ sudo mysql -u root < arduino-setup.sql
 
 Add tables to the new database  
->$ sudo mysql -u arduino -parduinopass arduino1 < arduino-tables.sql
+>$ mysql -u arduino -parduinopass arduino1 < arduino-tables.sql
 
 Copy contents of arduinolog to webroot  
->$ sudo cp -r arduinolog /var/www/
+>$ sudo cp -r arduinolog /var/www/html
 
 Download jpgraph and extract ( http://jpgraph.net/download/ )  
->$ sudo tar zxvf jpgraph* -C /var/www/
+>$ sudo tar zxvf jpgraph* -C /var/www/html
 >$ sudo cd /var/www/arduinolog
 >$ sudo ln -s ../jpgraph*/src jpgraph
 
