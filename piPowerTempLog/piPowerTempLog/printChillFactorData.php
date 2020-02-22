@@ -26,11 +26,11 @@ if (!$db_con) {
 }
 
 ///// choose database
-mysqli_select_db($db_name) or die(mysqli_error());
+mysqli_select_db($db_con, $db_name) or die(mysqli_error($db_con));
 
 $sql = "SELECT id FROM 1wireDevices WHERE place='ute'";
 
-$result = mysqli_query($sql);
+$result = mysqli_query($db_con, $sql);
 
 if ($result) {
   $id = (mysqli_result($result,0));
@@ -39,7 +39,7 @@ else {
   die('Invalid query: ' . mysqli_error());
 }
 
-$query = mysqli_query($answer[0]);
+$query = mysqli_query($db_con, $answer[0]);
 
 Print "<table border cellpadding=3>";
 Print "<tr><td colspan=18>" . $table . " " . $answer[1];
