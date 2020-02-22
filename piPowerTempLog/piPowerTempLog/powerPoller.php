@@ -247,7 +247,7 @@ if ($poll) {
    '$pulses',
    '$event')";
   
-  $result = mysqli_query($sql);
+  $result = mysqli_query($db_con, $sql);
   
   if ($result) {
     echo "OK";
