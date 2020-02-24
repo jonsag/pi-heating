@@ -3,6 +3,9 @@
 #          Raspberry Pi setup, 'pi-heating-hub' configuration script.
 # Author : Jeffrey.Powell ( jffrypwll <at> googlemail <dot> com )
 # Date   : Nov 2016
+#
+# Tweaked by: Jon Sagebrand ( jonsagebrand <at> gmail <dot> com )
+# Date      : Feb 2020
 
 # Die on any errors
 
@@ -18,9 +21,9 @@ fi
 
 
 OS_VERSION=$(cat /etc/os-release | grep VERSION=)
-if [[ $OS_VERSION != *"stretch"* ]]
+if [[ $OS_VERSION != *"buster"* ]]
 then
-  printf "\n\n EXITING : Script must be run on PI OS Stretch. \n\n"
+  printf "\n\n EXITING : Script must be run on PI OS Buster. \n\n"
   exit 1
 fi
 
@@ -30,8 +33,8 @@ if [[ "$APACHE_INSTALLED" == "" ]]
 then
   printf "\n\n Installing Apache ...\n"
   # Install Apache
-  apt-get install apache2 -y
-  update-rc.d apache2 enable
+  apt install apache2 apache2-utils -y
+  systemctl enable apache2
   a2dissite 000-default.conf
   service apache2 restart
 
@@ -50,8 +53,8 @@ PHP_INSTALLED=$(which php)
 if [[ "$PHP_INSTALLED" == "" ]]
 then
   printf "\n\n Installing PHP ...\n"
-  # Install Apache
-  apt-get install php -y
+  # Install PHP
+  apt install php libapache2-mod-php php-common php-cli php-json php-readline-y
 
   PHP_INSTALLED=$(which php)
     if [[ "$PHP_INSTALLED" == "" ]]
@@ -64,57 +67,57 @@ else
 fi
 
 
-MYSQL_INSTALLED=$(which mysql)
+MYSQL_INSTALLED=$(which mariadb)
 if [[ "$MYSQL_INSTALLED" == "" ]]
 then
-  printf "\n\n Installing MYSQL ...\n"
-  # Install Apache
-  apt-get install mysql-server -y --fix-missing
+  printf "\n\n Installing MySQL ...\n"
+  # Install MySQL
+  apt-get install mariadb-server mariadb-client -y --fix-missing
 
-  MYSQL_INSTALLED=$(which mysql)
+  MYSQL_INSTALLED=$(which mariadb)
     if [[ "$MYSQL_INSTALLED" == "" ]]
     then
-      printf "\n\n EXITING : MYSQL installation FAILED\n"
+      printf "\n\n EXITING : MySQL installation FAILED\n"
       exit 1
     fi
 else
-  printf "\n\n MYSQL is already installed. \n"
+  printf "\n\n MySQL is already installed. \n"
 fi
 
 
 PHPMYSQL_INSTALLED=$(find /var/lib/dpkg -name php-mysql*)
 if [[ "$PHPMYSQL_INSTALLED" == "" ]]
 then
-  printf "\n\n Installing MYSQL PHP Module ...\n"
-  # Install Apache
+  printf "\n\n Installing MySQL PHP Module ...\n"
+  # Install MySQL PHP Module
   apt-get install php-mysql -y
 
   PHPMYSQL_INSTALLED=$(find /var/lib/dpkg -name php-mysql*)
     if [[ "$PHPMYSQL_INSTALLED" == "" ]]
     then
-      printf "\n\n EXITING : MYSQL PHP Module installation FAILED\n"
+      printf "\n\n EXITING : MySQL PHP Module installation FAILED\n"
       exit 1
     fi
 else
-  printf "\n\n MYSQL PHP Module is already installed. \n"
+  printf "\n\n MySQL PHP Module is already installed. \n"
 fi
 
 
 PYMYSQL_INSTALLED=$(find /var/lib/dpkg -name python-mysql*)
 if [[ "$PYMYSQL_INSTALLED" == "" ]]
 then
-  printf "\n\n Installing MYSQL Python Module ...\n"
-  # Install Apache
+  printf "\n\n Installing MySQL Python Module ...\n"
+  # Install MySQL Python Module
   apt-get install python-mysqldb -y
 
   PYMYSQL_INSTALLED=$(find /var/lib/dpkg -name python-mysql*)
     if [[ "$PYMYSQL_INSTALLED" == "" ]]
     then
-      printf "\n\n EXITING : MYSQL Python Module installation FAILED\n"
+      printf "\n\n EXITING : MySQL Python Module installation FAILED\n"
       exit 1
     fi
 else
-  printf "\n\n MYSQL Python Module is already installed. \n"
+  printf "\n\n MySQL Python Module is already installed. \n"
 fi
 
 
@@ -122,7 +125,7 @@ RRD_INSTALLED=$(find /var/lib/dpkg -name rrdtool*)
 if [[ "$RRD_INSTALLED" == "" ]]
 then
   printf "\n\n Installing RRD tool ...\n"
-  # Install Apache
+  # Install RRD tool
   apt-get install rrdtool php-rrd -y
 
   RRD_INSTALLED=$(find /var/lib/dpkg -name rrdtool*)
@@ -140,7 +143,7 @@ NMP_INSTALLED=$(find /var/lib/dpkg -name nmap*)
 if [[ "$NMP_INSTALLED" == "" ]]
 then
   printf "\n\n Installing nmap ...\n"
-  # Install Apache
+  # Install nmap
   apt-get install nmap -y
 
   NMP_INSTALLED=$(find /var/lib/dpkg -name nmap*)
@@ -154,51 +157,51 @@ else
 fi
 
 
-# Install 'pi-heating-hub' app
+# Install 'piHeatingHub' app
 
-if [ ! -f "/home/pi/pi-heating-hub/README.md" ]
+if [ ! -f "/home/pi/piHeatingHub/README.md" ]
 then
-  printf "\n\n Installing pi-heating-hub ...\n"
+  printf "\n\n Installing piHeatingHub ...\n"
 
-  if [ -d "/home/pi/pi-heating-hub" ]
+  if [ -d "/home/pi/piHeatingHub" ]
   then
-    rm -rf "/home/pi/pi-heating-hub"
+    rm -rf "/home/pi/piHeatingHub"
   fi
 
-  mv "/home/pi/pi-heating/pi-heating-hub" "/home/pi/pi-heating-hub"
-  mv "/home/pi/pi-heating-hub/www" "/var/www/pi-heating-hub"
+  mv "/home/pi/pi-heating/piHeatingHub" "/home/pi/piHeatingHub"
+  mv "/home/pi/piHeatingHub/www" "/var/www/html/piHeatingHub"
   
-  chown -R pi:www-data "/home/pi/pi-heating-hub"
-  chmod -R 750 "/home/pi/pi-heating-hub"
+  chown -R pi:www-data "/home/pi/piHeatingHub"
+  chmod -R 750 "/home/pi/piHeatingHub"
   
-  if [ ! -d "/var/www/pi-heating-hub/data" ]
+  if [ ! -d "/var/www/piHeatingHub/data" ]
   then
-    mkdir "/home/pi/pi-heating-hub/data"
+    mkdir "/home/pi/piHeatingHub/data"
   fi
   
-  mkdir "/home/pi/pi-heating-hub/data"
-  chown -R pi:www-data "/home/pi/pi-heating-hub/data"
-  chmod -R 775 "/home/pi/pi-heating-hub/data"
+  mkdir "/home/pi/piHeatingHub/data"
+  chown -R pi:www-data "/home/pi/piHeatingHub/data"
+  chmod -R 775 "/home/pi/piHeatingHub/data"
   
-  chown -R pi:www-data "/var/www/pi-heating-hub"
-  chmod -R 755 "/var/www/pi-heating-hub"
-  chmod -R 775 "/var/www/pi-heating-hub/images"
+  chown -R pi:www-data "/var/www/piHeatingHub"
+  chmod -R 755 "/var/www/piHeatingHub"
+  chmod -R 775 "/var/www/piHeatingHub/images"
 
-  if [ ! -f "/home/pi/pi-heating-hub/README.md" ]
+  if [ ! -f "/home/pi/piHeatingHub/README.md" ]
     then
       printf "\n\n EXITING : pi-heating-hub installation FAILED\n"
       exit 1
     fi
 
 else
-  printf "\n\n pi-heating-hub is already installed. \n"
+  printf "\n\n piHeatingHub is already installed. \n"
 fi
 
 
-if [ ! -f "/etc/cron.d/pi-heating" ]
+if [ ! -f "/etc/cron.d/piHeating" ]
   then
-    cat > /etc/cron.d/pi-heating <<CRON
-* * * * * pi /bin/bash /home/pi/pi-heating-hub/cron/pi-heating-hub-wrapper.sh
+    cat > /etc/cron.d/piHeating <<CRON
+* * * * * pi /bin/bash /home/pi/piHeatingHub/cron/piHeatingHubWrapper.sh
 CRON
     service cron restart
   fi
@@ -214,11 +217,11 @@ printf "\n\n Configuring Apache ...\n"
 Listen 8080
 PORTS
 
-  cat > /etc/apache2/sites-available/pi-heating-hub.conf <<VHOST
+  cat > /etc/apache2/sites-available/piHeatingHub.conf <<VHOST
 <VirtualHost *:8080>
     ServerAdmin webmaster@localhost
-    DocumentRoot /var/www/pi-heating-hub/
-    <Directory /var/www/pi-heating-hub/>
+    DocumentRoot /var/www/piHeatingHub/
+    <Directory /var/www/piHeatingHub/>
         Options -Indexes
         AllowOverride all
         Order allow,deny
@@ -230,7 +233,7 @@ PORTS
 </VirtualHost>
 VHOST
 
-a2ensite pi-heating-hub.conf
+a2ensite piHeatingHub.conf
 service apache2 restart
 
 printf "\n\n Installation Complete. Some changes might require a reboot. \n\n"

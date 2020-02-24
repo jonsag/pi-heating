@@ -2,87 +2,24 @@ piHeating
 
 Some scripts tweaked from https://github.com/JeffreyPowell  
 
-
-Installing OS
-=============================
-Download Raspbian Stretch Lite from https://www.raspberrypi.org/downloads/raspbian/  
-Choose the Light zip-file  
-
-Cd to where your download is  
->$ unzip 2017-11-29-raspbian-stretch-lite.zip  
-
-Insert SD-card and find out drive letter  
->$ dmesg  
-
-For example /dev/mmcblk0 or /dev/sdb  
-
-Unmount if mounted  
->$ umount /dev/mmcblk0p1  
-
-Write image to SD-card  
->$ sudo dd bs=4M if=2017-11-29-raspbian-stretch-lite.img of=/dev/mmcblk0 conv=fsync status=progress 
-
-Remove SD-card and insert it again to make new partitons visible     
-
-Mount the first partition  
->$ sudo mount /dev/mmcblk0p1 /mnt/tmp  
-
-Write empty file to boot partition to enable ssh at boot  
->$ sudo touch /mnt/tmp/ssh  
-
-Remove SD-card and insert it a Rpi connected to your local network and boot it up 
-
-Rpi configuration
------------------------------
-Connect to Rpi via ssh  
-Login with user: pi and password:raspberry 
-
-Update  
->$ sudo apt-get update && sudo apt-get upgrade  
-
-Configure  
->$ sudo raspi-config   
-
-1		Change password  
-2 N1	Change hostname  
-3 T1	Set locales  
-3 T2	Set time zone  
-3 T3	Choose keyboard layout    
-3 T4	Set wifi country  
-5 P7	Enable 1-wire at boot  
-7 A1	Expand file system to use whole SD-card  
-7 A3	Set memory split to 16  
-
-Reboot to set new options  
-
-Install prerequisites
------------------------------
->$ sudo apt-get install git  
-
-
-Installation
-=============================
-Get piHeating
-----------
->$ cd /home/pi  
-
->$ git clone https://github.com/jonsag/pi-heating.git  
-
->$ cd /home/pi/pi-heating/piHeating  
-
 On pi running as hub or hub/remote:
 -----------------------------
->$ sudo ./pi-heating-hub-install.sh  
+>$ sudo ./piHeatingHubInstall.sh  
 
-Initialize mysql  
->$ sudo mysql -u root -p  
+Run MariaDB post install script  
+>$ sudo mysql_secure_installation
+
+Set MariaDB root password  
+Press 'enter'  to all remaining questions  
 
 Use the same password as pi login  
 Quit with exit  
 
->$ sudo ./pi-heating-hub-mysql-setup.sh  
+Create database  
+>$ sudo ./piHeatingHubMysqlSetup.sh  
 
->$ sudo ./pi-heating-hub-secure.sh  
+Secure web server  
+>$ sudo ./piHeatingHubSecure.sh  
 
 Hook up relay to hub:
 -----------------------------
@@ -93,7 +30,7 @@ Pin 10 - GPIO 15 to heating relay signal
 
 On pi running solely as remote or as hub/remote:
 -----------------------------
->$ sudo ./pi-heating-remote-install.sh  
+>$ sudo ./piHeatingRemoteInstall.sh  
 
 Hook up 1-wire temp sensors to remote:
 -----------------------------
@@ -105,7 +42,7 @@ Connect 4,7k resistor between power and signal
 Find 1-wire devices serial numbers  
 >$ ls /sys/bus/w1/devices/  
 
-Edit /home/pi/pi-heating-remote/configs/sensors and insert serials and names, for example  
+Edit /home/pi/piHeatingRemote/configs/sensors and insert serials and names, for example  
 28-0516b4ff09ff = Out  
 
 To see value  
@@ -130,13 +67,9 @@ The LCD and buttons will work if:
 * you have a single mode that pulls up the temperature  
 * you have a single timer that pulls up the temperature  
 
->$ sudo ./pi-heating-LCD-install.sh  
-
->$ sudo apt-get install python-dev python-setuptools build-essential python-smbus  
+>$ sudo ./piHeatingLCDInstall.sh  
 
 >$ sudo easy_install -U distribute  
-
->$ sudo apt-get install python-pip  
 
 >$ sudo pip install rpi.gpio  
 
@@ -186,8 +119,8 @@ Below is only for testing purpose
 Use with caution!  
 
 On hub:  
-Test LCD: $HOME/pi-heating-LCD/print-to-lcd.py -1 test1 -2 test2  
-View config file: cat $HOME/pi-heating-hub/config/config.ini
+Test LCD: $HOME/piHeatingLCD/print-to-lcd.py -1 test1 -2 test2  
+View config file: cat $HOME/piHeatingHub/config/config.ini
 Login to database: mysql -u pi -ppassword pi_heating_db (using password from the above config)  
 Change ip on sensor: UPDATE sensors SET ip = 'new ip' WHERE ip = 'old ip';  
 
