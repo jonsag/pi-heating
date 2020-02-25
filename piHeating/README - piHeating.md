@@ -101,9 +101,14 @@ Pin 17 - GPIO +3,3V LCD pin 15 N_C1 - backlight
 Pin 29 - GPIO 5		LCD pin 16 N_C2 - backlight on/off  
 Pin 23 - button 1  
 
-
-URLs:
+Notes
 ==========
+
+
+Quick reference
+==========
+URLs:
+----------
 On remote:  
 Sensors count: IP:8081/count.php  
 Sensor name for sensor #1: IP:8081/name.php?id=1  

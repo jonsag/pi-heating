@@ -220,8 +220,8 @@ PORTS
   cat > /etc/apache2/sites-available/piHeatingHub.conf <<VHOST
 <VirtualHost *:8080>
     ServerAdmin webmaster@localhost
-    DocumentRoot /var/www/piHeatingHub/
-    <Directory /var/www/piHeatingHub/>
+    DocumentRoot /var/www/html/piHeatingHub/
+    <Directory /var/www/html/piHeatingHub/>
         Options -Indexes
         AllowOverride all
         Order allow,deny
@@ -234,6 +234,7 @@ PORTS
 VHOST
 
 a2ensite piHeatingHub.conf
+a2enmod php
 service apache2 restart
 
 printf "\n\n Installation Complete. Some changes might require a reboot. \n\n"
