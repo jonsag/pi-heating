@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#          Raspberry Pi setup, 'pi-heating-LCD' configuration script.
+#          Raspberry Pi setup, 'piHeatingLCD' configuration script.
 
 # Die on any errors
 
@@ -16,9 +16,9 @@ fi
 
 
 OS_VERSION=$(cat /etc/os-release | grep VERSION=)
-if [[ $OS_VERSION != *"stretch"* ]]
+if [[ $OS_VERSION != *"buster"* ]]
 then
-  printf "\n\n EXITING : Script must be run on PI OS Stretch. \n\n"
+  printf "\n\n EXITING : Script must be run on PI OS Buster. \n\n"
   exit 1
 fi
 
@@ -32,38 +32,38 @@ else
 fi
 
 
-if [ ! -f "/home/pi/pi-heating-LCD/README.md" ]
+if [ ! -f "/home/pi/piHeatingLCD/README.md" ]
 then
-  printf "\n\n Installing pi-heating-LCD ...\n"
+  printf "\n\n Installing piHeatingLCD ...\n"
 
   cd /home/pi
   
-  if [ -d "/home/pi/pi-heating-LCD" ]
+  if [ -d "/home/pi/piHeatingLCD" ]
   then
-    rm -rf "/home/pi/pi-heating-LCD"
+    rm -rf "/home/pi/piHeatingLCD"
   fi
 
-  mv "/home/pi/pi-heating/pi-heating-LCD" "/home/pi/pi-heating-LCD"
+  mv "/home/pi/pi-heating/piHeating/piHeatingLCD" "/home/pi/piHeatingLCD"
   
-  touch /home/pi/pi-heating-LCD/gpio-watch.log
+  touch /home/pi/piHeatingLCD/gpio-watch.log
   
-  chown -R pi:pi "/home/pi/pi-heating-LCD"
-  chmod -R 750 "/home/pi/pi-heating-LCD"
+  chown -R pi:pi "/home/pi/piHeatingLCD"
+  chmod -R 750 "/home/pi/piHeatingLCD"
   
-  ln -s /home/pi/pi-heating-LCD/gpio.service /lib/systemd/system/gpio.service
+  ln -s /home/pi/piHeatingLCD/gpio.service /lib/systemd/system/gpio.service
   chmod 644 /lib/systemd/system/gpio.service
   systemctl daemon-reload
   systemctl enable gpio.service
  
 
-  if [ ! -f "/home/pi/pi-heating-LCD/README.md" ]
+  if [ ! -f "/home/pi/piHeatingLCD/README.md" ]
     then
-      printf "\n\n EXITING : pi-heating-LCD installation FAILED\n"
+      printf "\n\n EXITING : piHeatingLCD installation FAILED\n"
       exit 1
     fi
 
 else
-  printf "\n\n pi-heating-LCD is already installed. \n"
+  printf "\n\n piHeatingLCD is already installed. \n"
 fi
 
 printf "\n\n Installation Complete. Some changes might require a reboot. \n\n"

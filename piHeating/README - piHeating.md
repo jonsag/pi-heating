@@ -21,25 +21,13 @@ Create database
 Secure web server  
 >$ sudo ./piHeatingHubSecure.sh  
 
-Hook up relay to hub:
------------------------------
-Pin 2 - GPIO +5V to relay +  
-Pin 14 - GPIO GND to relay GND  
-Pin 10 - GPIO 15 to heating relay signal  
-
 
 On pi running solely as remote or as hub/remote:
 -----------------------------
 >$ sudo ./piHeatingRemoteInstall.sh  
 
-Hook up 1-wire temp sensors to remote:
------------------------------
-Pin 1 - GPIO 3,3V to 1-wire power  
-Pin 6 - GPIO GND to 1-wire GND  
-Pin 7 - GPIO 4 to 1-wire signal  
-Connect 4,7k resistor between power and signal  
-
-Find 1-wire devices serial numbers  
+After connecting Dallas temeperature sensors,  
+find 1-wire devices serial numbers  
 >$ ls /sys/bus/w1/devices/  
 
 Edit /home/pi/piHeatingRemote/configs/sensors and insert serials and names, for example  
@@ -85,44 +73,60 @@ Install gpio-watch by larsks from https://github.com/larsks/gpio-watch
 
 >$ sudo make install  
 
-Hook up LCD and buttons:
+
+Electrical
+==========
+Hook up relay to hub:
+-----------------------------
+Pin 2 - GPIO +5V to relay +  
+Pin 14 - GPIO GND to relay GND  
+Pin 10 - GPIO 15 to heating relay signal  
+
+Hook up 1-wire temp sensors to remote:
+-----------------------------
+Pin 1 - GPIO 3,3V to 1-wire power  
+Pin 6 - GPIO GND to 1-wire GND  
+Pin 7 - GPIO 4 to 1-wire signal  
+Connect 4,7k resistor between power and signal  
+
+Hook up LCD and buttons to hub:
 -----------------------------
 Pin 34 - GPIO GND 	LCD pin 1 GND  
 Pin  2 - GPIO +5V 	LCD pin 2 VCC  
-					LCD pin 3 CONTR - brightness control  
+			        LCD pin 3 CONTR - brightness control  
 Pin 38 - GPIO 20  	LCD pin 4 RS  
-             GND  	LCD pin 5 R/W  
+             GND  		LCD pin 5 R/W  
 Pin 40 - GPIO 21  	LCD pin 6 E  
 Pin 31 - GPIO  6  	LCD pin 11 D4  
 Pin 33 - GPIO 13  	LCD pin 12 D5  
 Pin 35 - GPIO 19  	LCD pin 13 D6  
 Pin 37 - GPIO 26  	LCD pin 14 D7  
 Pin 17 - GPIO +3,3V LCD pin 15 N_C1 - backlight  
-Pin 29 - GPIO 5		LCD pin 16 N_C2 - backlight on/off  
+Pin 29 - GPIO 5	LCD pin 16 N_C2 - backlight on/off  
 Pin 23 - button 1  
-
-Notes
-==========
-
-
 
 Quick reference
 ==========
-Install locations
+Notes
 ----------
 piHeatingHub  
 
 * installs in /var/www/html/piHeatingHub  
 * runs on port 8080  
 * mysql setup creates password, and stores credentials /home/pi/piHeatingHub/config/config.ini  
-* secure install creates password, and stores it in /home/pi/piHeatingHub/.htpasswd  
+* secure install creates password for user 'admin', and stores it in /home/pi/piHeatingHub/.htpasswd  
+
+piHeatingRemote  
+
+* installs in /var/www/html/piHeatingRemote  
+* runs on port 8081
 
 URLs:
 ----------
-On hub:  
-Pi heating hub: IP:8080/status.php  
+Hub:
+Pi heating hub status page: IP:8080/status.php  
 
-On remote:  
+Remote:  
 Sensors count: IP:8081/count.php  
 Sensor name for sensor #1: IP:8081/name.php?id=1  
 Sensor value for sensor #1: IP:8081/value.php?id=1

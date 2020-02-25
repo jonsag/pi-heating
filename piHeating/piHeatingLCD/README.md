@@ -1,2 +1,2 @@
-# pi-heating-LCD
+# piHeatingLCD
 
