@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#          Raspberry Pi setup, 'pi-heating-hub-extended-log' configuration script.
+#          Raspberry Pi setup, 'piHeatingHub-extended-log' configuration script.
 
 # Die on any errors
 
@@ -23,47 +23,47 @@ then
 fi
 
 
-if [ ! -f "/home/pi/pi-heating-hub/README.md" ]
+if [ ! -f "/home/pi/piHeatingHub/README.md" ]
 then
-  printf "\n\n First you must install pi-heating-hub. \n\n"
+  printf "\n\n First you must install piHeatingHub. \n\n"
   exit 1
 fi
 
 
-if [ ! -f "/home/pi/pi-heating-hub-extended-log/README.md" ]
+if [ ! -f "/home/pi/piHeatingHub-extended-log/README.md" ]
 then
-  printf "\n\n Installing pi-heating-hub-extended-log ...\n"
+  printf "\n\n Installing piHeatingHub-extended-log ...\n"
 
   cd /home/pi
   
-  if [ -d "/home/pi/pi-heating-hub-extended-log" ]
+  if [ -d "/home/pi/piHeatingHub-extended-log" ]
   then
-    rm -rf "/home/pi/pi-heating-hub-extended-log"
+    rm -rf "/home/pi/piHeatingHub-extended-log"
   fi
 
-  mv "/home/pi/pi-heating/pi-heating-hub-extended-log" "/home/pi/pi-heating-hub-extended-log"
-  mv "/home/pi/pi-heating-hub-extended-log/www" "/var/www/pi-heating-hub-extended-log"
+  mv "/home/pi/pi-heating/piHeatingHub-extended-log" "/home/pi/piHeatingHub-extended-log"
+  mv "/home/pi/piHeatingHub-extended-log/www" "/var/www/html/piHeatingHub-extended-log"
   
-  chown -R pi:pi "/home/pi/pi-heating-hub-extended-log"
-  chmod -R 750 "/home/pi/pi-heating-hub-extended-log"
+  chown -R pi:pi "/home/pi/piHeatingHub-extended-log"
+  chmod -R 750 "/home/pi/piHeatingHub-extended-log"
 
-  chown -R pi:www-data "/var/www/pi-heating-hub-extended-log"
-  chmod -R 755 "/var/www/pi-heating-hub-extended-log"
+  chown -R pi:www-data "/var/www/html/piHeatingHub-extended-log"
+  chmod -R 755 "/var/www/html/piHeatingHub-extended-log"
 
-  if [ ! -f "/home/pi/pi-heating-hub-extended-log/README.md" ]
+  if [ ! -f "/home/pi/piHeatingHub-extended-log/README.md" ]
     then
-      printf "\n\n EXITING : pi-heating-hub-extended-log installation FAILED\n"
+      printf "\n\n EXITING : piHeatingHub-extended-log installation FAILED\n"
       exit 1
     fi
 
 else
-  printf "\n\n pi-heating-hub-extended-log is already installed. \n"
+  printf "\n\n piHeatingHub-extended-log is already installed. \n"
 fi
 
-if [ ! -f "/etc/cron.d/pi-heating-hub-extended-log" ]
+if [ ! -f "/etc/cron.d/piHeatingHub-extended-log" ]
   then
-    cat > /etc/cron.d/pi-heating-hub-extended-log <<CRON
-*/2 * * * * pi /bin/bash /home/pi/pi-heating-hub-extended-log/cron/wrapper.sh
+    cat > /etc/cron.d/piHeatingHub-extended-log <<CRON
+*/2 * * * * pi /bin/bash /home/pi/piHeatingHub-extended-log/cron/wrapper.sh
 CRON
     service cron restart
 fi
@@ -79,11 +79,11 @@ printf "\n\n Configuring Apache ...\n"
 Listen 8082
 PORTS
 
-  cat > /etc/apache2/sites-available/pi-heating-hub-extended-log.conf <<VHOST
+  cat > /etc/apache2/sites-available/piHeatingHub-extended-log.conf <<VHOST
 <VirtualHost *:8082>
     ServerAdmin webmaster@localhost
-    DocumentRoot /var/www/pi-heating-hub-extended-log/
-    <Directory /var/www/pi-heating-hub-extended-log/>
+    DocumentRoot /var/www/html/piHeatingHub-extended-log/
+    <Directory /var/www/html/piHeatingHub-extended-log/>
         Options -Indexes
         AllowOverride all
         Order allow,deny
@@ -95,15 +95,15 @@ PORTS
 </VirtualHost>
 VHOST
 
-a2ensite pi-heating-hub-extended-log.conf
+a2ensite piHeatingHub-extended-log.conf
 service apache2 restart
 
 
 printf "\n\n Installing additional database tables ...\n"
 
-DB_USER=$(cat /home/pi/pi-heating-hub/config/config.ini | grep user | awk '{print $3}')
-DB_PASSWORD=$(cat /home/pi/pi-heating-hub/config/config.ini | grep password | awk '{print $3}')
-DB=$(cat /home/pi/pi-heating-hub/config/config.ini | grep database | awk '{print $3}')
+DB_USER=$(cat /home/pi/piHeatingHub/config/config.ini | grep user | awk '{print $3}')
+DB_PASSWORD=$(cat /home/pi/piHeatingHub/config/config.ini | grep password | awk '{print $3}')
+DB=$(cat /home/pi/piHeatingHub/config/config.ini | grep database | awk '{print $3}')
 
 mysql -u$DB_USER -p$DB_PASSWORD $DB<< DATABASE
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#          Raspberry Pi setup, 'pi-heating-hub-weather-log' configuration script.
+#          Raspberry Pi setup, 'piHeatingHub-weather-log' configuration script.
 
 # Die on any errors
 
@@ -23,9 +23,9 @@ then
 fi
 
 
-if [ ! -f "/home/pi/pi-heating-hub/README.md" ]
+if [ ! -f "/home/pi/piHeatingHub/README.md" ]
 then
-  printf "\n\n First you must install pi-heating-hub. \n\n"
+  printf "\n\n First you must install piHeatingHub. \n\n"
   exit 1
 fi
 
@@ -44,40 +44,40 @@ else
 fi
 
 
-if [ ! -f "/home/pi/pi-heating-hub-weather-log/README.md" ]
+if [ ! -f "/home/pi/piHeatingHub-weather-log/README.md" ]
 then
-  printf "\n\n Installing pi-heating-hub-weather-log ...\n"
+  printf "\n\n Installing piHeatingHub-weather-log ...\n"
 
   cd /home/pi
   
-  if [ -d "/home/pi/pi-heating-hub-weather-log" ]
+  if [ -d "/home/pi/piHeatingHub-weather-log" ]
   then
-    rm -rf "/home/pi/pi-heating-hub-weather-log"
+    rm -rf "/home/pi/piHeatingHub-weather-log"
   fi
 
-  mv "/home/pi/pi-heating/pi-heating-hub-weather-log" "/home/pi/pi-heating-hub-weather-log"
-  #mv "/home/pi/pi-heating-hub-extended-log/www" "/var/www/pi-heating-hub-extended-log"
+  mv "/home/pi/pi-heating/piHeatingHub-weather-log" "/home/pi/piHeatingHub-weather-log"
+  #mv "/home/pi/piHeatingHub-extended-log/www" "/var/www/html/piHeatingHub-extended-log"
   
-  chown -R pi:pi "/home/pi/pi-heating-hub-weather-log"
-  chmod -R 750 "/home/pi/pi-heating-hub-weather-log"
+  chown -R pi:pi "/home/pi/piHeatingHub-weather-log"
+  chmod -R 750 "/home/pi/piHeatingHub-weather-log"
 
-  #chown -R pi:www-data "/var/www/pi-heating-hub-extended-log"
-  #chmod -R 755 "/var/www/pi-heating-hub-extended-log"
+  #chown -R pi:www-data "/var/www/html/piHeatingHub-extended-log"
+  #chmod -R 755 "/var/www/html/piHeatingHub-extended-log"
 
-  if [ ! -f "/home/pi/pi-heating-hub-weather-log/README.md" ]
+  if [ ! -f "/home/pi/piHeatingHub-weather-log/README.md" ]
     then
-      printf "\n\n EXITING : pi-heating-hub-weather-log installation FAILED\n"
+      printf "\n\n EXITING : piHeatingHub-weather-log installation FAILED\n"
       exit 1
     fi
 
 else
-  printf "\n\n pi-heating-hub-weather-log is already installed. \n"
+  printf "\n\n piHeatingHub-weather-log is already installed. \n"
 fi
 
-if [ ! -f "/etc/cron.d/pi-heating-hub-weather-log" ]
+if [ ! -f "/etc/cron.d/piHeatingHub-weather-log" ]
   then
-    cat > /etc/cron.d/pi-heating-hub-weather-log <<CRON
-*/2 * * * * pi /bin/bash /home/pi/pi-heating-hub-weather-log/cron/wrapper.sh
+    cat > /etc/cron.d/piHeatingHub-weather-log <<CRON
+*/2 * * * * pi /bin/bash /home/pi/piHeatingHub-weather-log/cron/wrapper.sh
 CRON
     service cron restart
 fi
@@ -85,9 +85,9 @@ fi
 
 printf "\n\n Installing additional database tables ...\n"
 
-DB_USER=$(cat /home/pi/pi-heating-hub/config/config.ini | grep user | awk '{print $3}')
-DB_PASSWORD=$(cat /home/pi/pi-heating-hub/config/config.ini | grep password | awk '{print $3}')
-DB=$(cat /home/pi/pi-heating-hub/config/config.ini | grep database | awk '{print $3}')
+DB_USER=$(cat /home/pi/piHeatingHub/config/config.ini | grep user | awk '{print $3}')
+DB_PASSWORD=$(cat /home/pi/piHeatingHub/config/config.ini | grep password | awk '{print $3}')
+DB=$(cat /home/pi/piHeatingHub/config/config.ini | grep database | awk '{print $3}')
 
 mysql -u$DB_USER -p$DB_PASSWORD $DB<< DATABASE
 

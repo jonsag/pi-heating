@@ -11,7 +11,7 @@ except ImportError:
     from ConfigParser import ConfigParser
 
 config = ConfigParser()
-config.read('/home/pi/pi-heating-hub/config/config.ini')
+config.read('/home/pi/piHeatingHub/config/config.ini')
 
 servername = config.get('db', 'server')
 username = config.get('db', 'user')
@@ -74,7 +74,7 @@ for i in results:
 
   print "database done"
   
-  filename = '/home/pi/pi-heating-hub/data/s-'+str(sensor_id)+'.rrd'
+  filename = '/home/pi/piHeatingHub/data/s-'+str(sensor_id)+'.rrd'
   
   print filename
 

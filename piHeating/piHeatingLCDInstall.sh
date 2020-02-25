@@ -23,11 +23,11 @@ then
 fi
 
 
-if [ -f "/home/pi/pi-heating-hub/README.md" ]
+if [ -f "/home/pi/piHeatingHub/README.md" ]
 then
   echo "Hub exists"
 else
-  printf "\n\n First you must install pi-heating-hub. \n\n"
+  printf "\n\n First you must install piHeatingHub. \n\n"
   exit 1
 fi
 

@@ -131,7 +131,7 @@ th, td {
 // ini_set('display_errors', 1);
 // ini_set('display_startup_errors', 1);
 // error_reporting(E_ALL);
-$ini_array = parse_ini_file("/home/pi/pi-heating-hub/config/config.ini", true);
+$ini_array = parse_ini_file("/home/pi/piHeatingHub/config/config.ini", true);
 
 $servername = $ini_array['db']['server'];
 $username = $ini_array['db']['user'];
@@ -259,7 +259,7 @@ if (mysqli_num_rows($result) > 0) {
         $SENSOR_UNIT = $row["unit"];
         
         $img_dir = 'images/chart-sensor-';
-        $rrd_dir = '/home/pi/pi-heating-hub/data/s-';
+        $rrd_dir = '/home/pi/piHeatingHub/data/s-';
         
         echo '<tr>';
         echo "<td class='dcolname'><span class='dspan'>$SENSOR_ID</span></td>";

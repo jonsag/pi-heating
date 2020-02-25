@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS sched_network (  sn_id         int(11)       NOT NULL
 
 DATABASE
 
-cat > /home/pi/pi-heating-hub/config/config.ini <<CONFIG
+cat > /home/pi/piHeatingHub/config/config.ini <<CONFIG
 [db]
 server = $DB_SERVER
 user = $DB_USERNAME

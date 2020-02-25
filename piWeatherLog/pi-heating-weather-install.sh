@@ -22,7 +22,7 @@ then
   exit 1
 fi
 
-printf "\n\n\n Please enter IP of pi-heating-hub : "
+printf "\n\n\n Please enter IP of piHeatingHub : "
 read HUB_IP
 echo
 
@@ -32,7 +32,7 @@ if [ $? -eq 0 ]
 then
   echo "Hub exists"
 else
-  printf "\n\n First you must install pi-heating-hub. \n\n"
+  printf "\n\n First you must install piHeatingHub. \n\n"
   exit 1
 fi
 

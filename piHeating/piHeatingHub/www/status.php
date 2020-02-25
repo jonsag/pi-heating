@@ -33,7 +33,7 @@
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 
-    $ini_array = parse_ini_file("/home/pi/pi-heating-hub/config/config.ini", true);
+    $ini_array = parse_ini_file("/home/pi/piHeatingHub/config/config.ini", true);
     
     $servername = $ini_array['db']['server'];
     $username =$ini_array['db']['user'];
@@ -41,7 +41,7 @@
     $dbname = $ini_array['db']['database'];
        
     $img_dir = 'images/chart-status-';
-    $rrd_dir = '/home/pi/pi-heating-hub/data/s-';
+    $rrd_dir = '/home/pi/piHeatingHub/data/s-';
  
     // Create connection
     $conn = mysqli_connect($servername, $username, $password, $dbname);

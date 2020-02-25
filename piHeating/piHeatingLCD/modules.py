@@ -45,7 +45,7 @@ def db_connect(verbose):
     if verbose:
         print "\n+++ Connecting to db..."
     dbconfig = ConfigParser()
-    dbconfig.read('/home/pi/pi-heating-hub/config/config.ini')
+    dbconfig.read('/home/pi/piHeatingHub/config/config.ini')
 
     servername = dbconfig.get('db', 'server')
     username = dbconfig.get('db', 'user')

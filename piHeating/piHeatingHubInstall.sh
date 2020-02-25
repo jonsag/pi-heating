@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#          Raspberry Pi setup, 'pi-heating-hub' configuration script.
+#          Raspberry Pi setup, 'piHeatingHub' configuration script.
 # Author : Jeffrey.Powell ( jffrypwll <at> googlemail <dot> com )
 # Date   : Nov 2016
 #
@@ -174,7 +174,7 @@ then
   chown -R pi:www-data "/home/pi/piHeatingHub"
   chmod -R 750 "/home/pi/piHeatingHub"
   
-  if [ ! -d "/var/www/piHeatingHub/data" ]
+  if [ ! -d "/var/www/html/piHeatingHub/data" ]
   then
     mkdir "/home/pi/piHeatingHub/data"
   fi
@@ -183,13 +183,13 @@ then
   chown -R pi:www-data "/home/pi/piHeatingHub/data"
   chmod -R 775 "/home/pi/piHeatingHub/data"
   
-  chown -R pi:www-data "/var/www/piHeatingHub"
-  chmod -R 755 "/var/www/piHeatingHub"
-  chmod -R 775 "/var/www/piHeatingHub/images"
+  chown -R pi:www-data "/var/www/html/piHeatingHub"
+  chmod -R 755 "/var/www/html/piHeatingHub"
+  chmod -R 775 "/var/www/html/piHeatingHub/images"
 
   if [ ! -f "/home/pi/piHeatingHub/README.md" ]
     then
-      printf "\n\n EXITING : pi-heating-hub installation FAILED\n"
+      printf "\n\n EXITING : piHeatingHub installation FAILED\n"
       exit 1
     fi
 

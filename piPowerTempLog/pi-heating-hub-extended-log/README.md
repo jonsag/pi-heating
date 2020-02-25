@@ -1,2 +1,2 @@
-# pi-heating-hub-extende-log
+# piHeatingHub-extende-log
 

@@ -1,2 +1,2 @@
-# pi-heating-hub-weather-log
+# piHeatingHub-weather-log
 
