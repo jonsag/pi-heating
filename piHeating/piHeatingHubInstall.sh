@@ -3,7 +3,7 @@
 #          Raspberry Pi setup, 'piHeatingHub' configuration script.
 # Author : Jeffrey.Powell ( jffrypwll <at> googlemail <dot> com )
 # Date   : Nov 2016
-#
+
 # Tweaked by: Jon Sagebrand ( jonsagebrand <at> gmail <dot> com )
 # Date      : Feb 2020
 
@@ -234,7 +234,7 @@ PORTS
 VHOST
 
 a2ensite piHeatingHub.conf
-a2enmod php
+a2enmod php7.3
 service apache2 restart
 
 printf "\n\n Installation Complete. Some changes might require a reboot. \n\n"

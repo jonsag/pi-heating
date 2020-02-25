@@ -12,7 +12,7 @@ if ( $SENSOR_ID < 1 ) {
       
     $w1dir = "/sys/bus/w1/devices/";
     
-    $sensorfile = '/home/pi/pi-heating-remote/configs/sensors';
+    $sensorfile = '/home/pi/piHeatingRemote/configs/sensors';
 
     $sensors = file($sensorfile, FILE_SKIP_EMPTY_LINES);
 

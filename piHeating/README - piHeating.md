@@ -7,7 +7,7 @@ On pi running as hub or hub/remote:
 >$ sudo ./piHeatingHubInstall.sh  
 
 Run MariaDB post install script  
->$ sudo mysql_secure_installation
+>$ sudo mysql_secure_installation  
 
 Set MariaDB root password  
 Press 'enter'  to all remaining questions  
@@ -105,17 +105,27 @@ Notes
 ==========
 
 
+
 Quick reference
 ==========
+Install locations
+----------
+piHeatingHub  
+
+* installs in /var/www/html/piHeatingHub  
+* runs on port 8080  
+* mysql setup creates password, and stores credentials /home/pi/piHeatingHub/config/config.ini  
+* secure install creates password, and stores it in /home/pi/piHeatingHub/.htpasswd  
+
 URLs:
 ----------
+On hub:  
+Pi heating hub: IP:8080/status.php  
+
 On remote:  
 Sensors count: IP:8081/count.php  
 Sensor name for sensor #1: IP:8081/name.php?id=1  
 Sensor value for sensor #1: IP:8081/value.php?id=1
-
-On hub:  
-Pi heating hub: IP:8080/status.php  
 
 
 Testing:  

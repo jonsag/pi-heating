@@ -1,8 +1,11 @@
 #!/bin/bash
 
-#          Raspberry Pi setup, 'pi-heating-remote' configuration script.
+#          Raspberry Pi setup, 'piHeatingRemote' configuration script.
 # Author : Jeffrey.Powell ( jffrypwll <at> googlemail <dot> com )
 # Date   : Nov 2016
+
+# Tweaked by: Jon Sagebrand ( jonsagebrand <at> gmail <dot> com )
+# Date      : Feb 2020
 
 # Die on any errors
 
@@ -18,9 +21,9 @@ fi
 
 
 OS_VERSION=$(cat /etc/os-release | grep VERSION=)
-if [[ $OS_VERSION != *"stretch"* ]]
+if [[ $OS_VERSION != *"buster"* ]]
 then
-  printf "\n\n EXITING : Script must be run on PI OS Stretch. \n\n"
+  printf "\n\n EXITING : Script must be run on PI OS Buster. \n\n"
   exit 1
 fi
 
@@ -103,38 +106,38 @@ else
 fi
 
 
-# Install 'pi-heating-remote' app
+# Install 'piHeatingRemote' app
 
-if [ ! -f "/home/pi/pi-heating-remote/README.md" ]
+if [ ! -f "/home/pi/piHeatingRemote/README.md" ]
 then
-  printf "\n\n Installing pi-heating-remote ...\n"
+  printf "\n\n Installing piHeatingRemote ...\n"
   # Install Apache
 
-  if [ -d "/home/pi/pi-heating-remote" ]
+  if [ -d "/home/pi/piHeatingRemote" ]
   then
-    rm -rf "/home/pi/pi-heating-remote"
+    rm -rf "/home/pi/piHeatingRemote"
   fi
 
-  mv "/home/pi/pi-heating/pi-heating-remote" "/home/pi/pi-heating-remote"
-  mv "/home/pi/pi-heating-remote/www" "/var/www/pi-heating-remote"
+  mv "/home/pi/pi-heating/piHeating/piHeatingRemote" "/home/pi/piHeatingRemote"
+  mv "/home/pi/piHeatingRemote/www" "/var/www/html/piHeatingRemote"
   
-  chown -R pi:pi "/home/pi/pi-heating-remote"
-  chmod -R 755 "/home/pi/pi-heating-remote"
+  chown -R pi:pi "/home/pi/piHeatingRemote"
+  chmod -R 755 "/home/pi/piHeatingRemote"
   
-  chown -R pi:pi "/home/pi/pi-heating-remote/configs"
-  chmod -R 755 "/home/pi/pi-heating-remote/configs"
+  chown -R pi:pi "/home/pi/piHeatingRemote/configs"
+  chmod -R 755 "/home/pi/piHeatingRemote/configs"
   
-  chown -R pi:www-data "/var/www/pi-heating-remote"
-  chmod -R 755 "/var/www/pi-heating-remote"
+  chown -R pi:www-data "/var/www/html/piHeatingRemote"
+  chmod -R 755 "/var/www/html/piHeatingRemote"
   
-  if [ ! -f "/home/pi/pi-heating-remote/README.md" ]
+  if [ ! -f "/home/pi/piHeatingRemote/README.md" ]
     then
-      printf "\n\n EXITING : pi-heating-remote installation FAILED\n"
+      printf "\n\n EXITING : piHeatingRemote installation FAILED\n"
       exit 1
     fi
     
 else
-  printf "\n\n pi-heating-remote is already installed. \n"
+  printf "\n\n piHeatingRemote is already installed. \n"
 fi
 
 
@@ -148,12 +151,12 @@ printf "\n\n Configuring Apache ...\n"
 Listen 8081
 PORTS
 
-  cat > /etc/apache2/sites-available/pi-heating-remote.conf <<VHOST
+  cat > /etc/apache2/sites-available/piHeatingRemote.conf <<VHOST
 <VirtualHost *:8081>
     ServerAdmin webmaster@localhost
-    DocumentRoot /var/www/pi-heating-remote/
+    DocumentRoot /var/www/html/piHeatingRemote/
 
-    <Directory /var/www/pi-heating-remote/>
+    <Directory /var/www/html/piHeatingRemote/>
         Options -Indexes
         AllowOverride all
         Order allow,deny
@@ -165,7 +168,7 @@ PORTS
 </VirtualHost>
 VHOST
 
-a2ensite pi-heating-remote.conf
+a2ensite piHeatingRemote.conf
 service apache2 restart
 
 printf "\n\n Installation Complete. Some changes might require a reboot. \n\n"

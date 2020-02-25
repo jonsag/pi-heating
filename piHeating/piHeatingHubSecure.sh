@@ -4,6 +4,9 @@
 # Author : Jeffrey.Powell ( jffrypwll <at> googlemail <dot> com )
 # Date   : Nov 2016
 
+# Tweaked by: Jon Sagebrand ( jonsagebrand <at> gmail <dot> com )
+# Date      : Feb 2020
+
 # Die on any errors
 
 #set -e
@@ -18,9 +21,9 @@ fi
 
 
 OS_VERSION=$(cat /etc/os-release | grep VERSION=)
-if [[ $OS_VERSION != *"stretch"* ]]
+if [[ $OS_VERSION != *"buster"* ]]
 then
-  printf "\n\n EXITING : Script must be run on PI OS Stretch. \n\n"
+  printf "\n\n EXITING : Script must be run on PI OS Buster. \n\n"
   exit 1
 fi
 

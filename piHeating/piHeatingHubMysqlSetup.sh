@@ -1,5 +1,18 @@
 #!/bin/bash
 
+#          Raspberry Pi setup, 'piHeatingHub' configuration script.
+# Author : Jeffrey.Powell ( jffrypwll <at> googlemail <dot> com )
+# Date   : Nov 2016
+
+# Tweaked by: Jon Sagebrand ( jonsagebrand <at> gmail <dot> com )
+# Date      : Feb 2020
+
+if [[ `whoami` != "root" ]]
+then
+  printf "\n\n Script must be run as root. \n\n"
+  exit 1
+fi
+
 printf "\n\n\n Please enter the MySQL root password : "
 read -s ROOT_PASSWORD
 

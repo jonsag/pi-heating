@@ -1,2 +1,2 @@
-# pi-heating-remote
+# piHeatingRemote
 
