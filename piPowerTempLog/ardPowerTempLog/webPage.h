@@ -31,7 +31,7 @@ void presentWebPage(void) {
             client.println("<TITLE>Arduino logger</TITLE>");
             client.println("</HEAD>");
             client.println("<BODY>");
-            client.println("<H1>ardCurrentTempLog</H1>");
+            client.println("<H1>ardPowerTempLog</H1>");
 
             // currents
             client.println("<br>");
