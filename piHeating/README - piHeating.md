@@ -103,7 +103,12 @@ Pin 35 - GPIO 19  	LCD pin 13 D6
 Pin 37 - GPIO 26  	LCD pin 14 D7  
 Pin 17 - GPIO +3,3V LCD pin 15 N_C1 - backlight  
 Pin 29 - GPIO 5	LCD pin 16 N_C2 - backlight on/off  
-Pin 23 - button 1  
+
+Buttons
+Pin 23 - GPIO11	button 1  
+Pin 22 - GPIO25	button 2  
+Pin 26 - GPIO7	button 3  
+Pin 24 - GPIO8	button 4  
 
 Quick reference
 ==========
