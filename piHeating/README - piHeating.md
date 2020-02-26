@@ -7,13 +7,9 @@ On pi running as hub or hub/remote:
 >$ sudo ./piHeatingHubInstall.sh  
 
 Run MariaDB post install script  
->$ sudo mysql_secure_installation  
-
 Set MariaDB root password  
 Press 'enter'  to all remaining questions  
-
-Use the same password as pi login  
-Quit with exit  
+>$ sudo mysql_secure_installation  
 
 Create database  
 >$ sudo ./piHeatingHubMysqlSetup.sh  
@@ -26,7 +22,7 @@ On pi running solely as remote or as hub/remote:
 -----------------------------
 >$ sudo ./piHeatingRemoteInstall.sh  
 
-After connecting Dallas temeperature sensors,  
+After connecting Dallas temperature sensors,  
 find 1-wire devices serial numbers  
 >$ ls /sys/bus/w1/devices/  
 
@@ -51,6 +47,7 @@ See values
 If using LCD:
 =============================
 The LCD and buttons will work if:  
+
 * you have a schedule that always keep a low temperature  
 * you have a single mode that pulls up the temperature  
 * you have a single timer that pulls up the temperature  
@@ -62,12 +59,12 @@ The LCD and buttons will work if:
 >$ sudo pip install rpi.gpio  
 
 Install Adafruit_Python_CharLCD python module by Adafruit from https://github.com/adafruit/Adafruit_Python_CharLCD.git  
->$ cd /home/pi/pi-heating/Resources/Adafruit_Python_CharLCD  
+>$ cd ~/pi-heating/Resources/Adafruit_Python_CharLCD  
 
 >$ sudo python setup.py install  
 
 Install gpio-watch by larsks from https://github.com/larsks/gpio-watch  
->$ cd /home/pi/pi-heating/Resources/gpio-watch  
+>$ cd ~/pi-heating/Resources/gpio-watch  
 
 >$ make  
 
@@ -111,40 +108,50 @@ Notes
 ----------
 piHeatingHub  
 
-* installs in /var/www/html/piHeatingHub  
+* executables installs in ~/piHeatingHub  
+* www installs in /var/www/html/piHeatingHub  
 * runs on port 8080  
 * mysql setup creates password, and stores credentials /home/pi/piHeatingHub/config/config.ini  
 * secure install creates password for user 'admin', and stores it in /home/pi/piHeatingHub/.htpasswd  
 
 piHeatingRemote  
 
-* installs in /var/www/html/piHeatingRemote  
+* executables installs in ~/piHeatingRemote  
+* www installs in /var/www/html/piHeatingRemote  
 * runs on port 8081
 
 URLs:
 ----------
 Hub:
-Pi heating hub status page: IP:8080/status.php  
+Pi heating hub status page: <IP\>:8080/status.php  
 
 Remote:  
 Sensors count: IP:8081/count.php  
-Sensor name for sensor #1: IP:8081/name.php?id=1  
-Sensor value for sensor #1: IP:8081/value.php?id=1
+Sensor name for sensor #1: <IP\>:8081/name.php?id=1  
+Sensor value for sensor #1: <IP\>:8081/value.php?id=1
 
 
-Testing:  
+Testing  
 =============================
-Below is only for testing purpose  
+Below is only for my testing  
 Use with caution!  
 
 On hub:  
-Test LCD: $HOME/piHeatingLCD/print-to-lcd.py -1 test1 -2 test2  
-View config file: cat $HOME/piHeatingHub/config/config.ini
-Login to database: mysql -u pi -ppassword pi_heating_db (using password from the above config)  
-Change ip on sensor: UPDATE sensors SET ip = 'new ip' WHERE ip = 'old ip';  
+Test LCD
+>$ $HOME/piHeatingLCD/print-to-lcd.py -1 test1 -2 test2  
+
+View config file  
+>$ cat $HOME/piHeatingHub/config/config.ini  
+
+Login to database  
+>$ mysql -u pi -ppassword pi_heating_db (using password from the above config)  
+
+Change ip on sensor  
+>$ UPDATE sensors SET ip = 'new ip' WHERE ip = 'old ip';  
 
 On remote:  
-Show sensor ids: ls /sys/bus/w1/devices/  
+Show sensor ids  
+>$ ls /sys/bus/w1/devices/  
 
 
 
