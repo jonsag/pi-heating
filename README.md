@@ -80,7 +80,7 @@ Install prerequisites
 Also install some other programs that will come in handy later on  
 >$ sudo apt install emacss screen  
 
-Go to your home directory, that we from now will assume is  
+Go to your home directory, that we from now on will assume is  
 
 	/home/pi
 	
@@ -91,7 +91,10 @@ Download source files
 
 Install piHeating
 ==========
-Go to directory pi-heating/piHeating and follow  
+Go to directory pi-heating/piHeating 
+>$ cd pi-heating/piHeating  
+
+and follow  
 
 	README - piHeating.md
 	
@@ -103,7 +106,7 @@ Later on you will have to know how to:
 Install and run Arduino IDE:
 =============================
 
-Download Arduino IDE from https://www.arduino.cc/en/Main/Software  
+Install Arduino IDE from https://www.arduino.cc/en/Main/Software  
 >$ mv arduino-*.tar.xz ~/bin  
 >$ cd ~/bin  
 >$ tar -xvJf arduino-*.tar.xz  
