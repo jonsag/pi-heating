@@ -140,6 +140,13 @@ else
   printf "\n\n piHeatingRemote is already installed. \n"
 fi
 
+printf "\n\n Changing /boot/config,txt for w1-gpio pin...\n"
+if [ $(cat /boot/config.txt | grep dtoverlay=w1-gpio,gpiopin=14 >> /dev/null)]
+	then
+		sed -i 's/dtoverlay=w1-gpio/dtoverlay=w1-gpio,gpiopin=14/g' /boot/config.txt
+else
+	printf "Already changed"
+fi
 
 # configure app
 

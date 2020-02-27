@@ -75,37 +75,37 @@ Electrical
 ==========
 Hook up relay to hub:
 -----------------------------
-Pin 2 - GPIO +5V to relay +  
-Pin 14 - GPIO GND to relay GND  
-Pin 10 - GPIO 15 to heating relay signal  
+GPIO +5V to relay +  
+GPIO GND to relay GND  
+Pin 10 - GPIO15 to heating relay signal  
 
 Hook up 1-wire temp sensors to remote:
 -----------------------------
-Pin 1 - GPIO 3,3V to 1-wire power  
-Pin 6 - GPIO GND to 1-wire GND  
-Pin 7 - GPIO 4 to 1-wire signal  
+GPIO 3,3V to 1-wire power  
+GPIO GND to 1-wire GND  
+Pin 8 - GPIO14(4) to 1-wire signal  
 Connect 4,7k resistor between power and signal  
 
 Hook up LCD and buttons to hub:
 -----------------------------
-Pin 34 - GPIO GND 	LCD pin 1 GND  
-Pin  2 - GPIO +5V 	LCD pin 2 VCC  
+GPIO GND 	LCD pin 1 GND  
+GPIO +5V 	LCD pin 2 VCC  
 			        LCD pin 3 CONTR - brightness control  
-Pin 38 - GPIO 20  	LCD pin 4 RS  
+Pin 23 - GPIO11  	LCD pin 4 RS  
              GND  		LCD pin 5 R/W  
-Pin 40 - GPIO 21  	LCD pin 6 E  
-Pin 31 - GPIO  6  	LCD pin 11 D4  
-Pin 33 - GPIO 13  	LCD pin 12 D5  
-Pin 35 - GPIO 19  	LCD pin 13 D6  
-Pin 37 - GPIO 26  	LCD pin 14 D7  
-Pin 17 - GPIO +3,3V LCD pin 15 N_C1 - backlight  
-Pin 29 - GPIO 5	LCD pin 16 N_C2 - backlight on/off  
+Pin 21 - GPIO9  	LCD pin 6 E  
+Pin 19 - GPIO10  	LCD pin 11 D4  
+Pin 15 - GPIO22  	LCD pin 12 D5  
+Pin 13 - GPIO27  	LCD pin 13 D6  
+Pin 11 - GPIO17  	LCD pin 14 D7  
+GPIO +3,3V LCD pin 15 N_C1 - backlight  
+Pin 7 - GPIO4	LCD pin 16 N_C2 - backlight on/off  
 
 Buttons
-Pin 23 - GPIO11	button 1  
-Pin 22 - GPIO25	button 2  
-Pin 26 - GPIO7	button 3  
-Pin 24 - GPIO8	button 4  
+Pin 12 - GPIO18	button 1  
+Pin 16 - GPIO23	button 2  
+Pin 18 - GPIO24	button 3  
+Pin 22 - GPIO25	button 4  
 
 Quick reference
 ==========

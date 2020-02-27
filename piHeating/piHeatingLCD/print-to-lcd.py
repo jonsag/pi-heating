@@ -67,18 +67,18 @@ cnx = db_connect(verbose)
 if gpio:
     if verbose:
         print
-    if gpio == "11":
+    if gpio == "18":
         if verbose:
             print "+++ Button 1 pressed, pin %s" % gpio
-    elif gpio == "25":
+    elif gpio == "23":
         toggleMode = True
         if verbose:
             print "+++ Button 2 pressed, pin %s" % gpio
-    elif gpio == "7":
+    elif gpio == "24":
         toggleTimer = True
         if verbose:
             print "+++ Button 3 pressed, pin %s" % gpio
-    elif gpio == "8":
+    elif gpio == "25":
         stopModeTimer = True
         if verbose:
             print "+++ Button 4 pressed, pin %s" % gpio

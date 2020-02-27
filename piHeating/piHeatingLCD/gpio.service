@@ -6,8 +6,8 @@
  User=pi
  Group=pi
  Type=idle
- #ExecStart=/usr/bin/gpio-watch -s /home/pi/piHeatingLCD/gpio-scripts -e switch 7 8 11 25
- ExecStart=/usr/bin/gpio-watch -s /home/pi/piHeatingLCD/gpio-scripts -e switch 7 8 11 25 -l /home/pi/piHeatingLCD/gpio-watch.log > /dev/null 2>&1
+ #ExecStart=/usr/bin/gpio-watch -s /home/pi/piHeatingLCD/gpio-scripts -e switch 24 25 18 23
+ ExecStart=/usr/bin/gpio-watch -s /home/pi/piHeatingLCD/gpio-scripts -e switch 24 25 18 23 -l /home/pi/piHeatingLCD/gpio-watch.log > /dev/null 2>&1
 
  [Install]
  WantedBy=multi-user.target
