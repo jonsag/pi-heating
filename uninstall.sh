@@ -28,7 +28,11 @@ fi
 printf "\n\n Uninstalling piHeatingRemote ... \n"
 
 printf "Disabling site ... \n"
-a2dissite piHeatingRemote.conf
+if [ -f /etc/apache2/sites-enabled/piHeatingRemote.conf ]; then
+	a2dissite piHeatingRemote.conf
+else
+	printf "    Not enabled \n"
+fi
 
 printf "Deleting site configuration... \n"
 if [ -f /etc/apache2/sites-available/piHeatingRemote.conf ]; then
@@ -80,7 +84,12 @@ fi
 printf "\n\n Uninstalling piHeatingHub ... \n"
 
 printf "Disabling site ... \n"
-a2dissite piHeatingHub.conf
+if [ -f /etc/apache2/sites-enabled/piHeatingHub.conf ]; then
+	a2dissite piHeatingHub.conf
+else
+	printf "    Not enabled \n"
+fi
+
 
 printf "Deleting site configuration ... \n"
 if [ -f /etc/apache2/sites-available/piHeatingHub.conf ]; then
