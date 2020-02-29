@@ -24,7 +24,7 @@ printf "\n\n Uninstalling piHeatingRemote ..."
 a2dissite piHeatingRemote.conf
 
 if [ -f /etc/apache2/sites-available/piHeatingRemote.conf ]; then
-	rm /etc/apache2/sites-available/piHeatingRemote.confg
+	rm /etc/apache2/sites-available/piHeatingRemote.conf
 fi
 
 if [ $(cat /etc/apache2/ports.conf | grep 'Listen 8081' >> /dev/null)]; then
@@ -59,7 +59,7 @@ printf "\n\n Uninstalling piHeatingHub ..."
 a2dissite piHeatingHub.conf
 
 if [ -f /etc/apache2/sites-available/piHeatingHub.conf ]; then
-	rm /etc/apache2/sites-available/piHeatingHub.confg
+	rm /etc/apache2/sites-available/piHeatingHub.conf
 fi
 
 if [ $(cat /etc/apache2/ports.conf | grep 'Listen 8080' >> /dev/null)]; then
