@@ -213,9 +213,14 @@ CRON
 
 printf "\n\n Configuring Apache ...\n"
 
+if [ $(cat /etc/apache2/ports.conf | grep 'Listen 8080' >> /dev/null)]
+	then
+		printf "Apache already listening on port 8080"
+else
   cat >> /etc/apache2/ports.conf <<PORTS
 Listen 8080
 PORTS
+fi
 
   cat > /etc/apache2/sites-available/piHeatingHub.conf <<VHOST
 <VirtualHost *:8080>

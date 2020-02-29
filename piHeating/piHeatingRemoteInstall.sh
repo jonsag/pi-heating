@@ -154,9 +154,14 @@ fi
 
 printf "\n\n Configuring Apache ...\n"
 
+if [ $(cat /etc/apache2/ports.conf | grep 'Listen 8081' >> /dev/null)]
+	then
+		printf "Apache already listening on port 8081"
+else
   cat >> /etc/apache2/ports.conf <<PORTS
 Listen 8081
 PORTS
+fi
 
   cat > /etc/apache2/sites-available/piHeatingRemote.conf <<VHOST
 <VirtualHost *:8081>

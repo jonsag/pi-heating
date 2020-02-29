@@ -19,7 +19,7 @@ read -s ROOT_PASSWORD
 DB_USERNAME='pi'
 DB_PASSWORD=$(date | md5sum | head -c12)
 DB_SERVER='localhost'
-DB_NAME='pi_heating_db'
+DB_NAME='piHeatingDB'
 
 echo
 echo $DB_PASSWORD
