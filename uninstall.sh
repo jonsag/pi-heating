@@ -126,5 +126,9 @@ else
 	printf "    Not present \n"
 fi
 
-printf "Restarting apache ... \n"
-service apache2 restart
+printf "\n\n Restarting apache ... \n"
+if [ $( systemctl is-active --quiet apache2 ) ]; then
+	printf "    Service is not runnning \n"
+else
+	service apache2 restart
+fi
