@@ -78,8 +78,10 @@ if [ -d /var/lib/mysql/piHeatingDB ]; then
 	#mysqladmin -u root -p$ROOT_PASSWORD drop piHeatingDB
 	
 	mysql -uroot -p$ROOT_PASSWORD<< DELETE
+	
 	DROP USER IF EXISTS 'pi'@localhost;
 	DROP DATABASE IF EXISTS piHeatingDB;
+	
 	DELETE	
 else
 	printf "    Not present \n"
