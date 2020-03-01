@@ -1,4 +1,0 @@
-CREATE DATABASE if not exists powerTempLog;
-GRANT ALL ON powerTempLog.* TO arduino@'%' IDENTIFIED BY "arduinopass" WITH GRANT OPTION;
-FLUSH PRIVILEGES;
-ALTER DATABASE powerTempLog DEFAULT CHARACTER SET latin1;

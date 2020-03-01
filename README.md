@@ -102,13 +102,21 @@ You will have to decide if you will run hub and remote on same Pi, or hub and re
 
 Install piHeatingLCD
 ==========
-If you want to use an LCD on the hub,  
-go to directory  
+If you want to use an LCD on the hub  
 >$ cd ~/pi-heating/piHeatingLCD  
 
 and follow  
 
 	README - piHeatingLCD.md
+	
+Install piPowerTempLog/piHeatingHubExtendedLog
+==========
+For more extensive logging, and also power logging  
+>$ cd ~/pi-heating/piPowerTempLog  
+
+and follow  
+
+	README - piPowerTempLog.md
 	
 Later on you will have to know how to:
 
