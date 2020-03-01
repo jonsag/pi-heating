@@ -5,6 +5,44 @@ if [[ `whoami` != "root" ]]; then
   exit 1
 fi
 
+########## piHeatingExtendedLog ##########
+printf "\n\n Uninstalling piHeatingRemote ... \n"
+
+printf "Disabling site ... \n"
+if [ -f /etc/apache2/sites-enabled/piHeatingExtendedLog.conf ]; then
+	a2dissite piHeatingExtendedLog.conf
+else
+	printf "    Not enabled \n"
+fi
+
+printf "Deleting site configuration... \n"
+if [ -f /etc/apache2/sites-available/piHeatingExtendedLog.conf ]; then
+	rm /etc/apache2/sites-available/piHeatingExtendedLog.conf
+else
+	printf "    Not present \n"
+fi
+
+printf "Removing listening directives ... \n"
+if grep -Fxq 'Listen 8082' /etc/apache2/ports.conf; then
+	sed -i '/Listen 8082/d' /etc/apache2/ports.conf
+else
+	printf "    Not present \n"	
+fi
+
+printf "Deleting site ... \n"
+if [ -d /var/www/html/piHeatingExtendedLog ]; then
+	rm -R /var/www/html/piHeatingExtendedLog
+else
+	printf "    Not present \n"
+fi
+
+printf "Deleting executables ... \n"
+if [ -d /home/pi/piHeatingExtendedLog ]; then
+	rm -R /home/pi/piHeatingExtendedLog
+else
+	printf "    Not present \n"
+fi
+
 ########## piHeatingLCD ##########
 printf "\n\n Uninstalling piHeatingLCD ... \n"
 

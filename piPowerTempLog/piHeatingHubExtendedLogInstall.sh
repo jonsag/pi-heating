@@ -8,50 +8,44 @@
 clear
 
 
-if [[ `whoami` != "root" ]]
-then
+if [[ `whoami` != "root" ]]; then
   printf "\n\n Script must be run as root. \n\n"
   exit 1
 fi
 
 
 OS_VERSION=$(cat /etc/os-release | grep VERSION=)
-if [[ $OS_VERSION != *"stretch"* ]]
-then
+if [[ $OS_VERSION != *"stretch"* ]]; then
   printf "\n\n EXITING : Script must be run on PI OS Stretch. \n\n"
   exit 1
 fi
 
 
-if [ ! -f "/home/pi/piHeatingHub/README.md" ]
-then
+if [ ! -f "/home/pi/piHeatingHub/README.md" ]; then
   printf "\n\n First you must install piHeatingHub. \n\n"
   exit 1
 fi
 
 
-if [ ! -f "/home/pi/piHeatingHub-extended-log/README.md" ]
-then
+if [ ! -f "/home/pi/piHeatingHubExtendedLog/README.md" ]; then
   printf "\n\n Installing piHeatingHub-extended-log ...\n"
 
   cd /home/pi
   
-  if [ -d "/home/pi/piHeatingHub-extended-log" ]
-  then
-    rm -rf "/home/pi/piHeatingHub-extended-log"
+  if [ -d "/home/pi/piHeatingHubExtendedLog" ]; then
+    rm -rf "/home/pi/piHeatingHubExtendedLog"
   fi
 
-  mv "/home/pi/pi-heating/piHeatingHub-extended-log" "/home/pi/piHeatingHub-extended-log"
-  mv "/home/pi/piHeatingHub-extended-log/www" "/var/www/html/piHeatingHub-extended-log"
+  cp -r "/home/pi/pi-heating/piHeatingHubExtendedLog" "/home/pi/piHeatingHubExtendedLog"
+  mv "/home/pi/piHeatingHubExtendedLog/www" "/var/www/html/piHeatingHubExtendedLog"
   
-  chown -R pi:pi "/home/pi/piHeatingHub-extended-log"
-  chmod -R 750 "/home/pi/piHeatingHub-extended-log"
+  chown -R pi:pi "/home/pi/piHeatingHubExtendedLog"
+  chmod -R 750 "/home/pi/piHeatingHubExtendedLog"
 
-  chown -R pi:www-data "/var/www/html/piHeatingHub-extended-log"
-  chmod -R 755 "/var/www/html/piHeatingHub-extended-log"
+  chown -R pi:www-data "/var/www/html/piHeatingHubExtendedLog"
+  chmod -R 755 "/var/www/html/piHeatingHubExtendedLog"
 
-  if [ ! -f "/home/pi/piHeatingHub-extended-log/README.md" ]
-    then
+  if [ ! -f "/home/pi/piHeatingHubExtendedLog/README.md" ]; then
       printf "\n\n EXITING : piHeatingHub-extended-log installation FAILED\n"
       exit 1
     fi
@@ -60,10 +54,10 @@ else
   printf "\n\n piHeatingHub-extended-log is already installed. \n"
 fi
 
-if [ ! -f "/etc/cron.d/piHeatingHub-extended-log" ]
-  then
-    cat > /etc/cron.d/piHeatingHub-extended-log <<CRON
-*/2 * * * * pi /bin/bash /home/pi/piHeatingHub-extended-log/cron/wrapper.sh
+if [ ! -f "/etc/cron.d/piHeatingHubExtendedLog" ]; then
+    cat > /etc/cron.d/piHeatingHubExtendedLog <<CRON
+MAILTO=""
+*/2 * * * * pi /bin/bash /home/pi/piHeatingHubExtendedLog/cron/wrapper.sh >> /dev/null 2>&1
 CRON
     service cron restart
 fi
@@ -75,15 +69,18 @@ fi
 
 printf "\n\n Configuring Apache ...\n"
 
+if grep -Fxq 'Listen 8082' /etc/apache2/ports.conf; then
+	printf "Apache already listening on port 8082 \n"
+else
   cat >> /etc/apache2/ports.conf <<PORTS
 Listen 8082
 PORTS
-
-  cat > /etc/apache2/sites-available/piHeatingHub-extended-log.conf <<VHOST
+fi
+  cat > /etc/apache2/sites-available/piHeatingHubExtendedLog.conf <<VHOST
 <VirtualHost *:8082>
     ServerAdmin webmaster@localhost
-    DocumentRoot /var/www/html/piHeatingHub-extended-log/
-    <Directory /var/www/html/piHeatingHub-extended-log/>
+    DocumentRoot /var/www/html/piHeatingHubExtendedLog/
+    <Directory /var/www/html/piHeatingHubExtendedLog/>
         Options -Indexes
         AllowOverride all
         Order allow,deny
@@ -95,7 +92,7 @@ PORTS
 </VirtualHost>
 VHOST
 
-a2ensite piHeatingHub-extended-log.conf
+a2ensite piHeatingHubExtendedLog.conf
 service apache2 restart
 
 

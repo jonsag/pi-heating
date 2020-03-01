@@ -92,7 +92,7 @@ Download source files
 Install piHeating
 ==========
 Go to directory pi-heating/piHeating 
->$ cd pi-heating/piHeating  
+>$ cd ~/pi-heating/piHeating  
 
 and follow  
 
@@ -100,7 +100,16 @@ and follow
 	
 You will have to decide if you will run hub and remote on same Pi, or hub and remote on separate devices.  
 
+Install piHeatingLCD
+==========
+If you want to use an LCD on the hub,  
+go to directory  
+>$ cd ~/pi-heating/piHeatingLCD  
 
+and follow  
+
+	README - piHeatingLCD.md
+	
 Later on you will have to know how to:
 
 Install and run Arduino IDE:
@@ -151,12 +160,65 @@ Cron job in
 
 	/etc/cron.d/piHeating
 
+Quick reference
+==========
+Notes
+----------
+piHeatingHub  
+
+* executables installs in ~/piHeatingHub  
+* www installs in /var/www/html/piHeatingHub  
+* runs on port 8080  
+* mysql setup creates password, and stores credentials /home/pi/piHeatingHub/config/config.ini  
+* secure install creates password for user 'admin', and stores it in /home/pi/piHeatingHub/.htpasswd  
+
+piHeatingRemote  
+
+* executables installs in ~/piHeatingRemote  
+* www installs in /var/www/html/piHeatingRemote  
+* runs on port 8081
+
+URLs:
+----------
+Hub:
+Pi heating hub status page: <IP\>:8080/status.php  
+
+Remote:  
+Sensors count: IP:8081/count.php  
+Sensor name for sensor #1: <IP\>:8081/name.php?id=1  
+Sensor value for sensor #1: <IP\>:8081/value.php?id=1
+
+Set up passwordless ssh login
+==========
+>$ ssh-keygen  
+
+>$ ssh-copy-id  -i ~/.ssh/id_rsa.pub pi@192.168.10.52  
+
+>$ rsync -avz --delete . pi@192.168.10.52:/home/pi/pi-heating/  
 
 
+Testing  
+=============================
+Below is only for my testing  
+Use with caution!  
 
-ssh-keygen
-ssh-copy-id  -i ~/.ssh/id_rsa.pub pi@192.168.10.52
-rsync -avz --delete . pi@192.168.10.52:/home/pi/pi-heating/
+On hub:  
+Test LCD
+>$ $HOME/piHeatingLCD/print-to-lcd.py -1 test1 -2 test2  
+
+View config file  
+>$ cat $HOME/piHeatingHub/config/config.ini  
+
+Login to database  
+>$ mysql -u pi -ppassword piHeatingDB (using password from the above config)  
+
+Change ip on sensor  
+>$ UPDATE sensors SET ip = 'new ip' WHERE ip = 'old ip';  
+
+On remote:  
+Show sensor ids  
+>$ ls /sys/bus/w1/devices/  
+
 
 
 
