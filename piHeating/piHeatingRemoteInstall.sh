@@ -118,7 +118,7 @@ then
     rm -rf "/home/pi/piHeatingRemote"
   fi
 
-  mv "/home/pi/pi-heating/piHeating/piHeatingRemote" "/home/pi/piHeatingRemote"
+  cp -rf "/home/pi/pi-heating/piHeating/piHeatingRemote" "/home/pi/piHeatingRemote"
   mv "/home/pi/piHeatingRemote/www" "/var/www/html/piHeatingRemote"
   
   chown -R pi:pi "/home/pi/piHeatingRemote"

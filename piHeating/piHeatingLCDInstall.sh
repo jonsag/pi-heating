@@ -43,7 +43,7 @@ then
     rm -rf "/home/pi/piHeatingLCD"
   fi
 
-  mv "/home/pi/pi-heating/piHeating/piHeatingLCD" "/home/pi/piHeatingLCD"
+  cp -rf "/home/pi/pi-heating/piHeating/piHeatingLCD" "/home/pi/piHeatingLCD"
   
   touch /home/pi/piHeatingLCD/gpio-watch.log
   

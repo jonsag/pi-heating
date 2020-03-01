@@ -168,7 +168,7 @@ then
     rm -rf "/home/pi/piHeatingHub"
   fi
 
-  mv "/home/pi/pi-heating/piHeating/piHeatingHub" "/home/pi/piHeatingHub"
+  cp -rf "/home/pi/pi-heating/piHeating/piHeatingHub" "/home/pi/piHeatingHub"
   mv "/home/pi/piHeatingHub/www" "/var/www/html/piHeatingHub"
   
   chown -R pi:www-data "/home/pi/piHeatingHub"
