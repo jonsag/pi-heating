@@ -13,24 +13,21 @@
 clear
 
 
-if [[ `whoami` != "root" ]]
-then
+if [[ `whoami` != "root" ]]; then
   printf "\n\n Script must be run as root. \n\n"
   exit 1
 fi
 
 
 OS_VERSION=$(cat /etc/os-release | grep VERSION=)
-if [[ $OS_VERSION != *"buster"* ]]
-then
+if [[ $OS_VERSION != *"buster"* ]]; then
   printf "\n\n EXITING : Script must be run on PI OS Buster. \n\n"
   exit 1
 fi
 
 
 APACHE_INSTALLED=$(which apache2)
-if [[ "$APACHE_INSTALLED" == "" ]]
-then
+if [[ "$APACHE_INSTALLED" == "" ]]; then
   printf "\n\n Installing Apache ...\n"
   # Install Apache
   apt install apache2 apache2-utils -y
@@ -39,8 +36,7 @@ then
   service apache2 restart
 
   APACHE_INSTALLED=$(which apache2)
-    if [[ "$APACHE_INSTALLED" == "" ]]
-    then
+    if [[ "$APACHE_INSTALLED" == "" ]]; then
       printf "\n\n EXITING : Apache installation FAILED\n"
       exit 1
     fi
@@ -50,15 +46,13 @@ fi
 
 
 PHP_INSTALLED=$(which php)
-if [[ "$PHP_INSTALLED" == "" ]]
-then
+if [[ "$PHP_INSTALLED" == "" ]]; then
   printf "\n\n Installing PHP ...\n"
   # Install PHP
   apt install php libapache2-mod-php php-common php-cli php-json php-readline-y
 
   PHP_INSTALLED=$(which php)
-    if [[ "$PHP_INSTALLED" == "" ]]
-    then
+    if [[ "$PHP_INSTALLED" == "" ]]; then
       printf "\n\n EXITING : PHP installation FAILED\n"
       exit 1
     fi
@@ -68,15 +62,13 @@ fi
 
 
 MYSQL_INSTALLED=$(which mariadb)
-if [[ "$MYSQL_INSTALLED" == "" ]]
-then
+if [[ "$MYSQL_INSTALLED" == "" ]]; then
   printf "\n\n Installing MySQL ...\n"
   # Install MySQL
   apt-get install mariadb-server mariadb-client -y --fix-missing
 
   MYSQL_INSTALLED=$(which mariadb)
-    if [[ "$MYSQL_INSTALLED" == "" ]]
-    then
+    if [[ "$MYSQL_INSTALLED" == "" ]]; then
       printf "\n\n EXITING : MySQL installation FAILED\n"
       exit 1
     fi
@@ -86,15 +78,13 @@ fi
 
 
 PHPMYSQL_INSTALLED=$(find /var/lib/dpkg -name php-mysql*)
-if [[ "$PHPMYSQL_INSTALLED" == "" ]]
-then
+if [[ "$PHPMYSQL_INSTALLED" == "" ]]; then
   printf "\n\n Installing MySQL PHP Module ...\n"
   # Install MySQL PHP Module
   apt-get install php-mysql -y
 
   PHPMYSQL_INSTALLED=$(find /var/lib/dpkg -name php-mysql*)
-    if [[ "$PHPMYSQL_INSTALLED" == "" ]]
-    then
+    if [[ "$PHPMYSQL_INSTALLED" == "" ]]; then
       printf "\n\n EXITING : MySQL PHP Module installation FAILED\n"
       exit 1
     fi
@@ -104,15 +94,13 @@ fi
 
 
 PYMYSQL_INSTALLED=$(find /var/lib/dpkg -name python-mysql*)
-if [[ "$PYMYSQL_INSTALLED" == "" ]]
-then
+if [[ "$PYMYSQL_INSTALLED" == "" ]]; then
   printf "\n\n Installing MySQL Python Module ...\n"
   # Install MySQL Python Module
   apt-get install python-mysqldb -y
 
   PYMYSQL_INSTALLED=$(find /var/lib/dpkg -name python-mysql*)
-    if [[ "$PYMYSQL_INSTALLED" == "" ]]
-    then
+    if [[ "$PYMYSQL_INSTALLED" == "" ]]; then
       printf "\n\n EXITING : MySQL Python Module installation FAILED\n"
       exit 1
     fi
@@ -122,15 +110,13 @@ fi
 
 
 RRD_INSTALLED=$(find /var/lib/dpkg -name rrdtool*)
-if [[ "$RRD_INSTALLED" == "" ]]
-then
+if [[ "$RRD_INSTALLED" == "" ]]; then
   printf "\n\n Installing RRD tool ...\n"
   # Install RRD tool
   apt-get install rrdtool php-rrd -y
 
   RRD_INSTALLED=$(find /var/lib/dpkg -name rrdtool*)
-    if [[ "$RRD_INSTALLED" == "" ]]
-    then
+    if [[ "$RRD_INSTALLED" == "" ]]; then
       printf "\n\n EXITING : RRD tool installation FAILED\n"
       exit 1
     fi
@@ -140,15 +126,13 @@ fi
 
 
 NMP_INSTALLED=$(find /var/lib/dpkg -name nmap*)
-if [[ "$NMP_INSTALLED" == "" ]]
-then
+if [[ "$NMP_INSTALLED" == "" ]]; then
   printf "\n\n Installing nmap ...\n"
   # Install nmap
   apt-get install nmap -y
 
   NMP_INSTALLED=$(find /var/lib/dpkg -name nmap*)
-    if [[ "$NMP_INSTALLED" == "" ]]
-    then
+    if [[ "$NMP_INSTALLED" == "" ]]; then
       printf "\n\n EXITING : nmap  installation FAILED\n"
       exit 1
     fi
@@ -159,24 +143,21 @@ fi
 
 # Install 'piHeatingHub' app
 
-if [ ! -f "/home/pi/piHeatingHub/README.md" ]
-then
+if [ ! -f "/home/pi/piHeatingHub/README.md" ]; then
   printf "\n\n Installing piHeatingHub ...\n"
 
-  if [ -d "/home/pi/piHeatingHub" ]
-  then
+  if [ -d "/home/pi/piHeatingHub" ]; then
     rm -rf "/home/pi/piHeatingHub"
   fi
 
-  mv "/home/pi/pi-heating/piHeating/piHeatingHub" "/home/pi/piHeatingHub"
+  cp -rf "/home/pi/pi-heating/piHeating/piHeatingHub" "/home/pi/piHeatingHub"
   mv "/home/pi/piHeatingHub/www" "/var/www/html/piHeatingHub"
   
   chown -R pi:www-data "/home/pi/piHeatingHub"
   chmod -R 750 "/home/pi/piHeatingHub"
   
-  if [ ! -d "/var/www/html/piHeatingHub/data" ]
-  then
-    mkdir "/home/pi/piHeatingHub/data"
+  if [ ! -d "/var/www/html/piHeatingHub/data" ]; then
+    mkdir "/var/www/html/piHeatingHub/data"
   fi
   
   mkdir "/home/pi/piHeatingHub/data"
@@ -187,8 +168,7 @@ then
   chmod -R 755 "/var/www/html/piHeatingHub"
   chmod -R 775 "/var/www/html/piHeatingHub/images"
 
-  if [ ! -f "/home/pi/piHeatingHub/README.md" ]
-    then
+  if [ ! -f "/home/pi/piHeatingHub/README.md" ]; then
       printf "\n\n EXITING : piHeatingHub installation FAILED\n"
       exit 1
     fi
@@ -198,8 +178,7 @@ else
 fi
 
 
-if [ ! -f "/etc/cron.d/piHeating" ]
-  then
+if [ ! -f "/etc/cron.d/piHeating" ]; then
     cat > /etc/cron.d/piHeating <<CRON
 MAILTO=""
 * * * * * pi /bin/bash /home/pi/piHeatingHub/cron/piHeatingHubWrapper.sh >> /dev/null 2>&1
@@ -214,11 +193,10 @@ CRON
 
 printf "\n\n Configuring Apache ...\n"
 
-if [ $(cat /etc/apache2/ports.conf | grep 'Listen 8080' >> /dev/null)]
-	then
-		printf "Apache already listening on port 8080"
+if grep -Fxq 'Listen 8080' /etc/apache2/ports.conf; then
+	printf "Apache already listening on port 8080 \n"
 else
-  cat >> /etc/apache2/ports.conf <<PORTS
+	cat >> /etc/apache2/ports.conf <<PORTS
 Listen 8080
 PORTS
 fi

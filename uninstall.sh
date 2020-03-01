@@ -42,17 +42,17 @@ else
 fi
 
 printf "Removing listening directives ... \n"
-if [ $(cat /etc/apache2/ports.conf | grep 'Listen 8081' >> /dev/null)]; then
-	printf "    Not present \n"	
-else
+if grep -Fxq 'Listen 8081' /etc/apache2/ports.conf; then
 	sed -i '/Listen 8081/d' /etc/apache2/ports.conf
+else
+	printf "    Not present \n"	
 fi
 
 printf "Changing boot parameters ... \n"
-if [ $(cat /boot/config.txt | grep dtoverlay=w1-gpio,gpiopin=14 >> /dev/null) ]; then
-	printf "    Not necessary\n"
-else
+if grep -Fxq 'dtoverlay=w1-gpio,gpiopin=14' /boot/config.txt; then
 	sed -i 's/dtoverlay=w1-gpio,gpiopin=14/dtoverlay=w1-gpio/g' /boot/config.txt
+else
+	printf "    Not necessary\n"
 fi
 
 printf "Deleting site ... \n"
@@ -73,9 +73,18 @@ fi
 printf "\n\n Dropping database ... \n"
 
 if [ -d /var/lib/mysql/piHeatingDB ]; then
-	printf " Please enter the MySQL root password : "
-	read -s ROOT_PASSWORDprintf "Deleting database ... \n"
-	mysqladmin -u root -p$ROOT_PASSWORD drop piHeatingDB	
+	printf " Please enter the MySQL root password : \n"
+	read -s ROOT_PASSWORD
+	printf "Deleting database ... \n"
+	#mysqladmin -u root -p$ROOT_PASSWORD drop piHeatingDB
+	
+mysql -uroot -p$ROOT_PASSWORD<< DELETE
+	
+DROP USER IF EXISTS 'pi'@localhost;
+DROP DATABASE IF EXISTS piHeatingDB;
+	
+DELETE
+	
 else
 	printf "    Not present \n"
 fi
@@ -99,10 +108,10 @@ else
 fi
 
 printf "Deleting listening directives ... \n"
-if [ $(cat /etc/apache2/ports.conf | grep 'Listen 8080' >> /dev/null)]; then
-	printf "    Not present \n"
-else
+if grep -Fxq 'Listen 8080' /etc/apache2/ports.conf; then
 	sed -i '/Listen 8080/d' /etc/apache2/ports.conf
+else
+	printf "    Not present \n"
 fi
 
 printf "Removing cron jobs ... \n"
