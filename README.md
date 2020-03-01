@@ -75,7 +75,7 @@ Now it's time to:
 Download sources
 ==========
 Install prerequisites
->$ sudo apt install git python-dev python-setuptools build-essential python-smbus python-pip   
+>$ sudo apt install git python-dev python-setuptools build-essential python-smbus python-pip rsync ttf-mscorefonts-installer   
 
 Also install some other programs that will come in handy later on  
 >$ sudo apt install emacs screen  
