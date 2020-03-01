@@ -50,9 +50,9 @@ fi
 
 printf "Changing boot parameters ... \n"
 if [ $(cat /boot/config.txt | grep dtoverlay=w1-gpio,gpiopin=14 >> /dev/null) ]; then
-	sed -i 's/dtoverlay=w1-gpio,gpiopin=14/dtoverlay=w1-gpio/g' /boot/config.txt
-else
 	printf "    Not necessary\n"
+else
+	sed -i 's/dtoverlay=w1-gpio,gpiopin=14/dtoverlay=w1-gpio/g' /boot/config.txt
 fi
 
 printf "Deleting site ... \n"
