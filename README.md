@@ -117,7 +117,39 @@ Install Average library:
 -----------------------------
 Copy directory Average to your Arduino/libraries directory  
 
+What is installed and where
+==========
+Executables installed in  
 
+	/home/pi
+	
+Web GUI installed in  
+
+	/var/www/html
+	
+Apache site configuration in  
+
+	/etc/apache2/sites-enabled/
+	
+Apache listen directives in  
+
+	/etc/apache2/ports.conf
+	
+Gpio service installed at  
+
+	/lib/systemd/system/gpio.service
+
+Extended boot parameters in  
+
+	/boot/config.txt
+	
+Database at  
+
+	/var/lib/mysql/piHeatingDB
+	
+Cron job in  
+
+	/etc/cron.d/piHeating
 
 
 

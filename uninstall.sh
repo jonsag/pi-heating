@@ -43,9 +43,9 @@ fi
 
 printf "Removing listening directives ... \n"
 if [ $(cat /etc/apache2/ports.conf | grep 'Listen 8081' >> /dev/null)]; then
-	sed '/Listen 8081/d' /etc/apache2/ports.conf
+	printf "    Not present \n"	
 else
-	printf "    Not present \n"
+	sed '/Listen 8081/d' /etc/apache2/ports.conf
 fi
 
 printf "Changing boot parameters ... \n"
@@ -100,9 +100,9 @@ fi
 
 printf "Deleting listening directives ... \n"
 if [ $(cat /etc/apache2/ports.conf | grep 'Listen 8080' >> /dev/null)]; then
-	sed '/Listen 8080/d' /etc/apache2/ports.conf
-else
 	printf "    Not present \n"
+else
+	sed '/Listen 8080/d' /etc/apache2/ports.conf
 fi
 
 printf "Removing cron jobs ... \n"
