@@ -13,16 +13,14 @@
 clear
 
 
-if [[ `whoami` != "root" ]]
-then
+if [[ `whoami` != "root" ]]; then
   printf "\n\n Script must be run as root. \n\n"
   exit 1
 fi
 
 
 OS_VERSION=$(cat /etc/os-release | grep VERSION=)
-if [[ $OS_VERSION != *"buster"* ]]
-then
+if [[ $OS_VERSION != *"buster"* ]]; then
   printf "\n\n EXITING : Script must be run on PI OS Buster. \n\n"
   exit 1
 fi
@@ -34,8 +32,7 @@ echo
 
 curl -s --head http://$HUB_IP:8080 | sed -n 4p | grep 'Secure Heating Hub' > /dev/null
 
-if [ $? -eq 0 ]
-then
+if [ $? -eq 0 ]; then
   echo "Hub exists"
 else
   printf "\n\n First you must install piHeatingHub. \n\n"
@@ -43,33 +40,30 @@ else
 fi
 
 
-ENABLE_W1=$( cat /boot/config.txt | grep '^dtoverlay=w1-gpio$' )
-if [[ $ENABLE_W1 == "" ]]
-then
-  echo "dtoverlay=w1-gpio" >> /boot/config.txt
-  
-  ENABLE_W1=$( cat /boot/config.txt | grep '^dtoverlay=w1-gpio$' )
-  if [[ $ENABLE_W1 == "" ]]
-  then  
-    printf "\n\n EXITING : Unable to write to boot config. \n\n"
-    exit 1
-  fi
-  apt-get update -y
-  printf "\n\n REBOOT : Reeboot required to enable one wire module.\n\n"
-  shutdown -r +1
-else
-  printf "\n One wire module enabled. \n"
-  
-  modprobe w1-gpio
-  modprobe w1-therm
-  
-  printf "\n w1_gpio and w1_therm modules enabled. \n"
-fi
+#ENABLE_W1=$( cat /boot/config.txt | grep '^dtoverlay=w1-gpio$' )
+#if [[ $ENABLE_W1 == "" ]]; then
+#  echo "dtoverlay=w1-gpio" >> /boot/config.txt
+#  
+#  ENABLE_W1=$( cat /boot/config.txt | grep '^dtoverlay=w1-gpio$' )
+#  if [[ $ENABLE_W1 == "" ]]; then  
+#    printf "\n\n EXITING : Unable to write to boot config. \n\n"
+#    exit 1
+#  fi
+#  apt-get update -y
+#  printf "\n\n REBOOT : Reeboot required to enable one wire module.\n\n"
+#  shutdown -r +1
+#else
+#  printf "\n One wire module enabled. \n"
+#  
+#  modprobe w1-gpio
+#  modprobe w1-therm
+#  
+#  printf "\n w1_gpio and w1_therm modules enabled. \n"
+#fi
 
 
 APACHE_INSTALLED=$(which apache2)
-if [[ "$APACHE_INSTALLED" == "" ]]
-then
+if [[ "$APACHE_INSTALLED" == "" ]]; then
   printf "\n\n Installing Apache ...\n"
   # Install Apache
   apt-get install apache2 -y
@@ -78,8 +72,7 @@ then
   service apache2 restart
   
   APACHE_INSTALLED=$(which apache2)
-    if [[ "$APACHE_INSTALLED" == "" ]]
-    then
+    if [[ "$APACHE_INSTALLED" == "" ]]; then
       printf "\n\n EXITING : Apache installation FAILED\n"
       exit 1
     fi
@@ -89,15 +82,13 @@ fi
 
 
 PHP_INSTALLED=$(which php)
-if [[ "$PHP_INSTALLED" == "" ]]
-then
+if [[ "$PHP_INSTALLED" == "" ]]; then
   printf "\n\n Installing PHP ...\n"
   # Install Apache
   apt-get install php -y
   
   PHP_INSTALLED=$(which php)
-    if [[ "$PHP_INSTALLED" == "" ]]
-    then
+    if [[ "$PHP_INSTALLED" == "" ]]; then
       printf "\n\n EXITING : PHP installation FAILED\n"
       exit 1
     fi
@@ -108,13 +99,11 @@ fi
 
 # Install 'piHeatingRemote' app
 
-if [ ! -f "/home/pi/piHeatingRemote/README.md" ]
-then
+if [ ! -f "/home/pi/piHeatingRemote/README.md" ]; then
   printf "\n\n Installing piHeatingRemote ...\n"
   # Install Apache
 
-  if [ -d "/home/pi/piHeatingRemote" ]
-  then
+  if [ -d "/home/pi/piHeatingRemote" ]; then
     rm -rf "/home/pi/piHeatingRemote"
   fi
 
@@ -130,8 +119,7 @@ then
   chown -R pi:www-data "/var/www/html/piHeatingRemote"
   chmod -R 755 "/var/www/html/piHeatingRemote"
   
-  if [ ! -f "/home/pi/piHeatingRemote/README.md" ]
-    then
+  if [ ! -f "/home/pi/piHeatingRemote/README.md" ]; then
       printf "\n\n EXITING : piHeatingRemote installation FAILED\n"
       exit 1
     fi
@@ -140,12 +128,11 @@ else
   printf "\n\n piHeatingRemote is already installed. \n"
 fi
 
-printf "\n\n Changing /boot/config,txt for w1-gpio pin...\n"
-if [ $(cat /boot/config.txt | grep dtoverlay=w1-gpio,gpiopin=14 >> /dev/null)]
-	then
-		sed -i 's/dtoverlay=w1-gpio/dtoverlay=w1-gpio,gpiopin=14/g' /boot/config.txt
+printf "\n\n Changing /boot/config.txt for w1-gpio pin...\n"
+if grep -Fxq 'dtoverlay=w1-gpio,gpiopin=14' /boot/config.txt; then
+		printf "Already changed"
 else
-	printf "Already changed"
+	sed -i 's/dtoverlay=w1-gpio/dtoverlay=w1-gpio,gpiopin=14/g' /boot/config.txt
 fi
 
 # configure app
@@ -154,11 +141,10 @@ fi
 
 printf "\n\n Configuring Apache ...\n"
 
-if [ $(cat /etc/apache2/ports.conf | grep 'Listen 8081' >> /dev/null)]
-	then
-		printf "Apache already listening on port 8081"
+if grep -Fxq 'Listen 8081' /etc/apache2/ports.conf; then
+	printf "Apache already listening on port 8081 \n"
 else
-  cat >> /etc/apache2/ports.conf <<PORTS
+	cat >> /etc/apache2/ports.conf <<PORTS
 Listen 8081
 PORTS
 fi

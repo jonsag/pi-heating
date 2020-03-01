@@ -78,7 +78,7 @@ Install prerequisites
 >$ sudo apt install git python-dev python-setuptools build-essential python-smbus python-pip   
 
 Also install some other programs that will come in handy later on  
->$ sudo apt install emacss screen  
+>$ sudo apt install emacs screen  
 
 Go to your home directory, that we from now on will assume is  
 
@@ -154,8 +154,9 @@ Cron job in
 
 
 
-
-
+ssh-keygen
+ssh-copy-id  -i ~/.ssh/id_rsa.pub pi@192.168.10.52
+rsync -avz --delete . pi@192.168.10.52:/home/pi/pi-heating/
 
 
 

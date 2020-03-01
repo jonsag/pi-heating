@@ -16,15 +16,13 @@ fi
 
 
 OS_VERSION=$(cat /etc/os-release | grep VERSION=)
-if [[ $OS_VERSION != *"buster"* ]]
-then
+if [[ $OS_VERSION != *"buster"* ]]; then
   printf "\n\n EXITING : Script must be run on PI OS Buster. \n\n"
   exit 1
 fi
 
 
-if [ -f "/home/pi/piHeatingHub/README.md" ]
-then
+if [ -f "/home/pi/piHeatingHub/README.md" ]; then
   echo "Hub exists"
 else
   printf "\n\n First you must install piHeatingHub. \n\n"
@@ -32,14 +30,12 @@ else
 fi
 
 
-if [ ! -f "/home/pi/piHeatingLCD/README.md" ]
-then
+if [ ! -f "/home/pi/piHeatingLCD/README.md" ]; then
   printf "\n\n Installing piHeatingLCD ...\n"
 
   cd /home/pi
   
-  if [ -d "/home/pi/piHeatingLCD" ]
-  then
+  if [ -d "/home/pi/piHeatingLCD" ]; then
     rm -rf "/home/pi/piHeatingLCD"
   fi
 
@@ -56,8 +52,7 @@ then
   systemctl enable gpio.service
  
 
-  if [ ! -f "/home/pi/piHeatingLCD/README.md" ]
-    then
+  if [ ! -f "/home/pi/piHeatingLCD/README.md" ]; then
       printf "\n\n EXITING : piHeatingLCD installation FAILED\n"
       exit 1
     fi
