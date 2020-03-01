@@ -260,9 +260,6 @@ Wire Wire Line
 Wire Wire Line
 	9450 2550 9450 2350
 Connection ~ 9450 2550
-Connection ~ 9450 2350
-Wire Wire Line
-	9450 2350 8200 2350
 $Comp
 L My_RaspberryPi:Raspberry_Pi_1_all_pin_ordered J1
 U 1 1 5E70F929
@@ -286,12 +283,7 @@ Wire Wire Line
 Wire Wire Line
 	6200 2650 9600 2650
 Wire Wire Line
-	8200 1600 8200 2350
-Wire Wire Line
-	8200 2900 8200 2350
-Wire Wire Line
 	8200 2900 9450 2900
-Connection ~ 8200 2350
 Wire Wire Line
 	3800 2250 3800 1700
 Wire Wire Line
@@ -406,4 +398,6 @@ Wire Wire Line
 Connection ~ 8600 2150
 Wire Wire Line
 	8600 2150 8100 2150
+Wire Wire Line
+	8200 1600 8200 2900
 $EndSCHEMATC
