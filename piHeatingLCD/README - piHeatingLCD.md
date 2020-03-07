@@ -67,6 +67,20 @@ Pin 16 - GPIO23	button 2
 Pin 18 - GPIO24	button 3  
 Pin 22 - GPIO25	button 4  
 
+Note
+==========
+If you install on Raspberry Pi rev 1, you must edit  
+
+	piHeatingLCD/config.ini
+	
+Change line from  
+
+	lcd_d6        = 27
+	
+to  
+
+	lcd_d6        = 21
+	
 
 
 

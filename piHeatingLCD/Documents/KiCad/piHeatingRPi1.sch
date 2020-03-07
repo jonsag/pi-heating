@@ -16,35 +16,24 @@ $EndDescr
 $Comp
 L My_Headers:3-pin_KY-019_relay_header J3
 U 1 1 5E585F50
-P 9800 2250
-F 0 "J3" H 9969 2265 50  0000 L CNN
-F 1 "3-pin_KY-019_relay_header" H 9800 2050 50  0001 C CNN
-F 2 "My_Headers:3-pin_KY-019_Relay_header_larger_pads" H 9800 2250 50  0001 C CNN
-F 3 "~" H 9800 2250 50  0001 C CNN
-	1    9800 2250
+P 9750 2550
+F 0 "J3" H 9919 2565 50  0000 L CNN
+F 1 "3-pin_KY-019_relay_header" H 9750 2350 50  0000 C CNN
+F 2 "My_Headers:3-pin_KY-019_Relay_header_larger_pads" H 9750 2550 50  0001 C CNN
+F 3 "~" H 9750 2550 50  0001 C CNN
+	1    9750 2550
 	1    0    0    -1  
 $EndComp
 $Comp
 L My_Headers:3_pin_Dallas_1-wire_connector J4
 U 1 1 5E58672E
-P 9800 2650
-F 0 "J4" H 9969 2665 50  0000 L CNN
-F 1 "3_pin_Dallas_1-wire_connector" H 9800 2450 50  0001 C CNN
-F 2 "My_Headers:3_pin_Dallas_1-wire_header_larger_pads" H 9800 2650 50  0001 C CNN
-F 3 "~" H 9800 2650 50  0001 C CNN
-	1    9800 2650
+P 9750 2050
+F 0 "J4" H 9919 2065 50  0000 L CNN
+F 1 "3_pin_Dallas_1-wire_connector" H 9750 1850 50  0000 C CNN
+F 2 "My_Headers:3_pin_Dallas_1-wire_header_larger_pads" H 9750 2050 50  0001 C CNN
+F 3 "~" H 9750 2050 50  0001 C CNN
+	1    9750 2050
 	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R R1
-U 1 1 5E5AAFEA
-P 9000 2150
-F 0 "R1" H 9070 2196 50  0000 L CNN
-F 1 "4.7k" H 9070 2105 50  0000 L CNN
-F 2 "My_Misc:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal_larger_pads" V 8930 2150 50  0001 C CNN
-F 3 "~" H 9000 2150 50  0001 C CNN
-	1    9000 2150
-	0    -1   -1   0   
 $EndComp
 $Comp
 L My_Headers:10-pin_header_LCD_interface J2
@@ -185,12 +174,6 @@ Wire Wire Line
 	3600 3350 3400 3350
 Connection ~ 8300 2250
 Wire Wire Line
-	9600 2550 9450 2550
-Wire Wire Line
-	8300 2750 8300 2250
-Wire Wire Line
-	8300 2750 9600 2750
-Wire Wire Line
 	9050 3350 8850 3350
 Wire Wire Line
 	8850 3350 8850 3050
@@ -239,27 +222,13 @@ Wire Wire Line
 	10450 3250 10100 3250
 Connection ~ 10450 3550
 Wire Wire Line
-	9450 2550 9450 2900
-Wire Wire Line
 	10450 2900 10450 3250
 Connection ~ 10450 3250
-Wire Wire Line
-	9600 2350 9450 2350
 Wire Wire Line
 	4000 1600 4000 3450
 Connection ~ 4000 3450
 Wire Wire Line
 	4000 3450 3400 3450
-Wire Wire Line
-	9150 2150 9350 2150
-Wire Wire Line
-	9350 2550 9350 2150
-Connection ~ 9350 2150
-Wire Wire Line
-	9350 2150 9600 2150
-Wire Wire Line
-	9450 2550 9450 2350
-Connection ~ 9450 2550
 $Comp
 L My_RaspberryPi:Raspberry_Pi_1_all_pin_ordered J1
 U 1 1 5E70F929
@@ -271,25 +240,14 @@ F 3 "https://www.raspberrypi.org/documentation/hardware/raspberrypi/schematics/r
 	1    5400 3250
 	1    0    0    -1  
 $EndComp
-Connection ~ 9450 2900
-Wire Wire Line
-	9450 2900 10450 2900
 Wire Wire Line
 	4000 1600 8200 1600
 Wire Wire Line
 	6200 2250 8300 2250
 Wire Wire Line
-	6200 2550 9350 2550
-Wire Wire Line
-	6200 2650 9600 2650
-Wire Wire Line
-	8200 2900 9450 2900
-Wire Wire Line
 	3800 2250 3800 1700
 Wire Wire Line
 	3800 1700 8100 1700
-Wire Wire Line
-	8100 1700 8100 2150
 Wire Wire Line
 	8100 3050 8850 3050
 Connection ~ 3800 2250
@@ -385,19 +343,105 @@ Wire Wire Line
 Wire Wire Line
 	3600 1500 8300 1500
 Wire Wire Line
-	8300 1500 8300 2250
+	8300 1500 8300 1750
 Wire Wire Line
-	8850 2150 8600 2150
-Connection ~ 8100 2150
+	8200 1600 8200 1950
+$Comp
+L Device:LED D1
+U 1 1 5E673B9E
+P 9800 1500
+F 0 "D1" H 9793 1245 50  0000 C CNN
+F 1 "LED" H 9793 1336 50  0000 C CNN
+F 2 "My_Misc:CP_Radial_D5.0mm_P2.50mm_larger_pads" H 9800 1500 50  0001 C CNN
+F 3 "~" H 9800 1500 50  0001 C CNN
+	1    9800 1500
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R10
+U 1 1 5E67419A
+P 9800 1000
+F 0 "R10" V 9593 1000 50  0000 C CNN
+F 1 "R" V 9684 1000 50  0000 C CNN
+F 2 "My_Misc:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal_larger_pads" V 9730 1000 50  0001 C CNN
+F 3 "~" H 9800 1000 50  0001 C CNN
+	1    9800 1000
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R1
+U 1 1 5E5AAFEA
+P 8950 1750
+F 0 "R1" H 9020 1796 50  0000 L CNN
+F 1 "4.7k" H 9020 1705 50  0000 L CNN
+F 2 "My_Misc:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal_larger_pads" V 8880 1750 50  0001 C CNN
+F 3 "~" H 8950 1750 50  0001 C CNN
+	1    8950 1750
+	0    -1   -1   0   
+$EndComp
 Wire Wire Line
-	8100 2150 8100 3050
+	8200 2900 10450 2900
 Wire Wire Line
-	9600 2250 8600 2250
+	8100 1700 8100 3050
 Wire Wire Line
-	8600 2250 8600 2150
-Connection ~ 8600 2150
+	9550 2150 8300 2150
+Connection ~ 8300 2150
 Wire Wire Line
-	8600 2150 8100 2150
+	8300 2150 8300 2250
 Wire Wire Line
-	8200 1600 8200 2900
+	8800 1750 8300 1750
+Connection ~ 8300 1750
+Wire Wire Line
+	8300 1750 8300 2150
+Wire Wire Line
+	9100 1750 9300 1750
+Wire Wire Line
+	9300 1750 9300 2050
+Wire Wire Line
+	9300 2050 9550 2050
+Wire Wire Line
+	9550 1950 8200 1950
+Connection ~ 8200 1950
+Wire Wire Line
+	8200 1950 8200 2650
+Wire Wire Line
+	9550 2550 8300 2550
+Wire Wire Line
+	8300 2550 8300 2250
+Wire Wire Line
+	9550 2650 8200 2650
+Connection ~ 8200 2650
+Wire Wire Line
+	8200 2650 8200 2900
+Wire Wire Line
+	9300 2050 7250 2050
+Wire Wire Line
+	7250 2050 7250 2550
+Wire Wire Line
+	7250 2550 6200 2550
+Connection ~ 9300 2050
+Wire Wire Line
+	9550 2450 9400 2450
+Wire Wire Line
+	7350 2450 7350 2650
+Wire Wire Line
+	7350 2650 6200 2650
+Wire Wire Line
+	9400 2450 9400 1500
+Wire Wire Line
+	9400 1500 9650 1500
+Connection ~ 9400 2450
+Wire Wire Line
+	9400 2450 7350 2450
+Wire Wire Line
+	9950 1500 10250 1500
+Wire Wire Line
+	10250 1500 10250 1000
+Wire Wire Line
+	10250 1000 9950 1000
+Wire Wire Line
+	9650 1000 8200 1000
+Wire Wire Line
+	8200 1000 8200 1600
+Connection ~ 8200 1600
 $EndSCHEMATC
