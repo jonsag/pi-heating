@@ -93,8 +93,10 @@ and then
 
 twice.
 	
->Note: pin numbers are used, NOT GPIO numbers.
+Note: Pin numbers are used, NOT GPIO numbers.  
+
 If using the piHeatingLCD hat, the one output device is at GPIO15, pin 10, and it it active HIGH, so you would set H/L to 1.  
+Follow further instructions under piHeatingLCD
 
 
 

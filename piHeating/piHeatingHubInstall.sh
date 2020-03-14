@@ -185,6 +185,14 @@ MAILTO=""
 CRON
     service cron restart
   fi
+  
+if [ ! -f "/etc/mysql/mariadb.conf.d/99-disable-strict-mode.cnf" ]; then
+    cat > /etc/mysql/mariadb.conf.d/99-disable-strict-mode.cnf <<STRICT
+[server]
+sql_mode = ""
+STRICT
+
+  fi
 
 
 # configure app

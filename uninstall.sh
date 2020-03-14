@@ -159,6 +159,13 @@ else
 	printf "    Not present \n"
 fi
 
+printf "Disabling SQL strict mode ... \n"
+if [ -f /etc/mysql/mariadb.conf.d/99-disable-strict-mode.cnf ]; then
+	rm /etc/mysql/mariadb.conf.d/99-disable-strict-mode.cnf
+else
+	printf "    Not present \n"
+fi
+
 printf "Deleting site ... \n"
 if [ -d /var/www/piHeatingHub ]; then
 	rm -R /var/www/piHeatingHub

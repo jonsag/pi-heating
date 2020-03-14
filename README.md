@@ -78,7 +78,7 @@ Install prerequisites
 >$ sudo apt install git python-dev python-setuptools build-essential python-smbus python-pip rsync ttf-mscorefonts-installer   
 
 Also install some other programs that will come in handy later on  
->$ sudo apt install emacs screen  
+>$ sudo apt install emacs screen locate  
 
 Go to your home directory, that we from now on will assume is  
 

@@ -73,9 +73,11 @@ In a browser, go to
 
 	http://\<IP\>:8080/status.php
 
+Log in with user 'admin' and the password you set up during the hub installation. 
+
 Add sensor
-----------	
-Log in with user 'admin' and the password you set up during the hub installation.  
+----------
+Add the sensor that will measure the temperature that will be regulated.   
 
 Click  
 
@@ -88,6 +90,8 @@ When sensor is found, click
 	
 Add devices
 ----------
+Add the device that will control the heater.  
+
 Click  
 
 	Output Devices
@@ -104,7 +108,7 @@ on the newly added device.
 Set  
 	Name: \<name\>
 	GPIO Pin: 10
-	Pin Active H/L: 1
+	Pin Active H/L: \<if you use the NO, then this should be 1\>
 
 Click  
 
@@ -114,6 +118,8 @@ Click
 
 Add mode
 ----------
+This mode will pull up the temperature to the higher level indefinetely.  
+
 Click  
 
 	Modes
@@ -127,14 +133,40 @@ on the newly added mode, and set
 
 	Name: \<name\>
 	
-, for example 'Warm' to indicate it will be sued to pull up the temperature.
+, for example 'Warm' to indicate it will be used to pull up the temperature.
 
 Then click  
 
 	Done
 	
+Add timer
+----------
+This timer will be used to pull up the temperature for a certain amount of time.  
+
+Click  
+
+	Timers
+	Add new
+	
+Ón the newly created timer, click  
+
+	Edit
+	
+Set  
+	
+	Name: \<name for the timer, perhaps 'Warm 6 hrs'\>
+	Duration: \<the duration the timer will be active, in minutes, perhaps '360'\>
+	
+, then click  
+
+	Save
+	Done
+	Done
+	
 Add schedules
 ----------
+The first schedule will pull up the temperature once, or several times, a week.  
+
 Click  
 
 	Schedules
@@ -149,32 +181,74 @@ on the newly created schedule.
 This will be the schedule that pulls up the temperature once a week.  
 Enter
 
-	Name: \<name\>
-	Start time: \<some time before the temeprature must be reached\>
-	End time: \<the time when the temperature can strt dropping\>
+	Name: \<name, for example 'Weekly meeting'\>
+	Start time: \<some time before the temperature must be reached\>
+	End time: \<the time when the temperature can start dropping\>
 	Repeat schedule every: \<the day in question\>
-	When sensors: IS LESS THAN \<the temperature you want to keep\>
-	AND Timers: IS IGNORED
+	When sensors: \<sensor created earlier\> IS LESS THAN \<the high temperature you want to keep when it's high\>
+	AND Timers: \<timer previously added\> STOPPED
 	Activate Devices: \<mark the device you created before\>
-	AND Modes: \<\>
+	AND Modes: \<mode previously added\> OFF
 	
 Click  
 
 	Save
 	Done
 	
-Once again, click  
+The second schedule will use the mode created earlier to pull up the temperature indefinetely  
 
-	Schedules
-	Add new
+Add another timer as before and enter
+
+	Name: \<name, for example 'Warm'\>
+	Start time: 00:00:00
+	End time: 23:59:59
+	Repeat schedule every: \<mark all weekdays\>
+	When sensors:  \<sensor created earlier\> IS LESS THAN \<the high temperature you want to keep\>
+	AND Timers: \<timer previously added\> (IS IGNORED)
+	Activate Devices: \<mark the device you created before\>
+	AND Modes: \<mode previously added\> ON
 	
 Click  
 
-	Edit
+	Save
+	Done
 	
-on the newly created schedule.  
+The third schedule will use thetimer created earlier to pull up the temperature the time set  
 
-This will be the schedule that keeps the temperature to a lower temp for energy savings.  
+Add another timer as before and enter
+
+	Name: \<name, for example 'Warm, 6 hrs'\>
+	Start time: 00:00:00
+	End time: 23:59:59
+	Repeat schedule every: \<mark all weekdays\>
+	When sensors:  \<sensor created earlier\> IS LESS THAN \<the high temperature you want to keep\>
+	AND Timers: \<timer previously added\> RUNNING
+	Activate Devices: \<mark the device you created before\>
+	AND Modes: \<mode previously added\> (IS IGNORED)
+	
+Click  
+
+	Save
+	Done
+	
+The fourth, and last, timer will keep the temperature low at all other times
+
+Add another timer as before and enter
+
+	Name: \<name, for example 'Cold'\>
+	Start time: 00:00:00
+	End time: 23:59:59
+	Repeat schedule every:\<mark all weekdays\>
+	When sensors: \<sensor created earlier\> IS LESS THAN \<the low temperature you want to keep\>
+	AND Timers: \<timer previously added\> STOPPED
+	Activate Devices: \<mark the device you created before\>
+	AND Modes: \<mode previously added\> OFF
+	
+Click  
+
+	Save
+	Done
+	Done
 
 Note
 ==========
