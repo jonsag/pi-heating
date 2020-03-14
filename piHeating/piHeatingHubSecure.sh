@@ -30,7 +30,7 @@ fi
 
 cd /home/pi
 
-cat > /var/www/html/piHeatingHub/.htaccess <<ACCESS
+cat > /var/www/piHeatingHub/.htaccess <<ACCESS
 AuthName "Secure Heating Hub"
 AuthType Basic
 AuthUserFile /home/pi/piHeatingHub/.htpasswd

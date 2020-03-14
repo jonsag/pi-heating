@@ -108,7 +108,7 @@ if [ ! -f "/home/pi/piHeatingRemote/README.md" ]; then
   fi
 
   cp -rf "/home/pi/pi-heating/piHeating/piHeatingRemote" "/home/pi/piHeatingRemote"
-  mv "/home/pi/piHeatingRemote/www" "/var/www/html/piHeatingRemote"
+  mv "/home/pi/piHeatingRemote/www" "/var/www/piHeatingRemote"
   
   chown -R pi:pi "/home/pi/piHeatingRemote"
   chmod -R 755 "/home/pi/piHeatingRemote"
@@ -116,8 +116,8 @@ if [ ! -f "/home/pi/piHeatingRemote/README.md" ]; then
   chown -R pi:pi "/home/pi/piHeatingRemote/configs"
   chmod -R 755 "/home/pi/piHeatingRemote/configs"
   
-  chown -R pi:www-data "/var/www/html/piHeatingRemote"
-  chmod -R 755 "/var/www/html/piHeatingRemote"
+  chown -R pi:www-data "/var/www/piHeatingRemote"
+  chmod -R 755 "/var/www/piHeatingRemote"
   
   if [ ! -f "/home/pi/piHeatingRemote/README.md" ]; then
       printf "\n\n EXITING : piHeatingRemote installation FAILED\n"
@@ -152,9 +152,9 @@ fi
   cat > /etc/apache2/sites-available/piHeatingRemote.conf <<VHOST
 <VirtualHost *:8081>
     ServerAdmin webmaster@localhost
-    DocumentRoot /var/www/html/piHeatingRemote/
+    DocumentRoot /var/www/piHeatingRemote/
 
-    <Directory /var/www/html/piHeatingRemote/>
+    <Directory /var/www/piHeatingRemote/>
         Options -Indexes
         AllowOverride all
         Order allow,deny

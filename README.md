@@ -142,7 +142,7 @@ Executables installed in
 	
 Web GUI installed in  
 
-	/var/www/html
+	/var/www
 	
 Apache site configuration in  
 
@@ -175,7 +175,7 @@ Notes
 piHeatingHub  
 
 * executables installs in ~/piHeatingHub  
-* www installs in /var/www/html/piHeatingHub  
+* www installs in /var/www/piHeatingHub  
 * runs on port 8080  
 * mysql setup creates password, and stores credentials /home/pi/piHeatingHub/config/config.ini  
 * secure install creates password for user 'admin', and stores it in /home/pi/piHeatingHub/.htpasswd  
@@ -183,7 +183,7 @@ piHeatingHub
 piHeatingRemote  
 
 * executables installs in ~/piHeatingRemote  
-* www installs in /var/www/html/piHeatingRemote  
+* www installs in /var/www/piHeatingRemote  
 * runs on port 8081
 
 URLs:

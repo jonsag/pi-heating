@@ -151,22 +151,22 @@ if [ ! -f "/home/pi/piHeatingHub/README.md" ]; then
   fi
 
   cp -rf "/home/pi/pi-heating/piHeating/piHeatingHub" "/home/pi/piHeatingHub"
-  mv "/home/pi/piHeatingHub/www" "/var/www/html/piHeatingHub"
+  mv "/home/pi/piHeatingHub/www" "/var/www/piHeatingHub"
   
   chown -R pi:www-data "/home/pi/piHeatingHub"
   chmod -R 750 "/home/pi/piHeatingHub"
   
-  if [ ! -d "/var/www/html/piHeatingHub/data" ]; then
-    mkdir "/var/www/html/piHeatingHub/data"
+  if [ ! -d "/var/www/piHeatingHub/data" ]; then
+    mkdir "/var/www/piHeatingHub/data"
   fi
   
   mkdir "/home/pi/piHeatingHub/data"
   chown -R pi:www-data "/home/pi/piHeatingHub/data"
   chmod -R 775 "/home/pi/piHeatingHub/data"
   
-  chown -R pi:www-data "/var/www/html/piHeatingHub"
-  chmod -R 755 "/var/www/html/piHeatingHub"
-  chmod -R 775 "/var/www/html/piHeatingHub/images"
+  chown -R pi:www-data "/var/www/piHeatingHub"
+  chmod -R 755 "/var/www/piHeatingHub"
+  chmod -R 775 "/var/www/piHeatingHub/images"
 
   if [ ! -f "/home/pi/piHeatingHub/README.md" ]; then
       printf "\n\n EXITING : piHeatingHub installation FAILED\n"
@@ -204,8 +204,8 @@ fi
   cat > /etc/apache2/sites-available/piHeatingHub.conf <<VHOST
 <VirtualHost *:8080>
     ServerAdmin webmaster@localhost
-    DocumentRoot /var/www/html/piHeatingHub/
-    <Directory /var/www/html/piHeatingHub/>
+    DocumentRoot /var/www/piHeatingHub/
+    <Directory /var/www/piHeatingHub/>
         Options -Indexes
         AllowOverride all
         Order allow,deny

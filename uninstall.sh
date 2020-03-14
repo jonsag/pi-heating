@@ -30,8 +30,8 @@ else
 fi
 
 printf "Deleting site ... \n"
-if [ -d /var/www/html/piHeatingExtendedLog ]; then
-	rm -R /var/www/html/piHeatingExtendedLog
+if [ -d /var/www/piHeatingExtendedLog ]; then
+	rm -R /var/www/piHeatingExtendedLog
 else
 	printf "    Not present \n"
 fi
@@ -94,8 +94,8 @@ else
 fi
 
 printf "Deleting site ... \n"
-if [ -d /var/www/html/piHeatingRemote ]; then
-	rm -R /var/www/html/piHeatingRemote
+if [ -d /var/www/piHeatingRemote ]; then
+	rm -R /var/www/piHeatingRemote
 else
 	printf "    Not present \n"
 fi
@@ -160,8 +160,8 @@ else
 fi
 
 printf "Deleting site ... \n"
-if [ -d /var/www/html/piHeatingHub ]; then
-	rm -R /var/www/html/piHeatingHub
+if [ -d /var/www/piHeatingHub ]; then
+	rm -R /var/www/piHeatingHub
 else
 	printf "    Not present \n"
 fi

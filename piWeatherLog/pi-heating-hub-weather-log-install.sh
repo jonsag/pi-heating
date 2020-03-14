@@ -56,13 +56,13 @@ then
   fi
 
   mv "/home/pi/pi-heating/piHeatingHub-weather-log" "/home/pi/piHeatingHub-weather-log"
-  #mv "/home/pi/piHeatingHub-extended-log/www" "/var/www/html/piHeatingHub-extended-log"
+  #mv "/home/pi/piHeatingHub-extended-log/www" "/var/www/piHeatingHub-extended-log"
   
   chown -R pi:pi "/home/pi/piHeatingHub-weather-log"
   chmod -R 750 "/home/pi/piHeatingHub-weather-log"
 
-  #chown -R pi:www-data "/var/www/html/piHeatingHub-extended-log"
-  #chmod -R 755 "/var/www/html/piHeatingHub-extended-log"
+  #chown -R pi:www-data "/var/www/piHeatingHub-extended-log"
+  #chmod -R 755 "/var/www/piHeatingHub-extended-log"
 
   if [ ! -f "/home/pi/piHeatingHub-weather-log/README.md" ]
     then

@@ -37,13 +37,13 @@ if [ ! -f "/home/pi/piHeatingHubExtendedLog/README.md" ]; then
   fi
 
   cp -r "/home/pi/pi-heating/piHeatingHubExtendedLog" "/home/pi/piHeatingHubExtendedLog"
-  mv "/home/pi/piHeatingHubExtendedLog/www" "/var/www/html/piHeatingHubExtendedLog"
+  mv "/home/pi/piHeatingHubExtendedLog/www" "/var/www/piHeatingHubExtendedLog"
   
   chown -R pi:pi "/home/pi/piHeatingHubExtendedLog"
   chmod -R 750 "/home/pi/piHeatingHubExtendedLog"
 
-  chown -R pi:www-data "/var/www/html/piHeatingHubExtendedLog"
-  chmod -R 755 "/var/www/html/piHeatingHubExtendedLog"
+  chown -R pi:www-data "/var/www/piHeatingHubExtendedLog"
+  chmod -R 755 "/var/www/piHeatingHubExtendedLog"
 
   if [ ! -f "/home/pi/piHeatingHubExtendedLog/README.md" ]; then
       printf "\n\n EXITING : piHeatingHub-extended-log installation FAILED\n"
@@ -79,8 +79,8 @@ fi
   cat > /etc/apache2/sites-available/piHeatingHubExtendedLog.conf <<VHOST
 <VirtualHost *:8082>
     ServerAdmin webmaster@localhost
-    DocumentRoot /var/www/html/piHeatingHubExtendedLog/
-    <Directory /var/www/html/piHeatingHubExtendedLog/>
+    DocumentRoot /var/www/piHeatingHubExtendedLog/
+    <Directory /var/www/piHeatingHubExtendedLog/>
         Options -Indexes
         AllowOverride all
         Order allow,deny
