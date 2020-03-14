@@ -48,7 +48,53 @@ change id=1 to id=2 etc
 See values  
 >$ curl localhost:8081/value.php?id=1 && echo  
 
+Configuration
+==========
+In a browser, go to  
 
+	http://\<IP\>:8080/status.php
+	
+Adding sensors
+----------
+Click  
+
+	Input Sensors
+	
+and then  
+
+	Scan for new sensors
+	
+After scanning click  
+
+	Done
+	
+Adding devices
+----------
+Click  
+
+	Output Devices
+	
+Click  
+
+	Add new
+	
+Click  
+
+	Edit
+	
+on the new one just added.
+Fill in all the fields and then click  
+
+	Save
+	
+and then  
+
+	Done
+
+twice.
+	
+>Note: pin numbers are used, NOT GPIO numbers.
+If using the piHeatingLCD hat, the one output device is at GPIO15, pin 10, and it it active HIGH, so you would set H/L to 1.  
 
 
 
