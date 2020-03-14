@@ -71,7 +71,7 @@ Web configuration
 ==========
 In a browser, go to  
 
-	http://\<IP\>:8080/status.php
+	http://<IP>:8080/status.php
 
 Log in with user 'admin' and the password you set up during the hub installation. 
 
@@ -106,7 +106,7 @@ Click
 	
 on the newly added device.  
 Set  
-	Name: \<name\>
+	Name: <name>
 	GPIO Pin: 10
 	Pin Active H/L: \<if you use the NO, then this should be 1\>
 
@@ -131,7 +131,7 @@ Click
 	
 on the newly added mode, and set  
 
-	Name: \<name\>
+	Name: <name>
 	
 , for example 'Warm' to indicate it will be used to pull up the temperature.
 
@@ -154,8 +154,8 @@ Click
 	
 Set  
 	
-	Name: \<name for the timer, perhaps 'Warm 6 hrs'\>
-	Duration: \<the duration the timer will be active, in minutes, perhaps '360'\>
+	Name: <name for the timer, for example 'Warm 6 hrs'>
+	Duration: <the duration the timer will be active, in minutes,for example '360'>
 	
 , then click  
 
@@ -178,17 +178,16 @@ Click
 	
 on the newly created schedule.  
 
-This will be the schedule that pulls up the temperature once a week.  
 Enter
 
-	Name: \<name, for example 'Weekly meeting'\>
-	Start time: \<some time before the temperature must be reached\>
-	End time: \<the time when the temperature can start dropping\>
-	Repeat schedule every: \<the day in question\>
-	When sensors: \<sensor created earlier\> IS LESS THAN \<the high temperature you want to keep when it's high\>
-	AND Timers: \<timer previously added\> STOPPED
-	Activate Devices: \<mark the device you created before\>
-	AND Modes: \<mode previously added\> OFF
+	Name: <name, for example 'Weekly meeting'>
+	Start time: <some time before the temperature must be reached>
+	End time: <the time when the temperature can start dropping>
+	Repeat schedule every: <the day in question>
+	When sensors: <sensor created earlier> IS LESS THAN <the high temperature you want to maintain>
+	AND Timers: <timer previously added> STOPPED
+	Activate Devices:<mark the device you created before>
+	AND Modes: <mode previously added> OFF
 	
 Click  
 
@@ -199,14 +198,14 @@ The second schedule will use the mode created earlier to pull up the temperature
 
 Add another timer as before and enter
 
-	Name: \<name, for example 'Warm'\>
+	Name: <name, for example 'Warm'>
 	Start time: 00:00:00
 	End time: 23:59:59
-	Repeat schedule every: \<mark all weekdays\>
-	When sensors:  \<sensor created earlier\> IS LESS THAN \<the high temperature you want to keep\>
-	AND Timers: \<timer previously added\> (IS IGNORED)
-	Activate Devices: \<mark the device you created before\>
-	AND Modes: \<mode previously added\> ON
+	Repeat schedule every: <mark all weekdays>
+	When sensors:  <sensor created earlier> IS LESS THAN <the high temperature you want to maintain>
+	AND Timers: <timer previously added> (IS IGNORED)
+	Activate Devices: <mark the device you created before>
+	AND Modes: <mode previously added> ON
 	
 Click  
 
@@ -217,14 +216,14 @@ The third schedule will use thetimer created earlier to pull up the temperature 
 
 Add another timer as before and enter
 
-	Name: \<name, for example 'Warm, 6 hrs'\>
+	Name: <name, for example 'Warm, 6 hrs'>
 	Start time: 00:00:00
 	End time: 23:59:59
-	Repeat schedule every: \<mark all weekdays\>
-	When sensors:  \<sensor created earlier\> IS LESS THAN \<the high temperature you want to keep\>
-	AND Timers: \<timer previously added\> RUNNING
-	Activate Devices: \<mark the device you created before\>
-	AND Modes: \<mode previously added\> (IS IGNORED)
+	Repeat schedule every: <mark all weekdays>
+	When sensors:  <sensor created earlier> IS LESS THAN <the high temperature you want to maintain>
+	AND Timers: <timer previously added> RUNNING
+	Activate Devices: <mark the device you created before>
+	AND Modes: <mode previously added> (IS IGNORED)
 	
 Click  
 
@@ -235,14 +234,14 @@ The fourth, and last, timer will keep the temperature low at all other times
 
 Add another timer as before and enter
 
-	Name: \<name, for example 'Cold'\>
+	Name: <name, for example 'Cold'>
 	Start time: 00:00:00
 	End time: 23:59:59
-	Repeat schedule every:\<mark all weekdays\>
-	When sensors: \<sensor created earlier\> IS LESS THAN \<the low temperature you want to keep\>
-	AND Timers: \<timer previously added\> STOPPED
-	Activate Devices: \<mark the device you created before\>
-	AND Modes: \<mode previously added\> OFF
+	Repeat schedule every: <mark all weekdays>
+	When sensors: <sensor created earlier> IS LESS THAN <the low temperature you want to maintain>
+	AND Timers: <timer previously added> STOPPED
+	Activate Devices: <mark the device you created before>
+	AND Modes: <mode previously added> OFF
 	
 Click  
 
