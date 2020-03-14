@@ -67,6 +67,115 @@ Pin 16 - GPIO23	button 2
 Pin 18 - GPIO24	button 3  
 Pin 22 - GPIO25	button 4  
 
+Web configuration
+==========
+In a browser, go to  
+
+	http://\<IP\>:8080/status.php
+
+Add sensor
+----------	
+Log in with user 'admin' and the password you set up during the hub installation.  
+
+Click  
+
+	Input Sensors
+	Scan for new sensors
+	
+When sensor is found, click  
+
+	Done
+	
+Add devices
+----------
+Click  
+
+	Output Devices
+	
+Click  
+
+	Add new
+	
+Click  
+
+	Edit
+	
+on the newly added device.  
+Set  
+	Name: \<name\>
+	GPIO Pin: 10
+	Pin Active H/L: 1
+
+Click  
+
+	Save
+	Done
+	Done	
+
+Add mode
+----------
+Click  
+
+	Modes
+	Add new
+	
+Click  
+
+	Edit
+	
+on the newly added mode, and set  
+
+	Name: \<name\>
+	
+, for example 'Warm' to indicate it will be sued to pull up the temperature.
+
+Then click  
+
+	Done
+	
+Add schedules
+----------
+Click  
+
+	Schedules
+	Add new
+	
+Click  
+
+	Edit
+	
+on the newly created schedule.  
+
+This will be the schedule that pulls up the temperature once a week.  
+Enter
+
+	Name: \<name\>
+	Start time: \<some time before the temeprature must be reached\>
+	End time: \<the time when the temperature can strt dropping\>
+	Repeat schedule every: \<the day in question\>
+	When sensors: IS LESS THAN \<the temperature you want to keep\>
+	AND Timers: IS IGNORED
+	Activate Devices: \<mark the device you created before\>
+	AND Modes: \<\>
+	
+Click  
+
+	Save
+	Done
+	
+Once again, click  
+
+	Schedules
+	Add new
+	
+Click  
+
+	Edit
+	
+on the newly created schedule.  
+
+This will be the schedule that keeps the temperature to a lower temp for energy savings.  
+
 Note
 ==========
 If you install on Raspberry Pi rev 1, you must edit  
