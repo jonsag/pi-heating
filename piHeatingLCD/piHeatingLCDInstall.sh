@@ -36,19 +36,27 @@ if [ ! -f "/home/pi/piHeatingLCD/README.md" ]; then
   cd /home/pi
   
   if [ -d "/home/pi/piHeatingLCD" ]; then
+  	printf "\n\n Deleting old install ...\n"
     rm -rf "/home/pi/piHeatingLCD"
   fi
 
-  cp -rf "/home/pi/pi-heating/piHeating/piHeatingLCD" "/home/pi/piHeatingLCD"
+  printf "\n\n Installing executables ...\n"
+  cp -rf "/home/pi/pi-heating/piHeatingLCD/piHeatingLCD" "/home/pi/"
   
+  printf "\n\n Creating gpio-watch log file ...\n"
   touch /home/pi/piHeatingLCD/gpio-watch.log
   
+  printf "\n\n Setting permissions ...\n"
   chown -R pi:pi "/home/pi/piHeatingLCD"
   chmod -R 750 "/home/pi/piHeatingLCD"
   
+  printf "\n\n Creating symlink for gpio service ...\n"
   ln -s /home/pi/piHeatingLCD/gpio.service /lib/systemd/system/gpio.service
-  chmod 644 /lib/systemd/system/gpio.service
+  printf "\n\n Setting permissions ...\n"
+  chmod 644 /home/pi/piHeatingLCD/gpio.service
+  printf "\n\n Reloading service daemon ...\n"
   systemctl daemon-reload
+  printf "\n\n Enabling gpio service ...\n"
   systemctl enable gpio.service
  
 

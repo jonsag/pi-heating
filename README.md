@@ -109,7 +109,7 @@ and follow
 
 	README - piHeatingLCD.md
 	
-Install piPowerTempLog/piHeatingHubExtendedLog
+Install piPowerTempLog/piPowerTempLog
 ==========
 For more extensive logging, and also power logging  
 >$ cd ~/pi-heating/piPowerTempLog  
@@ -202,28 +202,42 @@ Set up passwordless ssh login
 
 >$ ssh-copy-id  -i ~/.ssh/id_rsa.pub pi@192.168.10.52  
 
->$ rsync -avz --delete . pi@192.168.10.52:/home/pi/pi-heating/  
+>$ rsync -avz --delete . pi@192.168.10.52:pi-heating/  
 
 
-Testing  
+Testing piHeatingLCD  
 =============================
 Below is only for my testing  
 Use with caution!  
 
-On hub:  
-Test LCD
+On hub
+----------
+View gpio.service  
+>$ cat /lib/systemd/system/gpio.service  
+
+View gpio script  
+>$ cat /home/pi/piHeatingLCD/gpio-scripts  
+
+View gpio-watch log  
+>$ tail -f ~/piHeatingLCD/gpio-watch.log  
+
+Test LCD  
 >$ $HOME/piHeatingLCD/print-to-lcd.py -1 test1 -2 test2  
+
+Simulate Button 1 press  
+
 
 View config file  
 >$ cat $HOME/piHeatingHub/config/config.ini  
 
 Login to database  
->$ mysql -u pi -ppassword piHeatingDB (using password from the above config)  
+>$ mysql -u pi -p<password> piHeatingDB (using password from the above config)  
 
 Change ip on sensor  
 >$ UPDATE sensors SET ip = 'new ip' WHERE ip = 'old ip';  
 
-On remote:  
+On remote
+----------
 Show sensor ids  
 >$ ls /sys/bus/w1/devices/  
 

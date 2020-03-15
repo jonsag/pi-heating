@@ -15,8 +15,8 @@ fi
 
 
 OS_VERSION=$(cat /etc/os-release | grep VERSION=)
-if [[ $OS_VERSION != *"stretch"* ]]; then
-  printf "\n\n EXITING : Script must be run on PI OS Stretch. \n\n"
+if [[ $OS_VERSION != *"buster"* ]]; then
+  printf "\n\n EXITING : Script must be run on PI OS Buster. \n\n"
   exit 1
 fi
 
@@ -27,25 +27,29 @@ if [ ! -f "/home/pi/piHeatingHub/README.md" ]; then
 fi
 
 
-if [ ! -f "/home/pi/piHeatingHubExtendedLog/README.md" ]; then
+if [ ! -f "/home/pi/piPowerTempLog/README.md" ]; then
   printf "\n\n Installing piHeatingHub-extended-log ...\n"
 
   cd /home/pi
   
-  if [ -d "/home/pi/piHeatingHubExtendedLog" ]; then
-    rm -rf "/home/pi/piHeatingHubExtendedLog"
+  if [ -d "/home/pi/piPowerTempLog" ]; then
+  	printf "\n\n Deleting old install ...\n"
+    rm -rf "/home/pi/piPowerTempLog"
   fi
 
-  cp -r "/home/pi/pi-heating/piHeatingHubExtendedLog" "/home/pi/piHeatingHubExtendedLog"
-  mv "/home/pi/piHeatingHubExtendedLog/www" "/var/www/piHeatingHubExtendedLog"
+  printf "\n\n Copying new installation ...\n"
+  cp -r "/home/pi/pi-heating/piPowerTempLog/piPowerTempLog" "/home/pi/"
+  printf "\n\n Moving www files ...\n"
+  mv "/home/pi/piPowerTempLog/www" "/var/www/piPowerTempLog"
   
-  chown -R pi:pi "/home/pi/piHeatingHubExtendedLog"
-  chmod -R 750 "/home/pi/piHeatingHubExtendedLog"
+  printf "\n\n Setting permission ...\n"
+  chown -R pi:pi "/home/pi/piPowerTempLog"
+  chmod -R 750 "/home/pi/piPowerTempLog"
 
-  chown -R pi:www-data "/var/www/piHeatingHubExtendedLog"
-  chmod -R 755 "/var/www/piHeatingHubExtendedLog"
+  chown -R pi:www-data "/var/www/piPowerTempLog"
+  chmod -R 755 "/var/www/piPowerTempLog"
 
-  if [ ! -f "/home/pi/piHeatingHubExtendedLog/README.md" ]; then
+  if [ ! -f "/home/pi/piPowerTempLog/README.md" ]; then
       printf "\n\n EXITING : piHeatingHub-extended-log installation FAILED\n"
       exit 1
     fi
@@ -54,11 +58,13 @@ else
   printf "\n\n piHeatingHub-extended-log is already installed. \n"
 fi
 
-if [ ! -f "/etc/cron.d/piHeatingHubExtendedLog" ]; then
-    cat > /etc/cron.d/piHeatingHubExtendedLog <<CRON
+printf "\n\n Creating cron job ...\n"
+if [ ! -f "/etc/cron.d/piPowerTempLog" ]; then
+    cat > /etc/cron.d/piPowerTempLog <<CRON
 MAILTO=""
-*/2 * * * * pi /bin/bash /home/pi/piHeatingHubExtendedLog/cron/wrapper.sh >> /dev/null 2>&1
+*/2 * * * * pi /bin/bash /home/pi/piPowerTempLog/cron/wrapper.sh >> /dev/null 2>&1
 CRON
+	printf "\n\n Restarting cron ...\n"
     service cron restart
 fi
 
@@ -76,23 +82,23 @@ else
 Listen 8082
 PORTS
 fi
-  cat > /etc/apache2/sites-available/piHeatingHubExtendedLog.conf <<VHOST
+  cat > /etc/apache2/sites-available/piPowerTempLog.conf <<VHOST
 <VirtualHost *:8082>
     ServerAdmin webmaster@localhost
-    DocumentRoot /var/www/piHeatingHubExtendedLog/
-    <Directory /var/www/piHeatingHubExtendedLog/>
+    DocumentRoot /var/www/piPowerTempLog/
+    <Directory /var/www/piPowerTempLog/>
         Options -Indexes
         AllowOverride all
         Order allow,deny
         allow from all
     </Directory>
 
-    ErrorLog /var/log/apache2/error.log
-    CustomLog /var/log/apache2/access.log combined
+    ErrorLog \${APACHE_LOG_DIR}error.log
+    CustomLog \${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 VHOST
 
-a2ensite piHeatingHubExtendedLog.conf
+a2ensite piPowerTempLog.conf
 service apache2 restart
 
 

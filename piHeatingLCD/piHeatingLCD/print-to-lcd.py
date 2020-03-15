@@ -105,7 +105,7 @@ mode_name = mode_results[0][1]
 mode_value = mode_results[0][2]
 if verbose:
     print "+++ First mode: %s, ID: %s, Value: %s" % (mode_name, mode_id, mode_value)
-db_close_cursor(cnx, cursor)
+db_close_cursor(cnx, cursor)systemctl daemon-reload
     
 # get first timer
 timer_query = "SELECT id, name, duration, value FROM timers LIMIT 1"
@@ -252,9 +252,9 @@ if not line_1:
     line_1 = "%s/%s %s:%s %s%s" % (day, month, hour, minute, temp_value, t)
 if not line_2:    
     if mode_value:
-        line_2 = "%s%s %s" % (int(activeNow[0]['setPoint']), t, inf)
+        line_2 = "^^ %s%s %s" % (int(activeNow[0]['setPoint']), t, inf)
     elif timer_value != 0:
-        line_2 = "%s%s @%s" % (int(activeNow[0]['setPoint']), t, timerEnd)
+        line_2 = "-> %s%s @%s" % (int(activeNow[0]['setPoint']), t, timerEnd)
     else:
         line_2 = "%s%s %s" % (int(activeNow[0]['setPoint']), t, inf)
     #    #line_2 = random_chars()

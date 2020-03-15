@@ -3,6 +3,7 @@ piHeatingLCD
 The LCD and buttons will work if:  
 ----------
 * you have a schedule that always keep a low temperature  
+* you have a second schedule that pulls up the temperature at certain times  
 * you have a single mode that pulls up the temperature  
 * you have a single timer that pulls up the temperature  
 
@@ -26,6 +27,7 @@ Install gpio-watch by larsks from https://github.com/larsks/gpio-watch
 
 >$ sudo make install  
 
+>$ sudo service gpio start
 
 Electrical
 ==========
@@ -248,6 +250,15 @@ Click
 	Save
 	Done
 	Done
+
+Usage
+==========
+The LCD screen stays dark, unless pressing a button.  
+
+* Button 1: Shows status  
+* Button 2: Toggles mode, heats indefinetely  
+* Button 3: Toggles timer, heats for set time  
+* Button 4: Cancels both mode and timer  
 
 Note
 ==========

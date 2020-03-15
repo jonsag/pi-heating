@@ -1,8 +1,12 @@
 <?php
 
-function getSQL($selection, $table, $condition, $groupby)
+function getSQL($table, $selection, $groupby)
 {
     $selected = false;
+    
+    if (!isset($sql)) {
+        $sql = "start_value";
+    }
     
     // /// last number of months, days, hours
     if (isset($_GET['years'])) {
@@ -101,6 +105,8 @@ function getSQL($selection, $table, $condition, $groupby)
         $sql = "SELECT $selection FROM $table " . $groupby;
         $selection = "since start";
     }
+    
+    Print "Selection: " . $selection . "<br>\n";
     
     $answer[0] = $sql;
     $answer[1] = $selection;

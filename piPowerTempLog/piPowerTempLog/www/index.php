@@ -18,7 +18,7 @@
 
 <html>
 <head>
-<title>JS Power Temp Log</title>
+<title>piPowerTempLog</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=7" />
 
@@ -33,8 +33,8 @@
 
 <body>
 <div style="text-align:center">
-<h1>JS Power Temp Log</h1>
-- part of pi-heating -
+<h1>piPowerTempLog</h1>
+- part of piHeating -
 </div>
 <br>
 

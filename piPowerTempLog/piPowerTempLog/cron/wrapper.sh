@@ -10,5 +10,5 @@
 #*/2 * * * * /usr/bin/php /var/www/jsPowerTempLog/tempPoller.php 0 1 cron > /dev/null 2>&1
 #*/2 * * * * /usr/bin/php /var/www/jsPowerTempLog/weatherPoller.php 0 1 cron > /dev/null 2>&1
 
-php /var/www/piHeatingHubExtendedLog/tempPoller.php 0 1 cron
-php /var/www/piHeatingHubExtendedLog/powerPoller.php 0 1 cron
+php /var/www/piPowerTempLog/tempPoller.php 0 1 cron
+php /var/www/piPowerTempLog/powerPoller.php 0 1 cron
