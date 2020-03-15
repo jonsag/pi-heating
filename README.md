@@ -1,14 +1,14 @@
 pi-heating  
 
-Some scripts tweaked from https://github.com/JeffreyPowell and many others created by me.  
+Some scripts tweaked from https://github.com/JeffreyPowell, and many others created by me.  
 
-Also there is CAD drawings and PCB layouts to build the electrical parts.  
+Also there are CAD drawings and PCB layouts to build the electrical parts.  
 
 Eventually you will have a Raspberry Pi that:
 
 * controls (for example) a heater
 * measures and logs your electric power consumption
-* measures and logs numerous temperature
+* measures and logs numerous temperatures
 * measures and logs wind direction and speed
 * measures and logs rain
 * presents it all via a web GUI with some nice graphs
@@ -97,7 +97,7 @@ and follow
 
 	README - piHeating.md
 	
-You will have to decide if you will run hub and remote on same Pi, or hub and remote on separate devices.  
+You will have to decide if you want to run hub and remote on same Pi, or hub and remote on separate devices.  
 
 Install piHeatingLCD
 ==========
@@ -110,7 +110,7 @@ and follow
 	
 Install piPowerTempLog
 ==========
-For more extensive logging, and also power logging  
+For more extensive temperature logging, and also power logging  
 >$ cd ~/pi-heating/piPowerTempLog  
 
 and follow  
@@ -167,7 +167,7 @@ Database at
 
 	/var/lib/mysql/piHeatingDB
 	
-Cron job in  
+Cron jobs in  
 
 	/etc/cron.d/piHeating
 	/etc/cron.d/piPowerTempLog
@@ -183,7 +183,7 @@ piHeatingHub
 * runs on port 8080  
 * mysql setup creates password, and stores credentials /home/pi/piHeatingHub/config/config.ini  
 * secure install creates password for user 'admin', and stores it in /home/pi/piHeatingHub/.htpasswd  
-* runs cron job at /bin/bash /home/pi/piHeatingHub/cron/piHeatingHubWrapper.sh every minute  
+* runs cron job at /home/pi/piHeatingHub/cron/piHeatingHubWrapper.sh every minute  
 
 piHeatingRemote  
 
@@ -206,16 +206,16 @@ piPowerTempLog
 
 URLs:
 ----------
-Hub:
-Pi heating hub status page: \<IP\>:8080/status.php  
+Hub:  
+Pi heating hub status page: http://\<IP\>:8080/status.php  
 
 Remote:  
 Sensors count: IP:8081/count.php  
-Sensor name for sensor #1: \<IP\>:8081/name.php?id=1  
-Sensor value for sensor #1: \<IP\>:8081/value.php?id=1
+Sensor name for sensor #1: http://\<IP\>:8081/name.php?id=1  
+Sensor value for sensor #1: http://\<IP\>:8081/value.php?id=1
 
 Power log:  
-Main page: \<IP\>:8082  
+Main page: http://\<IP\>:8082  
 
 Set up passwordless ssh login
 ==========
