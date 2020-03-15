@@ -59,7 +59,7 @@ Pick a predefined interval<br>
 <option value="">Everything</option>
 </select>
 
-<input type="button" name="button1" id="button1" value="How many rows will this generate?" onClick="parent.location='countRows.php?'+this.form.predef_interval.value">
+<input type="button" name="button1" id="button1" value="How many rows will this generate?" onClick="parent.location='countRows.php?'+this.form.predef_interval.value+'&'+this.form.no_of_values.value+'&'+this.form.group_by.value">
 <br>
   Number of values displayed: 
 <select name="no_of_values">

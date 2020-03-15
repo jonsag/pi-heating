@@ -79,7 +79,7 @@ foreach ($sensorids as $sensorid) {
 
 $condition = "";
 
-$answer = getSQL($selection, $table, $condition, $groupby);
+$answer = getSQL($table, $selection, $groupby);
 
 $sql = $answer[0];
 $selection = $answer[1];

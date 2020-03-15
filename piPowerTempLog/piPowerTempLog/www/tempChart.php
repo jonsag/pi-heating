@@ -79,7 +79,7 @@ foreach ($sensorids as $sensorid) {
 
 $condition = "";
 
-$answer = getSQL($selection, $table, $condition, $groupby);
+$answer = getSQL($table, $selection, $groupby);
 
 $sql = $answer[0];
 $selection = $answer[1];
@@ -118,7 +118,7 @@ echo "',\n";
 echo " curveType: 'function',\n";
 echo " legend: { position: 'bottom' },\n";
 
-$answer = getSQL("MIN(value) as min, MAX(value) as max", $table, $condition, "");
+$answer = getSQL($table, "MIN(value) as min, MAX(value) as max",  $groupby);
 $sql2 = $answer[0];
 $selection = $answer[1];
 // echo "<br>\n" . $sql . "<br>\n";

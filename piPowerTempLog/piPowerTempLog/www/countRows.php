@@ -17,7 +17,8 @@
     }
     
     if (isset($_GET['groupBy'])) {
-        $answer = create_selection($groupBy);
+        Print "Grouped by: " . $_GET['groupBy'] . "<br>\n";
+        $answer = create_selection($_GET['groupBy']);
         $groupby = $answer[0];
         $groupedby = $answer[1];
         $selection = $answer[2];
@@ -25,6 +26,10 @@
         $groupby = "";
         $groupedby = "";
         $selection = "*";
+    }
+    
+    if (isset($_GET['values'])) {
+        Print "Values: " . $_GET['values'] . "<br>\n";
     }
         
     $answer = getSQL($table, $selection, $groupby);
@@ -44,7 +49,11 @@
         }
     }
     
-    Print "Selecting " . $selection . " will give " . $i . " rows<br>\n";
+    Print "<br>\nSelecting " . $selection;
+    if (isset($_GET['groupBy'])) {
+        Print ", grouped by " . $_GET['groupBy'] . ",";
+    }
+    Print " will give " . $i . " rows<br>\n";
     //return $i;
 
  ?> 

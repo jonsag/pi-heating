@@ -106,8 +106,6 @@ function getSQL($table, $selection, $groupby)
         $selection = "since start";
     }
     
-    Print "Selection: " . $selection . "<br>\n";
-    
     $answer[0] = $sql;
     $answer[1] = $selection;
     
