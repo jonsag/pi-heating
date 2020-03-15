@@ -1,20 +1,19 @@
-#Some major work being done here
-#Don't sit up and wait for it...
-
 pi-heating  
 
-Some scripts tweaked from https://github.com/JeffreyPowell  
-and others created by me
+Some scripts tweaked from https://github.com/JeffreyPowell and many others created by me.  
+
+Also there is CAD drawings and PCB layouts to build the electrical parts.  
 
 Eventually you will have a Raspberry Pi that:
 
-* controls (perhaps) a heater
+* controls (for example) a heater
 * measures and logs your electric power consumption
 * measures and logs numerous temperature
 * measures and logs wind direction and speed
+* measures and logs rain
 * presents it all via a web GUI with some nice graphs
 * also presents it on LCD displays
-* can export logs to spreadsheet or csv
+* can export logs to (spreadsheet or) csv
 
 Let's start it all by
 
@@ -86,12 +85,12 @@ Go to your home directory, that we from now on will assume is
 	
 >$ cd  
 
-Download source files
+Download source files  
 >$ git clone https://github.com/jonsag/pi-heating.git  
 
 Install piHeating
 ==========
-Go to directory pi-heating/piHeating 
+Go to directory pi-heating/piHeating  
 >$ cd ~/pi-heating/piHeating  
 
 and follow  
@@ -109,7 +108,7 @@ and follow
 
 	README - piHeatingLCD.md
 	
-Install piPowerTempLog/piPowerTempLog
+Install piPowerTempLog
 ==========
 For more extensive logging, and also power logging  
 >$ cd ~/pi-heating/piPowerTempLog  
@@ -117,6 +116,10 @@ For more extensive logging, and also power logging
 and follow  
 
 	README - piPowerTempLog.md
+	
+Install piWeatherLog
+==========
+Under construction ...  
 	
 Later on you will have to know how to:
 
@@ -144,7 +147,7 @@ Web GUI installed in
 
 	/var/www
 	
-Apache site configuration in  
+Apache site configurations in  
 
 	/etc/apache2/sites-enabled/
 	
@@ -167,7 +170,8 @@ Database at
 Cron job in  
 
 	/etc/cron.d/piHeating
-
+	/etc/cron.d/piPowerTempLog
+	
 Quick reference
 ==========
 Notes
@@ -179,6 +183,7 @@ piHeatingHub
 * runs on port 8080  
 * mysql setup creates password, and stores credentials /home/pi/piHeatingHub/config/config.ini  
 * secure install creates password for user 'admin', and stores it in /home/pi/piHeatingHub/.htpasswd  
+* runs cron job at /bin/bash /home/pi/piHeatingHub/cron/piHeatingHubWrapper.sh every minute  
 
 piHeatingRemote  
 
@@ -186,15 +191,31 @@ piHeatingRemote
 * www installs in /var/www/piHeatingRemote  
 * runs on port 8081
 
+piHeatingLCD  
+
+* executables installs in ~/piHeatingLCD  
+* requires gpio-watch  
+* requires Adafruit Char LCD
+
+piPowerTempLog  
+
+* executables installs in ~/piPowerTempLog  
+* www installs in /var/www/piPowerTempLog  
+* runs on port 8082
+* runs cron job at /home/pi/piPowerTempLog/cron/wrapper.sh every 2 minutes  
+
 URLs:
 ----------
 Hub:
-Pi heating hub status page: <IP\>:8080/status.php  
+Pi heating hub status page: \<IP\>:8080/status.php  
 
 Remote:  
 Sensors count: IP:8081/count.php  
-Sensor name for sensor #1: <IP\>:8081/name.php?id=1  
-Sensor value for sensor #1: <IP\>:8081/value.php?id=1
+Sensor name for sensor #1: \<IP\>:8081/name.php?id=1  
+Sensor value for sensor #1: \<IP\>:8081/value.php?id=1
+
+Power log:  
+Main page: \<IP\>:8082  
 
 Set up passwordless ssh login
 ==========
