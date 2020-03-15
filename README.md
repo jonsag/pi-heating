@@ -136,9 +136,11 @@ Install Arduino IDE from https://www.arduino.cc/en/Main/Software
 Install Average library:
 -----------------------------
 Copy directory Average to your Arduino/libraries directory  
-
-What is installed and where
+	
+Quick reference
 ==========
+What is installed and where
+----------
 Executables installed in  
 
 	/home/pi
@@ -171,9 +173,7 @@ Cron jobs in
 
 	/etc/cron.d/piHeating
 	/etc/cron.d/piPowerTempLog
-	
-Quick reference
-==========
+
 Notes
 ----------
 piHeatingHub  
@@ -217,6 +217,12 @@ Sensor value for sensor #1: http://\<IP\>:8081/value.php?id=1
 Power log:  
 Main page: http://\<IP\>:8082  
 
+
+Testing  
+=============================
+Below is only for my testing  
+Use with caution!  
+
 Set up passwordless ssh login
 ==========
 >$ ssh-keygen  
@@ -228,13 +234,6 @@ Upload source
 
 Upload piPowerTempLog www  
 >$ rsync -avz . pi@192.168.10.52:/var/www/piPowerTempLog && ssh pi@192.168.10.52 "sudo chown pi:www-data /var/www/piPowerTempLog -R && sudo chmod 755 /var/www/piPowerTempLog/*.php"  
-
-
-
-Testing piHeatingLCD  
-=============================
-Below is only for my testing  
-Use with caution!  
 
 On hub
 ----------
