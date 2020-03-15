@@ -102,7 +102,7 @@ if ($result->num_rows > 0) {
         } else {
             $powerSql .= "currentAverageR1, ";
             $powerSql .= "currentAverageS2, ";
-            $powerSql .= "currentAverageT3, ";
+            $powerSql .= "currentAverageT3 ";
         }
         $powerSql .= "FROM powerLog WHERE ";
         // $powerSql .= "ts > DATE_SUB('" . $row['ts'] . "', INTERVAL 1 ". $groupedby . ") AND ";

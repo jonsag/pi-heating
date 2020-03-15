@@ -202,7 +202,12 @@ Set up passwordless ssh login
 
 >$ ssh-copy-id  -i ~/.ssh/id_rsa.pub pi@192.168.10.52  
 
+Upload source  
 >$ rsync -avz --delete . pi@192.168.10.52:pi-heating/  
+
+Upload piPowerTempLog www  
+>$ rsync -avz . pi@192.168.10.52:/var/www/piPowerTempLog && ssh pi@192.168.10.52 "sudo chown pi:www-data /var/www/piPowerTempLog -R && sudo chmod 755 /var/www/piPowerTempLog/*.php"  
+
 
 
 Testing piHeatingLCD  

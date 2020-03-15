@@ -38,7 +38,7 @@ if ($groupedby) {
 
 $condition = " AND 'currentR1'!='0'";
 
-$answer = getSQL($selection, $table, $condition, $groupby);
+$answer = getSQL($table, $selection, $groupby);
 
 $sql = $answer[0];
 $selection = $answer[1];

@@ -48,8 +48,7 @@
         Print "<table border cellpadding=3>\n";
         Print "<tr><td colspan=18>" . $table . " " . $selection;
         lf();
-        Print "sql=" . $sql . "<td></tr>\n";
-        Print "<tr>";
+        Print "sql=" . $sql . "</td></tr>\n";
         Print "<th>Timestamp</th>";
         foreach ($sensorids as $sensorid) {
             Print "<th>Sensor " . $sensorid . "</th>";
