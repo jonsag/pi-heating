@@ -120,22 +120,7 @@ and follow
 Install piWeatherLog
 ==========
 Under construction ...  
-	
-Later on you will have to know how to:
 
-Install and run Arduino IDE:
-=============================
-
-Install Arduino IDE from https://www.arduino.cc/en/Main/Software  
->$ mv arduino-*.tar.xz ~/bin  
->$ cd ~/bin  
->$ tar -xvJf arduino-*.tar.xz  
->$ cd arduino-*  
->$ ./install.sh  
-
-Install Average library:
------------------------------
-Copy directory Average to your Arduino/libraries directory  
 	
 Quick reference
 ==========
@@ -219,12 +204,25 @@ Main page: http://\<IP\>:8082
 
 
 Testing  
-=============================
-Below is only for my testing  
+==========
+Below is only for my testing during development  
 Use with caution!  
 
+Install and run Arduino IDE:
+----------
+Install Arduino IDE from https://www.arduino.cc/en/Main/Software  
+>$ mv arduino-*.tar.xz ~/bin  
+>$ cd ~/bin  
+>$ tar -xvJf arduino-*.tar.xz  
+>$ cd arduino-*  
+>$ ./install.sh  
+
+Install Average library:
+----------
+Copy directory Average to your Arduino/libraries directory  
+
 Set up passwordless ssh login
-==========
+----------
 >$ ssh-keygen  
 
 >$ ssh-copy-id  -i ~/.ssh/id_rsa.pub pi@192.168.10.52  
