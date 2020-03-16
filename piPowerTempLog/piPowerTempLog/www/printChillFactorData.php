@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>JS Chill Factor</title>
+<title>piPowerTempLog - chill factor data</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=7" />
 </head>

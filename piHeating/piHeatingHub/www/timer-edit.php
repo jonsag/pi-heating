@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<title>piHeatingHub - edit timer</title>
 <style>
     .pbody { background-color: #080808; font-family: courier; color: red; font-size: small;}
     .debug { font-family: courier; color: red; font-size: large; }

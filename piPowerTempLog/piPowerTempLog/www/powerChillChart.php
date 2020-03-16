@@ -1,5 +1,6 @@
 <html>
   <head>
+  <title>piPowerTempLog - power/chill factor chart</title>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
    google.load("visualization", "1", {packages:["corechart"]});

@@ -28,10 +28,11 @@ void presentWebPage(void) {
             client.println();
             client.println("<HTML>");
             client.println("<HEAD>");
-            client.println("<TITLE>Arduino logger</TITLE>");
+            client.println("<TITLE>ardPowerTempLog</TITLE>");
             client.println("</HEAD>");
             client.println("<BODY>");
             client.println("<H1>ardPowerTempLog</H1>");
+            client.println("- part of piHeating -");
 
             // currents
             client.println("<br>");

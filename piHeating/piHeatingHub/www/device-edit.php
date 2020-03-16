@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html>
-<head>
+<head><title>piHeatingHub - edit device</title>
 <style>
     .pbody { background-color: #080808; }
     .debug { font-family: courier; color: red; font-size: large; }

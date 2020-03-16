@@ -2,6 +2,7 @@
 
 <html><head>
 <meta http-equiv="refresh" content="30">
+<title>piHeatingHub - edit sensor</title>
 </head><body bgcolor='#080808'>
 <font color='#808080' size ='4' face='verdana'>
     

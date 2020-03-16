@@ -233,6 +233,9 @@ Upload source
 Upload piPowerTempLog www  
 >$ rsync -avz . pi@192.168.10.52:/var/www/piPowerTempLog && ssh pi@192.168.10.52 "sudo chown pi:www-data /var/www/piPowerTempLog -R && sudo chmod 755 /var/www/piPowerTempLog/*.php"  
 
+Upload piHeatingHub www  
+>$ rsync -avz . pi@192.168.10.52:/var/www/piHeatingHub && ssh pi@192.168.10.52 "sudo chown pi:www-data /var/www/piHeatingHub -R && sudo chmod 755 /var/www/piHeatingHub/*.php"  
+
 On hub
 ----------
 View gpio.service  

@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta http-equiv="refresh" content="30">
+<title>piHeatingHub - status</title>
 <style>
     .sensorvalue {font-family: courier; color: green; font-size:200pt;}
     .sensorvaluedec {font-family: courier; color: green; font-size:80pt;}
@@ -127,11 +128,16 @@
         #echo "0 timers results"; 
     }
 
+    echo "<div style='text-align:center'>";
+    echo "<h1>piHeatingHub</h1>";
+    echo "- part of piHeating -";
+    echo "</div>";
 
     echo "<table class='ttab'>";
     echo "<tr>";
 
     echo "<td width=33%>";
+    
 
     echo "<input type='button' onclick='location.href=\"sched-list.php\";' value='Schedules' class='bgrey' />";
     echo "<input type='button' onclick='location.href=\"sensors-list.php\";' value='Input Sensors' class='bgrey' />";

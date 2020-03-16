@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta http-equiv="refresh" content="30">
+<title>piHeatingHub - net devices</title>
 <style>
     .pbody { background-color: #080808; font-family: courier; color: red; font-size: small;}
     .debug { font-family: courier; color: red; font-size: large; }

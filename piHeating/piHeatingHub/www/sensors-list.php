@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta http-equiv="refresh" content="30">
+<title>piHeatingHub - sensors</title>
 <style>
 .pbody {
 	background-color: #080808;
