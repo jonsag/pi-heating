@@ -16,23 +16,206 @@ $EndDescr
 $Comp
 L MCU_Module:Arduino_UNO_R3 A?
 U 1 1 5E6FB570
-P 5450 3700
-F 0 "A?" H 5450 4881 50  0000 C CNN
-F 1 "Arduino_UNO_R3" H 5450 4790 50  0000 C CNN
-F 2 "Module:Arduino_UNO_R3" H 5450 3700 50  0001 C CIN
-F 3 "https://www.arduino.cc/en/Main/arduinoBoardUno" H 5450 3700 50  0001 C CNN
-	1    5450 3700
+P 6350 3850
+F 0 "A?" H 6350 5031 50  0000 C CNN
+F 1 "Arduino_UNO_R3" H 6350 4940 50  0000 C CNN
+F 2 "Module:Arduino_UNO_R3" H 6350 3850 50  0001 C CIN
+F 3 "https://www.arduino.cc/en/Main/arduinoBoardUno" H 6350 3850 50  0001 C CNN
+	1    6350 3850
 	1    0    0    -1  
 $EndComp
 $Comp
 L My_Headers:10-pin_header_LCD_interface J?
 U 1 1 5E6FBAAB
-P 2400 5150
-F 0 "J?" H 2392 4335 50  0000 C CNN
-F 1 "10-pin_header_LCD_interface" H 2392 4426 50  0000 C CNN
-F 2 "" H 2300 4550 50  0001 C CNN
-F 3 "~" H 2850 5100 50  0001 C CNN
-	1    2400 5150
+P 3300 5300
+F 0 "J?" H 3292 4485 50  0000 C CNN
+F 1 "10-pin_header_LCD_interface" H 3292 4576 50  0000 C CNN
+F 2 "" H 3200 4700 50  0001 C CNN
+F 3 "~" H 3750 5250 50  0001 C CNN
+	1    3300 5300
 	-1   0    0    1   
 $EndComp
+Wire Wire Line
+	5850 4550 5050 4550
+Wire Wire Line
+	5050 4550 5050 5400
+Wire Wire Line
+	5050 5400 3500 5400
+Wire Wire Line
+	5850 4450 4950 4450
+Wire Wire Line
+	4950 4450 4950 5300
+Wire Wire Line
+	4950 5300 3500 5300
+Wire Wire Line
+	5850 4350 4850 4350
+Wire Wire Line
+	4850 4350 4850 5200
+Wire Wire Line
+	4850 5200 3500 5200
+Wire Wire Line
+	5850 4250 4750 4250
+Wire Wire Line
+	4750 4250 4750 5100
+Wire Wire Line
+	4750 5100 3500 5100
+Wire Wire Line
+	4650 4150 4650 5000
+Wire Wire Line
+	4650 5000 3500 5000
+Wire Wire Line
+	4650 4150 5850 4150
+Wire Wire Line
+	4550 4900 3500 4900
+Wire Wire Line
+	6250 4950 6250 5600
+Wire Wire Line
+	6550 2850 6550 1600
+Wire Wire Line
+	6550 1600 2100 1600
+Wire Wire Line
+	2100 6000 3950 6000
+Wire Wire Line
+	3950 6000 3950 5500
+Wire Wire Line
+	3950 5500 3500 5500
+$Comp
+L Switch:SW_DPST_x2 SW?
+U 1 1 5E70131E
+P 3500 3100
+F 0 "SW?" H 3500 3335 50  0000 C CNN
+F 1 "SW_DPST_x2" H 3500 3244 50  0000 C CNN
+F 2 "" H 3500 3100 50  0001 C CNN
+F 3 "~" H 3500 3100 50  0001 C CNN
+	1    3500 3100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5850 3450 5550 3450
+$Comp
+L Device:R R?
+U 1 1 5E70A083
+P 4050 3350
+F 0 "R?" V 3843 3350 50  0000 C CNN
+F 1 "10k" V 3934 3350 50  0000 C CNN
+F 2 "" V 3980 3350 50  0001 C CNN
+F 3 "~" H 4050 3350 50  0001 C CNN
+	1    4050 3350
+	0    1    1    0   
+$EndComp
+$Comp
+L Switch:SW_DPST_x2 SW?
+U 1 1 5E70E15F
+P 3500 2500
+F 0 "SW?" H 3500 2735 50  0000 C CNN
+F 1 "SW_DPST_x2" H 3500 2644 50  0000 C CNN
+F 2 "" H 3500 2500 50  0001 C CNN
+F 3 "~" H 3500 2500 50  0001 C CNN
+	1    3500 2500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5450 2500 3800 2500
+Wire Wire Line
+	3300 2500 2100 2500
+$Comp
+L Device:R R?
+U 1 1 5E70F70C
+P 4100 2750
+F 0 "R?" V 3893 2750 50  0000 C CNN
+F 1 "10k" V 3984 2750 50  0000 C CNN
+F 2 "" V 4030 2750 50  0001 C CNN
+F 3 "~" H 4100 2750 50  0001 C CNN
+	1    4100 2750
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4250 2750 4450 2750
+Wire Wire Line
+	4450 2750 4450 3350
+Wire Wire Line
+	3950 2750 3800 2750
+Wire Wire Line
+	3800 2750 3800 2500
+Connection ~ 3800 2500
+Wire Wire Line
+	3800 2500 3700 2500
+Wire Wire Line
+	4200 3350 4450 3350
+Connection ~ 4450 3350
+Wire Wire Line
+	3700 3100 3800 3100
+Wire Wire Line
+	3300 3100 2100 3100
+Wire Wire Line
+	3900 3350 3800 3350
+Wire Wire Line
+	3800 3350 3800 3100
+Connection ~ 3800 3100
+Wire Wire Line
+	3800 3100 5350 3100
+Wire Wire Line
+	2100 1600 2100 2500
+$Comp
+L Device:LED D?
+U 1 1 5E71B66E
+P 3550 1950
+F 0 "D?" H 3543 2166 50  0000 C CNN
+F 1 "LED" H 3543 2075 50  0000 C CNN
+F 2 "" H 3550 1950 50  0001 C CNN
+F 3 "~" H 3550 1950 50  0001 C CNN
+	1    3550 1950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5550 1950 3700 1950
+$Comp
+L Device:R R?
+U 1 1 5E71CD16
+P 4100 2200
+F 0 "R?" V 3893 2200 50  0000 C CNN
+F 1 "330R" V 3984 2200 50  0000 C CNN
+F 2 "" V 4030 2200 50  0001 C CNN
+F 3 "~" H 4100 2200 50  0001 C CNN
+	1    4100 2200
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4250 2200 4450 2200
+Wire Wire Line
+	4450 2200 4450 2750
+Connection ~ 4450 2750
+Wire Wire Line
+	3950 2200 2850 2200
+Wire Wire Line
+	2850 2200 2850 1950
+Wire Wire Line
+	2850 1950 3400 1950
+Connection ~ 2100 2500
+Wire Wire Line
+	2100 2500 2100 3100
+Connection ~ 2100 3100
+Wire Wire Line
+	3500 5600 4450 5600
+Wire Wire Line
+	2100 3100 2100 6000
+Wire Wire Line
+	5550 1950 5550 3450
+Wire Wire Line
+	4550 4900 4550 4050
+Wire Wire Line
+	4550 4050 5850 4050
+Wire Wire Line
+	4450 3350 4450 5600
+Connection ~ 4450 5600
+Wire Wire Line
+	4450 5600 6250 5600
+Wire Wire Line
+	5350 3100 5350 3750
+Wire Wire Line
+	5350 3750 5850 3750
+Wire Wire Line
+	5850 3650 5450 3650
+Wire Wire Line
+	5450 2500 5450 3650
 $EndSCHEMATC
