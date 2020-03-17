@@ -1,121 +1,31 @@
-/*
- The circuit:
- *                             GND            display pin 1
- *  supply voltage for logic   +5V            display pin 2
 
- * 10K resistor:
- * ends to +5V and ground
- * LCD VO - contrast           wiper          display pin 3
-
- * LCD RS pin                  digital pin 13 display pin 4
- * LCD R/W pin                 GND            display pin 5
- * LCD Enable pin              digital pin 12 display pin 6
- * LCD D4                      digital pin 11 display pin 11
- * LCD D5                      digital pin 10 display pin 12
- * LCD D6                      digital pin 9  display pin 13
- * LCD D7                      digital pin 8  display pin 14
-
- * 10K resistor:
- * ends to +5V and ground
- * back light anode:+4.2V      wiper          display pin 15
- * back light cathode          wiper          display pin 16
- */
-
-#include <Average.h> // add library for calculating averages
-#include <LiquidCrystal.h>
-
-// initialize the library with the numbers of the interface pins
-LiquidCrystal lcd(13, 12, 11, 10, 9, 8);
-
-// declare in/outputs
-int simulateRainButton = 7;
-int rain0Button = 6;
-int anemometer = 5;
-int rainBucket = 4;
-// digital 3 reserved for 1-wire
-int redLed = 2;
-int vane = A2;
-
-int anemometerState = 0;
-int lastAnemometerState = 0;
-int anemometerPulses = 0;
-//int anemometerPulsesPerSecond = 0;
-float windSpeed = 0; // the speed in m/s
-float windSpeedAverage = 0; // the average speed in m/s
-int windSpeedAverageCounter = 0;
-/*
-int beaufort = 0;
- char* windLabels[] = {
- "Calm", "Light air", "Light breeze", "Gentle breeze", "Moderate breeze", "Fresh breeze", "Strong breeze", "High wind, moderate gale, near gale", "Gale, fresh gale", "Strong gale", "Storm, whole gale", "Violent storm", "Hurricane force"};
- char* svWindLabels[] = {
- "Lugnt", "Svag vind", "Svag vind", "Måttlig vind", "Måttlig vind", "Frisk vind", "Frisk vind", "Hård vind", "Hård vind", "Mycket hård vind", "Storm", "Svår storm", "Orkan"};
- char* svWindLabelsAtSea[] = {
- "Stiltje, bleke", "Nästan stiltje", "Lätt (laber) bris", "God bris", "Frisk bris", "Styv bris", "Hård bris, frisk kuling/kultje", "Styv kuling/kultje", "Hård kuling/kultje", "Halv storm", "Storm", "Svår storm", "Orkan"};
- */
-
-//int simulateRainButtonState = 0;
-//int lastSimulateRainButtonState = 0;
-
-//int rain0ButtonState = 0;
-//int lastRain0ButtonState = 0;
-
-int rainBucketState = 0;
-int lastrainBucketState = 0;
-int rainBucketTips = 0;
-float totalRain = 0;
-float rainSinceLastPoll = 0;
-int rainIntensity = 0;
-
-int vaneValue = 0;
-int directionValue = 0;
-char* vaneDirection[]={
-  "NA", "E", "N", "W", "S", "NE", "NW", "SW", "SE", "ENE", "NNE", "NNW", "WNW", "WSW", "SSW", "SSE", "ESE"};
-char* vaneDegrees[]={
-  "NA", "90", "0", "270", "180", "45", "315", "225", "135", "67.5", "22.5", "337.5", "292.5", "247.5", "202.5", "157.5", "112.5"};
-int vaneAverageCounter = 0;
-#define vaneSamples 100
-int vaneAverage[vaneSamples];
-int displayedVaneAverage = 0;
-
-unsigned long currentMillis = 000000; // will store millis()
-unsigned long anemometerMillis = 000000;
-unsigned long lastRainMillis = 000000;
-unsigned long blinkMillis = 000000;
-unsigned long serialPrintMillis = 000000;
-unsigned long lcdPrintMillis = 000000;
-unsigned long pollMillis = 000000;
-unsigned long tickMillis = 000000;
-
-boolean blinkRedLed = false;
-boolean redLedOn = false;
-boolean polled = false;
-
-int length1 = 0;
-int length2 = 0;
-
-byte byteRead; // stores data coming from serial
-
-int tick = 0;
-int lastTick = 0;
+#include "configuration.h"
+#include "lcd.h"
 
 ////////////////////////////// setup //////////////////////////////
 void setup() {
-  // set up the LCD's number of columns and rows:
-  Serial.println("Initializing LCD...");
-  lcd.begin(20, 4);
-  // Print a message to the LCD.
-  lcd.print("Booting...");
-
-  delay(5000);
-  Serial.begin(9600);
-  Serial.println("weather_station_no_temps_with_lcd_140122");
+  /*******************************
+    Start LCD
+  *******************************/
+  lcd.begin(lcdColumns, lcdRows);
+  lcd.setCursor(0, 0); // print name of this program and boot message to the LCD
+  lcd.print(programName);
   lcd.setCursor(0, 1);
-  lcd.print("Started serial");
-  Serial.println("Started serial communication after waiting 5 seconds");
-  lcd.setCursor(0, 2);
-  lcd.print("Waiting...");
-  Serial.println("Waiting another 5 seconds...");
-  delay(5000);  //important on linux a serial port can lock up otherwise
+  lcd.print("Booting ...");
+
+  /*******************************
+    Start serial
+  *******************************/
+  lcd.setCursor(0, 1);
+  lcd.print("Starting serial ");
+  
+  Serial.begin(9600);
+
+  Serial.println(programName); // print information
+  Serial.println(date);
+  Serial.print("by ");
+  Serial.print(author);
+  Serial.println(email);
 
   // declare digital inputs
   lcd.setCursor(0, 2);
@@ -538,9 +448,3 @@ void resetAll(void) {
   windSpeedAverageCounter = 0;
   Serial.println("Values reset");
 }
-
-
-
-
-
-
