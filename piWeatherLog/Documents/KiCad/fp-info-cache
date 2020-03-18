@@ -1,4 +1,4 @@
-17017116860232334
+17026599426797334
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -52178,6 +52178,41 @@ ArduinoNano
 30
 30
 My_Arduino
+Arduino_Pro_Mini_vA
+
+
+0
+34
+34
+My_Arduino
+Arduino_Pro_Mini_vB
+
+
+0
+36
+35
+My_Arduino
+Arduino_Pro_Mini_vC
+
+
+0
+34
+34
+My_Arduino
+Arduino_Pro_Mini_vC_larger_pads
+
+
+0
+34
+34
+My_Arduino
+Arduino_Pro_Mini_vD
+
+
+0
+35
+35
+My_Arduino
 Arduino_UNO_R3_shield
 Arduino UNO R3, http://www.mouser.com/pdfdocs/Gravitech_Arduino_Nano3_0.pdf
 Arduino UNO R3
@@ -52353,6 +52388,20 @@ Through hole pin header THT 1x05 2.54mm single row
 5
 5
 My_Headers
+8-pin_GY-521,_MPU-6050_header
+Through hole straight pin header, 1x08, 2.54mm pitch, single row
+Through hole pin header THT 1x08 2.54mm single row
+0
+8
+8
+My_Headers
+8-pin_GY-521,_MPU-6050_header_larger_pads
+Through hole straight pin header, 1x08, 2.54mm pitch, single row
+Through hole pin header THT 1x08 2.54mm single row
+0
+8
+8
+My_Headers
 8-pin_LCD_header
 Through hole straight pin header, 1x08, 2.54mm pitch, single row
 Through hole pin header THT 1x08 2.54mm single row
@@ -52464,13 +52513,6 @@ LED diameter 5.0mm 2 pins
 0
 2
 2
-My_Misc
-My_Arduino_UNO_R3
-Arduino UNO R3, http://www.mouser.com/pdfdocs/Gravitech_Arduino_Nano3_0.pdf
-Arduino UNO R3
-0
-32
-32
 My_Misc
 My_Jack_3.5mm_Ledino_KB3SPRS_Horizontal
 https://www.reichelt.de/index.html?ACTION=7&LA=3&OPEN=0&INDEX=0&FILENAME=C160%252FKB3SPRS.pdf
