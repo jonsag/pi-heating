@@ -21,8 +21,10 @@ Change line 32
 so it matches the output from above  
 
 
-Check settings and install sketch:
+Install sketch:
 -----------------------------
+Install Average library from https://github.com/MajenkoLibraries/Average  
+
 Select Board and Port  
 Open sketch  
 Compile and upload to arduino  

@@ -38,8 +38,8 @@ int lcdColumns = 20;
 int lcdRows = 4;
 
 // declare in/outputs
-int simulateRainButton = 7;
-int rain0Button = 6;
+//int simulateRainButton = 7;
+//int rain0Button = 6;
 int anemometer = 5;
 int rainBucket = 4;
 // digital 3 reserved for 1-wire

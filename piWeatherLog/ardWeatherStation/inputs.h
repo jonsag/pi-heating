@@ -1,6 +1,61 @@
 
+////////////////////////////// evaluate wind direction //////////////////////////////
+int windDirection() {
+  if (vaneValue >= 0 && vaneValue <= 50) { // ESE
+    directionValue = 16;
+  }
+  else if (vaneValue >= 51 && vaneValue <= 59) { // ENE
+    directionValue = 9;
+  }
+  else if (vaneValue >= 60 && vaneValue <= 75) { // E
+    directionValue = 1;
+  }
+  else if (vaneValue >= 76 && vaneValue <= 115) { // SSE
+    directionValue = 15;
+  }
+  else if (vaneValue >= 116 && vaneValue <= 155) { // SE
+    directionValue = 8;
+  }
+  else if (vaneValue >= 156 && vaneValue <= 190) { // SSW
+    directionValue = 14;
+  }
+  else if (vaneValue >= 191 && vaneValue <= 270) { // S
+    directionValue = 4;
+  }
+  else if (vaneValue >= 271 && vaneValue <= 335) { // NNE
+    directionValue = 10;
+  }
+  else if (vaneValue >= 336 && vaneValue <= 450) { // NE
+    directionValue = 5;
+  }
+  else if (vaneValue >= 451 && vaneValue <= 510) { // WSW
+    directionValue = 13;
+  }
+  else if (vaneValue >= 511 && vaneValue <= 570) { // SW
+    directionValue = 7;
+  }
+  else if (vaneValue >= 571 && vaneValue <= 660) { // NNW
+    directionValue = 11;
+  }
+  else if (vaneValue >= 661 && vaneValue <= 730) { // N
+    directionValue = 2;
+  }
+  else if (vaneValue >= 731 && vaneValue <= 805) { // WNW
+    directionValue = 12;
+  }
+  else if (vaneValue >= 806 && vaneValue <= 870) { // NW
+    directionValue = 6;
+  }
+  else if (vaneValue >= 871 && vaneValue <= 1023) { // W
+    directionValue = 3;
+  }
+  else {
+    directionValue = 0;
+  }
+  return directionValue;
+}
 
-void inputs(void) {
+void inputs() {
   ///////////////////////// read inputs
   //simulateRainButtonState = digitalRead(simulateRainButton);
   //rain0ButtonState = digitalRead(rain0Button);
@@ -59,4 +114,15 @@ void inputs(void) {
     rainIntensity = 0;
   }
 
+  ///////////////////// check if reset rain meter button is pressed
+  /* if (rain0ButtonState != lastRain0ButtonState) {
+    if (rain0ButtonState == HIGH) {
+    Serial.println("Resetting rain meter");
+    totalRain = 0;
+    //blinkRedLed = true;
+    }
+    }
+    lastRain0ButtonState = rain0ButtonState;
+  */
+  
 }
