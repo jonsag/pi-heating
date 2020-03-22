@@ -1,6 +1,8 @@
 
 #include "configuration.h"
+#include "inputs.h"
 #include "lcd.h"
+#include "serial.h"
 
 ////////////////////////////// setup //////////////////////////////
 void setup() {
@@ -58,63 +60,9 @@ void setup() {
 void loop() {
   currentMillis = millis();
 
-  ///////////////////////// read inputs
-  //simulateRainButtonState = digitalRead(simulateRainButton);
-  //rain0ButtonState = digitalRead(rain0Button);
-  anemometerState = digitalRead(anemometer);
-  rainBucketState = digitalRead(rainBucket);
-  vaneValue = analogRead(vane);
+  inputs(); //read and evaluate inputs
 
-  /*
-  Serial.print("rain0Button: ");
-   Serial.print(rain0ButtonState);
-   Serial.print("     ");
-   Serial.print("simulateRainButton: ");
-   Serial.print(simulateRainButtonState);
-   Serial.println();
-   */
-
-  ///////////////////////// vane - wind direction
-  directionValue = windDirection();
-  if (vaneAverageCounter >= vaneSamples) {
-    displayedVaneAverage = mean(vaneAverage,vaneAverageCounter),DEC;
-    vaneAverageCounter = 0;
-  }
-  else {
-    vaneAverage[vaneAverageCounter] = atoi(vaneDegrees[directionValue]);
-    vaneAverageCounter++;
-  }
-
-  ///////////////////////// anemometer - wind speed
-  if(anemometerState != lastAnemometerState && anemometerState == HIGH) { // if we have recieved a pulse
-    anemometerPulses++;
-    blinkRedLed = true;
-  }
-  lastAnemometerState = anemometerState; // save state to next run
-
-  if(currentMillis - anemometerMillis >= 10000) {
-    //anemometerPulsesPerSecond = anemometerPulses;
-    windSpeed = anemometerPulses * 0.667 / 10; // one pulse is 0.667 m/s
-    anemometerPulses = 0;
-    anemometerMillis = currentMillis;
-    windSpeedAverage += windSpeed;
-    windSpeedAverageCounter ++;
-  }
-
-  ///////////////////////// rain gauge - tip bucket
-  if(rainBucketState != lastrainBucketState && rainBucketState == HIGH) { // if we have recieved a pulse
-    rainBucketTips++;
-    totalRain += 0.279; // one pulse is 0.279 mm of rain
-    rainSinceLastPoll += 0.279;
-    rainIntensity = 60 * 0.279 / ((currentMillis - lastRainMillis) / 1000);
-    lastRainMillis = currentMillis;
-    blinkRedLed = true;
-  }
-  lastrainBucketState = rainBucketState; // save state for next run
-
-  if((currentMillis - lastRainMillis) > 60000) { // if we haven't recieved a puse for 60 seconds, set intensity to 0
-    rainIntensity = 0;
-  }
+  serial(); // read and print to serial
 
   ///////////////////// check if reset rain meter button is pressed
   /* if (rain0ButtonState != lastRain0ButtonState) {
@@ -127,40 +75,7 @@ void loop() {
    lastRain0ButtonState = rain0ButtonState;
    */
 
-  ///////////////////// check serial for message
-  if (Serial.available()) { // check if data has been sent from the computer
-    byteRead = Serial.read(); // read the most recent byte
-    if ( byteRead == 99 ) { // c outputs complete information
-      serialPrintComplete();
-    }
-    else if ( byteRead == 104 ) { // h outputs help info
-      help();
-    }
-    else if ( byteRead == 112 ) { // p does a poll
-      poll();
-    }
-    else if ( byteRead == 101 ) { // e explains polling output
-      explain();
-    }
-    /*
-    else if ( byteRead == 115 ) { // s simulates rain
-     totalRain += 0.279; // one pulse is 0.279 mm of rain
-     rainSinceLastPoll += 0.279;
-     }
-     */
-    else if ( byteRead == 114 ) { // r resets rain since last poll
-      resetAll();
-    }
-    /*
-     else if ( byteRead == 82 ) { // R resets rain total
-     totalRain = 0;
-     }
-     */
-    else {
-      Serial.write(byteRead);
-      Serial.println(" NA");
-    }
-  }
+  
 
   ///////////////////// blink
   if (blinkRedLed || redLedOn) { // if we should light led or if it's already lit
@@ -251,54 +166,7 @@ void rainBlinking(void) {
   }
 }
 
-/////////////////////////////// print  complete output to serial ///////////////////////////////
-void serialPrintComplete(void) {
-  if(currentMillis - serialPrintMillis >= 1000) {
-    //Serial.print(currentMillis);
-    //Serial.print("    ");
 
-    //Serial.print(vaneValue);
-    //Serial.print("    ");
-    Serial.print("Wind direction: ");
-    Serial.print(vaneDirection[directionValue]);
-    Serial.print("    ");
-    Serial.print(vaneDegrees[directionValue]);
-    Serial.print("    ");
-
-    //Serial.print(anemometerState);
-    //Serial.print("    ");
-    //Serial.print(anemometerPulsesPerSecond);
-    //Serial.print("    ");
-    Serial.print("Wind speed: ");
-    Serial.print(windSpeed);
-    Serial.print(" m/s    ");
-    Serial.print("Average wind speed: ");
-    if(windSpeedAverageCounter != 0) {
-      Serial.print(windSpeedAverage / windSpeedAverageCounter);
-    }
-    else {
-      Serial.print(windSpeedAverage);
-    }
-    Serial.print(" m/s    ");
-    Serial.print(",");
-    Serial.print("Rain intensity: ");
-    Serial.print(rainIntensity);
-    Serial.print(" mm/min    ");
-    //Serial.print(rainBucketState);
-    //Serial.print("    ");
-    //Serial.print(rainBucketTips);
-    //Serial.print("    ");
-    Serial.print("Rain total: ");
-    Serial.print(totalRain);
-    Serial.print(" mm    ");
-    //Serial.print(currentMillis - lastRainMillis);
-    //Serial.print("    ");
-
-    Serial.println();
-
-    //serialPrintMillis = currentMillis;
-  }
-}
 
 /////////////////////////////// print to LCD ///////////////////////////////
 void lcdPrint(void) {

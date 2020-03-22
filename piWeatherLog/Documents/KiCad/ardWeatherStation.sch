@@ -314,7 +314,7 @@ Wire Wire Line
 Text Notes 3200 6750 0    50   ~ 0
 black
 Text Notes 3200 6850 0    50   ~ 0
-blue
+green
 Text Notes 3200 5850 0    50   ~ 0
 yellow
 Text Notes 3200 5950 0    50   ~ 0
