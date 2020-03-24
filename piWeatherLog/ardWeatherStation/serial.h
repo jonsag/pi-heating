@@ -1,6 +1,6 @@
 /////////////////////////////// print  complete output to serial ///////////////////////////////
 void serialPrintComplete() {
-  if(currentMillis - serialPrintMillis >= 1000) {
+  if (currentMillis - serialPrintMillis >= 1000) {
     //Serial.print(currentMillis);
     //Serial.print("    ");
 
@@ -20,7 +20,7 @@ void serialPrintComplete() {
     Serial.print(windSpeed);
     Serial.print(" m/s    ");
     Serial.print("Average wind speed: ");
-    if(windSpeedAverageCounter != 0) {
+    if (windSpeedAverageCounter != 0) {
       Serial.print(windSpeedAverage / windSpeedAverageCounter);
     }
     else {
@@ -52,12 +52,13 @@ void help() {
   Serial.println("---------- help ----------");
   Serial.println("Enter c for complete output");
   Serial.println("Enter p to simulate a poll");
-  Serial.println("Enter e to explane poll output");
+  Serial.println("Enter e to explain poll output");
   //Serial.println("Enter s to simulate rain");
   Serial.println("Enter r to reset rain since last poll");
   //Serial.println("Enter R to reset rain total");
   Serial.println("Enter h for this help");
   Serial.println("--------------------------");
+  Serial.println();
 }
 
 /////////////////////////////// poll ///////////////////////////////
@@ -76,7 +77,7 @@ void poll() {
   Serial.print(",");
   Serial.print(windSpeed);
   Serial.print(",");
-  if(windSpeedAverageCounter != 0) {
+  if (windSpeedAverageCounter != 0) {
     Serial.print(windSpeedAverage / windSpeedAverageCounter);
   }
   else {
@@ -156,6 +157,7 @@ void serial() {
     else {
       Serial.write(byteRead);
       Serial.println(" NA");
+      Serial.println();
     }
   }
 }

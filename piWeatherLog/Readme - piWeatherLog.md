@@ -2,35 +2,44 @@ piWeatherLog
 
 Install
 -----------------------------
->$ sudo ./pi-heating-weather-install.sh  
+>$ sudo ./piWeatherLog.sh  
 
-Add apache user to dialout and tty group  
->$ sudo usermod -a -G dialout, tty www-data  
+Reboot RaspberryPi  
 
-Reboot pi  
+Connect the Arduino Weather Sensor to RPi  
 
 Find out tty-device  
 >$ dmesg | grep tty  
 
 Probably named someting like '/dev/ttyACM0'  
-Edit /var/www/pi-heating-weather/weather.php  
-Change line 32  
+If not as above, edit  
 
-	define("PORT","/dev/ttyACM0");  
+	/var/www/piWeatherLog/weather.php  
+	
+Change line  
 
-so it matches the output from above  
+	$serial->deviceSet("/dev/ttyACM0");  
+
+so it matches the output from dmesg command  
 
 
-Install sketch:
+Install sketch on Arduino
 -----------------------------
-Install Average library from https://github.com/MajenkoLibraries/Average  
+Install Average library from  
 
-Select Board and Port  
+	~/pi-heating/Resources/Arduino/libraries  
+
+to your Arduino IDE  
+
 Open sketch  
+
+	~/pi-heating/piWeatherLog/ardWeatherLog  
+
+Select Board and Port  	
 Compile and upload to arduino  
 
->$ stty -F /dev/ttyACM0 ispeed 9600 ospeed 9600 -ignpar cs8 -cstopb -echo  
-
+Check Arduino output
+==========
 Connect to arduino with screen:  
 >$ screen /dev/ttyACM0 9600 -S <session name>  
 

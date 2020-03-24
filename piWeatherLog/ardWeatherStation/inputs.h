@@ -1,4 +1,5 @@
 
+
 ////////////////////////////// evaluate wind direction //////////////////////////////
 int windDirection() {
   if (vaneValue >= 0 && vaneValue <= 50) { // ESE
@@ -124,5 +125,5 @@ void inputs() {
     }
     lastRain0ButtonState = rain0ButtonState;
   */
-  
+
 }

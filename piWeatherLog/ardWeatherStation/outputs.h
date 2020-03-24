@@ -5,7 +5,7 @@ void rainBlinking() {
     digitalWrite(redLed, LOW);
     redLedOn = false;
   }
-  else if(blinkRedLed) {
+  else if (blinkRedLed) {
     digitalWrite(redLed, HIGH);
     blinkMillis = currentMillis;
     blinkRedLed = false;
@@ -15,18 +15,18 @@ void rainBlinking() {
 
 /////////////////////////////// tick on lcd ///////////////////////////////
 void tickPrint() {
-  if(currentMillis - tickMillis > 2000) {
+  if (currentMillis - tickMillis > 2000) {
     tickMillis = currentMillis;
   }
 
-  if(currentMillis - tickMillis > 1000) {
+  if (currentMillis - tickMillis > 1000) {
     tick = 219;
   }
   else {
     tick = 165;
   }
 
-  if(tick != lastTick) {
+  if (tick != lastTick) {
     lcd.setCursor(19, 0);
     lcd.print((char)tick);
     //lcd.print(tick);
@@ -38,13 +38,13 @@ void tickPrint() {
 int getLength(int value) {
   int length;
 
-  if(value > 9999)
+  if (value > 9999)
     length = 5;
-  else if(value > 999)
+  else if (value > 999)
     length = 4;
-  else if(value > 99)
+  else if (value > 99)
     length = 3;
-  else if(value > 9)
+  else if (value > 9)
     length = 2;
   else
     length = 1;
@@ -57,7 +57,7 @@ void lcdPrint(void) {
   //lcd.setCursor(0, 0);
   //lcd.print(currentMillis);
 
-  if(currentMillis - lcdPrintMillis >= 1000) {
+  if (currentMillis - lcdPrintMillis >= 1000) {
     ///// print wind
     lcd.setCursor(0, 1);
     lcd.print("   ");
@@ -89,7 +89,7 @@ void lcdPrint(void) {
 
 void outputs() {
 
-    ///////////////////// blink
+  ///////////////////// blink
   if (blinkRedLed || redLedOn) { // if we should light led or if it's already lit
     rainBlinking();
   }
@@ -105,5 +105,5 @@ void outputs() {
 
   ///////////////////// life tick
   tickPrint();
-  
+
 }

@@ -8,7 +8,7 @@ Install
 
 Setting up the arduino power poller
 ==========
-Build arduino shield according to files in  
+Build Arduino shield according to files in  
 
 	Documents
 
@@ -16,7 +16,7 @@ Compile and upload files found in
 
 	ardPowerTempLog
 	
-to arduino  
+to Arduino  
  
 Resources
 ==========

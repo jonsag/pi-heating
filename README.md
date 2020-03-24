@@ -262,6 +262,9 @@ Login to database
 Change ip on sensor  
 >$ UPDATE sensors SET ip = 'new ip' WHERE ip = 'old ip';  
 
+Set values for tty communications  
+>$ stty -F /dev/ttyACM0 ispeed 9600 ospeed 9600 -ignpar cs8 -cstopb -echo  
+
 On remote
 ----------
 Show sensor ids  

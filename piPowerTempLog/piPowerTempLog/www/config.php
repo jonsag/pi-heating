@@ -2,7 +2,7 @@
 
     $powerIP = "192.168.10.10";
     //$tempIP = "localhost";
-    $weatherIP ="192.168.10.42";
+    $weatherIP ="localhost";
 
     // arduino logging the currents
     $powerUrl = 'http://' . $powerIP;

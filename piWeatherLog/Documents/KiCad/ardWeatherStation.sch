@@ -322,7 +322,7 @@ red
 Text Notes 3200 5200 0    50   ~ 0
 red
 Text Notes 3200 5100 0    50   ~ 0
-blue
+green
 Wire Wire Line
 	2050 1450 2050 3300
 Wire Wire Line

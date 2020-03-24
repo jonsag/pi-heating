@@ -1,5 +1,5 @@
 String programName = "ardWeatherStation";
-String date = "20200316";
+String date = "20200324";
 String author = "Jon Sagebrand";
 String email = "jonsagebrand@gmail.com";
 
@@ -13,12 +13,12 @@ String email = "jonsagebrand@gmail.com";
  *******************************/
 #include <LiquidCrystal.h> // include the LCD library
 // set LCD pins
-int LCD_RS = 13; // LCD RS, pin 4
-int LCD_EN = 12; // LCD E, pin 6, Enable
-int LCD_D4 = 11; // LCD D4, pin 11, databit 4
-int LCD_D5 = 10; // LCD D5, pin 12, databit 5
-int LCD_D6 = 9; // LCD D6, pin 13, databit 6
-int LCD_D7 = 8; // LCD D7, pin 14, databit7
+const int LCD_RS = 13; // LCD RS, pin 4
+const int LCD_EN = 12; // LCD E, pin 6, Enable
+const int LCD_D4 = 11; // LCD D4, pin 11, databit 4
+const int LCD_D5 = 10; // LCD D5, pin 12, databit 5
+const int LCD_D6 = 9; // LCD D6, pin 13, databit 6
+const int LCD_D7 = 8; // LCD D7, pin 14, databit7
 /* other pins on LCD are:
    VSS, pin 1, GND
    VDD, pin 2, +5V
@@ -34,17 +34,17 @@ int LCD_D7 = 8; // LCD D7, pin 14, databit7
 // initialize the library with the numbers of the interface pins
 LiquidCrystal lcd(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 // columns and rows of the LCD
-int lcdColumns = 20;
-int lcdRows = 4;
+const int lcdColumns = 20;
+const int lcdRows = 4;
 
 // declare in/outputs
 //int simulateRainButton = 7;
 //int rain0Button = 6;
-int anemometer = 5;
-int rainBucket = 4;
+const int anemometer = 5;
+const int rainBucket = 4;
 // digital 3 reserved for 1-wire
-int redLed = 2;
-int vane = A2;
+const int redLed = 2;
+const int vane = A2;
 
 int anemometerState = 0;
 int lastAnemometerState = 0;
@@ -54,14 +54,14 @@ float windSpeed = 0; // the speed in m/s
 float windSpeedAverage = 0; // the average speed in m/s
 int windSpeedAverageCounter = 0;
 /*
-int beaufort = 0;
- char* windLabels[] = {
- "Calm", "Light air", "Light breeze", "Gentle breeze", "Moderate breeze", "Fresh breeze", "Strong breeze", "High wind, moderate gale, near gale", "Gale, fresh gale", "Strong gale", "Storm, whole gale", "Violent storm", "Hurricane force"};
- char* svWindLabels[] = {
- "Lugnt", "Svag vind", "Svag vind", "Måttlig vind", "Måttlig vind", "Frisk vind", "Frisk vind", "Hård vind", "Hård vind", "Mycket hård vind", "Storm", "Svår storm", "Orkan"};
- char* svWindLabelsAtSea[] = {
- "Stiltje, bleke", "Nästan stiltje", "Lätt (laber) bris", "God bris", "Frisk bris", "Styv bris", "Hård bris, frisk kuling/kultje", "Styv kuling/kultje", "Hård kuling/kultje", "Halv storm", "Storm", "Svår storm", "Orkan"};
- */
+  int beaufort = 0;
+  char* windLabels[] = {
+  "Calm", "Light air", "Light breeze", "Gentle breeze", "Moderate breeze", "Fresh breeze", "Strong breeze", "High wind, moderate gale, near gale", "Gale, fresh gale", "Strong gale", "Storm, whole gale", "Violent storm", "Hurricane force"};
+  char* svWindLabels[] = {
+  "Lugnt", "Svag vind", "Svag vind", "Måttlig vind", "Måttlig vind", "Frisk vind", "Frisk vind", "Hård vind", "Hård vind", "Mycket hård vind", "Storm", "Svår storm", "Orkan"};
+  char* svWindLabelsAtSea[] = {
+  "Stiltje, bleke", "Nästan stiltje", "Lätt (laber) bris", "God bris", "Frisk bris", "Styv bris", "Hård bris, frisk kuling/kultje", "Styv kuling/kultje", "Hård kuling/kultje", "Halv storm", "Storm", "Svår storm", "Orkan"};
+*/
 
 //int simulateRainButtonState = 0;
 //int lastSimulateRainButtonState = 0;
@@ -78,10 +78,12 @@ int rainIntensity = 0;
 
 int vaneValue = 0;
 int directionValue = 0;
-char* vaneDirection[]={
-  "NA", "E", "N", "W", "S", "NE", "NW", "SW", "SE", "ENE", "NNE", "NNW", "WNW", "WSW", "SSW", "SSE", "ESE"};
-char* vaneDegrees[]={
-  "NA", "90", "0", "270", "180", "45", "315", "225", "135", "67.5", "22.5", "337.5", "292.5", "247.5", "202.5", "157.5", "112.5"};
+char* vaneDirection[] = {
+  "NA", "E", "N", "W", "S", "NE", "NW", "SW", "SE", "ENE", "NNE", "NNW", "WNW", "WSW", "SSW", "SSE", "ESE"
+};
+char* vaneDegrees[] = {
+  "NA", "90", "0", "270", "180", "45", "315", "225", "135", "67.5", "22.5", "337.5", "292.5", "247.5", "202.5", "157.5", "112.5"
+};
 int vaneAverageCounter = 0;
 #define vaneSamples 100
 int vaneAverage[vaneSamples];

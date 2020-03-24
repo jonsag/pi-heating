@@ -1,13 +1,13 @@
 <html>
 <head>
-<title>JS Weather Station</title>
+<title>piWeatherLog</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=7" />
 </head>
 <body>
 <div style="text-align:center">
-<h1>JS Weather Station</h1>
-- part of pi-heating -
+<h1>piWeatherLog</h1>
+- part of piHeating -
 </div>
 <br>
 

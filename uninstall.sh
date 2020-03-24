@@ -5,19 +5,71 @@ if [[ `whoami` != "root" ]]; then
   exit 1
 fi
 
-########## piHeatingExtendedLog ##########
-printf "\n\n Uninstalling piHeatingRemote ... \n"
+########## piWeatherLog ##########
+printf "\n\n Uninstalling piWeatherLog ... \n"
+
+printf "Removing cron jobs ... \n"
+if [ -f /etc/cron.d/piWeatherLog ]; then
+	rm /etc/cron.d/piWeatherLog
+else
+	printf "    Not present \n"
+fi
 
 printf "Disabling site ... \n"
-if [ -f /etc/apache2/sites-enabled/piHeatingExtendedLog.conf ]; then
-	a2dissite piHeatingExtendedLog.conf
+if [ -f /etc/apache2/sites-enabled/piWeatherLog.conf ]; then
+	a2dissite piWeatherLog.conf
 else
 	printf "    Not enabled \n"
 fi
 
 printf "Deleting site configuration... \n"
-if [ -f /etc/apache2/sites-available/piHeatingExtendedLog.conf ]; then
-	rm /etc/apache2/sites-available/piHeatingExtendedLog.conf
+if [ -f /etc/apache2/sites-available/piWeatherLog.conf ]; then
+	rm /etc/apache2/sites-available/piWeatherLog.conf
+else
+	printf "    Not present \n"
+fi
+
+printf "Removing listening directives ... \n"
+if grep -Fxq 'Listen 8083' /etc/apache2/ports.conf; then
+	sed -i '/Listen 8083/d' /etc/apache2/ports.conf
+else
+	printf "    Not present \n"	
+fi
+
+printf "Deleting site ... \n"
+if [ -d /var/www/piWeatherLog ]; then
+	rm -R /var/www/piWeatherLog
+else
+	printf "    Not present \n"
+fi
+
+printf "Deleting executables ... \n"
+if [ -d /home/pi/piWeatherLog ]; then
+	rm -R /home/pi/piWeatherLog
+else
+	printf "    Not present \n"
+fi
+
+########## piPowerTempLog ##########
+printf "\n\n Uninstalling piPowerTempLog ... \n"
+
+printf "Removing cron jobs ... \n"
+if [ -f /etc/cron.d/piPowerTempLog ]; then
+	rm /etc/cron.d/piPowerTempLog
+else
+	printf "    Not present \n"
+fi
+
+printf "Disabling site ... \n"
+if [ -f /etc/apache2/sites-enabled/piPowerTempLog.conf ]; then
+	a2dissite piPowerTempLog.conf
+else
+	printf "    Not enabled \n"
+fi
+
+printf "Deleting site configuration... \n"
+if [ -f /etc/apache2/sites-available/piPowerTempLog.conf ]; then
+	rm /etc/apache2/sites-available/piPowerTempLog.conf
 else
 	printf "    Not present \n"
 fi
@@ -30,15 +82,15 @@ else
 fi
 
 printf "Deleting site ... \n"
-if [ -d /var/www/piHeatingExtendedLog ]; then
-	rm -R /var/www/piHeatingExtendedLog
+if [ -d /var/www/piPowerTempLog ]; then
+	rm -R /var/www/piPowerTempLog
 else
 	printf "    Not present \n"
 fi
 
 printf "Deleting executables ... \n"
-if [ -d /home/pi/piHeatingExtendedLog ]; then
-	rm -R /home/pi/piHeatingExtendedLog
+if [ -d /home/pi/piPowerTempLog ]; then
+	rm -R /home/pi/piPowerTempLog
 else
 	printf "    Not present \n"
 fi
@@ -130,6 +182,13 @@ fi
 ########## piHeatingHub ##########
 printf "\n\n Uninstalling piHeatingHub ... \n"
 
+printf "Removing cron jobs ... \n"
+if [ -f /etc/cron.d/piHeating ]; then
+	rm /etc/cron.d/piHeating
+else
+	printf "    Not present \n"
+fi
+
 printf "Disabling site ... \n"
 if [ -f /etc/apache2/sites-enabled/piHeatingHub.conf ]; then
 	a2dissite piHeatingHub.conf
@@ -148,13 +207,6 @@ fi
 printf "Deleting listening directives ... \n"
 if grep -Fxq 'Listen 8080' /etc/apache2/ports.conf; then
 	sed -i '/Listen 8080/d' /etc/apache2/ports.conf
-else
-	printf "    Not present \n"
-fi
-
-printf "Removing cron jobs ... \n"
-if [ -f /etc/cron.d/piHeating ]; then
-	rm /etc/cron.d/piHeating
 else
 	printf "    Not present \n"
 fi

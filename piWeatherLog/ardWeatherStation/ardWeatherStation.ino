@@ -4,7 +4,6 @@
 #include "outputs.h"
 #include "serial.h"
 
-
 ////////////////////////////// setup //////////////////////////////
 void setup() {
   /*******************************
@@ -24,11 +23,13 @@ void setup() {
 
   Serial.begin(9600);
 
+  Serial.println();
   Serial.println(programName); // print information
   Serial.println(date);
   Serial.print("by ");
-  Serial.print(author);
+  Serial.println(author);
   Serial.println(email);
+  Serial.println();
 
   /*******************************
       Declare digital inputs
@@ -36,6 +37,7 @@ void setup() {
   lcd.setCursor(0, 2);
   lcd.print("Starting in/outputs...");
   Serial.println("Defining digital in/outputs...");
+  Serial.println();
   //pinMode(simulateRainButton, INPUT);
   //pinMode(rain0Button, INPUT);
   pinMode(anemometer, INPUT);
@@ -50,15 +52,17 @@ void setup() {
       Print headlines to LCD
     *******************************/
   Serial.println("Printing headlines to LCD");
+  Serial.println();
   lcd.clear();
   lcd.setCursor(0, 2);
   lcd.print("Rain: ");
   lcd.setCursor(17, 1);
   lcd.print("m/s");
   Serial.println("Start!");
-
+  Serial.println();
 
   Serial.println("Enter h for help");
+  Serial.println();
 }
 
 ////////////////////////////// main loop //////////////////////////////
