@@ -2,7 +2,7 @@ piWeatherLog
 
 Install
 -----------------------------
->$ sudo ./piWeatherLog.sh  
+>$ sudo ./piWeatherLogInstall.sh  
 
 Reboot RaspberryPi  
 

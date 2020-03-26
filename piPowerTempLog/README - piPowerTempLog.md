@@ -4,7 +4,7 @@ A sub project to monitor power and temperatures
 
 Install
 ==========
->$ sudo ./piHeatingLCDInstall.sh
+>$ sudo ./piPowerTempLogInstall.sh
 
 Setting up the arduino power poller
 ==========

@@ -11,7 +11,7 @@ Eventually you will have a Raspberry Pi that:
 * measures and logs numerous temperatures
 * measures and logs wind direction and speed
 * measures and logs rain
-* presents it all via a web GUI with some nice graphs
+* presents it all via web GUI with some nice graphs
 * also presents it on LCD displays
 * can export logs to (spreadsheet or) csv
 
@@ -23,7 +23,7 @@ Download Raspbian Buster Lite from https://www.raspberrypi.org/downloads/raspbia
 Choose the Light zip-file  
 
 Cd to where your download is  
->$ unzip 2020-02-13-raspbian-buster-lite.zip  
+>$ unzip *-raspbian-buster-lite.zip  
 
 Insert SD-card and find out drive letter  
 >$ dmesg  
@@ -34,21 +34,51 @@ Unmount if mounted
 >$ umount /dev/mmcblk0p1  
 
 Write image to SD-card  
->$ sudo dd bs=4M if=2020-02-13-raspbian-buster-lite.img of=/dev/mmcblk0 conv=fsync status=progress  
+>$ sudo dd bs=4M if=<version\>-raspbian-buster-lite.img of=/dev/<device\> conv=fsync status=progress  
 
 Remove SD-card and insert it again to make new partitons visible     
 
 Mount the first partition  
->$ sudo mount /dev/mmcblk0p1 /mnt/tmp  
+>$ sudo mount /dev/<device\>1 /mnt/tmp  
 
 Write empty file to boot partition to enable ssh at boot  
 >$ sudo touch /mnt/tmp/ssh  
 
-Remove SD-card and insert it a Rpi connected to your local network and boot it up  
+Remove SD-card and insert it in a RPi connected to your local network and boot it up  
 
-Rpi configuration
------------------------------
-Connect to Rpi via ssh  
+RPi configuration
+==========
+How to find RPi's IP
+----------
+If you can't locate the IP, here's a little tutorial  
+
+First find your subnet  
+>$ $ ip -o -f inet addr show | awk '/scope global/ {print $4}'  
+
+You will get something like  
+
+	192.168.10.39/24   
+
+where the first ofcourse is your ip, end the second is the netmask  
+
+Now scan your local network for hosts  
+>$ nmap -snP 192.168.10.0/24  
+
+where the first is your subnet, and the last is the netmask  
+Try to figure out which is your RPi from the output  
+
+How to connect without ssh password (optional)
+----------
+If you haven't already, create a keypair  
+>$ ssh-keygen ~/.ssh/id_rsa  
+
+Copy the public key to RPi  
+>$ ssh-copy-id -i ~/.ssh/id_rsa.pub pi@<IP\>  
+
+Connect and configure
+----------
+>$ ssh <IP\> -l pi  
+
 Login with user: pi and password:raspberry  
 
 Update  
