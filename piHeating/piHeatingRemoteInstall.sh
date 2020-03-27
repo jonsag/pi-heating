@@ -101,7 +101,6 @@ fi
 
 if [ ! -f "/home/pi/piHeatingRemote/README.md" ]; then
   printf "\n\n Installing piHeatingRemote ...\n"
-  # Install Apache
 
   if [ -d "/home/pi/piHeatingRemote" ]; then
     rm -rf "/home/pi/piHeatingRemote"

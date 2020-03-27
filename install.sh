@@ -3,22 +3,34 @@
 ########## check for arguments
 ARG1=$1
 
+########## simulation
 simulate=""
 simulateMessage=" --- Simulation mode"
 
+######## database setup
+DB_USERNAME='pi'
+DB_PASSWORD=$(date | md5sum | head -c12)
+DB_SERVER='localhost'
+DB_NAME='piHeatingDB'
+
+########## directory of this script
+scriptDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+########## install directory
+installDir="$HOME/bin"
+
+########## info
+echo -e "\n\n Universal install for project piHeating"
+echo -e " ----------"
+echo -e " Run this script with argument 's' to simulate, \n nothing will be changed or installed."
+echo -e "\n This scripts directory: $scriptDir"
 if [ $ARG1 ]; then
-  	echo -e "\n\n Running with argument $1"
+  	echo -e "   Running with argument $1"
   	if [[ $ARG1 == "s" ]]; then
         simulate="1"
     fi
 fi
+echo -e " Install directory: $installDir"
 
-########## directory of this script
-scriptDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-
-echo -e "\n\n Universal install for project piHeating"
-echo -e " ----------"
-echo -e " Run this script with argument 's' to simulate, \n nothing will be changed or installed."
 
 ########## check for root
 if [[ `whoami` != "root" ]]; then
@@ -136,7 +148,7 @@ while true; do
 	fi
 	
 	echo -n "Install piHeatingRemote "
-	if [ $piHeatingHubSecure ]; then
+	if [ $piHeatingRemote ]; then
 	  	echo -e "\t OK"
 	else
 	  	echo -e "\t Skip"
@@ -190,7 +202,7 @@ else
 fi
 
 ########## install apache2
-if [ piHeatingHub ]; then
+if [ $piHeatingHub ] || [ $piHeatingRemote ]; then
 	echo -e "\n\n Installing apache ... \n ----------"
 	APACHE_INSTALLED=$(which apache2)
 	if [[ "$APACHE_INSTALLED" == "" ]]; then
@@ -204,7 +216,7 @@ if [ piHeatingHub ]; then
 
 	  		APACHE_INSTALLED=$(which apache2)
 	    	if [[ "$APACHE_INSTALLED" == "" ]]; then
-	      		echo -e "\n\n Error: \n Apache installation FAILED\n"
+	      		echo -e "\n\n Error: \n Apache installation failed\n"
 	      		exit 1
 	    	fi
 		fi
@@ -214,7 +226,7 @@ if [ piHeatingHub ]; then
 fi
 
 ########## install php
-if [ piHeatingHub ]; then
+if [ $piHeatingHub ] || [ $piHeatingRemote ]; then
 	echo -e "\n\n Installing PHP ... \n ----------"
 	PHP_INSTALLED=$(which php)
 	if [[ "$PHP_INSTALLED" == "" ]]; then
@@ -225,7 +237,7 @@ if [ piHeatingHub ]; then
 
   			PHP_INSTALLED=$(which php)
     		if [[ "$PHP_INSTALLED" == "" ]]; then
-      			echo -e "\n\n Error: \n PHP installation FAILED\n"
+      			echo -e "\n\n Error: \n PHP installation failed\n"
       			exit 1
     		fi
 		fi
@@ -235,7 +247,7 @@ if [ piHeatingHub ]; then
 fi
 
 ########## install sql
-if [ piHeatingHub ]; then
+if [ $piHeatingHub ]; then
 	echo -e "\n\n Installing MariaDB ... \n ----------"
 	SQL_INSTALLED=$(which mariadb)
 	if [[ "$SQL_INSTALLED" == "" ]]; then
@@ -246,9 +258,12 @@ if [ piHeatingHub ]; then
 
   			SQL_INSTALLED=$(which mariadb)
     		if [[ "$SQL_INSTALLED" == "" ]]; then
-      			echo -e "\n\n Error: \nMariaDB installation FAILED\n"
+      			echo -e "\n\n Error: \nMariaDB installation failed\n"
       			exit 1
     		fi
+    		
+    		echo -e "\n\n Running MariaDB post install ...\n ----------"
+    		mysql_secure_installation
 		fi
 	else
 	  	echo "MariaDB is already installed"
@@ -256,7 +271,7 @@ if [ piHeatingHub ]; then
 fi
 
 ########## install php-mysql
-if [ piHeatingHub ]; then
+if [ $piHeatingHub ]; then
 	echo -e "\n\n Installing MySQL PHP module ... \n ----------"
 	PHPMYSQL_INSTALLED=$(find /var/lib/dpkg -name php-mysql*)
 	if [[ "$PHPMYSQL_INSTALLED" == "" ]]; then
@@ -267,7 +282,7 @@ if [ piHeatingHub ]; then
 
   			PHPMYSQL_INSTALLED=$(find /var/lib/dpkg -name php-mysql*)
     		if [[ "$PHPMYSQL_INSTALLED" == "" ]]; then
-      			echo "\n\n Error: \n MySQL PHP module installation FAILED\n"
+      			echo "\n\n Error: \n MySQL PHP module installation failed\n"
       			exit 1
     		fi
 		fi
@@ -277,7 +292,7 @@ if [ piHeatingHub ]; then
 fi
 
 ########## install py-mysql
-if [ piHeatingHub ]; then
+if [ $piHeatingHub ]; then
 	echo -e "\n\n Installing MySQL Python module ... \n ----------"
 	PYMYSQL_INSTALLED=$(find /var/lib/dpkg -name python-mysql*)
 	if [[ "$PYMYSQL_INSTALLED" == "" ]]; then
@@ -288,7 +303,7 @@ if [ piHeatingHub ]; then
 
   			PYMYSQL_INSTALLED=$(find /var/lib/dpkg -name python-mysql*)
     		if [[ "$PYMYSQL_INSTALLED" == "" ]]; then
-      			echo "\n\n Error: \n MySQL Python module installation FAILED\n"
+      			echo "\n\n Error: \n MySQL Python module installation failed\n"
       			exit 1
     		fi
 		fi
@@ -298,7 +313,7 @@ if [ piHeatingHub ]; then
 fi
 
 ########## install rrd-tool
-if [ piHeatingHub ]; then
+if [ $piHeatingHub ]; then
 	echo -e "\n\n Installing RRD tool ... \n ----------"
 	RRD_INSTALLED=$(find /var/lib/dpkg -name rrdtool*)
 	if [[ "$RRD_INSTALLED" == "" ]]; then
@@ -309,7 +324,7 @@ if [ piHeatingHub ]; then
 
   			RRD_INSTALLED=$(find /var/lib/dpkg -name rrdtool*)
     		if [[ "$RRD_INSTALLED" == "" ]]; then
-      			echo "\n\n Error: \n RRD tool installation FAILED\n"
+      			echo "\n\n Error: \n RRD tool installation failed\n"
       			exit 1
     		fi
 		fi
@@ -319,7 +334,7 @@ if [ piHeatingHub ]; then
 fi
 
 ########## install nmap
-if [ piHeatingHub ]; then
+if [ $piHeatingHub ]; then
 	echo -e "\n\n Installing nmap ... \n ----------"
 	NMP_INSTALLED=$(find /var/lib/dpkg -name nmap*)
 	if [[ "$NMP_INSTALLED" == "" ]]; then
@@ -330,7 +345,7 @@ if [ piHeatingHub ]; then
 
 	  		NMP_INSTALLED=$(find /var/lib/dpkg -name nmap*)
     		if [[ "$NMP_INSTALLED" == "" ]]; then
-      			echo "\n\n Error: \n nmap installation FAILED\n"
+      			echo "\n\n Error: \n nmap installation failed\n"
       			exit 1
     		fi
 		fi
@@ -349,45 +364,81 @@ if [ $handy ]; then
   	fi
 fi
 
-########## install piHeatingHub
-if [ piHeatingHub ]; then
-	echo -e "\n\n Installing piHeatingHub ... \n ----------"
-	if [ ! -f "/home/pi/piHeatingHub/README.md" ]; then
-		if [ $simulate ]; then
-  			echo -e "$simulateMessage, skipping install"
-  		else
-	  		if [ -d "/home/pi/piHeatingHub" ]; then
-		    	rm -rf "/home/pi/piHeatingHub"
-		  	fi
-		
-		  	cp -rf "/home/pi/pi-heating/piHeating/piHeatingHub" "/home/pi/piHeatingHub"
-		  	mv "/home/pi/piHeatingHub/www" "/var/www/piHeatingHub"
-		  
-		  	chown -R pi:www-data "/home/pi/piHeatingHub"
-		  	chmod -R 750 "/home/pi/piHeatingHub"
-		  
-		  	if [ ! -d "/var/www/piHeatingHub/data" ]; then
-		    	mkdir "/var/www/piHeatingHub/data"
-		  	fi
-		  
-		  	mkdir "/home/pi/piHeatingHub/data"
-		  	chown -R pi:www-data "/home/pi/piHeatingHub/data"
-		  	chmod -R 775 "/home/pi/piHeatingHub/data"
-		  
-		  	chown -R pi:www-data "/var/www/piHeatingHub"
-		  	chmod -R 755 "/var/www/piHeatingHub"
-		  	chmod -R 775 "/var/www/piHeatingHub/images"
-
-	  		if [ ! -f "/home/pi/piHeatingHub/README.md" ]; then
-      			echo " Error: \n piHeatingHub installation FAILED\n"
-      			exit 1
-    		fi
-		fi
-	else
-	  	echo " piHeatingHub is already installed"
+########## create ~/bin
+echo -e "\n\n Creating installation directory ... \n ----------"
+if [ $simulate ]; then
+	echo -e "$simulateMessage, skipping create"
+else
+	if [ ! -d "$installDir" ]; then
+		mkdir -p $installDir
 	fi
 fi
-	
 
-	
+########## install piHeatingHub
+if [ $piHeatingHub ]; then
+	echo -e "\n\n Installing piHeatingHub ... \n ----------"
+	if [ $simulate ]; then
+  		echo -e "$simulateMessage, skipping install"
+  	else
+		$scriptDir/scripts/piHeatingHubInstall $scriptDir $installDir
+	fi
+fi
 
+########## make piHeating Hub secure
+if [ $piHeatingHubSecure ]; then
+	echo -e "\n\n Securing piHeatingHub ... \n ----------"
+	if [ $simulate ]; then
+  		echo -e "$simulateMessage, skipping secure"
+  	else
+  		$scriptDir/scripts/piHeatingHubSecureInstall $scriptDir $installDir
+	fi
+fi
+
+########## install piHeatingRemote
+if [ $piHeatingRemote ]; then
+	echo -e "\n\n Installing piHeatingRemote ... \n ----------"
+	if [ $simulate ]; then
+  		echo -e "$simulateMessage, skipping install"
+  	else
+		$scriptDir/scripts/piHeatingRemoteInstall $scriptDir $installDir
+	fi
+fi	
+
+########## disable mariadb strict mode
+if [ $piHeatingHub ]; then
+	echo -e "\n\n Disabling MariaDB strict mode ... \n ----------"
+	if [ $simulate ]; then
+		echo -e "$simulateMessage, skipping disable"
+	else
+		if [ ! -f "/etc/mysql/mariadb.conf.d/99-disable-strict-mode.cnf" ]; then
+	    	cat > /etc/mysql/mariadb.conf.d/99-disable-strict-mode.cnf <<STRICT
+	[server]
+	sql_mode = ""
+	STRICT
+		fi
+	fi
+
+	echo -e "\n\n Restarting MariaDB ... \n ----------"
+	if [ $simulate ]; then
+		echo -e "$simulateMessage, skipping restart"
+	else
+		service mariadb restart
+	fi
+fi
+
+########## configure apache
+if [ $piHeatingHub ] || [ $piHeatingRemote ]; then
+	echo -e "\n\n Enabling Apache PHP module ... \n ----------"
+	if [ $simulate ]; then
+		echo -e "$simulateMessage, skipping enable"
+	else
+		a2enmod php7.3
+	fi
+
+	echo -e "\n\n Restarting Apache ... \n ----------"
+	if [ $simulate ]; then
+		echo -e "$simulateMessage, skipping restart"
+	else
+		service apache2 restart
+	fi
+fi
