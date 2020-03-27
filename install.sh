@@ -187,18 +187,26 @@ while true; do
     read -p " [Y/n]" input
     case $input in
         [Nn] ) install=""; "Exiting ..."; exit;;
-        * ) install="y"; echo -e "\n\n Installing ..."; break;;
+        * ) install="y"; break;;
     esac
 done
 
 ########## install everything
+if [ ! $piHeatingHub ] && [ ! $piHeatingHubSecure ] && [ ! $piHeatingRemote ] && [ ! $piHeatingLCD ] && [ ! $piPowerTempLog ] && [ ! $piHeatingHubSecure ] && [ ! $piWeatherLog ] && [ ! $handy ]; then
+	echo -e "\n\n Nothing selected \n Exiting ..."
+	exit 0
+else
+	echo -e "\n\n Starting install ... \n ----------"
+fi 
 
 ########## install prerequisites
-echo -e "\n\n Installing prerequisites ... \n ----------"
-if [ $simulate ]; then
-  	echo -e "$simulateMessage, skipping install"
-else
-  	apt install git python-dev python-setuptools build-essential python-smbus python-pip rsync ttf-mscorefonts-installer -y
+if [ $piHeatingHub ] || [ $piHeatingHubSecure ] || [ $piHeatingRemote ] || [ $piHeatingLCD ] || [ $piPowerTempLog ] || [ $piHeatingHubSecure ] || [ $piWeatherLog ]; then
+	echo -e "\n\n Installing prerequisites ... \n ----------"
+	if [ $simulate ]; then
+	  	echo -e "$simulateMessage, skipping install"
+	else
+	  	apt install git python-dev python-setuptools build-essential python-smbus python-pip rsync ttf-mscorefonts-installer -y
+	fi
 fi
 
 ########## install apache2
@@ -365,12 +373,14 @@ if [ $handy ]; then
 fi
 
 ########## create ~/bin
-echo -e "\n\n Creating installation directory ... \n ----------"
-if [ $simulate ]; then
-	echo -e "$simulateMessage, skipping create"
-else
-	if [ ! -d "$installDir" ]; then
-		mkdir -p $installDir
+if [ $piHeatingHub ] || [ $piHeatingHubSecure ] || [ $piHeatingRemote ] || [ $piHeatingLCD ] || [ $piPowerTempLog ] || [ $piHeatingHubSecure ] || [ $piWeatherLog ]; then
+	echo -e "\n\n Creating installation directory ... \n ----------"
+	if [ $simulate ]; then
+		echo -e "$simulateMessage, skipping create"
+	else
+		if [ ! -d "$installDir" ]; then
+			mkdir -p $installDir
+		fi
 	fi
 fi
 
@@ -412,9 +422,9 @@ if [ $piHeatingHub ]; then
 	else
 		if [ ! -f "/etc/mysql/mariadb.conf.d/99-disable-strict-mode.cnf" ]; then
 	    	cat > /etc/mysql/mariadb.conf.d/99-disable-strict-mode.cnf <<STRICT
-	[server]
-	sql_mode = ""
-	STRICT
+[server]
+sql_mode = ""
+STRICT
 		fi
 	fi
 
