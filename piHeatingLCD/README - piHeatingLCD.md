@@ -27,7 +27,7 @@ Install gpio-watch by larsks from https://github.com/larsks/gpio-watch
 
 >$ sudo make install  
 
->$ sudo service gpio start
+>$ sudo service gpio start  
 
 Electrical
 ==========

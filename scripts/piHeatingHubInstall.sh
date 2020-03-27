@@ -1,55 +1,55 @@
 #!/bin/bash
 
+ARG1=$1
+ARG2=$2
+
 ########## check for arguments
-if [ ! $1 ] || [ ! $2]; then
+if [ ! $ARG1 ] || [ ! $ARG2]; then
 	echo -e "\n\n Error: \n This script must be run with arguments, \n or rather started from main script \n Exiting ..."
 	exit 1
 else
-	$scriptDir=$1
-	$installDir=$2
+	scriptDir=$ARG1
+	installDir=$ARG2
 fi
 
 ########## check for root
 if [[ `whoami` != "root" ]]; then
-  	echo -e "\n\n Error: \n Script must be run as root."
+  	echo -e "\n\n Error: \n Script must be run as root  \n Exiting ..."
   	exit 1
 fi
 
 ########## installation
+########## install binaries and web
 if [ ! -f "$installDir/piHeatingHub/README.md" ]; then
-	if [ $simulate ]; then
-		echo -e "$simulateMessage, skipping install"
-	else
-  		if [ -d "$installDir/piHeatingHub" ]; then
-  			echo -e " Deleting old directory ..."
-	    	rm -rf "$installDir/piHeatingHub"
-	  	fi
-	
-		echo -e " Copying binaries ..."
-	  	cp -rf "$scriptDir/piHeating/piHeatingHub" "$installDir/piHeatingHub"
-	  	echo -e " Moving web ..."
-	  	mv "$installDir/piHeatingHub/www" "/var/www/piHeatingHub"
-	  
-	  	echo -e " Creating data directories ..."
-	  	if [ ! -d "/var/www/piHeatingHub/data" ]; then
-	    	mkdir "/var/www/piHeatingHub/data"
-	  	fi
-	  	mkdir "$installDir/piHeatingHub/data"
-	  	
-	  	echo -e " Setting permissions ..."
-	  	chown -R pi:www-data "$installDir/piHeatingHub"
-	  	chmod -R 750 "$installDir/piHeatingHub"
-	  	chown -R pi:www-data "$installDir/piHeatingHub/data"
-	  	chmod -R 775 "$installDir/piHeatingHub/data"
-	  
-	  	chown -R pi:www-data "/var/www/piHeatingHub"
-	  	chmod -R 755 "/var/www/piHeatingHub"
-	  	chmod -R 775 "/var/www/piHeatingHub/images"
+	if [ -d "$installDir/piHeatingHub" ]; then
+		echo -e " Deleting old directory ..."
+    	rm -rf "$installDir/piHeatingHub"
+  	fi
 
-  		if [ ! -f "$installDir/piHeatingHub/README.md" ]; then
-  			echo " Error: \n piHeatingHub installation failed\n"
-  			exit 1
-		fi
+	echo -e " Copying binaries ..."
+  	cp -rf "$scriptDir/piHeating/piHeatingHub" "$installDir/piHeatingHub"
+  	echo -e " Moving web ..."
+  	mv "$installDir/piHeatingHub/www" "/var/www/piHeatingHub"
+  
+  	echo -e " Creating data directories ..."
+  	if [ ! -d "/var/www/piHeatingHub/data" ]; then
+    	mkdir "/var/www/piHeatingHub/data"
+  	fi
+  	mkdir "$installDir/piHeatingHub/data"
+  	
+  	echo -e " Setting permissions ..."
+  	chown -R pi:www-data "$installDir/piHeatingHub"
+  	chmod -R 750 "$installDir/piHeatingHub"
+  	chown -R pi:www-data "$installDir/piHeatingHub/data"
+  	chmod -R 775 "$installDir/piHeatingHub/data"
+  
+  	chown -R pi:www-data "/var/www/piHeatingHub"
+  	chmod -R 755 "/var/www/piHeatingHub"
+  	chmod -R 775 "/var/www/piHeatingHub/images"
+
+	if [ ! -f "$installDir/piHeatingHub/README.md" ]; then
+		echo " Error: \n piHeatingHub installation failed\n"
+		exit 1
 	fi
 else
   	echo " piHeatingHub is already installed"
@@ -62,13 +62,12 @@ if [ ! -f "/etc/cron.d/piHeating" ]; then
 MAILTO=""
 * * * * * pi /bin/bash $installDir/piHeatingHub/cron/piHeatingHubWrapper.sh >> /dev/null 2>&1
 CRON
-    service cron restart
 fi
 		
 ########## configure apache
-echo -e " Setting Apache listen port..."
+echo -e " Setting Apache listen port 8080 ..."
 if grep -Fxq 'Listen 8080' /etc/apache2/ports.conf; then
-	printf "Apache already listening on port 8080 \n"
+	printf "   Apache already listening on port 8080 \n"
 else
 	cat >> /etc/apache2/ports.conf <<PORTS
 Listen 8080
@@ -100,8 +99,6 @@ a2ensite piHeatingHub.conf
 echo -e "\n\n Setting up database ... \n ----------"
 echo -e " Please enter the MariaDB 'root' password : "
 read -s ROOT_PASSWORD
-
-
 
 echo -e "     Creating database: $DB_NAME \n at host: $DB_SERVER \n Setting username: $DB_USER \n with password: $DB_PASSWORD"
 mysql -uroot -p$ROOT_PASSWORD<< DATABASE

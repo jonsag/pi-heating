@@ -362,6 +362,59 @@ if [ $piHeatingHub ]; then
 	fi
 fi
 
+########## install python rpi.gpio
+if [ $piHeatingLCD ]; then
+	echo -e " Installing Python RPi.GPIO module ... \n ----------"
+	if python -c "import RPi.GPIO" >> /dev/null 2>&1; then
+		echo -e " RPi.GPIO is already installed"
+	else
+		if [ $simulate ]; then
+		  	echo -e "$simulateMessage, skipping install"
+		else
+			pip install rpi.gpio
+		fi		
+	fi
+fi
+
+########## install adafruit char lcd
+if [ $piHeatingLCD ]; then
+	echo -e " Installing Python Adafruit_Python_CharLCD module ... \n ----------"
+	if python -c "import Adafruit_CharLCD" >> /dev/null 2>&1; then
+		echo -e " Adafruit_Python_CharLCD is already installed"
+	else
+		if [ $simulate ]; then
+		  	echo -e "$simulateMessage, skipping install"
+		else
+			cd $scriptDir/Resources/Adafruit_Python_CharLCD
+			python setup.py install
+		fi		
+	fi
+fi
+
+########## install gpio-watch
+if [ $piHeatingLCD ]; then
+	echo -e " Installing gpio-watch ... \n ----------"
+	GPIO-WATCH_INSTALLED=$(which gpio-watch)
+	if [[ "$GPIO-WATCH_INSTALLED" == "" ]]; then
+		if [ $simulate ]; then
+  			echo -e "$simulateMessage, skipping install"
+  		else
+	  		cd $scriptDir/Resources/gpio-watch
+	  		
+	  		make  
+			make install  
+			
+	  		NMP_INSTALLED=$(find /var/lib/dpkg -name nmap*)
+    		if [[ "$NMP_INSTALLED" == "" ]]; then
+      			echo "\n\n Error: \n gpio-watch installation failed\n"
+      			exit 1
+    		fi
+		fi
+	else
+	  	echo " gpio-watch is already installed"
+	fi
+fi
+
 ########## install handy programs
 if [ $handy ]; then
   	echo -e "\n\n Installing handy programs ... \n ----------"
@@ -437,7 +490,7 @@ STRICT
 fi
 
 ########## configure apache
-if [ $piHeatingHub ] || [ $piHeatingRemote ]; then
+if [ $piHeatingHub ] || [ $piHeatingRemote ] || [ $piPowerTempLog ] || [ $piPowerWeatherLog ]; then
 	echo -e "\n\n Enabling Apache PHP module ... \n ----------"
 	if [ $simulate ]; then
 		echo -e "$simulateMessage, skipping enable"
@@ -450,5 +503,15 @@ if [ $piHeatingHub ] || [ $piHeatingRemote ]; then
 		echo -e "$simulateMessage, skipping restart"
 	else
 		service apache2 restart
+	fi
+fi
+
+########## restart cron
+if [ $piHeatingHub ] || [ $piPowerTempLog ] || [ $piPowerWeatherLog ]; then
+	echo -e "\n\n Restarting cron ... \n ----------"
+	if [ $simulate ]; then
+		echo -e "$simulateMessage, skipping restart"
+	else
+		service cron restart
 	fi
 fi
