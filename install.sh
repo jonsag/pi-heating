@@ -212,8 +212,9 @@ fi
 ########## install apache2
 if [ $piHeatingHub ] || [ $piHeatingRemote ]; then
 	echo -e "\n\n Installing apache ... \n ----------"
-	APACHE_INSTALLED=$(which apache2)
-	if [[ "$APACHE_INSTALLED" == "" ]]; then
+	if which apache2 >> /dev/null; then
+		echo " Apache is already installed"
+	else
 		if [ $simulate ]; then
   			echo -e "$simulateMessage, skipping install"
   		else
@@ -228,16 +229,15 @@ if [ $piHeatingHub ] || [ $piHeatingRemote ]; then
 	      		exit 1
 	    	fi
 		fi
-	else
-	  	echo " Apache is already installed"
 	fi
 fi
 
 ########## install php
 if [ $piHeatingHub ] || [ $piHeatingRemote ]; then
 	echo -e "\n\n Installing PHP ... \n ----------"
-	PHP_INSTALLED=$(which php)
-	if [[ "$PHP_INSTALLED" == "" ]]; then
+	if which php >> /dev/null; then
+		echo " PHP is already installed"
+	else
 		if [ $simulate ]; then
   			echo -e "$simulateMessage, skipping install"
   		else
@@ -249,16 +249,15 @@ if [ $piHeatingHub ] || [ $piHeatingRemote ]; then
       			exit 1
     		fi
 		fi
-	else
-	  	echo " PHP is already installed"
 	fi
 fi
 
 ########## install sql
 if [ $piHeatingHub ]; then
 	echo -e "\n\n Installing MariaDB ... \n ----------"
-	SQL_INSTALLED=$(which mariadb)
-	if [[ "$SQL_INSTALLED" == "" ]]; then
+	if which mariadb >> /dev/null; then
+		echo "MariaDB is already installed"
+	else
 		if [ $simulate ]; then
   			echo -e "$simulateMessage, skipping install"
   		else
@@ -273,16 +272,15 @@ if [ $piHeatingHub ]; then
     		echo -e "\n\n Running MariaDB post install ...\n ----------"
     		mysql_secure_installation
 		fi
-	else
-	  	echo "MariaDB is already installed"
 	fi
 fi
 
 ########## install php-mysql
 if [ $piHeatingHub ]; then
 	echo -e "\n\n Installing MySQL PHP module ... \n ----------"
-	PHPMYSQL_INSTALLED=$(find /var/lib/dpkg -name php-mysql*)
-	if [[ "$PHPMYSQL_INSTALLED" == "" ]]; then
+	if find /var/lib/dpkg -name php-mysql* >> /dev/null; then
+		echo " MySQL PHP module is already installed"
+	else
 		if [ $simulate ]; then
   			echo -e "$simulateMessage, skipping install"
   		else
@@ -293,17 +291,16 @@ if [ $piHeatingHub ]; then
       			echo "\n\n Error: \n MySQL PHP module installation failed\n"
       			exit 1
     		fi
-		fi
-	else
-	  	echo " MySQL PHP module is already installed"
+		fi	
 	fi
 fi
 
 ########## install py-mysql
 if [ $piHeatingHub ]; then
 	echo -e "\n\n Installing MySQL Python module ... \n ----------"
-	PYMYSQL_INSTALLED=$(find /var/lib/dpkg -name python-mysql*)
-	if [[ "$PYMYSQL_INSTALLED" == "" ]]; then
+	if find /var/lib/dpkg -name python-mysql* >> /dev/null; then
+		echo " MySQL Python module is already installed"
+	else
 		if [ $simulate ]; then
   			echo -e "$simulateMessage, skipping install"
   		else
@@ -315,16 +312,15 @@ if [ $piHeatingHub ]; then
       			exit 1
     		fi
 		fi
-	else
-	  	echo " MySQL Python module is already installed"
 	fi
 fi
 
 ########## install rrd-tool
 if [ $piHeatingHub ]; then
 	echo -e "\n\n Installing RRD tool ... \n ----------"
-	RRD_INSTALLED=$(find /var/lib/dpkg -name rrdtool*)
-	if [[ "$RRD_INSTALLED" == "" ]]; then
+	if find /var/lib/dpkg -name rrdtool* >> /dev/null; then
+		echo " RRD tool is already installed"
+	else
 		if [ $simulate ]; then
   			echo -e "$simulateMessage, skipping install"
   		else
@@ -335,17 +331,16 @@ if [ $piHeatingHub ]; then
       			echo "\n\n Error: \n RRD tool installation failed\n"
       			exit 1
     		fi
-		fi
-	else
-	  	echo " RRD tool is already installed"
+		fi 	
 	fi
 fi
 
 ########## install nmap
 if [ $piHeatingHub ]; then
 	echo -e "\n\n Installing nmap ... \n ----------"
-	NMP_INSTALLED=$(find /var/lib/dpkg -name nmap*)
-	if [[ "$NMP_INSTALLED" == "" ]]; then
+	if find /var/lib/dpkg -name nmap* >> /dev/null; then
+		echo " nmap is already installed"
+	else
 		if [ $simulate ]; then
   			echo -e "$simulateMessage, skipping install"
   		else
@@ -356,15 +351,13 @@ if [ $piHeatingHub ]; then
       			echo "\n\n Error: \n nmap installation failed\n"
       			exit 1
     		fi
-		fi
-	else
-	  	echo " nmap is already installed"
+		fi	
 	fi
 fi
 
 ########## install python rpi.gpio
 if [ $piHeatingLCD ]; then
-	echo -e " Installing Python RPi.GPIO module ... \n ----------"
+	echo -e "\n\n Installing Python RPi.GPIO module ... \n ----------"
 	if python -c "import RPi.GPIO" >> /dev/null 2>&1; then
 		echo -e " RPi.GPIO is already installed"
 	else
@@ -378,7 +371,7 @@ fi
 
 ########## install adafruit char lcd
 if [ $piHeatingLCD ]; then
-	echo -e " Installing Python Adafruit_Python_CharLCD module ... \n ----------"
+	echo -e "\n\n Installing Python Adafruit_Python_CharLCD module ... \n ----------"
 	if python -c "import Adafruit_CharLCD" >> /dev/null 2>&1; then
 		echo -e " Adafruit_Python_CharLCD is already installed"
 	else
@@ -393,9 +386,10 @@ fi
 
 ########## install gpio-watch
 if [ $piHeatingLCD ]; then
-	echo -e " Installing gpio-watch ... \n ----------"
-	GPIO-WATCH_INSTALLED=$(which gpio-watch)
-	if [[ "$GPIO-WATCH_INSTALLED" == "" ]]; then
+	echo -e "\n\n Installing gpio-watch ... \n ----------"
+	if which gpio-watch >> /dev/null; then
+		echo " gpio-watch is already installed"
+	else	
 		if [ $simulate ]; then
   			echo -e "$simulateMessage, skipping install"
   		else
@@ -409,9 +403,7 @@ if [ $piHeatingLCD ]; then
       			echo "\n\n Error: \n gpio-watch installation failed\n"
       			exit 1
     		fi
-		fi
-	else
-	  	echo " gpio-watch is already installed"
+		fi	
 	fi
 fi
 
