@@ -53,7 +53,7 @@ How to find RPi's IP
 If you can't locate the IP, here's a little tutorial  
 
 First find your subnet  
->$ $ ip -o -f inet addr show | awk '/scope global/ {print $4}'  
+>$ ip -o -f inet addr show | awk '/scope global/ {print $4}'  
 
 You will get something like  
 
@@ -112,7 +112,7 @@ Download source files
 Installation
 ==========
 Go to the newly downloaded directory 
->$ cd ~/pi-heating
+>$ cd pi-heating
 
 and run the install script  
 
