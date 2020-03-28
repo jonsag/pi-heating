@@ -210,7 +210,7 @@ if [ $piHeatingHub ] || [ $piHeatingHubSecure ] || [ $piHeatingRemote ] || [ $pi
 fi
 
 ########## install apache2
-if [ $piHeatingHub ] || [ $piHeatingRemote ]; then
+if [ $piHeatingHub ] || [ $piHeatingRemote ] || [ $piPowerTempLog ]|| [ $piWeatherLog ]; then
 	echo -e "\n\n Installing apache ... \n ----------"
 	if which apache2 >> /dev/null; then
 		echo " Apache is already installed"
@@ -253,7 +253,7 @@ if [ $piHeatingHub ] || [ $piHeatingRemote ]; then
 fi
 
 ########## install sql
-if [ $piHeatingHub ]; then
+if [ $piHeatingHub ] || [ $piPowerTempLog ]|| [ $piWeatherLog ]; then
 	echo -e "\n\n Installing MariaDB ... \n ----------"
 	if which mariadb >> /dev/null; then
 		echo "MariaDB is already installed"
@@ -296,7 +296,7 @@ if [ $piHeatingHub ]; then
 fi
 
 ########## install py-mysql
-if [ $piHeatingHub ]; then
+if [ $piHeatingHub ] || [ $piPowerTempLog ]|| [ $piWeatherLog ]; then
 	echo -e "\n\n Installing MySQL Python module ... \n ----------"
 	if find /var/lib/dpkg -name python-mysql* >> /dev/null; then
 		echo " MySQL Python module is already installed"
@@ -457,7 +457,37 @@ if [ $piHeatingRemote ]; then
   	else
 		$scriptDir/scripts/piHeatingRemoteInstall $scriptDir $installDir
 	fi
-fi	
+fi
+
+########## install piHeatingLCD
+if [ $piHeatingLCD ]; then
+	echo -e "\n\n Installing piHeatingLCD ... \n ----------"
+	if [ $simulate ]; then
+  		echo -e "$simulateMessage, skipping install"
+  	else
+		$scriptDir/scripts/piHeatingLCDInstall $scriptDir $installDir
+	fi
+fi
+
+########## install piPowerTempLog
+if [ $piPowerTempLog ]; then
+	echo -e "\n\n Installing piPowerTempLog ... \n ----------"
+	if [ $simulate ]; then
+  		echo -e "$simulateMessage, skipping install"
+  	else
+		$scriptDir/scripts/piPowerTempLogInstall $scriptDir $installDir
+	fi
+fi
+
+########## install piWeatherLog
+if [ $piWeatherLog ]; then
+	echo -e "\n\n Installing piWeatherLog ... \n ----------"
+	if [ $simulate ]; then
+  		echo -e "$simulateMessage, skipping install"
+  	else
+		$scriptDir/scripts/piWeatherLogInstall $scriptDir $installDir
+	fi
+fi
 
 ########## disable mariadb strict mode
 if [ $piHeatingHub ]; then

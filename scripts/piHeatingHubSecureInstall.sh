@@ -32,3 +32,5 @@ htpasswd -c .htpasswd admin
 
 mv $scriptDir/.htpasswd $installDir/piHeatingHub/.htpasswd
 chmod 644 $installDir/piHeatingHub/.htpasswd
+
+
