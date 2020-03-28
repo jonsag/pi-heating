@@ -37,27 +37,27 @@ else
 fi
 
 
-if [ ! -f "/home/pi/piWeatherLog/README.md" ]
+if [ ! -f "/home/pi/bin/piWeatherLog/README.md" ]
 then
   printf "\n\n Installing piWeatherLog ...\n"
 
   cd /home/pi
   
-  if [ -d "/home/pi/piWeatherLog" ]
+  if [ -d "/home/pi/bin/piWeatherLog" ]
   then
-    rm -rf "/home/pi/piWeatherLog"
+    rm -rf "/home/pi/bin/piWeatherLog"
   fi
 
-  mv "/home/pi/pi-heating/piWeatherLog/piWeatherLog" "/home/pi/piWeatherLog"
-  mv "/home/pi/piWeatherLog/www" "/var/www/piWeatherLog"
+  mv "/home/pi/bin/pi-heating/piWeatherLog/piWeatherLog" "/home/pi/bin/piWeatherLog"
+  mv "/home/pi/bin/piWeatherLog/www" "/var/www/piWeatherLog"
   
-  chown -R pi:pi "/home/pi/piWeatherLog"
-  chmod -R 750 "/home/pi/piWeatherLog"
+  chown -R pi:pi "/home/pi/bin/piWeatherLog"
+  chmod -R 750 "/home/pi/bin/piWeatherLog"
 
   chown -R pi:www-data "/var/www/piWeatherLog"
   chmod -R 755 "/var/www/piWeatherLog"
 
-  if [ ! -f "/home/pi/piWeatherLog/README.md" ]
+  if [ ! -f "/home/pi/bin/piWeatherLog/README.md" ]
     then
       printf "\n\n EXITING : piWeatherLog installation FAILED\n"
       exit 1
@@ -70,7 +70,7 @@ fi
 if [ ! -f "/etc/cron.d/piWeatherLog" ]
   then
     cat > /etc/cron.d/piWeatherLog <<CRON
-*/2 * * * * pi /bin/bash /home/pi/piWeatherLog/cron/wrapper.sh
+*/2 * * * * pi /bin/bash /home/pi/bin/piWeatherLog/cron/wrapper.sh
 CRON
     service cron restart
 fi

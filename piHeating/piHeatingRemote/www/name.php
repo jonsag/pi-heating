@@ -8,7 +8,7 @@ if ( $SENSOR_ID < 1 ) {
 
   }else{
   
-    $sensorfile = '/home/pi/piHeatingRemote/configs/sensors';
+    $sensorfile = '/home/pi/bin/piHeatingRemote/configs/sensors';
 
     $sensors = file( $sensorfile, FILE_SKIP_EMPTY_LINES );
 

@@ -99,26 +99,26 @@ fi
 
 # Install 'piHeatingRemote' app
 
-if [ ! -f "/home/pi/piHeatingRemote/README.md" ]; then
+if [ ! -f "/home/pi/bin/piHeatingRemote/README.md" ]; then
   printf "\n\n Installing piHeatingRemote ...\n"
 
-  if [ -d "/home/pi/piHeatingRemote" ]; then
-    rm -rf "/home/pi/piHeatingRemote"
+  if [ -d "/home/pi/bin/piHeatingRemote" ]; then
+    rm -rf "/home/pi/bin/piHeatingRemote"
   fi
 
-  cp -rf "/home/pi/pi-heating/piHeating/piHeatingRemote" "/home/pi/piHeatingRemote"
-  mv "/home/pi/piHeatingRemote/www" "/var/www/piHeatingRemote"
+  cp -rf "/home/pi/bin/pi-heating/piHeating/piHeatingRemote" "/home/pi/bin/piHeatingRemote"
+  mv "/home/pi/bin/piHeatingRemote/www" "/var/www/piHeatingRemote"
   
-  chown -R pi:pi "/home/pi/piHeatingRemote"
-  chmod -R 755 "/home/pi/piHeatingRemote"
+  chown -R pi:pi "/home/pi/bin/piHeatingRemote"
+  chmod -R 755 "/home/pi/bin/piHeatingRemote"
   
-  chown -R pi:pi "/home/pi/piHeatingRemote/configs"
-  chmod -R 755 "/home/pi/piHeatingRemote/configs"
+  chown -R pi:pi "/home/pi/bin/piHeatingRemote/configs"
+  chmod -R 755 "/home/pi/bin/piHeatingRemote/configs"
   
   chown -R pi:www-data "/var/www/piHeatingRemote"
   chmod -R 755 "/var/www/piHeatingRemote"
   
-  if [ ! -f "/home/pi/piHeatingRemote/README.md" ]; then
+  if [ ! -f "/home/pi/bin/piHeatingRemote/README.md" ]; then
       printf "\n\n EXITING : piHeatingRemote installation FAILED\n"
       exit 1
     fi

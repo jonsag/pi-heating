@@ -246,7 +246,7 @@ View gpio.service
 >$ cat /lib/systemd/system/gpio.service  
 
 View gpio script  
->$ cat /home/pi/piHeatingLCD/gpio-scripts  
+>$ cat /home/pi/bin/piHeatingLCD/gpio-scripts  
 
 View gpio-watch log  
 >$ tail -f ~/bin/piHeatingLCD/gpio-watch.log  

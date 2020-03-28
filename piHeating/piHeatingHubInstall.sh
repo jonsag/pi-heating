@@ -150,7 +150,7 @@ if [ ! -f "/home/pi/bin/piHeatingHub/README.md" ]; then
     rm -rf "/home/pi/bin/piHeatingHub"
   fi
 
-  cp -rf "/home/pi/pi-heating/piHeating/piHeatingHub" "/home/pi/bin/piHeatingHub"
+  cp -rf "/home/pi/bin/pi-heating/piHeating/piHeatingHub" "/home/pi/bin/piHeatingHub"
   mv "/home/pi/bin/piHeatingHub/www" "/var/www/piHeatingHub"
   
   chown -R pi:www-data "/home/pi/bin/piHeatingHub"

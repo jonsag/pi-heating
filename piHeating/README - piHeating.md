@@ -28,7 +28,7 @@ find 1-wire devices serial numbers
 
 Edit  
 
- 	/home/pi/piHeatingRemote/configs/sensors
+ 	/home/pi/bin/piHeatingRemote/configs/sensors
  
  and insert serials and names, for example  
 

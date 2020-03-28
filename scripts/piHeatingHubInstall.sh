@@ -26,36 +26,41 @@ fi
 
 ########## check for root
 if [[ `whoami` != "root" ]]; then
-  	echo -e "\n\n Error: \n Script must be run as root  \n Exiting ..."
-  	if [ $simulate ]; then
+	echo -e "\n\n Error: \n Script must be run as root  \n Exiting ..."
+	if [ $simulate ]; then
 		echo "$simulateMessage"
 	else
-  		exit 1
-  	fi
+		exit 1
+	fi
 fi
 
 ########## installation
 ########## install binaries and web
 echo -e "\n\n Installing piHeatingHub ... \n ----------"
-if [ ! -f "$installDir/piHeatingHub/README.md" ]; then
+if [ -f "$installDir/piHeatingHub/README.md" ]; then
+	echo "     piHeatingHub is already installed"
+else	
 	if [ $simulate ]; then
 		echo "$simulateMessage"
 	else
 		if [ -d "$installDir/piHeatingHub" ]; then
-			echo -e " Deleting old directory ..."
+			echo -e " Deleting old install ..."
 	    	rm -rf "$installDir/piHeatingHub"
 	  	fi
 	
 		echo -e " Copying binaries ..."
-	  	cp -rf "$scriptDir/piHeating/piHeatingHub" "$installDir/piHeatingHub"
+	  	cp -rf "$scriptDir/piHeating/piHeatingHub" "$installDir/"
+	  	
 	  	echo -e " Moving web ..."
 	  	mv "$installDir/piHeatingHub/www" "/var/www/piHeatingHub"
 	  
 	  	echo -e " Creating data directories ..."
+	  	if [ ! -d "$installDir/piHeatingHub/data" ]; then
+	  		mkdir "$installDir/piHeatingHub/data"
+	  	fi
 	  	if [ ! -d "/var/www/piHeatingHub/data" ]; then
 	    	mkdir "/var/www/piHeatingHub/data"
 	  	fi
-	  	mkdir "$installDir/piHeatingHub/data"
 	  	
 	  	echo -e " Setting permissions ..."
 	  	chown -R pi:www-data "$installDir/piHeatingHub"
@@ -66,22 +71,16 @@ if [ ! -f "$installDir/piHeatingHub/README.md" ]; then
 	  	chown -R pi:www-data "/var/www/piHeatingHub"
 	  	chmod -R 755 "/var/www/piHeatingHub"
 	  	chmod -R 775 "/var/www/piHeatingHub/images"
-	
-		if [ ! -f "$installDir/piHeatingHub/README.md" ]; then
-			echo " Error: \n piHeatingHub installation failed\n"
-			exit 1
-		fi
-	fi
-else
-  	echo " piHeatingHub is already installed"
+	fi	
 fi
 
 ########## create cron job
-echo -e " Creating cron jobs ..."
-if [ $simulate ]; then
-  	echo "$simulateMessage"
-else
-	if [ ! -f "/etc/cron.d/piHeating" ]; then
+echo -e " Creating cron job ..."
+if [ -f "/etc/cron.d/piHeating" ]; then
+	echo "     Cron job already exists"
+	if [ $simulate ]; then
+	  	echo "$simulateMessage"
+	else
 	    cat > /etc/cron.d/piHeating <<CRON
 MAILTO=""
 * * * * * pi /bin/bash $installDir/piHeatingHub/cron/piHeatingHubWrapper.sh >> /dev/null 2>&1
@@ -92,7 +91,7 @@ fi
 ########## configure apache
 echo -e " Setting Apache listen port 8080 ..."
 if grep -Fxq 'Listen 8080' /etc/apache2/ports.conf >> /dev/null 2>&1; then
-	printf "   Apache already listening on port 8080 \n"
+	echo "     Apache already listening on port 8080"
 else
 	if [ $simulate ]; then
   		echo "$simulateMessage"
@@ -105,13 +104,17 @@ fi
 
 ########## add apache site
 echo -e " Adding site ..."
-if [ $simulate ]; then
-  	echo "$simulateMessage"
+if [ -f /etc/apache2/sites-available/piHeatingHub.conf ]; then
+	echo "     Site already exists"
 else
-	cat > /etc/apache2/sites-available/piHeatingHub.conf <<VHOST
+	if [ $simulate ]; then
+	  	echo "$simulateMessage"
+	else
+		cat > /etc/apache2/sites-available/piHeatingHub.conf <<VHOST
 <VirtualHost *:8080>
     ServerAdmin webmaster@localhost
     DocumentRoot /var/www/piHeatingHub/
+    
     <Directory /var/www/piHeatingHub/>
         Options -Indexes
         AllowOverride all
@@ -123,8 +126,10 @@ else
     CustomLog \${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 VHOST
+	fi
 fi
-		
+
+########## enable site
 echo -e " Enabling site ..."
 if [ $simulate ]; then
   	echo "$simulateMessage"
@@ -135,12 +140,12 @@ fi
 ########## database setup
 echo -e " Setting up database ..."
 if [ -d /var/lib/mysql/piHeatingDB ]; then
-	echo " Database already exists"
+	echo "     Database already exists"
 else
 	if [ $simulate ]; then
 	  	echo "$simulateMessage"
 	else
-		echo -e " Please enter the MariaDB 'root' password : "
+		echo -e "\n Please enter the MariaDB 'root' password : "
 		read -s ROOT_PASSWORD
 		
 		echo -e "     Creating database: $DB_NAME \n     at host: $DB_SERVER \n     Setting username: $DB_USER \n     with password: $DB_PASSWORD"

@@ -4,7 +4,7 @@ ARG1=$1
 ARG2=$2
 
 ########## check for arguments
-if [ ! $ARG1 ] || [ ! $ARG2]; then
+if [ ! $ARG1 ] || [ ! $ARG2 ]; then
 	echo -e "\n\n Error: \n This script must be run with arguments, \n or rather started from main script \n Exiting ..."
 	exit 1
 else
@@ -14,14 +14,20 @@ fi
 
 ########## check for root
 if [[ `whoami` != "root" ]]; then
-  	echo -e "\n\n Error: \n Script must be run as root \n Exiting ..."
-  	exit 1
+	echo -e "\n\n Error: \n Script must be run as root  \n Exiting ..."
+	if [ $simulate ]; then
+		echo "$simulateMessage"
+	else
+		exit 1
+	fi
 fi
 
 ########## installation
+echo -e "\n\n Installing piHeatingRemote ... \n ----------"
+
 ########## check for piHeatingHub
 while true; do
-	echo -e " Please enter IP of piHeatingHub "
+	echo -e "\n Check for piHeatingHub \n Please enter IP of piHeatingHub "
 	read -p " [<ip>/LOCALHOST/[s]kip] " hubIP
 
 	if [[ $hubIP == "S" ]] || [[ $hubIP == "s" ]]; then
@@ -29,7 +35,7 @@ while true; do
 		break;
 	elif [ ! $hubIP ]; then
 		echo -e "\n Checking if localhost has piHeatingHub ..."
-		if [ -f "/home/pi/bin/piHeatingHub/README.md" ]; then
+		if [ -f "$installDir/piHeatingHub/README.md" ]; then
 			break
 		else
 			echo -e " Could not find piHeatingHub at localhost \n"
@@ -45,57 +51,71 @@ while true; do
 done
 
 ########## install binaries and web
-if [ ! -f "/home/pi/piHeatingRemote/README.md" ]; then
-	if [ -d "$installDir/piHeatingRemote" ]; then
-		echo -e " Deleting old directory ..."
-		rm -rf "$installDir/piHeatingRemote"
-	fi
-
-	echo -e " Copying binaries ..."
-	cp -rf "$scriptDir/pi-heating/piHeating/piHeatingRemote" "$installDir/piHeatingRemote"
-	echo -e " Moving web ..."
-	mv "$installDir/piHeatingRemote/www" "/var/www/piHeatingRemote"
-  
-  	echo -e " Setting permissions ..."
-	chown -R pi:pi "$installDir/piHeatingRemote"
-	chmod -R 755 "$installDir/piHeatingRemote"
-  
-	chown -R pi:pi "$installDir/piHeatingRemote/configs"
-	chmod -R 755 "$installDir/piHeatingRemote/configs"
-  
-	chown -R pi:www-data "/var/www/piHeatingRemote"
-	chmod -R 755 "/var/www/piHeatingRemote"
-  
-	if [ ! -f "$installDir/piHeatingRemote/README.md" ]; then
-		printf "\n\n Error: \n piHeatingRemote installation failed\n"
-		exit 1
-	fi
-    
+echo
+if [ -f "$installDir/piHeatingRemote/README.md" ]; then
+	echo "     piHeatingRemote is already installed"
 else
-	echo " piHeatingRemote is already installed"
+	if [ $simulate ]; then
+		echo "$simulateMessage"
+	else
+		if [ -d "$installDir/piHeatingRemote" ]; then
+			echo -e " Deleting old install ..."
+			rm -rf "$installDir/piHeatingRemote"
+		fi
+	
+		echo -e " Copying binaries ..."
+		cp -rf "$scriptDir/piHeating/piHeatingRemote" "$installDir/"
+		
+		echo -e " Moving web ..."
+		mv "$installDir/piHeatingRemote/www" "/var/www/piHeatingRemote"
+	  
+	  	echo -e " Setting permissions ..."
+		chown -R pi:pi "$installDir/piHeatingRemote"
+		chmod -R 755 "$installDir/piHeatingRemote"
+	  
+		chown -R pi:pi "$installDir/piHeatingRemote/configs"
+		chmod -R 755 "$installDir/piHeatingRemote/configs"
+	  
+		chown -R pi:www-data "/var/www/piHeatingRemote"
+		chmod -R 755 "/var/www/piHeatingRemote"
+	fi
 fi
 
 ########## change GPIO pin for 1-wire sensors
 echo -e " Setting GPIO-pin for 1-wire sensors ..."
 if grep -Fxq 'dtoverlay=w1-gpio,gpiopin=14' /boot/config.txt; then
-		echo -e "   Already set"
+		echo -e "     Already set"
 else
-	sed -i 's/dtoverlay=w1-gpio/dtoverlay=w1-gpio,gpiopin=14/g' /boot/config.txt
+	if [ $simulate ]; then
+		echo "$simulateMessage"
+	else
+		sed -i 's/dtoverlay=w1-gpio/dtoverlay=w1-gpio,gpiopin=14/g' /boot/config.txt
+	fi
 fi
 
 ########## configure apache
 echo -e " Setting Apache listen port 8081 ..."
 if grep -Fxq 'Listen 8081' /etc/apache2/ports.conf; then
-	printf "   Apache already listening on port 8081 \n"
+	echo "     Apache already listening on port 8081"
 else
-	cat >> /etc/apache2/ports.conf <<PORTS
-Listen 8080
+	if [ $simulate ]; then
+		echo "$simulateMessage"
+	else
+		cat >> /etc/apache2/ports.conf <<PORTS
+Listen 8081
 PORTS
+	fi
 fi
 
 ########## add apache site
 echo -e " Adding site ..."
-cat > /etc/apache2/sites-available/piHeatingHub.conf <<VHOST
+if [ -f /etc/apache2/sites-available/piHeatingRemote.conf ]; then
+	echo "     Site already exists"
+else
+	if [ $simulate ]; then
+	  	echo "$simulateMessage"
+	else
+		cat > /etc/apache2/sites-available/piHeatingRemote.conf <<VHOST
 <VirtualHost *:8081>
     ServerAdmin webmaster@localhost
     DocumentRoot /var/www/piHeatingRemote/
@@ -111,10 +131,16 @@ cat > /etc/apache2/sites-available/piHeatingHub.conf <<VHOST
     CustomLog \${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 VHOST
+	fi
+fi
 
+########## enable site
 echo -e " Enabling site ..."
-a2ensite piHeatingRemote.conf
-
+if [ $simulate ]; then
+  	echo "$simulateMessage"
+else
+	a2ensite piHeatingRemote.conf
+fi
 
 
 

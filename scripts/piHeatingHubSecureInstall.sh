@@ -23,21 +23,26 @@ if [[ `whoami` != "root" ]]; then
 fi
 
 ########## installation
-if [ $simulate ]; then
-	echo "$simulateMessage"
+echo -e "\n\n Securing piHeatingHub ... \n ----------"
+if [ -f $installDir/piHeatingHub/.htpasswd ]; then
+	echo " Hub GUI is already secure"
 else
-	echo -e " Creating .htaccess file ..."
-	cat > /var/www/piHeatingHub/.htaccess <<ACCESS
+	if [ $simulate ]; then
+		echo "$simulateMessage"
+	else
+		echo -e " Creating .htaccess file ..."
+		cat > /var/www/piHeatingHub/.htaccess <<ACCESS
 AuthName "Secure Heating Hub"
 AuthType Basic
 AuthUserFile $installDir/piHeatingHub/.htpasswd
 require valid-user
 ACCESS
-	
-	echo -e " Enter password for user 'admin' ?"
-	htpasswd -c $installDir/piHeatingHub/.htpasswd admin
-	
-	chmod 644 $installDir/piHeatingHub/.htpasswd
+		
+		echo -e "\n Enter password for user 'admin' ?"
+		htpasswd -c $installDir/piHeatingHub/.htpasswd admin
+		
+		chmod 644 $installDir/piHeatingHub/.htpasswd
+	fi
 fi
 
 
