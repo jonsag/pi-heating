@@ -22,7 +22,7 @@ if [[ $OS_VERSION != *"buster"* ]]; then
 fi
 
 
-if [ -f "/home/pi/piHeatingHub/README.md" ]; then
+if [ -f "/home/pi/bin/piHeatingHub/README.md" ]; then
   echo "Hub exists"
 else
   printf "\n\n First you must install piHeatingHub. \n\n"

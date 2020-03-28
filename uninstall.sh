@@ -1,5 +1,11 @@
 #!/bin/bash
 
+########## directory of this script
+scriptDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+########## read config
+. $scriptDir/scripts/config.ini
+
 if [[ `whoami` != "root" ]]; then
   printf "\n\n Script must be run as root. \n\n"
   exit 1
@@ -44,8 +50,8 @@ else
 fi
 
 printf "Deleting executables ... \n"
-if [ -d /home/pi/piWeatherLog ]; then
-	rm -R /home/pi/piWeatherLog
+if [ -d $installDir/piWeatherLog ]; then
+	rm -R $installDir/piWeatherLog
 else
 	printf "    Not present \n"
 fi
@@ -89,8 +95,8 @@ else
 fi
 
 printf "Deleting executables ... \n"
-if [ -d /home/pi/piPowerTempLog ]; then
-	rm -R /home/pi/piPowerTempLog
+if [ -d $installDir/piPowerTempLog ]; then
+	rm -R $installDir/piPowerTempLog
 else
 	printf "    Not present \n"
 fi
@@ -108,8 +114,8 @@ else
 fi
 
 printf "Deleting executables ... \n"
-if [ -d /home/pi/piHeatingLCD ]; then
-	rm -R /home/pi/piHeatingLCD
+if [ -d $installDir/piHeatingLCD ]; then
+	rm -R $installDir/piHeatingLCD
 else
 	printf "    Not present \n"
 fi
@@ -153,8 +159,8 @@ else
 fi
 
 printf "Deleting executables ... \n"
-if [ -d /home/pi/piHeatingRemote ]; then
-	rm -R /home/pi/piHeatingRemote
+if [ -d $installDir/piHeatingRemote ]; then
+	rm -R $installDir/piHeatingRemote
 else
 	printf "    Not present \n"
 fi
@@ -163,7 +169,7 @@ fi
 printf "\n\n Dropping database ... \n"
 
 if [ -d /var/lib/mysql/piHeatingDB ]; then
-	printf " Please enter the MySQL root password : \n"
+	printf " Please enter the MySQL 'root' password : \n"
 	read -s ROOT_PASSWORD
 	printf "Deleting database ... \n"
 	#mysqladmin -u root -p$ROOT_PASSWORD drop piHeatingDB
@@ -226,8 +232,8 @@ else
 fi
 
 printf "Deleting executables ... \n"
-if [ -d /home/pi/piHeatingHub ]; then
-	rm -R /home/pi/piHeatingHub
+if [ -d $installDir/piHeatingHub ]; then
+	rm -R $installDir/piHeatingHub
 else
 	printf "    Not present \n"
 fi

@@ -4,24 +4,19 @@
 ARG1=$1
 
 ########## simulation
+simulateMessage="    --- Simulation"
 simulate=""
-simulateMessage=" --- Simulation mode"
-
-######## database setup
-DB_USERNAME='pi'
-DB_PASSWORD=$(date | md5sum | head -c12)
-DB_SERVER='localhost'
-DB_NAME='piHeatingDB'
 
 ########## directory of this script
 scriptDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-########## install directory
-installDir="$HOME/bin"
+
+########## read config
+. $scriptDir/scripts/config.ini
 
 ########## info
 echo -e "\n\n Universal install for project piHeating"
 echo -e " ----------"
-echo -e " Run this script with argument 's' to simulate, \n nothing will be changed or installed."
+echo -e "\n Run this script with argument 's' to simulate, \n nothing will be changed or installed."
 echo -e "\n This scripts directory: $scriptDir"
 if [ $ARG1 ]; then
   	echo -e "   Running with argument $1"
@@ -36,7 +31,7 @@ echo -e " Install directory: $installDir"
 if [[ `whoami` != "root" ]]; then
   	echo -e "\n\n Error:\n Script must be run as root."
   	if [ $simulate ]; then
-  		echo -e "$simulateMessage, doesn't matter"
+  		echo "$simulateMessage"
   	else
   		exit 1
   	fi
@@ -47,7 +42,7 @@ OS_VERSION=$(cat /etc/os-release | grep VERSION=)
 if [[ $OS_VERSION != *"buster"* ]]; then
   	echo -e "\n\n Error:\n Script must be run on PI OS Buster."
   	if [ $simulate ]; then
-  		echo -e "$simulateMessage, will run anyway"
+  		echo "$simulateMessage"
   	else
   		exit 1
   	fi
@@ -65,15 +60,16 @@ while true; do
 done
 
 ########## question: secure piHeatingHub
-while true; do
-	echo -e "\n\n Do you wish to secure piHeatingHub web GUI?"
-    read -p " [Y/n/h]" input
-    case $input in
-    	[Hh] ) echo -e "\n It's really a good idea to say yes to this, \n as it will require a password to log in to the web GUI.";;
-        [Nn] ) piHeatingHubSecure=""; break;;
-        * ) piHeatingHubSecure="y"; break;;
-    esac
-done
+#while true; do
+#	echo -e "\n\n Do you wish to secure piHeatingHub web GUI?"
+#    read -p " [Y/n/h]" input
+#    case $input in
+#    	[Hh] ) echo -e "\n It's really a good idea to say yes to this, \n as it will require a password to log in to the web GUI.";;
+#        [Nn] ) piHeatingHubSecure=""; break;;
+#        * ) piHeatingHubSecure="y"; break;;
+#    esac
+#done
+piHeatingHubSecure="y"
 
 ########## question: install piHeatingRemote
 while true; do
@@ -124,7 +120,7 @@ while true; do
 	echo -e "\n\n Do you wish to install other handy programs ?"
     read -p " [Y/n/h]" input
     case $input in
-    	[Hh] ) echo -e "\n Saying yes to this will install programs not really related to this, \n but I find them handy to have installed. \n These programs are: \n emacs: text editing at another level \n screen: nice way to run multiple shells \n locate: builds a fast searchable database of all files on this device";;
+    	[Hh] ) echo -e "\n Saying yes to this will install programs not really related to this, \n but I find them handy to have installed. \n These programs are: "; for program in $handyPrograms; do echo " $program"; done;;
         [Nn] ) handy=""; break;;
         * ) handy="y"; break;;
     esac
@@ -132,54 +128,54 @@ done
 
 ########## view all before install
 while true; do
-	echo -e "\n\n"	
-	echo -n "Install piHeatingHub "
+	echo -e "\n\n Summary \n ----------"
+	echo -n " Install piHeatingHub "
 	if [ $piHeatingHub ]; then
 	  	echo -e "\t\t OK"
 	else
 	  	echo -e "\t\t Skip"
 	fi
 	
-	echo -n "Secure piHeatingHub "
+	echo -n " Secure piHeatingHub "
 	if [ $piHeatingHubSecure ]; then
 	  	echo -e "\t\t OK"
 	else
 	  	echo -e "\t\t Skip"
 	fi
 	
-	echo -n "Install piHeatingRemote "
+	echo -n " Install piHeatingRemote "
 	if [ $piHeatingRemote ]; then
 	  	echo -e "\t OK"
 	else
 	  	echo -e "\t Skip"
 	fi
 	
-	echo -n "Install piHeatingLCD "
+	echo -n " Install piHeatingLCD "
 	if [ $piHeatingLCD ]; then
 	  	echo -e "\t\t OK"
 	else
 	  	echo -e "\t\t Skip"
 	fi
 	
-	echo -n "Install piPowerTempLog "
+	echo -n " Install piPowerTempLog "
 	if [ $piPowerTempLog ]; then
-	  	echo -e "\t\t OK"
+	  	echo -e "\t OK"
 	else
-	  	echo -e "\t\t Skip"
+	  	echo -e "\t Skip"
 	fi
 	
-	echo -n "Install piWeatherLog "
+	echo -n " Install piWeatherLog "
 	if [ $piWeatherLog ]; then
 	  	echo -e "\t\t OK"
 	else
 	  	echo -e "\t\t Skip"
 	fi
 	
-	echo -n "Install handy programs "
+	echo -n " Install handy programs "
 	if [ $handy ]; then
-	  	echo -e "\t\t OK"
+	  	echo -e "\t OK"
 	else
-	  	echo -e "\t\t Skip"
+	  	echo -e "\t Skip"
 	fi
 	
 ########## final question
@@ -201,158 +197,42 @@ fi
 
 ########## install prerequisites
 if [ $piHeatingHub ] || [ $piHeatingHubSecure ] || [ $piHeatingRemote ] || [ $piHeatingLCD ] || [ $piPowerTempLog ] || [ $piHeatingHubSecure ] || [ $piWeatherLog ]; then
-	echo -e "\n\n Installing prerequisites ... \n ----------"
-	if [ $simulate ]; then
-	  	echo -e "$simulateMessage, skipping install"
-	else
-	  	apt install git python-dev python-setuptools build-essential python-smbus python-pip rsync ttf-mscorefonts-installer -y
-	fi
+	$scriptDir/scripts/packagesInstall.sh "$prerequisites" "$simulateMessage" $simulate
 fi
 
 ########## install apache2
 if [ $piHeatingHub ] || [ $piHeatingRemote ] || [ $piPowerTempLog ]|| [ $piWeatherLog ]; then
-	echo -e "\n\n Installing apache ... \n ----------"
-	if which apache2 >> /dev/null; then
-		echo " Apache is already installed"
-	else
-		if [ $simulate ]; then
-  			echo -e "$simulateMessage, skipping install"
-  		else
-	  		apt install apache2 apache2-utils -y
-	  		systemctl enable apache2
-	  		a2dissite 000-default.conf
-	  		service apache2 restart
-
-	  		APACHE_INSTALLED=$(which apache2)
-	    	if [[ "$APACHE_INSTALLED" == "" ]]; then
-	      		echo -e "\n\n Error: \n Apache installation failed\n"
-	      		exit 1
-	    	fi
-		fi
-	fi
+		$scriptDir/scripts/packagesInstall.sh "apache2 apache2-utils" "$simulateMessage" $simulate
 fi
 
 ########## install php
 if [ $piHeatingHub ] || [ $piHeatingRemote ]; then
-	echo -e "\n\n Installing PHP ... \n ----------"
-	if which php >> /dev/null; then
-		echo " PHP is already installed"
-	else
-		if [ $simulate ]; then
-  			echo -e "$simulateMessage, skipping install"
-  		else
-	  		apt install php libapache2-mod-php php-common php-cli php-json php-readline -y
-
-  			PHP_INSTALLED=$(which php)
-    		if [[ "$PHP_INSTALLED" == "" ]]; then
-      			echo -e "\n\n Error: \n PHP installation failed\n"
-      			exit 1
-    		fi
-		fi
-	fi
+	$scriptDir/scripts/packagesInstall.sh "php libapache2-mod-php php-common php-cli php-json php-readline" "$simulateMessage" $simulate
 fi
 
 ########## install sql
 if [ $piHeatingHub ] || [ $piPowerTempLog ]|| [ $piWeatherLog ]; then
-	echo -e "\n\n Installing MariaDB ... \n ----------"
-	if which mariadb >> /dev/null; then
-		echo "MariaDB is already installed"
-	else
-		if [ $simulate ]; then
-  			echo -e "$simulateMessage, skipping install"
-  		else
-	  		apt install mariadb-server mariadb-client -y --fix-missing
-
-  			SQL_INSTALLED=$(which mariadb)
-    		if [[ "$SQL_INSTALLED" == "" ]]; then
-      			echo -e "\n\n Error: \nMariaDB installation failed\n"
-      			exit 1
-    		fi
-    		
-    		echo -e "\n\n Running MariaDB post install ...\n ----------"
-    		mysql_secure_installation
-		fi
-	fi
+	$scriptDir/scripts/packagesInstall.sh "mariadb-server mariadb-client" "$simulateMessage" $simulate
 fi
 
 ########## install php-mysql
 if [ $piHeatingHub ]; then
-	echo -e "\n\n Installing MySQL PHP module ... \n ----------"
-	if find /var/lib/dpkg -name php-mysql* >> /dev/null; then
-		echo " MySQL PHP module is already installed"
-	else
-		if [ $simulate ]; then
-  			echo -e "$simulateMessage, skipping install"
-  		else
-	  		apt install php-mysql -y
-
-  			PHPMYSQL_INSTALLED=$(find /var/lib/dpkg -name php-mysql*)
-    		if [[ "$PHPMYSQL_INSTALLED" == "" ]]; then
-      			echo "\n\n Error: \n MySQL PHP module installation failed\n"
-      			exit 1
-    		fi
-		fi	
-	fi
+	$scriptDir/scripts/packagesInstall.sh "php-mysql" "$simulateMessage" $simulate
 fi
 
 ########## install py-mysql
 if [ $piHeatingHub ] || [ $piPowerTempLog ]|| [ $piWeatherLog ]; then
-	echo -e "\n\n Installing MySQL Python module ... \n ----------"
-	if find /var/lib/dpkg -name python-mysql* >> /dev/null; then
-		echo " MySQL Python module is already installed"
-	else
-		if [ $simulate ]; then
-  			echo -e "$simulateMessage, skipping install"
-  		else
-	  		apt install python-mysqldb -y
-
-  			PYMYSQL_INSTALLED=$(find /var/lib/dpkg -name python-mysql*)
-    		if [[ "$PYMYSQL_INSTALLED" == "" ]]; then
-      			echo "\n\n Error: \n MySQL Python module installation failed\n"
-      			exit 1
-    		fi
-		fi
-	fi
+	$scriptDir/scripts/packagesInstall.sh "python-mysqldb" "$simulateMessage" $simulate
 fi
 
 ########## install rrd-tool
 if [ $piHeatingHub ]; then
-	echo -e "\n\n Installing RRD tool ... \n ----------"
-	if find /var/lib/dpkg -name rrdtool* >> /dev/null; then
-		echo " RRD tool is already installed"
-	else
-		if [ $simulate ]; then
-  			echo -e "$simulateMessage, skipping install"
-  		else
-	  		apt install rrdtool php-rrd -y
-
-  			RRD_INSTALLED=$(find /var/lib/dpkg -name rrdtool*)
-    		if [[ "$RRD_INSTALLED" == "" ]]; then
-      			echo "\n\n Error: \n RRD tool installation failed\n"
-      			exit 1
-    		fi
-		fi 	
-	fi
+	$scriptDir/scripts/packagesInstall.sh "rrdtool php-rrd" "$simulateMessage" $simulate
 fi
 
 ########## install nmap
 if [ $piHeatingHub ]; then
-	echo -e "\n\n Installing nmap ... \n ----------"
-	if find /var/lib/dpkg -name nmap* >> /dev/null; then
-		echo " nmap is already installed"
-	else
-		if [ $simulate ]; then
-  			echo -e "$simulateMessage, skipping install"
-  		else
-	  		apt install nmap -y
-
-	  		NMP_INSTALLED=$(find /var/lib/dpkg -name nmap*)
-    		if [[ "$NMP_INSTALLED" == "" ]]; then
-      			echo "\n\n Error: \n nmap installation failed\n"
-      			exit 1
-    		fi
-		fi	
-	fi
+	$scriptDir/scripts/packagesInstall.sh "nmap" "$simulateMessage" $simulate
 fi
 
 ########## install python rpi.gpio
@@ -362,7 +242,7 @@ if [ $piHeatingLCD ]; then
 		echo -e " RPi.GPIO is already installed"
 	else
 		if [ $simulate ]; then
-		  	echo -e "$simulateMessage, skipping install"
+		  	echo "$simulateMessage"
 		else
 			pip install rpi.gpio
 		fi		
@@ -376,7 +256,7 @@ if [ $piHeatingLCD ]; then
 		echo -e " Adafruit_Python_CharLCD is already installed"
 	else
 		if [ $simulate ]; then
-		  	echo -e "$simulateMessage, skipping install"
+		  	echo "$simulateMessage"
 		else
 			cd $scriptDir/Resources/Adafruit_Python_CharLCD
 			python setup.py install
@@ -391,7 +271,7 @@ if [ $piHeatingLCD ]; then
 		echo " gpio-watch is already installed"
 	else	
 		if [ $simulate ]; then
-  			echo -e "$simulateMessage, skipping install"
+  			echo "$simulateMessage"
   		else
 	  		cd $scriptDir/Resources/gpio-watch
 	  		
@@ -409,19 +289,14 @@ fi
 
 ########## install handy programs
 if [ $handy ]; then
-  	echo -e "\n\n Installing handy programs ... \n ----------"
-  	if [ $simulate ]; then
-  		echo -e "$simulateMessage, skipping install"
-  	else
-  		apt install emacs screen locate
-  	fi
+	$scriptDir/scripts/packagesInstall.sh "$handyPrograms" "$simulateMessage" $simulate
 fi
 
 ########## create ~/bin
 if [ $piHeatingHub ] || [ $piHeatingHubSecure ] || [ $piHeatingRemote ] || [ $piHeatingLCD ] || [ $piPowerTempLog ] || [ $piHeatingHubSecure ] || [ $piWeatherLog ]; then
 	echo -e "\n\n Creating installation directory ... \n ----------"
 	if [ $simulate ]; then
-		echo -e "$simulateMessage, skipping create"
+		echo "$simulateMessage"
 	else
 		if [ ! -d "$installDir" ]; then
 			mkdir -p $installDir
@@ -431,21 +306,16 @@ fi
 
 ########## install piHeatingHub
 if [ $piHeatingHub ]; then
-	echo -e "\n\n Installing piHeatingHub ... \n ----------"
-	if [ $simulate ]; then
-  		echo -e "$simulateMessage, skipping install"
-  	else
-		$scriptDir/scripts/piHeatingHubInstall $scriptDir $installDir
-	fi
+	$scriptDir/scripts/piHeatingHubInstall.sh $scriptDir $installDir $DB_USERNAME $DB_PASSWORD $DB_SERVER $DB_NAME "$simulateMessage" $simulate
 fi
 
 ########## make piHeating Hub secure
 if [ $piHeatingHubSecure ]; then
 	echo -e "\n\n Securing piHeatingHub ... \n ----------"
 	if [ $simulate ]; then
-  		echo -e "$simulateMessage, skipping secure"
+  		echo "$simulateMessage"
   	else
-  		$scriptDir/scripts/piHeatingHubSecureInstall $scriptDir $installDir
+  		$scriptDir/scripts/piHeatingHubSecureInstall.sh $scriptDir $installDir
 	fi
 fi
 
@@ -453,9 +323,9 @@ fi
 if [ $piHeatingRemote ]; then
 	echo -e "\n\n Installing piHeatingRemote ... \n ----------"
 	if [ $simulate ]; then
-  		echo -e "$simulateMessage, skipping install"
+  		echo "$simulateMessage"
   	else
-		$scriptDir/scripts/piHeatingRemoteInstall $scriptDir $installDir
+		$scriptDir/scripts/piHeatingRemoteInstall.sh $scriptDir $installDir
 	fi
 fi
 
@@ -463,9 +333,9 @@ fi
 if [ $piHeatingLCD ]; then
 	echo -e "\n\n Installing piHeatingLCD ... \n ----------"
 	if [ $simulate ]; then
-  		echo -e "$simulateMessage, skipping install"
+  		echo "$simulateMessage"
   	else
-		$scriptDir/scripts/piHeatingLCDInstall $scriptDir $installDir
+		$scriptDir/scripts/piHeatingLCDInstall.sh $scriptDir $installDir
 	fi
 fi
 
@@ -473,9 +343,9 @@ fi
 if [ $piPowerTempLog ]; then
 	echo -e "\n\n Installing piPowerTempLog ... \n ----------"
 	if [ $simulate ]; then
-  		echo -e "$simulateMessage, skipping install"
+  		echo "$simulateMessage"
   	else
-		$scriptDir/scripts/piPowerTempLogInstall $scriptDir $installDir
+		$scriptDir/scripts/piPowerTempLogInstall.sh $scriptDir $installDir
 	fi
 fi
 
@@ -483,46 +353,38 @@ fi
 if [ $piWeatherLog ]; then
 	echo -e "\n\n Installing piWeatherLog ... \n ----------"
 	if [ $simulate ]; then
-  		echo -e "$simulateMessage, skipping install"
+  		echo "$simulateMessage"
   	else
-		$scriptDir/scripts/piWeatherLogInstall $scriptDir $installDir
-	fi
-fi
-
-########## disable mariadb strict mode
-if [ $piHeatingHub ]; then
-	echo -e "\n\n Disabling MariaDB strict mode ... \n ----------"
-	if [ $simulate ]; then
-		echo -e "$simulateMessage, skipping disable"
-	else
-		if [ ! -f "/etc/mysql/mariadb.conf.d/99-disable-strict-mode.cnf" ]; then
-	    	cat > /etc/mysql/mariadb.conf.d/99-disable-strict-mode.cnf <<STRICT
-[server]
-sql_mode = ""
-STRICT
-		fi
-	fi
-
-	echo -e "\n\n Restarting MariaDB ... \n ----------"
-	if [ $simulate ]; then
-		echo -e "$simulateMessage, skipping restart"
-	else
-		service mariadb restart
+		$scriptDir/scripts/piWeatherLogInstall.sh $scriptDir $installDir
 	fi
 fi
 
 ########## configure apache
 if [ $piHeatingHub ] || [ $piHeatingRemote ] || [ $piPowerTempLog ] || [ $piPowerWeatherLog ]; then
+	echo -e "\n\n Disabling Apache default site... \n ----------"
+	if [ $simulate ]; then
+		echo "$simulateMessage"
+	else
+		a2dissite 000-default.conf
+	fi
+	
+	echo -e "\n\n Enabling Apache ... \n ----------"
+	if [ $simulate ]; then
+		echo "$simulateMessage"
+	else
+		systemctl enable apache2
+	fi
+	
 	echo -e "\n\n Enabling Apache PHP module ... \n ----------"
 	if [ $simulate ]; then
-		echo -e "$simulateMessage, skipping enable"
+		echo "$simulateMessage"
 	else
 		a2enmod php7.3
 	fi
 
 	echo -e "\n\n Restarting Apache ... \n ----------"
 	if [ $simulate ]; then
-		echo -e "$simulateMessage, skipping restart"
+		echo "$simulateMessage"
 	else
 		service apache2 restart
 	fi
@@ -532,7 +394,7 @@ fi
 if [ $piHeatingHub ] || [ $piPowerTempLog ] || [ $piPowerWeatherLog ]; then
 	echo -e "\n\n Restarting cron ... \n ----------"
 	if [ $simulate ]; then
-		echo -e "$simulateMessage, skipping restart"
+		echo "$simulateMessage"
 	else
 		service cron restart
 	fi

@@ -11,7 +11,7 @@
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
     
-    $ini_array = parse_ini_file("/home/pi/piHeatingHub/config/config.ini", true);
+    $ini_array = parse_ini_file("/home/pi/bin/piHeatingHub/config/config.ini", true);
     
     $servername = $ini_array['db']['server'];
     $username =$ini_array['db']['user'];
@@ -36,19 +36,19 @@
 
             echo '<td>';
             $span = "-24h";
-            create_graph( "/home/pi/piHeatingHub/data/s-".$row["id"].".rrd", "/var/www/piHeatingHub/images/chart-sensor-".$row["id"].$span.".png", 	$span, 	$row["name"]." last 24 hours",	 	   "120", "500");
+            create_graph( "/home/pi/bin/piHeatingHub/data/s-".$row["id"].".rrd", "/var/www/piHeatingHub/images/chart-sensor-".$row["id"].$span.".png", 	$span, 	$row["name"]." last 24 hours",	 	   "120", "500");
             echo "<img src='images/chart-sensor-".$row["id"].$span.".png' alt='RRD image'>";
             echo '</td>';
 
             echo '<td>';
             $span = "-7d";
-            create_graph( "/home/pi/piHeatingHub/data/s-".$row["id"].".rrd", "/var/www/piHeatingHub/images/chart-sensor-".$row["id"].$span.".png", 	$span, 	$row["name"]." last 7 days",	 	   "120", "300");
+            create_graph( "/home/pi/bin/piHeatingHub/data/s-".$row["id"].".rrd", "/var/www/piHeatingHub/images/chart-sensor-".$row["id"].$span.".png", 	$span, 	$row["name"]." last 7 days",	 	   "120", "300");
             echo "<img src='images/chart-sensor-".$row["id"].$span.".png' alt='RRD image'>";
             echo '</td>';
 
             echo '<td>';
             $span = "-90d";
-            create_graph( "/home/pi/piHeatingHub/data/s-".$row["id"].".rrd", "/var/www/piHeatingHub/images/chart-sensor-".$row["id"].$span.".png", 	$span, 	$row["name"]." last 3 months",	 	   "120", "200");
+            create_graph( "/home/pi/bin/piHeatingHub/data/s-".$row["id"].".rrd", "/var/www/piHeatingHub/images/chart-sensor-".$row["id"].$span.".png", 	$span, 	$row["name"]." last 3 months",	 	   "120", "200");
             echo "<img src='images/chart-sensor-".$row["id"].$span.".png' alt='RRD image'>";
             echo '</td>';
 

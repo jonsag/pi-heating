@@ -15,7 +15,7 @@ except ImportError:
 
 
 config = ConfigParser()
-config.read('/home/pi/piHeatingHub/config/config.ini')
+config.read('/home/pi/bin/piHeatingHub/config/config.ini')
 servername = config.get('db', 'server')
 username = config.get('db', 'user')
 password = config.get('db', 'password')

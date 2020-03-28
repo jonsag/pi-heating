@@ -33,15 +33,15 @@ cd /home/pi
 cat > /var/www/piHeatingHub/.htaccess <<ACCESS
 AuthName "Secure Heating Hub"
 AuthType Basic
-AuthUserFile /home/pi/piHeatingHub/.htpasswd
+AuthUserFile /home/pi/bin/piHeatingHub/.htpasswd
 require valid-user
 ACCESS
 
 printf "\n\n Password for user admin?\n"
 htpasswd -c .htpasswd admin
 
-mv /home/pi/.htpasswd /home/pi/piHeatingHub/.htpasswd
-chmod 644 /home/pi/piHeatingHub/.htpasswd
+mv /home/pi/.htpasswd /home/pi/bin/piHeatingHub/.htpasswd
+chmod 644 /home/pi/bin/piHeatingHub/.htpasswd
 
 printf "\n\n Installation Complete. \n\n"
 exit 1

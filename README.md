@@ -89,7 +89,7 @@ Configure
 
 1		Change password  
 2 N1	Change hostname  
-4 T1	Set locales  
+4 T1	Set locales (I choose en_GB.UTF-8 and sv_SE.UTF-8, setting en_GB.UTF-8 as default)  
 4 T2	Set time zone  
 4 T3	Choose keyboard layout    
 4 T4	Set wifi country  
@@ -103,54 +103,28 @@ Now it's time to:
 
 Download sources
 ==========
-Install prerequisites
->$ sudo apt install git python-dev python-setuptools build-essential python-smbus python-pip rsync ttf-mscorefonts-installer   
-
-Also install some other programs that will come in handy later on  
->$ sudo apt install emacs screen locate  
-
-Go to your home directory, that we from now on will assume is  
-
-	/home/pi
-	
->$ cd  
+Install git, if you haven't already  
+>$ sudo apt install git   
 
 Download source files  
 >$ git clone https://github.com/jonsag/pi-heating.git  
 
-Install piHeating
+Installation
 ==========
-Go to directory pi-heating/piHeating  
->$ cd ~/pi-heating/piHeating  
+Go to the newly downloaded directory 
+>$ cd ~/pi-heating
 
-and follow  
+and run the install script  
 
-	README - piHeating.md
+>$ sudo ./install.sh
 	
-You will have to decide if you want to run hub and remote on same Pi, or hub and remote on separate devices.  
+The script will ask you many questions, and you will have some options on each:  
 
-Install piHeatingLCD
-==========
-If you want to use an LCD on the hub  
->$ cd ~/pi-heating/piHeatingLCD  
+* Click enter to accept the default 'yes'  
+* Enter 'n' or 'N' to decline  
+* Enter 'h' or 'H' to view the help explanation  
 
-and follow  
-
-	README - piHeatingLCD.md
-	
-Install piPowerTempLog
-==========
-For more extensive temperature logging, and also power logging  
->$ cd ~/pi-heating/piPowerTempLog  
-
-and follow  
-
-	README - piPowerTempLog.md
-	
-Install piWeatherLog
-==========
-Under construction ...  
-
+Also you will have to answer some questions during the installs themselves, especially when MariaDB is installed.  
 	
 Quick reference
 ==========
@@ -158,7 +132,7 @@ What is installed and where
 ----------
 Executables installed in  
 
-	/home/pi
+	/home/pi/bin
 	
 Web GUI installed in  
 
@@ -193,31 +167,31 @@ Notes
 ----------
 piHeatingHub  
 
-* executables installs in ~/piHeatingHub  
+* executables installs in /home/pi/bin/piHeatingHub  
 * www installs in /var/www/piHeatingHub  
 * runs on port 8080  
-* mysql setup creates password, and stores credentials /home/pi/piHeatingHub/config/config.ini  
-* secure install creates password for user 'admin', and stores it in /home/pi/piHeatingHub/.htpasswd  
-* runs cron job at /home/pi/piHeatingHub/cron/piHeatingHubWrapper.sh every minute  
+* mysql setup creates password, and stores credentials /home/pi/bin/piHeatingHub/config/config.ini  
+* secure install creates password for user 'admin', and stores it in /home/pi/bin/piHeatingHub/.htpasswd  
+* runs cron job at /home/pi/bin/piHeatingHub/cron/piHeatingHubWrapper.sh every minute  
 
 piHeatingRemote  
 
-* executables installs in ~/piHeatingRemote  
+* executables installs in /home/pi/bin/piHeatingRemote  
 * www installs in /var/www/piHeatingRemote  
 * runs on port 8081
 
 piHeatingLCD  
 
-* executables installs in ~/piHeatingLCD  
+* executables installs in /home/pi/bin/piHeatingLCD  
 * requires gpio-watch  
 * requires Adafruit Char LCD
 
 piPowerTempLog  
 
-* executables installs in ~/piPowerTempLog  
+* executables installs in /home/pi/bin/piPowerTempLog  
 * www installs in /var/www/piPowerTempLog  
 * runs on port 8082
-* runs cron job at /home/pi/piPowerTempLog/cron/wrapper.sh every 2 minutes  
+* runs cron job at /home/pi/bin/piPowerTempLog/cron/wrapper.sh every 2 minutes  
 
 URLs:
 ----------
@@ -275,19 +249,21 @@ View gpio script
 >$ cat /home/pi/piHeatingLCD/gpio-scripts  
 
 View gpio-watch log  
->$ tail -f ~/piHeatingLCD/gpio-watch.log  
+>$ tail -f ~/bin/piHeatingLCD/gpio-watch.log  
 
 Test LCD  
->$ $HOME/piHeatingLCD/print-to-lcd.py -1 test1 -2 test2  
+>$ /home/pi/bin/piHeatingLCD/print-to-lcd.py -1 test1 -2 test2  
 
 Simulate Button 1 press  
 
 
 View config file  
->$ cat $HOME/piHeatingHub/config/config.ini  
+>$ cat /home/pi/bin/piHeatingHub/config/config.ini  
 
 Login to database  
->$ mysql -u pi -p<password> piHeatingDB (using password from the above config)  
+>$ mysql -u pi -p<password> piHeatingDB  
+
+using password from the above config  
 
 Change ip on sensor  
 >$ UPDATE sensors SET ip = 'new ip' WHERE ip = 'old ip';  

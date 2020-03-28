@@ -29,7 +29,7 @@ while true; do
 		break;
 	elif [ ! $hubIP ]; then
 		echo -e "\n Checking if localhost has piHeatingHub ..."
-		if [ -f "/home/pi/piHeatingHub/README.md" ]; then
+		if [ -f "/home/pi/bin/piHeatingHub/README.md" ]; then
 			break
 		else
 			echo -e " Could not find piHeatingHub at localhost \n"

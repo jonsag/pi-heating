@@ -21,7 +21,7 @@ if [[ $OS_VERSION != *"buster"* ]]; then
 fi
 
 
-if [ ! -f "/home/pi/piHeatingHub/README.md" ]; then
+if [ ! -f "/home/pi/bin/piHeatingHub/README.md" ]; then
   printf "\n\n First you must install piHeatingHub. \n\n"
   exit 1
 fi
@@ -104,9 +104,9 @@ service apache2 restart
 
 printf "\n\n Installing additional database tables ...\n"
 
-DB_USER=$(cat /home/pi/piHeatingHub/config/config.ini | grep user | awk '{print $3}')
-DB_PASSWORD=$(cat /home/pi/piHeatingHub/config/config.ini | grep password | awk '{print $3}')
-DB=$(cat /home/pi/piHeatingHub/config/config.ini | grep database | awk '{print $3}')
+DB_USER=$(cat /home/pi/bin/piHeatingHub/config/config.ini | grep user | awk '{print $3}')
+DB_PASSWORD=$(cat /home/pi/bin/piHeatingHub/config/config.ini | grep password | awk '{print $3}')
+DB=$(cat /home/pi/bin/piHeatingHub/config/config.ini | grep database | awk '{print $3}')
 
 mysql -u$DB_USER -p$DB_PASSWORD $DB<< DATABASE
 
