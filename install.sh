@@ -208,7 +208,7 @@ if [ $piHeatingHub ] || [ $piHeatingRemote ] || [ $piPowerTempLog ]|| [ $piWeath
 fi
 
 ########## install php
-if [ $piHeatingHub ] || [ $piHeatingRemote ]; then
+if [ $piHeatingHub ] || [ $piHeatingRemote ] || [ $piPowerTempLog ] || [ $piWeatherLog ]; then
 	$scriptDir/scripts/packagesInstall.sh "php libapache2-mod-php php-common php-cli php-json php-readline" "$simulateMessage" $simulate
 fi
 
