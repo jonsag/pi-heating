@@ -126,6 +126,336 @@ The script will ask you many questions, and you will have some options on each:
 
 Also you will have to answer some questions during the installs themselves, especially when MariaDB is installed.  
 
+Post install setup
+==========
+piHeatingHub
+==========
+In a browser, go to  
+
+	http://\<IP\>:8080/status.php
+	
+Adding sensors
+----------
+Click  
+
+	Input Sensors
+	
+and then  
+
+	Scan for new sensors
+	
+After scanning click  
+
+	Done
+	
+Adding devices
+----------
+Click  
+
+	Output Devices
+	
+Click  
+
+	Add new
+	
+Click  
+
+	Edit
+	
+on the new one just added.
+Fill in all the fields and then click  
+
+	Save
+	
+and then  
+
+	Done
+
+twice.
+	
+Note: Pin numbers are used, NOT GPIO numbers.  
+
+If using the piHeatingLCD hat, the one output device is at GPIO15, pin 10, and it it active HIGH, so you would set H/L to 1.  
+Follow further instructions under piHeatingLCD
+
+piHeatingRemote
+==========
+After connecting Dallas temperature sensors,  
+find 1-wire devices serial numbers  
+>$ ls /sys/bus/w1/devices/  
+
+Edit  
+
+ 	/home/pi/bin/piHeatingRemote/configs/sensors
+ 
+ and insert serials and names, for example  
+
+	28-0516b4ff09ff = Out  
+
+To see value  
+>$ cat /sys/bus/w1/devices/28-0416c1ec26ff/w1_slave  
+
+See how many devices added  
+>$ curl localhost:8081/count.php && echo  
+
+See names  
+>$ curl localhost:8081/name.php?id=1 && echo  
+
+change id=1 to id=2 etc  
+
+See values  
+>$ curl localhost:8081/value.php?id=1 && echo  
+
+piHeatingLCD
+==========
+The LCD and buttons will work if:  
+* you have a schedule that always keep a low temperature  
+* you have a second schedule that pulls up the temperature at certain times  
+* you have a single mode that pulls up the temperature  
+* you have a single timer that pulls up the temperature  
+
+Build according to files in  
+
+	Documents/piHeatingLCD
+
+Web setup
+----------
+In a browser, go to  
+
+	http://<IP>:8080/status.php
+
+Log in with user 'admin' and the password you set up during the hub installation. 
+
+Add sensor
+----------
+Add the sensor that will measure the temperature that will be regulated.   
+
+Click  
+
+	Input Sensors
+	Scan for new sensors
+	
+When sensor is found, click  
+
+	Done
+	
+Add devices
+----------
+Add the device that will control the heater.  
+
+Click  
+
+	Output Devices
+	
+Click  
+
+	Add new
+	
+Click  
+
+	Edit
+	
+on the newly added device.  
+Set  
+	Name: <name>
+	GPIO Pin: 10
+	Pin Active H/L: \<if you use the NO, then this should be 1\>
+
+Click  
+
+	Save
+	Done
+	Done	
+
+Add mode
+----------
+This mode will pull up the temperature to the higher level indefinetely.  
+
+Click  
+
+	Modes
+	Add new
+	
+Click  
+
+	Edit
+	
+on the newly added mode, and set  
+
+	Name: <name>
+	
+, for example 'Warm' to indicate it will be used to pull up the temperature.
+
+Then click  
+
+	Done
+	
+Add timer
+----------
+This timer will be used to pull up the temperature for a certain amount of time.  
+
+Click  
+
+	Timers
+	Add new
+	
+Ón the newly created timer, click  
+
+	Edit
+	
+Set  
+	
+	Name: <name for the timer, for example 'Warm 6 hrs'>
+	Duration: <the duration the timer will be active, in minutes,for example '360'>
+	
+, then click  
+
+	Save
+	Done
+	Done
+	
+Add schedules
+----------
+The first schedule will pull up the temperature once, or several times, a week.  
+
+Click  
+
+	Schedules
+	Add new
+	
+Click  
+
+	Edit
+	
+on the newly created schedule.  
+
+Enter
+
+	Name: <name, for example 'Weekly meeting'>
+	Start time: <some time before the temperature must be reached>
+	End time: <the time when the temperature can start dropping>
+	Repeat schedule every: <the day in question>
+	When sensors: <sensor created earlier> IS LESS THAN <the high temperature you want to maintain>
+	AND Timers: <timer previously added> STOPPED
+	Activate Devices:<mark the device you created before>
+	AND Modes: <mode previously added> OFF
+	
+Click  
+
+	Save
+	Done
+	
+The second schedule will use the mode created earlier to pull up the temperature indefinetely  
+
+Add another timer as before and enter
+
+	Name: <name, for example 'Warm'>
+	Start time: 00:00:00
+	End time: 23:59:59
+	Repeat schedule every: <mark all weekdays>
+	When sensors:  <sensor created earlier> IS LESS THAN <the high temperature you want to maintain>
+	AND Timers: <timer previously added> (IS IGNORED)
+	Activate Devices: <mark the device you created before>
+	AND Modes: <mode previously added> ON
+	
+Click  
+
+	Save
+	Done
+	
+The third schedule will use thetimer created earlier to pull up the temperature the time set  
+
+Add another timer as before and enter
+
+	Name: <name, for example 'Warm, 6 hrs'>
+	Start time: 00:00:00
+	End time: 23:59:59
+	Repeat schedule every: <mark all weekdays>
+	When sensors:  <sensor created earlier> IS LESS THAN <the high temperature you want to maintain>
+	AND Timers: <timer previously added> RUNNING
+	Activate Devices: <mark the device you created before>
+	AND Modes: <mode previously added> (IS IGNORED)
+	
+Click  
+
+	Save
+	Done
+	
+The fourth, and last, timer will keep the temperature low at all other times
+
+Add another timer as before and enter
+
+	Name: <name, for example 'Cold'>
+	Start time: 00:00:00
+	End time: 23:59:59
+	Repeat schedule every: <mark all weekdays>
+	When sensors: <sensor created earlier> IS LESS THAN <the low temperature you want to maintain>
+	AND Timers: <timer previously added> STOPPED
+	Activate Devices: <mark the device you created before>
+	AND Modes: <mode previously added> OFF
+	
+Click  
+
+	Save
+	Done
+	Done
+ 
+Resources
+----------
+Calculate burden resistor for your current clamp
+>$ python resistor.py \<resistance\> \<tolerance\>  
+
+Usage
+----------
+The LCD screen stays dark, unless pressing a button.  
+
+* Button 1: Shows status  
+* Button 2: Toggles mode, heats indefinetely  
+* Button 3: Toggles timer, heats for set time  
+* Button 4: Cancels both mode and timer  
+
+Note
+----------
+If you install on Raspberry Pi rev 1, you must edit  
+
+	piHeatingLCD/config.ini
+	
+Change line from  
+
+	lcd_d6        = 27
+	
+to  
+
+	lcd_d6        = 21
+
+piPowerTempLog
+==========
+Build according to files in  
+
+	Documents/ardPowerTempLog
+	
+piWeatherLog
+==========
+Build according to files in  
+
+	Documents/ardWeatherLog
+	
+Connect the Arduino Weather Sensor to RPi  
+
+Find out tty-device  
+>$ dmesg | grep tty  
+
+Probably named someting like '/dev/ttyACM0'  
+If not as above, edit  
+
+	/var/www/piWeatherLog/weather.php  
+	
+Change line  
+
+	$serial->deviceSet("/dev/ttyACM0");  
+
+so it matches the output from dmesg command  
+
 The electrical builds
 =========
 For all electrical builds there are CAD files for each project under 'Documentation'.  
@@ -314,6 +644,20 @@ On remote
 Show sensor ids  
 >$ ls /sys/bus/w1/devices/  
 
+Check Arduino output
+----------
+Connect to arduino with screen:  
+>$ screen /dev/ttyACM0 9600 -S <session name>  
+
+To get screen command promp, enter  
+[C-a] :  
+Then type  
+quit  
+and [Return]  
+	or from outside of screen  
+>$ screen -X -S <session name> quit  
+
+Kill screen with ^ak or control-a k    
 
 
 
