@@ -15,8 +15,9 @@ echo -e "\n\n Uninstall piHeating suite \n ----------"
 
 while true; do
 	echo -e " This will uninstall everything \n\n Do you want to continue ?"
-    read -p " [y/N] " input
+    read -p " [y/N/h] " input
     case $input in
+    	[Hh] ) echo -e "\n This will not uninstall anything installed by apt package manager. \n Also gpio-watch and Python modules will be kept. \n";;
         [Yy] ) break;;
         * ) echo -e "\n Exiting ..."; exit 0; break;;
     esac

@@ -15,6 +15,44 @@ fi
 
 echo -e "\n\n Running post install check \n ----------"
 
+########## packages
+echo -e " Checking packages ..."
+for packageInstalled in $packagesInstalled; do
+	PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $packageInstalled 2>/dev/null | grep "install ok installed")
+	if [ "" == "$PKG_OK" ]; then
+		echo "   $packageInstalled not installed"
+		packagesError="y"
+	fi
+done
+
+########## modules
+echo -e " Checking modules ..."
+if ! python -c "import RPi.GPIO" >> /dev/null 2>&1; then
+	echo "   RPi.GPIO not installed"
+	modulesError="y"
+fi
+if ! python -c "import Adafruit_CharLCD" >> /dev/null 2>&1; then
+	echo "   Adafruit_CharLCD not installed"
+	modulesError="y"
+fi
+
+########## gpioWatch
+echo -e " Checking gpio-watch ..."
+if ! which gpio-watch >> /dev/null; then
+	echo "   gpio-watch not installed"
+	gpioWatchError="y"
+fi
+
+########## handy
+echo -e " Checking handy programs ..."
+for handyProgram in $handyPrograms; do
+	PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $handyProgram 2>/dev/null | grep "install ok installed")
+	if [ "" == "$PKG_OK" ]; then
+		echo "   $handyProgram not installed"
+		handyError="y"
+	fi
+done
+
 ########## piHeatingHub
 echo -e " Checking piHeatingHub ..."
 if [ ! "$installDir/piHeatingHub" ]; then
@@ -162,9 +200,20 @@ if [ ! -d /var/lib/mysql/piHeatingDB ]; then
 	piPowerTempLogError="y"
 fi
 
+########## services
+echo -e " Checking services ..."
+for service in $services; do
+	#if [ $( systemctl is-active --quiet $service ) ]; then
+	systemctl is-active --quiet $service
+	if [ $? != "0" ]; then
+		echo "   $service is not running"
+		servicesError="y"
+	fi
+done
+	
 ##########  conclusion
-if [ $piHeatingHubError ]  || [ $piHeatingHubSecureError ]|| [ $piHeatingRemoteError ] || [ $piHeatingLCDError ] || [ $piPowerLogError ] || [ $piWeatherLogError ]; then
-	echo -e "\n Error: "
+if [ $packagesError ] || [ $modulesError ] || [ $gpioWatchError ] || [ $handyError ] || [ $piHeatingHubError ]  || [ $piHeatingHubSecureError ]|| [ $piHeatingRemoteError ] || [ $piHeatingLCDError ] || [ $piPowerLogError ] || [ $piWeatherLogError ] || [ $servicesError ]; then
+	echo -e "\n Error: \n Something was not installed correctly!"
 else
 	echo -e "\n OK! \n Everything installed"
 fi

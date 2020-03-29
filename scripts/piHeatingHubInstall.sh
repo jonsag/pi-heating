@@ -84,7 +84,7 @@ else
 	else
 	    cat > /etc/cron.d/piHeating <<CRON
 MAILTO=""
-* * * * * pi /bin/bash $installDir/piHeatingHub/cron/piHeatingHubWrapper.sh >> /dev/null 2>&1
+* * * * * pi /bin/bash $installDir/piHeatingHub/cron/wrapper.sh >> /dev/null 2>&1
 CRON
 	fi
 fi

@@ -66,6 +66,7 @@ else
 		echo "$simulateMessage"
 	else
 		cat > /etc/cron.d/piWeatherLog <<CRON
+MAILTO=""
 */2 * * * * pi /bin/bash $installDir/piWeatherLog/cron/wrapper.sh
 CRON
 	fi

@@ -27,7 +27,7 @@ fi
 for program in $programs; do
 	echo -e "\n\n Installing $program ... \n ----------"
 	#if dpkg-query -l $program >> /dev/null 2>&1; then
-	PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $program | grep "install ok installed")
+	PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $program 2>/dev/null | grep "install ok installed")
 	if [ "" != "$PKG_OK" ]; then
 		echo "     $program is already installed"
 	else
