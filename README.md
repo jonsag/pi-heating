@@ -125,6 +125,12 @@ The script will ask you many questions, and you will have some options on each:
 * Enter 'h' or 'H' to view the help explanation  
 
 Also you will have to answer some questions during the installs themselves, especially when MariaDB is installed.  
+
+The electrical builds
+=========
+piHeatingLCD
+----------
+![ ](./Documents/EclipseWorkspace/pi-heating/Documents/images/piHeatingLCD-full.JPG  "piHeatingLCD full view")
 	
 Quick reference
 ==========
