@@ -11,9 +11,19 @@ if [[ `whoami` != "root" ]]; then
   exit 1
 fi
 
+echo -e "\n\n Uninstall piHeating suite \n ----------"
+
+while true; do
+	echo -e " This will uninstall everything \n\n Do you want to continue ?"
+    read -p " [y/N] " input
+    case $input in
+        [Yy] ) break;;
+        * ) echo -e "\n Exiting ..."; exit 0; break;;
+    esac
+done
+
 ########## piWeatherLog ##########
 printf "\n\n Uninstalling piWeatherLog ... \n"
-
 printf "   Removing cron jobs ... \n"
 if [ -f /etc/cron.d/piWeatherLog ]; then
 	rm /etc/cron.d/piWeatherLog
@@ -238,9 +248,17 @@ else
 	printf "      Not present \n"
 fi
 
-printf "\n\n Restarting apache ... \n"
+########## restart services
+printf "\n\n Reloading apache ... \n"
 if [ $( systemctl is-active --quiet apache2 ) ]; then
 	printf "      Service is not runnning \n"
 else
-	service apache2 restart
+	service apache2 reload
+fi
+
+printf "\n\n Restarting mariadb ... \n"
+if [ $( systemctl is-active --quiet mariadb ) ]; then
+	printf "      Service is not runnning \n"
+else
+	service mariadb restart
 fi
