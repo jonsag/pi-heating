@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 # en_GB - this file includes only the format settings;
 # the specific strings are already included as default en_GB/en_US in localization.lib.php
 # PHP-Calendar, DatePicker Calendar class: http://www.triconsole.com/php/calendar_datepicker.php
@@ -14,8 +14,8 @@ if(!defined("L_LANG") || L_LANG == "L_LANG") define("L_LANG", "en_GB");
 
 // Set the UK specific date/time format
 if (stristr(PHP_OS,"win")) {
-setlocale(LC_ALL, "eng-eng.UTF-8", "eng-eng");
+setlocale(LC_TIME, "eng-eng.UTF-8", "eng-eng");
 } else {
-setlocale(LC_ALL, "en_GB.UTF-8", "en_GB.UTF-8@euro", "eng.UTF-8", "uk.UTF-8", "eng_eng.UTF-8", "English-uk.UTF-8"); // For UK formats
+setlocale(LC_TIME, "en_GB.UTF-8", "en_GB.UTF-8@euro", "eng.UTF-8", "uk.UTF-8", "eng_eng.UTF-8", "English-uk.UTF-8"); // For UK formats
 }
 ?>

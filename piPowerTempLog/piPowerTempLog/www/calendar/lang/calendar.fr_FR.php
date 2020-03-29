@@ -1,30 +1,40 @@
 <?php
 # fr_FR translation for
 # PHP-Calendar, DatePicker Calendar class: http://www.triconsole.com/php/calendar_datepicker.php
-# Version: 3.61
+# Version: 3.73
 # Language: French / français
-# Translator: Pierre Liget <sourceforge@pliget.freesurf.fr>
-# Last file update: 01.09.2011
+# Translators: Pierre Liget <sourceforge@pliget.freesurf.fr> and Yann aka Corwin9s <corwin@ninesages.org>
+# Last file update: 27.01.2015
 
 // Class strings localization
-define("L_DAY", "Jour");
-define("L_MONTH", "Mois");
-define("L_YEAR", "Année");
-define("L_TODAY", "Aujourd'hui");
+define("L_DAYC", "Jour");
+define("L_MONTHC", "Mois");
+define("L_YEARC", "Année");
+define("L_TODAY", "Aujourd’hui");
 define("L_PREV", "Précédent");
 define("L_NEXT", "Suivant");
 define("L_REF_CAL", "Actualisation du calendrier en cours ...");
 define("L_CHK_VAL", "Vérifiez la valeur");
-define("L_SEL_LANG", "Sélection de la langue");
-define("L_SEL_ICON", "Sélection de l’icône");
-define("L_SEL_DATE", "Sélection de la date");
-define("L_ERR_SEL", "La sélection n’est pas valide");
-define("L_NOT_ALLOWED", "Cette date ne peut pas être sélectionnée");
-define("L_DATE_BEFORE", "Veuillez sélectionner une date\\nantérieure au %s");
-define("L_DATE_AFTER", "Veuillez sélectionner une date\\npostérieure au %s");
-define("L_DATE_BETWEEN", "Veuillez sélectionner une date entre le\\n%s et le %s");
+define("L_SEL_LANG", "Choix de la langue");
+define("L_SEL_ICON", "Choisir");
+define("L_SEL_DATE", "Choix de la date");
+define("L_ERR_SEL", "Le choix n’est pas valide");
+define("L_NOT_ALLOWED", "Cette date ne peut pas être choisie");
+define("L_DATE_BEFORE", "Veuillez choisir une date\\navant le %s");
+define("L_DATE_AFTER", "Veuillez choisir une date\\naprès le %s");
+define("L_DATE_BETWEEN", "Veuillez choisir une date entre le\\n%s et le %s");
 define("L_WEEK_HDR", ""); // Optional Short Name for the column header showing the current Week number (W or CW in English - max 2 letters)
 define("L_UNSET", "Annuler"); //Remise à zéro
+define("L_CLOSE", "Fermer");
+define("L_WARN_2038", "Cette version de PHP ne supporte pas les années 2038 et après! (<5.3.0)");
+define("L_ERR_NOSET", "Erreur! La valeur du calendrier ne peut pas être fixée!");
+define("L_VERSION", "Version: %s (%s langues)");
+define("L_POWBY", "Basé sur:"); //or "Based on:", "Supported by"
+define("L_HERE", "ici");
+define("L_UPDATE", "Mise à jour disponible %s !");
+define("L_TRANAME", "Pierre</b> et <b>Yann");
+define("L_TRABY", "Traduit par %s");
+define("L_DONATE", "Souhaitez-vous faire un don?");
 
 // Set the first day of the week in your language (0 for Sunday, 1 for Monday)
 define("FIRST_DAY", "1");
@@ -79,8 +89,8 @@ if(!defined("L_LANG") || L_LANG == "L_LANG") define("L_LANG", "fr_FR");
 
 // Set the FR specific date/time format
 if (stristr(PHP_OS,"win")) {
-setlocale(LC_ALL, "fra_fra.UTF-8", "french.UTF-8", "french");
+setlocale(LC_TIME, "fra_fra.UTF-8", "french.UTF-8", "french");
 } else {
-setlocale(LC_ALL, "fr_FR.UTF-8", "fr.UTF-8", "fr_FR.UTF-8@euro"); // For French formats
+setlocale(LC_TIME, "fr_FR.UTF-8", "fr.UTF-8", "fr_FR.UTF-8@euro"); // For French formats
 }
 ?>

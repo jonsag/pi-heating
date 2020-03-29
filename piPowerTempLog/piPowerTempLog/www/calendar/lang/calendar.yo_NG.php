@@ -1,23 +1,21 @@
-﻿<?php
+<?php
 # yo_NG translation for
 # PHP-Calendar, DatePicker Calendar class: http://www.triconsole.com/php/calendar_datepicker.php
-# Version: 3.61
+# Version: 3.69
 # Language: Yoruba (Nigeria) / Yorùbá
-# Translator: Ameh Rotimi Samson (Profsam) <philanthropist4eva@gmail.com>
-
-# Last file update: 01.09.2011
+# Last file update: 26.05.2013
 
 // Class strings localization
-define("L_DAY", "Day");
-define("L_MONTH", "Month");
-define("L_YEAR", "Year");
+define("L_DAYC", "Day");
+define("L_MONTHC", "Month");
+define("L_YEARC", "Year");
 define("L_TODAY", "Today");
 define("L_PREV", "Previous");
 define("L_NEXT", "Next");
 define("L_REF_CAL", "Refreshing Calendar...");
 define("L_CHK_VAL", "Check the value");
 define("L_SEL_LANG", "Select Language");
-define("L_SEL_ICON", "Select Icon");
+define("L_SEL_ICON", "Select");
 define("L_SEL_DATE", "Select Date");
 define("L_ERR_SEL", "Your selection is not valid");
 define("L_NOT_ALLOWED", "This date is not allowed to be selected");
@@ -25,6 +23,17 @@ define("L_DATE_BEFORE", "Please choose a date before %s");
 define("L_DATE_AFTER", "Please choose a date after %s");
 define("L_DATE_BETWEEN", "Please choose a date between\\n%s and %s");
 define("L_WEEK_HDR", ""); // Optional Short Name for the column header showing the current Week number (W or CW in English - max 2 letters)
+define("L_UNSET", "Unset");
+define("L_CLOSE", "Close");
+define("L_WARN_2038", "This php server’s version does not have support for year 2038 and later! (<5.3.0)");
+define("L_ERR_NOSET", "Error! The calendar value cannot be set!");
+define("L_VERSION", "Version: %s (%s languages)");
+define("L_POWBY", "Powered by:"); //or "Based on:", "Supported by"
+define("L_HERE", "here");
+define("L_UPDATE", "Update available %s !");
+define("L_TRANAME", "Google"); //Keep a short name
+define("L_TRABY", "Translated by %s");
+define("L_DONATE", "Do you wish to donate?");
 
 // Set the first day of the week in your language (0 for Sunday, 1 for Monday)
 define("FIRST_DAY", "1");
@@ -78,9 +87,9 @@ define("L_CAL_FORMAT", "%B %d %Y");
 if(!defined("L_LANG") || L_LANG == "L_LANG") define("L_LANG", "yo_NG"); // en_US format of your language
 
 // Set the YO specific date/time format
-if (stristr(PHP_OS,'win')) {
-setlocale(LC_ALL, "yor-yor.UTF-8", "yor-nga.UTF-8", "yor", "Yoruba");
+if (stristr(PHP_OS,"win")) {
+setlocale(LC_TIME, "yor-yor.UTF-8", "yor-nga.UTF-8", "yor", "Yoruba");
 } else {
-setlocale(LC_ALL, "yo_NG.UTF-8", "yor.UTF-8", "yor_yor.UTF-8", "yor_nga.UTF-8", "Yoruba.UTF-8"); // For American formats
+setlocale(LC_TIME, "yo_NG.UTF-8", "yor.UTF-8", "yor_yor.UTF-8", "yor_nga.UTF-8", "Yoruba.UTF-8"); // For American formats
 }
 ?>

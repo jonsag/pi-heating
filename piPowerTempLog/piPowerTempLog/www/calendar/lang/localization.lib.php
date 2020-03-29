@@ -1,12 +1,13 @@
 <?php
-# en_US - this file includes the specific strings for both en_GB/en_US
+# en_US - this file includes the specific strings for both en_GB/en_US, as well as some multi-language lines
 # PHP-Calendar, DatePicker Calendar class: http://www.triconsole.com/php/calendar_datepicker.php
-# Version: 3.61
+# Localized version of PHP-Calendar, DatePicker Calendar class: http://ciprianmp.com/scripts/calendar/
+# Version: 3.75
 # Language: American English / English US
 # Translator: Ciprian Murariu <ciprianmp@yahoo.com>
-# Last file update: 29.08.2011
+# Last file update: 07.01.2016
 
-if (!function_exists('utf_conv'))
+if(!function_exists('utf_conv'))
 {
 	function utf_conv($iso,$charset,$what)
 	{
@@ -16,7 +17,7 @@ if (!function_exists('utf_conv'))
 };
 
 $hl = (isset($_REQUEST["hl"])) ? $_REQUEST["hl"] : false;
-if(file_exists("lang/calendar.".($hl ? $hl : L_LANG).".php")) include_once("lang/calendar.".($hl ? $hl : L_LANG).".php");
+if(file_exists("lang/calendar.".($hl ? $hl : (defined("L_LANG") ? L_LANG : "")).".php")) include_once("lang/calendar.".($hl ? $hl : (defined("L_LANG") ? L_LANG : "")).".php");
 else
 {
 	if(!defined("L_LANG") || L_LANG == "L_LANG")
@@ -24,25 +25,25 @@ else
 		define("L_LANG", "en_US");
 		// Set the US specific date/time format
 		if (stristr(PHP_OS,"win")) {
-		setlocale(LC_ALL, "eng-usa.UTF-8", "eng-usa");
+		setlocale(LC_TIME, "eng-usa.UTF-8", "eng-usa");
 		} else {
-		setlocale(LC_ALL, "en_US.UTF-8", "enu.UTF-8", "usa.UTF-8", "enu_enu.UTF-8", "English-usa.UTF-8");
+		setlocale(LC_TIME, "en_US.UTF-8", "enu.UTF-8", "usa.UTF-8", "enu_enu.UTF-8", "English-usa.UTF-8");
 		}
 	}
 };
 
 // English US format and localization - default strings when the specified translation is not available
 if(!defined("RTL")) define("RTL", 0);
-if(!defined("L_DAY")) define("L_DAY", "Day");
-if(!defined("L_MONTH")) define("L_MONTH", "Month");
-if(!defined("L_YEAR")) define("L_YEAR", "Year");
+if(!defined("L_DAYC")) define("L_DAYC", "Day");
+if(!defined("L_MONTHC")) define("L_MONTHC", "Month");
+if(!defined("L_YEARC")) define("L_YEARC", "Year");
 if(!defined("L_TODAY")) define("L_TODAY", "Today");
 if(!defined("L_PREV")) define("L_PREV", "Previous");
 if(!defined("L_NEXT")) define("L_NEXT", "Next");
 if(!defined("L_REF_CAL")) define("L_REF_CAL", "Refreshing Calendar...");
 if(!defined("L_CHK_VAL")) define("L_CHK_VAL", "Check the value");
 if(!defined("L_SEL_LANG")) define("L_SEL_LANG", "Select Language");
-if(!defined("L_SEL_ICON")) define("L_SEL_ICON", "Select Icon");
+if(!defined("L_SEL_ICON")) define("L_SEL_ICON", "Select");
 if(!defined("L_SEL_DATE")) define("L_SEL_DATE", "Select Date");
 if(!defined("L_ERR_SEL")) define("L_ERR_SEL", "Your selection is not valid");
 if(!defined("L_NOT_ALLOWED")) define("L_NOT_ALLOWED", "This date is not allowed to be selected");
@@ -51,9 +52,19 @@ if(!defined("L_DATE_AFTER")) define("L_DATE_AFTER", "Please choose a date after 
 if(!defined("L_DATE_BETWEEN")) define("L_DATE_BETWEEN", "Please choose a date between\\n%s and %s");
 if(!defined("L_WEEK_HDR")) define("L_WEEK_HDR", "");
 if(!defined("L_UNSET")) define("L_UNSET", "Unset");
+if(!defined("L_CLOSE")) define("L_CLOSE", "Close");
+if(!defined("L_WARN_2038")) define("L_WARN_2038", "This php server’s version does not have support for year 2038 and later! (<5.3.0)");
+if(!defined("L_ERR_NOSET")) define("L_ERR_NOSET", "Error! The calendar value cannot be set!");
+if(!defined("L_VERSION")) define("L_VERSION", "Version: %s (%s languages)");
+if(!defined("L_POWBY")) define("L_POWBY", "Powered by:"); //or "Based on:", "Supported by"
+if(!defined("L_HERE")) define("L_HERE", "here");
+if(!defined("L_UPDATE")) define("L_UPDATE", "Update available %s !");
+if(!defined("L_TRABY") && defined("L_TRANAME")) define("L_TRABY", "Translated by %s");
+if(!defined("L_DONATE")) define("L_DONATE", "<bdo dir=\"ltr\">Do you wish to donate?</bdo>");
+if(!defined("L_SRV_TIMEZONE")) define("L_SRV_TIMEZONE", "<bdo dir=\"ltr\">Server Timezone:</bdo>"); //3.74
+if(!defined("L_MSG_DISABLED")) define("L_MSG_DISABLED", "You cannot choose this date. Date is disabled!"); //3.75
 
-// Set the first day of the week in your language
-if(!defined("FIRST_DAY")) define("FIRST_DAY", "0"); // 1 for Monday, 0 for Sunday
+if(!defined("FIRST_DAY")) define("FIRST_DAY", "0"); // 0 for Sunday
 
 // Months Long Names
 if(!defined("L_JAN")) define("L_JAN", "January");
@@ -98,28 +109,219 @@ if(!defined("L_S_FRI")) define("L_S_FRI", "Fr");
 if(!defined("L_S_SAT")) define("L_S_SAT", "Sa");
 if(!defined("L_S_SUN")) define("L_S_SUN", "Su");
 
-// Display extratext beside years, months and/or days in dropdowns (eg. Korean and Japan)
+// Display extra text beside years, months and/or days in dropdowns (eg. Korean and Japan)
 if(!defined("L_USE_YMD_DROP")) define("L_USE_YMD_DROP", 0);
 
 // Windows encoding
 if(!defined("WIN_DEFAULT")) define("WIN_DEFAULT", "windows-1252");
 if(!defined("L_CAL_FORMAT")) define("L_CAL_FORMAT", "%B %d, %Y");
-if(!defined("DATE_FORMAT")) define("DATE_FORMAT", str_replace("%","",str_replace("B","F",str_replace("d","j",L_CAL_FORMAT))));
+if(!defined("DATE_FORMAT")) define("DATE_FORMAT", str_replace("%d","j",str_replace("B","F",str_replace("%","",L_CAL_FORMAT))));
 
+// Arabic-Indic Digits variant
+if(!defined("L_DIGIT")) define("L_DIGIT", 0);
+if(!defined("L_UTF_DIGIT")) define("L_UTF_DIGIT", 0);
+if(!defined("L_ARABIC")) define("L_ARABIC", "Arabic Digits");
+
+// Localization patches
+$pptit = "\n";
+switch ($hl)
+{
+	case "ar_AE":
+		$ppalt = "PayPal - أكثر أمانا وأسهل طريقة للدفع عبر الإنترنت!";
+		$pptit .= "شكرا لدعمكم!";
+		break;
+	case "bg_BG":
+		$ppalt = "PayPal - Сигурният и лесен начин да платите онлайн!";
+		$pptit .= "Благодарим ви за вашата подкрепа!";
+		break;
+	case "ca_ES":
+		$ppalt = "PayPal – La millor manera i la més fàcil de pagar en línia!";
+		$pptit .= "Gràcies pel seu suport!";
+		break;
+	case "cs_CZ":
+		$ppalt = "PayPal - bezpečnější, jednodušší způsob, jak zaplatit on-line!";
+		$pptit .= "Děkujeme vám za vaši podporu!";
+		break;
+	case "da_DK":
+		$ppalt = "PayPal - Den sikreste og nemmeste måde at overføre penge online!";
+		$pptit .= "Tak for din støtte!";
+		break;
+	case "de_DE":
+		$ppalt = "Jetzt einfach, schnell und sicher online bezahlen - mit PayPal!";
+		$pptit .= "Vielen Dank für Ihre Unterstützung!";
+		break;
+	case "el_GR":
+		$ppalt = "PayPal – Ο ασφαλέστερος και ευκολότερος τρόπος να πληρώσεις online!";
+		$pptit .= "Σας ευχαριστούμε για την υποστήριξή σας!";
+		break;
+	case "es_AR":
+		$ppalt = "PayPal - La forma segura y fácil de pagar en línea!";
+		$pptit .= "Gracias por su apoyo!";
+		break;
+	case "es_ES":
+		$ppalt = "PayPal. ¡La forma rápida y segura de pagar en Internet!";
+		$pptit .= "Gracias por su apoyo!";
+		break;
+	case "fa_IR":
+		$ppalt = "PayPal - امن تر، راه ساده تر برای پرداخت آنلاین!";
+		$pptit .= "با تشکر از شما برای حمایت از شما!";
+		break;
+	case "fi_FI":
+		$ppalt = "PayPal - Turvallisempi, helpompi tapa maksaa verkossa!";
+		$pptit .= "Kiitos tuesta!";
+		break;
+	case "fr_FR":
+		$ppalt = "PayPal - Le moyen le plus sûr et facile de payer en ligne!";
+		$pptit .= "Merci pour votre soutien!";
+		break;
+	case "he_IL":
+		$ppalt = "פייפאל - הדרך הבטוחה, הקלה לשלם באינטרנט.";
+		$pptit .= "דאנק איר פֿאַר דיין שטיצן!";
+		break;
+	case "hi_IN":
+		$ppalt = "PayPal - ऑनलाइन भुगतान करने के लिए सुरक्षित, आसान तरीका!";
+		$pptit .= "आपके समर्थन के लिए धन्यवाद!";
+		break;
+	case "hu_HU":
+		$ppalt = "PayPal - Biztonságosabb és egyszerűbb módja az internetes fizetésnek!";
+		$pptit .= "Köszönjük a támogatást!";
+		break;
+	case "hy_AM":
+		$ppalt = "PayPal - Ապահով, ավելի հեշտ ճանապարհ է արդյոք վճարել առցանց.";
+		$pptit .= "Շնորհակալություն ձեր աջակցության.";
+		break;
+	case "id_ID":
+		$ppalt = "Paypal - Lebih aman dan mudah untuk pembayaran online!";
+		$pptit .= "Terima kasih atas dukungannya!";
+		break;
+	case "it_IT":
+		$ppalt = "PayPal - La più sicura, facile strada per pagare online!";
+		$pptit .= "Grazie per il vostro supporto!";
+		break;
+	case "ja_JP":
+		$ppalt = "PayPal－オンラインで安全、簡単にお支払い。";
+		$pptit .= "ご支援いただきありがとうございます！";
+		break;
+	case "ko_KR":
+		$ppalt = "PayPal－온라인으로 지불하는 것이 안전, 쉬운 방법!";
+		$pptit .= "귀하의 지원에 감사드립니다!";
+		break;
+	case "lt_LT":
+		$ppalt = "PayPal - Saugesnis, patogesnis būdas atsiskaityti internete!";
+		$pptit .= "Ačiū už Jūsų paramą!";
+		break;
+	case "mk_MK":
+		$ppalt = "PayPal - Побезбедно, полесен начин да платат онлајн!";
+		$pptit .= "Ви благодариме за вашата поддршка!";
+		break;
+	case "ms_MY":
+		$ppalt = "PayPal - Lebih selamat, cara yang lebih mudah untuk membayar dalam talian!";
+		$pptit .= "Matur nuwun atas sokongan anda!";
+		break;
+	case "nb_NO":
+		$ppalt = "PayPal - Den sikrere, enklere måte å betale på nettet!";
+		$pptit .= "Takk for støtten!";
+		break;
+	case "ne_NP":
+		$ppalt = "Paypal - ईन्टनेटबाट पैसा तिर्ने सजिलो र सुरक्षित माध्यम!";
+		$pptit .= "आफ्नो समर्थन लागि धन्यवाद!";
+		break;
+	case "nl_NL":
+		$ppalt = "PayPal, de veilige en complete manier van online betalen!";
+		$pptit .= "Dank u voor uw steun!";
+		break;
+	case "pl_PL":
+		$ppalt = "PayPal - Bezpieczniejszy, łatwiejszy sposób, aby zapłacić online!";
+		$pptit .= "Dziękujemy za wsparcie!";
+		break;
+	case "pt_BR":
+		$ppalt = "PayPal - A maneira mais fácil e segura de efetuar pagamentos on-line!";
+		$pptit .= "Obrigado por seu apoio!";
+		break;
+	case "pt_PT":
+		$ppalt = "PayPal - A maneira mais fácil e segura de efetuar pagamentos on-line!";
+		$pptit .= "Obrigado por seu apoio!";
+		break;
+	case "ro_RO":
+		$ppalt = "PayPal - Calea cea mai sigură şi facilă de a efectua plăţi online!";
+		$pptit .= "Mulţumim anticipat pentru susţinere!";
+		break;
+	case "ru_RU":
+		$ppalt = "PayPal – безопасный и простой способ оплаты в Интернете!";
+		$pptit .= "Спасибо за вашу поддержку!";
+		break;
+	case "sk_SK":
+		$ppalt = "PayPal - Bezpečnejší, jednoduchší spôsob, ako zaplatiť on-line!";
+		$pptit .= "Ďakujeme vám za vašu podporu!";
+		break;
+	case "sr_CS":
+		$ppalt = "PayPal - Bezbedniji i lakši način za on-line plaćanje!";
+		$pptit .= "Hvala vam na podršci!";
+		break;
+	case "sv_SE":
+		$ppalt = "PayPal - Det säkra, enkla sättet att betala online!";
+		$pptit .= "Tack för ditt stöd!";
+		break;
+	case "th_TH":
+		$ppalt = "PayPal - ปลอดภัยวิธีที่ง่ายต่อการชำระเงินออนไลน์!";
+		$pptit .= "ขอขอบคุณสำหรับการสนับสนุนของคุณ!";
+		break;
+	case "tr_TR":
+		$ppalt = "PayPal - çevrimiçi ödeme yapmanın en kolay ve güvenli yolu!";
+		$pptit .= "Desteğiniz için teşekkür ederiz!";
+		break;
+	case "uk_UA":
+		$ppalt = "PayPal - безпечний і простий спосіб для оплати в інтернеті!";
+		$pptit .= "Спасибі за вашу підтримку!";
+		break;
+	case "uz_UZ":
+		$ppalt = "PayPal - Eng xavfsiz, online to`lovning eng oson yo`li!";
+		$pptit .= "Yordamingiz uchun rahmat!";
+		break;
+	case "vi_VN":
+		$ppalt = "PayPal - Cách an toàn hơn, dễ dàng hơn để thanh toán trực tuyến!";
+		$pptit .= "Cảm ơn bạn đã hỗ trợ của bạn!";
+		break;
+	case "zh_CN":
+		$ppalt = "PayPal － 最安全便捷的在线支付方式！";
+		$pptit .= "谢谢您的支持！";
+		break;
+	case "zh_TW":
+		$ppalt = "PayPal － 更安全、更簡單的網上付款方式！";
+		$pptit .= "謝謝您的支持！";
+		break;
+	default:
+		$ppalt = "PayPal - The safer, easier way to pay online!";
+		$pptit .= "Thank you for your support!";
+		break;
+};
 ?>
-<SCRIPT TYPE="text/javascript" LANGUAGE="JavaScript">
+<script type="text/javascript">
 <!--
 //	JS strings
-	var l_lang = "<?php echo(L_LANG); ?>";
+	var l_lang = "<?php echo($hl ? $hl : (defined("L_LANG") ? L_LANG : "")); ?>";
 	var l_sel_date = "<?php echo(L_SEL_DATE); ?>";
 	var l_not_allowed = "<?php echo(L_NOT_ALLOWED); ?>";
 	var l_date_before = "<?php echo(L_DATE_BEFORE); ?>";
 	var l_date_after = "<?php echo(L_DATE_AFTER); ?>";
 	var l_date_between = "<?php echo(L_DATE_BETWEEN); ?>";
+	var l_err_noset = "<?php echo(L_ERR_NOSET); ?>";
+	var l_msg_disabled = "<?php echo(L_MSG_DISABLED); ?>";
 	var l_use_ymd_drop = "<?php echo(L_USE_YMD_DROP); ?>";
-	var l_day = "<?php echo(L_DAY); ?>";
-	var l_month = "<?php echo(L_MONTH); ?>";
-	var l_year = "<?php echo(L_YEAR); ?>";
+	var l_day = "<?php echo(L_DAYC); ?>";
+	var l_month = "<?php echo(L_MONTHC); ?>";
+	var l_year = "<?php echo(L_YEARC); ?>";
+	var l_ref_cal = "<?php echo(L_REF_CAL); ?>";
+	//Digitizer
+	var l_arabic = "<?php echo(L_ARABIC); ?>";
+<?php
+if(defined("L_INDIC") && L_INDIC != "L_INDIC"){
+?>
+	var l_indic = "<?php echo(L_INDIC); ?>";
+<?php
+}
+?>
+	var l_utf_digit = <?php echo(L_UTF_DIGIT); ?>;
 //	Long Month Names
 	var l_january = "<?php echo(defined('L_JAN') ? L_JAN : (stristr(PHP_OS,'win') ? utf_conv(WIN_DEFAULT,'utf-8',strftime('%B','1199145600')) : strftime('%B','1199145600'))); ?>";
 	var l_february = "<?php echo(defined('L_FEB') ? L_FEB : (stristr(PHP_OS,'win') ? utf_conv(WIN_DEFAULT,'utf-8',strftime('%B','1201824000')) : strftime('%B','1201824000'))); ?>";
@@ -133,21 +335,32 @@ if(!defined("DATE_FORMAT")) define("DATE_FORMAT", str_replace("%","",str_replace
 	var l_october = "<?php echo(defined('L_OCT') ? L_OCT : (stristr(PHP_OS,'win') ? utf_conv(WIN_DEFAULT,'utf-8',strftime('%B','1222819200')) : strftime('%B','1220227200'))); ?>";
 	var l_november = "<?php echo(defined('L_NOV') ? L_NOV : (stristr(PHP_OS,'win') ? utf_conv(WIN_DEFAULT,'utf-8',strftime('%B','1225497600')) : strftime('%B','1225497600'))); ?>";
 	var l_december = "<?php echo(defined('L_DEC') ? L_DEC : (stristr(PHP_OS,'win') ? utf_conv(WIN_DEFAULT,'utf-8',strftime('%B','1228089600')) : strftime('%B','1228089600'))); ?>";
-if(l_lang == "el_GR"){
-//	Date Month Names Greek
-	var l_januaryu = "<?php echo(defined('L_JANU') ? L_JANU : ""); ?>";
-	var l_februaryu = "<?php echo(defined('L_FEBU') ? L_FEBU : ""); ?>";
-	var l_marchu = "<?php echo(defined('L_MARU') ? L_MARU : ""); ?>";
-	var l_aprilu = "<?php echo(defined('L_APRU') ? L_APRU : ""); ?>";
-	var l_mayu = "<?php echo(defined('L_MAYU') ? L_MAYU : ""); ?>";
-	var l_juneu = "<?php echo(defined('L_JUNU') ? L_JUNU : ""); ?>";
-	var l_julyu = "<?php echo(defined('L_JULU') ? L_JULU : ""); ?>";
-	var l_augustu = "<?php echo(defined('L_AUGU') ? L_AUGU : ""); ?>";
-	var l_septemberu = "<?php echo(defined('L_SEPU') ? L_SEPU : ""); ?>";
-	var l_octoberu = "<?php echo(defined('L_OCTU') ? L_OCTU : ""); ?>";
-	var l_novemberu = "<?php echo(defined('L_NOVU') ? L_NOVU : ""); ?>";
-	var l_decemberu = "<?php echo(defined('L_DECU') ? L_DECU : ""); ?>";
+<?php
+//	Date Month Names in genitive format
+if(defined("L_JANG") && L_JANG != "L_JANG")
+{
+?>
+	var l_genitive = 1;
+	var l_januaryg = "<?php echo(defined('L_JANG') ? L_JANG : ""); ?>";
+	var l_februaryg = "<?php echo(defined('L_FEBG') ? L_FEBG : ""); ?>";
+	var l_marchg = "<?php echo(defined('L_MARG') ? L_MARG : ""); ?>";
+	var l_aprilg = "<?php echo(defined('L_APRG') ? L_APRG : ""); ?>";
+	var l_mayg = "<?php echo(defined('L_MAYG') ? L_MAYG : ""); ?>";
+	var l_juneg = "<?php echo(defined('L_JUNG') ? L_JUNG : ""); ?>";
+	var l_julyg = "<?php echo(defined('L_JULG') ? L_JULG : ""); ?>";
+	var l_augustg = "<?php echo(defined('L_AUGG') ? L_AUGG : ""); ?>";
+	var l_septemberg = "<?php echo(defined('L_SEPG') ? L_SEPG : ""); ?>";
+	var l_octoberg = "<?php echo(defined('L_OCTG') ? L_OCTG : ""); ?>";
+	var l_novemberg = "<?php echo(defined('L_NOVG') ? L_NOVG : ""); ?>";
+	var l_decemberg = "<?php echo(defined('L_DECG') ? L_DECG : ""); ?>";
+<?php
 }
+else{
+?>
+	var l_genitive = 0;
+<?php
+}
+?>
 //	Short Month Names
 	var s_jan = "<?php echo(defined('L_S_JAN') ? L_S_JAN : (stristr(PHP_OS,'win') ? utf_conv(WIN_DEFAULT,'utf-8',strftime('%b','1199145600')) : strftime('%b','1199145600'))); ?>";
 	var s_feb = "<?php echo(defined('L_S_FEB') ? L_S_FEB : (stristr(PHP_OS,'win') ? utf_conv(WIN_DEFAULT,'utf-8',strftime('%b','1201824000')) : strftime('%b','1201824000'))); ?>";
@@ -178,6 +391,6 @@ if(l_lang == "el_GR"){
 	var s_sat = "<?php echo(defined('L_S_SAT') ? L_S_SAT : (stristr(PHP_OS,'win') ? utf_conv(WIN_DEFAULT,'utf-8',strftime('%a','1270857600')) : strftime('%a','1270857600'))); ?>";
 	var s_sun = "<?php echo(defined('L_S_SUN') ? L_S_SUN : (stristr(PHP_OS,'win') ? utf_conv(WIN_DEFAULT,'utf-8',strftime('%a','1270944000')) : strftime('%a','1270944000'))); ?>";
 // -->
-</SCRIPT>
+</script>
 <?php
 ?>

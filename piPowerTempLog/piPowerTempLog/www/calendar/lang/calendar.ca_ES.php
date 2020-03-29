@@ -1,22 +1,23 @@
 <?php
 # ca_ES translation for
 # PHP-Calendar, DatePicker Calendar class: http://www.triconsole.com/php/calendar_datepicker.php
-# Version: 3.61
+# Localized version of PHP-Calendar, DatePicker Calendar class: http://ciprianmp.com/scripts/calendar/
+# Version: 3.70
 # Language: Catalan / català (in your lang) // ex: Romanian / Română
 # Translator: Jordi Babot <jordibabot@gmail.com>
-# Last file update: 01.09.2011
+# Last file update: 29.07.2013
 
 // Class strings localization
-define("L_DAY", "Dia");
-define("L_MONTH", "Mes");
-define("L_YEAR", "Any");
+define("L_DAYC", "Dia");
+define("L_MONTHC", "Mes");
+define("L_YEARC", "Any");
 define("L_TODAY", "Avui");
 define("L_PREV", "Anterior");
 define("L_NEXT", "Següent");
 define("L_REF_CAL", "Refrescant Calendari...");
 define("L_CHK_VAL", "Comproveu el valor");
 define("L_SEL_LANG", "Selecciona llengua");
-define("L_SEL_ICON", "Selecciona icone");
+define("L_SEL_ICON", "Selecciona");
 define("L_SEL_DATE", "Selecciona data");
 define("L_ERR_SEL", "La selecció no és vàlida");
 define("L_NOT_ALLOWED", "Aquesta data no és permesa");
@@ -25,6 +26,16 @@ define("L_DATE_AFTER", "Sisplau, selecciona una data després del %s");
 define("L_DATE_BETWEEN", "Sisplau, selecciona una data entre el\\n%s i el %s");
 define("L_WEEK_HDR", ""); // Optional Short Name for the column header showing the current Week number (W or CW in English - max 2 letters)
 define("L_UNSET", "Cap");
+define("L_CLOSE", "Tancar");
+define("L_WARN_2038", "Aquesta versió del PHP al servidor no contempla anys superiors al 2038! (<5.3.0)");
+define("L_ERR_NOSET", "Error! El valor del calendari no s'ha pogut desar!");
+define("L_VERSION", "Versió: %s (%s idiomes)");
+define("L_POWBY", "Impulsat per:"); //or "Based on:", "Supported by"
+define("L_HERE", "aquí");
+define("L_UPDATE", "Actualització disponible %s !");
+define("L_TRANAME", "Jordi Babot Casacuberta");
+define("L_TRABY", "Traduït per<br />%s");
+define("L_DONATE", "Vols col·laborar amb el projecte?");
 
 // Set the first day of the week in your language (0 for Sunday, 1 for Monday)
 define("FIRST_DAY", "1");
@@ -79,8 +90,8 @@ if(!defined("L_LANG") || L_LANG == "L_LANG") define("L_LANG", "ca_ES"); // en_US
 
 // Set the CA specific date/time format
 if (stristr(PHP_OS,"win")) {
-setlocale(LC_ALL, "cat-esp.UTF-8", "cat-esp", "Catalan_Spain", "Catalan-esp.UTF-8");
+setlocale(LC_TIME, "cat-esp.UTF-8", "cat-esp", "Catalan_Spain", "Catalan-esp.UTF-8");
 } else {
-setlocale(LC_ALL, "ca_ES.UTF-8", "ca_ES.UTF-8@euro", "ca_ES@euro", "esp.UTF-8", "cat_esp.UTF-8", "Catalan-esp.UTF-8","catalan.UTF-8");
+setlocale(LC_TIME, "ca_ES.UTF-8", "ca_ES.UTF-8@euro", "ca_ES@euro", "esp.UTF-8", "cat_esp.UTF-8", "Catalan-esp.UTF-8","catalan.UTF-8");
 }
 ?>

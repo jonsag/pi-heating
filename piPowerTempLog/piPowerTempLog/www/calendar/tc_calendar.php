@@ -1,219 +1,113 @@
 <?php
-//*********************************************************
+//*********************************************************************
 // The php calendar component
 // written by TJ @triconsole
 //
-// add on: translation  implemented - default is English en_US
-//	- thanks ciprianmp
+// Translation implemented - default is English en_US
+//		- thanks ciprianmp
 //
-// version 3.68-loc (25 November 2011)
+// version 3.75-loc (released 23 March 2011/updated 04 June 2015)
+//
+//*********************************************************************
+$AUTHOR = "Triconsole";
+$WEB_SUPPORT = "http://www.triconsole.com/php/calendar_datepicker.php";
+$AUTHOR_LOC = "Ciprian Murariu";
+$WEB_LOC = "http://ciprianmp.com/scripts/calendar/";
+$LANGS_NUM = 43;
+//*********************************************************************
 
-//fixed: Incorrect next month display show on 'February 2008'
-//	- thanks Neeraj Jain for bug report
-//
-//fixed: Incorrect month comparable on calendar_form.php line 113
-// - thanks Djenan Ganic, Ian Parsons, Jesse Davis for bug report
-//
-//add on: date on calendar form change upon textbox in datepicker mode
-//add on: validate date enter from dropdown and textbox
-//
-//fixed: Calendar path not valid when select date from dropdown
-// - thanks yamba for bug report
-//
-//adjust: add new function setWidth and deprecate getDayNum function
-//
-//fixed: year combo box display not correct when extend its value
-//	- thanks Luiz Augusto for bug report
-//
-//fixed on date and month value return that is not leading by '0'
-//
-//adjust: change php short open tag (<?=) to normal tag (<?php)
-//  - thanks Michael Lynch
-//
-//add on: getMonthNames() function to make custom month names on each language
-//  - thanks Jean-Francois Harrington
-//
-//add on: button close on datepicker on the top-right corner of calendar
-//  - thanks denis
-//
-//fixed: hide javascript alert when default date not defined
-//	- thanks jon-b
-//
-//fixed: incorrect layout when select part of date
-//	- thanks simonzebu (I just got what you said  :) )
-//
-//fixed: not support date('N') for php version lower 5.0.1 so change to date('w') instead
-//  - thanks simonzebu, Kamil, greensilver for bug report
-//  - thanks Paul for the solution
-//
-//add on: setHeight() function to set the height of iframe container of calendar
-//	- thanks Nolochemcial
-//
-//add on: startMonday() function to set calendar display first day of week on Monday - deprecated since 3.61 and replaced by startDate()
-//
-//fixed: don't display year when not in year interval
-//
-//fixed: day combobox not update when select date from calendar
-//	- thanks ciprianmp
-//
-//add on: disabledDay() function to let the calendar disabled on specified day
-//  - thanks Jim R.
-//
-//fixed: total number of days startup incorrect
-//  - thanks Francois du Toit, ciprianmp
-//
-//add on: setAlignment() and setDatePair() function
-//  - thanks ciprianmp and many guys guiding this :)
-//
-//fixed: the header of calendar looks tight when day's header more than 2 characters, this can be adjusted by increasing width on calendar.css [#calendar-body td div { width: 15px; }]
-//	- thanks ciprianmp
-//
-//add on: setSpecificDate() to enable or disable specific date
-//	- thanks ciprianmp, phillip, and Steve to suggest this
-//
-//utilizing and cleaning up some codes on tc_calendar.php, calendar_form.php, and calendar.js
-//	- thanks Peter
-//
-//added: 2 functions for php version that does not support json
-//	- thanks Steve
-//
-//fixed: javascript error on datepair function on v3.50 and 3.51
-//	- thanks ciprianmp
-//
-//fixed: writeYear bug from $date_allow1 & 2 must be changed to $time_allow1 & 2
-//	- thanks ciprianmp again :(
-//
-//updated: setSpecificDate can be set month, year, and no recursive simultaneously
-//	- thanks ciprianmp, Steve
-//
-//add on: setOnChange to handling javascript onChange event
-//
-//fixed: dateAllow contains error on calendar_form.php
-//	- thanks matthijs
-//
-//fixed: error on calendar.js function checkSpecifyDate
-//	- thanks Todd
-//
-//fixed: the value of calendar is not restored when using back button on browser
-//  - thanks Nicolai
-//
-//add on: add X as background of disabled days
-//	- thanks SanSar
-//
-//fixed: 'Day' combobox contain no list dropdown when not call setDate() on initialization
-//	- thanks Fulin
-//
-//fixed: Fixed display style still have the default value in case the date is disabled.
-//	- thanks ciprianmp
-//
-//fixed: today date color disappear when date is disabled.
-//	- thanks ciprianmp
-//
-//fixed: javascript error from IE compatible not support for JSON
-//	- thanks ciprianmp
-//
-//adjusted: change the color of today date to green with border
-//	- thanks ciprianmp
-//
-//adjusted: rearrange source code on calendar_form.php for future use
-//
-//add on: showWeeks function
-//	- thanks Michael
-//
-//add on: support for RTL (right-to-left output)
-//	- thanks ciprianmp
-//
-//add on: startDate function and will be used instead of startMonday
-//
-//changed: make the DatePair function selectable on any dates. Date-from must be before Date-to, and on the other hand, otherwise it will be reset
-//	- thanks Chris, Rickard, ciprianmp
-//
-//fixed: incorrect parameter submited on javascript that caused an invalid date returned
-//	- thanks ciprianmp
-//
-//fixed: date selected highlight error
-//	- thanks John
-//
-//add on: auto hide calendar
-//	- thanks Wayne, Chris
-//
-//add on: auto focus an overlapping calendar to the top
-//
-//fixed: json checking function return error when server does not support for json
-//	- thanks strangeplant
-//
-//fixed: javascript possible error on Date.parse
-//fixed: add on-change javascript in dropdown datepicker mode (missing previously)
-//	- thanks Alex
-//
-//fixed: 1st and 31st are always disabled on php4
-//	- thanks dl
-//
-////********************************************************
-
-if((defined("L_LANG") && L_LANG != "en_US" && L_LANG != "L_LANG") || isset($lang) && $lang != "en_US") include_once("lang/calendar.".(isset($lang) ? $lang : L_LANG).".php");
+if((defined("L_LANG") && L_LANG != "en_US" && L_LANG != "L_LANG") || isset($language) && $language != "en_US") include_once("lang/calendar.".(isset($language) ? $language : L_LANG).".php");
 include_once("lang/localization.lib.php");
 
 if(file_exists("calendar/calendar.js"))
 {
 ?>
-<script language="javascript" src="calendar/calendar.js"></script>
+<script type="text/javascript" src="calendar/calendar.js"></script>
 <?php
 }
 elseif(file_exists("calendar.js"))
 {
 ?>
-<script language="javascript" src="calendar.js"></script>
+<script type="text/javascript" src="calendar.js"></script>
 <?php
 }
 
+require_once('classes/tc_date.php');
+
 class tc_calendar{
-	var $icon;
-	var $objname;
-	var $txt = L_SEL_ICON; //display when no calendar icon found or set up
-	var $date_format = DATE_FORMAT; //format of date shown in panel if $show_input is false
-	var $year_display_from_current = 30;
-	var $date_picker;
-	var $path = '';
-	var $day = 00;
-	var $month = 00;
-	var $year = 0000;
-	var $width = 150;
-	var $height = 205;
-	var $year_start;
-	var $year_end;
-	var $startDate = FIRST_DAY; //0 (for Sunday) through 6 (for Saturday)
-	var $time_allow1 = false;
-	var $time_allow2 = false;
-	var $show_not_allow = false;
-	var $auto_submit = false;
-	var $form_container;
-	var $target_url;
-	var $show_input = true;
-	var $dsb_days = array(); //collection of days to disabled
-	var $zindex = 1;
-	var $v_align = "bottom";
-	var $h_align = "right";
-	var $line_height = 18; //for vertical align offset
-	var $date_pair1 = "";
-	var $date_pair2 = "";
-	var $date_pair_value = "";
-	var $sp_dates = array(array(), array(), array()); //array[0]=no recursive, array[1]=monthly, array[0]=yearly
-	var $sp_type = 0; //0=disabled specify date, 1=enabled only specify date
-	var $tc_onchanged = "";
-	var $rtl = RTL;
-	var $show_week = false;
-	var $week_hdr = L_WEEK_HDR;
-	var $interval = 1;
-	var $auto_hide = 1;
-	var $auto_hide_time = 1000;
-	var $hl = L_LANG;
+	public $version = "3.75";
+	public $check_new_version = true;
+	private $icon;
+	private $objname;
+	private $txt = L_SEL_ICON; //display when no calendar icon found or set up
+	private $date_format = DATE_FORMAT; //format of date shown in panel if $show_input is false
+	private $year_display_from_current = 30;
+	private $date_picker;
+	private $path = '';
+	private $day = 00;
+	private $month = 00;
+	private $year = 0000;
+	private $width = 150;
+	private $height = 205;
+	public $year_start;
+	public $year_end;
+	public $year_start_input;
+	public $year_end_input;
+	private $startDate = FIRST_DAY; //0 (for Sunday) through 6 (for Saturday); in this localized version, value is set in the translation file
+	public $time_allow1 = false;
+	public $time_allow2 = false;
+	private $show_not_allow = false;
+	private $auto_submit = false;
+	private $form_container;
+	private $target_url;
+	private $show_input = true;
+	public $dsb_days = array(); //collection of days to disabled
+	public $zindex = 1;
+	private $v_align = "bottom";
+	private $h_align = "right";
+	private $line_height = 18; //for vertical align offset
+	private $date_pair1 = "";
+	private $date_pair2 = "";
+	private $date_pair_value = "";
+	private $sp_dates = array(array("0000-00-00"), array("0000-00-00"), array("0000-00-00")); //array[0]=no recursive, array[1]=monthly, array[0]=yearly
+	private $sp_type = 0; //0=disabled specify date, 1=enabled only specify date
+	private $tc_onchanged = "";
+	public $rtl = RTL;
+	private $show_week = false;
+	public $week_hdr = L_WEEK_HDR;
+	private $interval = 1; //date selected interval, default 1 day
+	private $auto_hide = 1;
+	private $auto_hide_time = 1000;
+	private $mydate;
+	public $warning_msgs = array();
+	public $hl = L_LANG;
+	//Digitizer
+	private $dig = L_DIGIT;
+	//Tooltips
+	private $tt_dates = array(array("0000-00-00"), array("0000-00-00"), array("0000-00-00")); //array[0]=no recursive, array[1]=monthly, array[0]=yearly
+	private $tt_tooltips = array(array(0), array(), array()); //array[0]=no recursive, array[1]=monthly, array[0]=yearly
+
+	//Timezone
+	//Leave blank will use server settings.
+	//Please refer to the supported timezones here http://php.net/manual/en/timezones.php
+	private $timezone = "";
+	private $timezone_offset = 0;
+
+	private $system_timezone = "";
+	private $system_timezone_offset = 0;
+	private $system_timezone_h = 0;
+	private $system_timezone_i = 0;
+	private $system_timezone_s = 0;
+
+	private $theme = "default";
 
 	//calendar constructor
-	function tc_calendar($objname, $date_picker = false, $show_input = true){
+	function __construct($objname, $date_picker = false, $show_input = true, $timezone = ""){
 		$this->objname = $objname;
 		//$this->year_display_from_current = 50;
 		$this->date_picker = $date_picker;
+
+		if($timezone != "") $this->setTimezone($timezone);
 
 		//set default year display from current year
 		$thisyear = date('Y');
@@ -221,6 +115,8 @@ class tc_calendar{
 		$this->year_end = $thisyear+$this->year_display_from_current;
 
 		$this->show_input = $show_input;
+
+		$this->mydate = new tc_date();
 	}
 
 	//check for leapyear
@@ -279,6 +175,15 @@ class tc_calendar{
 
 	//set default selected date
 	function setDate($day, $month, $year){
+		//get system timezone before set the date
+		$this->system_timezone = date_default_timezone_get();
+		$this->system_timezone_offset = date('Z');
+		$this->system_timezone_h = date("H");
+		$this->system_timezone_i = date("i");
+		$this->system_timezone_s = date("s");
+		//echo("***".date('Y-m-d H:i:s').",".date("Y-m-d H:i:s", $this->system_timezone_time));
+		//echo("system tz: ".$this->system_timezone.",".$this->system_timezone_offset);
+
 		$this->day = $day;
 		$this->month = $month;
 		$this->year = $year;
@@ -299,90 +204,229 @@ class tc_calendar{
 	}
 
 	function writeScript(){
+		$this->processScript();
+	}
+
+	function getScript(){
+		return $this->processScript(true);
+	}
+
+	function processScript($buffer = false){
+		$str = "";
+
 		//check valid default date
 		if(!$this->checkDefaultDateValid()){
 			//unset default date
-			$this->day = 0;
-			$this->month = 0;
-			$this->year = 0;
+			$this->setDate(00, 00, 0000);
 		}
 
-		$this->writeHidden();
+		//check date set to the timezone
+		if($this->year>0 && $this->month>0 && $this->day>0){
+			//date has been set
+			if($this->timezone != "" && $this->system_timezone != "" && $this->timezone != $this->system_timezone){
+				//echo("<br />TZ! ".$this->system_timezone);
+				//echo("<br />OFFSET: ".$this->system_timezone_offset.",".$this->timezone_offset);
+				//timezone has been set and different from system timezone
+				$a_date = $this->year."-".$this->month."-".$this->day." ".$this->system_timezone_h.":".$this->system_timezone_i.":".$this->system_timezone_s;
+				//echo(", date: $a_date");
+
+				if ((version_compare(PHP_VERSION, '5.3.0') <= 0 && checkdate($this->month, $this->day, $this->year)) || true) {
+					//get the timezone difference
+					$tz_sys_ms = $this->system_timezone_offset;
+					$tz_new_ms = $this->timezone_offset;
+
+					if($tz_sys_ms>=0 && $tz_new_ms<=0){
+						$timezone_diff = 0-($tz_sys_ms+abs($tz_new_ms));
+					}elseif($tz_sys_ms<=0 && $tz_new_ms>=0){
+						$timezone_diff = abs($tz_sys_ms)+$tz_new_ms;
+					}else{
+						$timezone_diff = $tz_sys_ms-$tz_new_ms;
+					}
+					$timezone_diff_hr = $timezone_diff/3600;
+					//echo("<br />Diff: ".$timezone_diff_hr);
+
+					$a_time = strtotime($a_date);
+					//echo("a_time: $a_time");
+					$a_date_y = date("Y", $a_time);
+					$a_date_m = date("m", $a_time);
+					$a_date_d = date("d", $a_time);
+					$a_date_h = date("H", $a_time);
+					$a_date_i = date("i", $a_time);
+					$a_date_s = date("s", $a_time);
+
+					$n_time = mktime(($a_date_h+$timezone_diff_hr), $a_date_i, $a_date_s, $a_date_m, $a_date_d, $a_date_y);
+					//echo("<br />n_time: $n_time");
+					$this->year = date("Y", $n_time);
+					$this->month = date("m", $n_time);
+					$this->day = date("d", $n_time);
+				}else{
+					$date = new DateTime($a_date, new DateTimeZone($this->system_timezone));
+					$date->setTimezone(new DateTimeZone($this->timezone));
+					$this->year = $date->format('Y');
+					$this->month = $date->format('m');
+					$this->day = $date->format('d');
+				}
+				//echo("<br />".$this->year."-".$this->month."-".$this->day);
+			}
+		}
+
+		$str .= $this->writeHidden();
 
 		//check whether it is a date picker
 		if($this->date_picker){
-			echo("<div style=\"position: relative; z-index: ".$this->zindex."; float: left;\" id=\"container_".$this->objname."\" onmouseover=\"javascript:focusCalendar('".$this->objname."');\" onmouseout=\"javascript:unFocusCalendar('".$this->objname."', ".$this->zindex.");\">");
+			$str .= "<div style=\"position: relative; z-index: ".$this->zindex."; display: inline-block; vertical-align: top;\" id=\"container_".$this->objname."\" onmouseover=\"javascript:focusCalendar('".$this->objname."');\" onmouseout=\"javascript:unFocusCalendar('".$this->objname."', ".$this->zindex.");\">";
 
 			if($this->show_input){
 				if($this->hl){
-					$to_replace = array("%"," ",".",",","ב","年","日","년","일");
+					$to_replace = array("\m.", "\d.", "%"," ",".",",","،","η","ב","г","年","日","月","년","일");
 					$order = str_replace($to_replace,"",L_CAL_FORMAT);
-					if(strpos($order,"d") == 0 && !$this->rtl) $this->writeDay();
-					elseif(strpos($order,"B") == 0 && !$this->rtl) $this->writeMonth();
-					elseif(strpos($order,"Y") == 0 || $this->rtl) $this->writeYear();
-					if(strpos($order,"d") == 1 && !$this->rtl) $this->writeDay();
-					elseif(strpos($order,"B") == 1 || $this->rtl) $this->writeMonth();
-					elseif(strpos($order,"Y") == 1 && !$this->rtl) $this->writeYear();
-					if(strpos($order,"d") == 2 || $this->rtl) $this->writeDay();
-					elseif(strpos($order,"B") == 2 && !$this->rtl) $this->writeMonth();
-					elseif(strpos($order,"Y") == 2 && !$this->rtl) $this->writeYear();
+					if(strpos($order,"d") == 0 && !$this->rtl) $str .= $this->writeDay();
+					elseif(strpos($order,"B") == 0 && !$this->rtl) $str .= $this->writeMonth();
+					elseif(strpos($order,"Y") == 0 || $this->rtl) $str .= $this->writeYear();
+					if(strpos($order,"d") == 1 && !$this->rtl) $str .= $this->writeDay();
+					elseif(strpos($order,"B") == 1 || $this->rtl) $str .= $this->writeMonth();
+					elseif(strpos($order,"Y") == 1 && !$this->rtl) $str .= $this->writeYear();
+					if(strpos($order,"d") == 2 || $this->rtl) $str .= $this->writeDay();
+					elseif(strpos($order,"B") == 2 && !$this->rtl) $str .= $this->writeMonth();
+					elseif(strpos($order,"Y") == 2 && !$this->rtl) $str .= $this->writeYear();
 				}else{
-					$this->writeDay();
-					$this->writeMonth();
-					$this->writeYear();
+					$str .= $this->writeDay();
+					$str .= $this->writeMonth();
+					$str .= $this->writeYear();
 				}
 			}else{
-				echo(" <a href=\"javascript:toggleCalendar('".$this->objname."', ".$this->auto_hide.", ".$this->auto_hide_time.");\">");
-				$this->writeDateContainer();
-				echo("</a>");
+				$str .= "&nbsp;<a href=\"javascript:toggleCalendar('".$this->objname."', ".$this->auto_hide.", ".$this->auto_hide_time.");\" class=\"tclabel\">";
+				$str .= $this->writeDateContainer();
+				$str .= "</a>";
 			}
 
-			echo(" <a href=\"javascript:toggleCalendar('".$this->objname."', ".$this->auto_hide.", ".$this->auto_hide_time.");\">");
+			//Digitizer frame
+			if($this->dig || L_UTF_DIGIT){
+				$str .= "&nbsp;<a href=\"javascript:toggleDigitsFrame('".$this->objname."');\" class=\"btn\"><img src=\"".($this->path ? $this->path : "")."images/digit_".($this->dig ? "ar" : "hi").".gif\" width=\"20\" height=\"13\" border=\"0\" align=\"absmiddle\" style=\"vertical-align:middle;\" alt=\"".($this->dig ? L_ARABIC : L_INDIC)."\" title=\"".($this->dig ? L_ARABIC : L_INDIC)."\" id=\"".$this->objname."_digicon\" /></a>&nbsp;";
+			}
+
+			$str .= "&nbsp;<a href=\"javascript:toggleCalendar('".$this->objname."', ".$this->auto_hide.", ".$this->auto_hide_time.");\">";
 			if(is_file($this->icon)){
-				echo("<img src=\"".$this->icon."\" id=\"tcbtn_".$this->objname."\" name=\"tcbtn_".$this->objname."\" border=\"0\" align=\"absmiddle\" />");
-			}else echo($this->txt);
-			echo("</a>");
+				$str .= "<img src=\"".$this->icon."\" id=\"tcbtn_".$this->objname."\" name=\"tcbtn_".$this->objname."\" border=\"0\" align=\"absmiddle\" style=\"vertical-align:middle;\" alt=\"".$this->txt."\" title=\"".$this->txt."\" />";
+			}else $str .= $this->txt;
+			$str .= "</a>";
 
-			$this->writeCalendarContainer();
+			$str .= $this->writeCalendarContainer();
 
-			echo("</div>");
+			$str .= "</div>";
 		}else{
-			$this->writeCalendarContainer();
+			$str .= $this->writeCalendarContainer();
+		}
+
+		if($buffer){
+			return $str;
+		}else{
+			echo($str);
 		}
 	}
 
 	function writeCalendarContainer(){
 		$params = array();
 		$params[] = "objname=".$this->objname;
-		$params[] = "selected_day=".$this->day;
-		$params[] = "selected_month=".$this->month;
-		$params[] = "selected_year=".$this->year;
-		$params[] = "year_start=".$this->year_start;
-		$params[] = "year_end=".$this->year_end;
-		$params[] = "dp=".(($this->date_picker) ? 1 : 0);
-		$params[] = "da1=".$this->time_allow1;
-		$params[] = "da2=".$this->time_allow2;
-		$params[] = "sna=".$this->show_not_allow;
-		$params[] = "aut=".$this->auto_submit;
-		$params[] = "frm=".$this->form_container;
-		$params[] = "tar=".$this->target_url;
-		$params[] = "inp=".$this->show_input;
-		$params[] = "fmt=".$this->date_format;
-		$params[] = "dis=".implode(",", $this->dsb_days);
-		$params[] = "pr1=".$this->date_pair1;
-		$params[] = "pr2=".$this->date_pair2;
-		$params[] = "prv=".$this->date_pair_value;
-		$params[] = "pth=".$this->path;
-		$params[] = "spd=".$this->check_json_encode($this->sp_dates);
-		$params[] = "spt=".$this->sp_type;
-		$params[] = "och=".urlencode($this->tc_onchanged);
-		$params[] = "str=".$this->startDate;
-		$params[] = "rtl=".$this->rtl;
-		$params[] = "wks=".$this->show_week;
-		$params[] = "int=".$this->interval;
-		$params[] = "hid=".$this->auto_hide;
-		$params[] = "hdt=".$this->auto_hide_time;
-		$params[] = "hl=".$this->hl;
+
+		$param = $this->day;
+		if($param != "") $params[] = "selected_day=".$param;
+
+		$param = $this->month;
+		if($param != "") $params[] = "selected_month=".$param;
+
+		$param = $this->year;
+		if($param != "") $params[] = "selected_year=".$param;
+
+		$param = $this->year_start_input;
+		if($param != "") $params[] = "year_start=".$param;
+
+		$param = $this->year_end_input;
+		if($param != "") $params[] = "year_end=".$param;
+
+		$param = ($this->date_picker) ? 1 : 0;
+		if($param != "") $params[] = "dp=".$param;
+
+		$param = $this->time_allow1;
+		if($param != "") $params[] = "da1=".$param;
+
+		$param = $this->time_allow2;
+		if($param != "") $params[] = "da2=".$param;
+
+		$param = $this->show_not_allow;
+		if($param != "") $params[] = "sna=".$param;
+
+		$param = $this->auto_submit;
+		if($param != "") $params[] = "aut=".$param;
+
+		$param = $this->form_container;
+		if($param != "") $params[] = "frm=".$param;
+
+		$param = $this->target_url;
+		if($param != "") $params[] = "tar=".$param;
+
+		$param = $this->show_input;
+		if($param != "") $params[] = "inp=".$param;
+
+		$param = $this->date_format;
+		if($param != "") $params[] = "fmt=".$param;
+
+		$param = implode(",", $this->dsb_days);
+		if($param != "") $params[] = "dis=".$param;
+
+		$param = $this->date_pair1;
+		if($param != "") $params[] = "pr1=".$param;
+
+		$param = $this->date_pair2;
+		if($param != "") $params[] = "pr2=".$param;
+
+		$param = $this->date_pair_value;
+		if($param != "") $params[] = "prv=".$param;
+
+		$param = $this->path;
+		if($param != "") $params[] = "pth=".$param;
+
+		$param = htmlspecialchars($this->check_json_encode($this->sp_dates), ENT_QUOTES);
+		if($param != "") $params[] = "spd=".$param;
+
+		$param = $this->sp_type;
+		if($param != "") $params[] = "spt=".$param;
+
+		$param = rawurlencode($this->tc_onchanged);
+		if($param != "") $params[] = "och=".$param;
+
+		$param = $this->startDate;
+		if($param != "") $params[] = "str=".$param;
+
+		$param = $this->rtl;
+		if($param != "") $params[] = "rtl=".$param;
+
+		$param = $this->show_week;
+		if($param != "") $params[] = "wks=".$param;
+
+		$param = $this->interval;
+		if($param != "") $params[] = "int=".$param;
+
+		$param = $this->auto_hide;
+		if($param != "") $params[] = "hid=".$param;
+
+		$param = $this->auto_hide_time;
+		if($param != "") $params[] = "hdt=".$param;
+
+		$param = $this->timezone;
+		if($param != "") $params[] = "tmz=".$param;
+
+		//$param = $this->system_timezone;
+		//if($param != "") $params[] = "stz=".$param;
+
+		$param = $this->theme;
+		if($param != "") $params[] = "thm=".$param;
+
+		$param = $this->hl;
+		if($param != "") $params[] = "hl=".$param;
+
+		$param = $this->dig;
+		if($param != "") $params[] = "dig=".$param;
 
 		$paramStr = (sizeof($params)>0) ? "?".implode("&", $params) : "";
 
@@ -407,7 +451,6 @@ class tc_calendar{
 				case "bottom":
 				default:
 					$div_align .= "top:".$line_height."px;";
-
 			}
 
 			switch($this->h_align){
@@ -417,9 +460,7 @@ class tc_calendar{
 				case "right":
 				default:
 					$div_align .= "right:0px;";
-
 			}
-
 		}else{
 			$div_display = "visible";
 			$div_position = "relative";
@@ -430,112 +471,130 @@ class tc_calendar{
 
 		$mover_str = " onmouseover=\"javascript:cancelHide('".$this->objname."');\"";
 
+		$str = "";
 		//write the calendar container
-		echo("<div id=\"div_".$this->objname."\" style=\"position:".$div_position.";visibility:".$div_display.";z-index:100;".$div_align."\" class=\"div_calendar calendar-border\" ".$mout_str." ".$mover_str.">");
-		echo("<IFRAME id=\"".$this->objname."_frame\" src=\"".$this->path."calendar_form.php".$paramStr."\" frameBorder=\"0\" scrolling=\"no\" allowtransparency=\"true\" width=\"100%\" height=\"100%\" style=\"z-index: 100;\"></IFRAME>");
-		echo("</div>");
+		$str .= "<div id=\"div_".$this->objname."\" style=\"position:".$div_position."; visibility:".$div_display."; z-index:100;".$div_align."\" class=\"div_calendar calendar-border\" ".$mout_str.$mover_str.">";
+		$str .= "<IFRAME id=\"".$this->objname."_frame\" src=\"".$this->path."calendar_form.php".$paramStr."\" frameBorder=\"0\" scrolling=\"no\" allowtransparency=\"true\" width=\"100%\" height=\"100%\" style=\"z-index: 100;\"></IFRAME>";
+		$str .= "</div>";
+
+		return $str;
 	}
 
 	//write the select box of days
 	function writeDay(){
 		$total_days = $this->total_days($this->month, $this->year);
 
-		echo("<select name=\"".$this->objname."_day\" id=\"".$this->objname."_day\" onChange=\"javascript:tc_setDay('".$this->objname."', this[this.selectedIndex].value);\" class=\"tcday\"".($this->rtl ? " dir=\"rtl\"" : "").">");
-		echo("<option value=\"00\"".($this->rtl ? " dir=\"rtl\"" : "").">".L_DAY."</option>");
+		$str = "";
+		$str .= "<select name=\"".$this->objname."_day\" id=\"".$this->objname."_day\" onChange=\"javascript:tc_setDay('".$this->objname."', this[this.selectedIndex].value);\" class=\"tcday\"".($this->rtl ? " dir=\"rtl\"" : "").">";
+		$str .= "<option value=\"00\"".($this->rtl ? " dir=\"rtl\"" : "").">".L_DAYC."</option>";
 		for($i=1; $i<=$total_days; $i++){
-			$selected = ((int)$this->day == $i) ? " selected" : "";
-			echo("<option value=\"".str_pad($i, 2 , "0", STR_PAD_LEFT)."\"$selected".($this->rtl ? " dir=\"rtl\"" : "").">".$i."</option>");
+			$selected = ((int)$this->day == $i) ? " selected='selected'" : "";
+			//Digitizer
+			$str .= "<option value=\"".str_pad($i, 2 , "0", STR_PAD_LEFT)."\"".$selected.($this->rtl ? " dir=\"rtl\"" : "").">".($this->dig ? $this->digitize_arabics($i) : $i)."</option>";
 		}
-		echo("</select> ");
+		$str .= "</select> ";
+
+		return $str;
 	}
 
 	//write the select box of months
 	function writeMonth(){
-		echo("<select name=\"".$this->objname."_month\" id=\"".$this->objname."_month\" onChange=\"javascript:tc_setMonth('".$this->objname."', this[this.selectedIndex].value);\" class=\"tcmonth\"".($this->rtl ? " dir=\"rtl\"" : "").">");
-		echo("<option value=\"00\"".($this->rtl ? " dir=\"rtl\"" : "").">".L_MONTH."</option>");
+		$str = "";
+		$str .= "<select name=\"".$this->objname."_month\" id=\"".$this->objname."_month\" onChange=\"javascript:tc_setMonth('".$this->objname."', this[this.selectedIndex].value);\" class=\"tcmonth\"".($this->rtl ? " dir=\"rtl\"" : "").">";
+		$str .= "<option value=\"00\"".($this->rtl ? " dir=\"rtl\"" : "").">".L_MONTHC."</option>";
 
 		$monthnames = $this->getMonthNames();
 		for($i=1; $i<=sizeof($monthnames); $i++){
-			$selected = ((int)$this->month == $i) ? " selected" : "";
-			echo("<option value=\"".str_pad($i, 2, "0", STR_PAD_LEFT)."\"$selected".($this->rtl ? " dir=\"rtl\"" : "").">".$monthnames[$i-1]."</option>");
+			$selected = ((int)$this->month == $i) ? " selected='selected'" : "";
+			$str .= "<option value=\"".str_pad($i, 2, "0", STR_PAD_LEFT)."\"".$selected.($this->rtl ? " dir=\"rtl\"" : "").">".($this->dig ? $this->digitize_arabics($monthnames[$i-1]) : $monthnames[$i-1])."</option>";
 		}
-		echo("</select> ");
+		$str .= "</select> ";
+
+		return $str;
 	}
 
 	//write the year textbox
 	function writeYear(){
-		//echo("<input type=\"textbox\" name=\"".$this->objname."_year\" id=\"".$this->objname."_year\" value=\"$this->year\" maxlength=4 size=5 onBlur=\"javascript:tc_setYear('".$this->objname."', this.value, '$this->path');\" onKeyPress=\"javascript:if(yearEnter(event)){ tc_setYear('".$this->objname."', this.value, '$this->path'); return false; }\"> ");
-		echo("<select name=\"".$this->objname."_year\" id=\"".$this->objname."_year\" onChange=\"javascript:tc_setYear('".$this->objname."', this[this.selectedIndex].value);\" class=\"tcyear\"".($this->rtl ? " dir=\"rtl\"" : "").">");
-		echo("<option value=\"0000\"".($this->rtl ? " dir=\"rtl\"" : "").">".L_YEAR."</option>");
+		$str = "";
+		//$str .= "<input type=\"textbox\" name=\"".$this->objname."_year\" id=\"".$this->objname."_year\" value=\"$this->year\" maxlength=4 size=5 onBlur=\"javascript:tc_setYear('".$this->objname."', this.value, '$this->path');\" onKeyPress=\"javascript:if(yearEnter(event)){ tc_setYear('".$this->objname."', this.value, '$this->path'); return false; }\"> ";
+		$str .= "<select name=\"".$this->objname."_year\" id=\"".$this->objname."_year\" onChange=\"javascript:tc_setYear('".$this->objname."', this[this.selectedIndex].value);\" class=\"tcyear\"".($this->rtl ? " dir=\"rtl\"" : "").">";
+		$str .= "<option value=\"0000\"".($this->rtl ? " dir=\"rtl\"" : "").">".L_YEARC."</option>";
 
 		$year_start = $this->year_start;
 		$year_end = $this->year_end;
 
 		//check year to be selected in case of time_allow is set
-		  if(!$this->show_not_allow && ($this->time_allow1 || $this->time_allow2)){
+		if(!$this->show_not_allow && ($this->time_allow1 || $this->time_allow2)){
 			if($this->time_allow1 && $this->time_allow2){
-				$da1Time = strtotime($this->time_allow1);
-				$da2Time = strtotime($this->time_allow2);
-
-				if($da1Time < $da2Time){
-					$year_start = date('Y', $da1Time);
-					$year_end = date('Y', $da2Time);
-				}else{
-					$year_start = date('Y', $da2Time);
-					$year_end = date('Y', $da1Time);
-				}
+				$year_start = $this->mydate->getDate("Y", $this->time_allow1);
+				$year_end = $this->mydate->getDate("Y", $this->time_allow2);
 			}elseif($this->time_allow1){
 				//only date 1 specified
-				$da1Time = strtotime($this->time_allow1);
-				$year_start = date('Y', $da1Time);
+				$year_start = $this->mydate->getDate("Y", $this->time_allow1);
 			}elseif($this->time_allow2){
 				//only date 2 specified
-				$da2Time = strtotime($this->time_allow2);
-				$year_end = date('Y', $da2Time);
+				$year_end = $this->mydate->getDate("Y", $this->time_allow2);
 			}
-		  }
+		}
 
 		for($i=$year_end; $i>=$year_start; $i--){
-			$selected = ((int)$this->year == $i) ? " selected" : "";
-			echo("<option value=\"$i\"$selected".($this->rtl ? " dir=\"rtl\"" : "").">".$i.(L_USE_YMD_DROP ? L_YEAR : "")."</option>");
+			$selected = ((int)$this->year == $i) ? " selected='selected'" : "";
+			//Digitizer
+			$str .= "<option value=\"".$i."\"".$selected.($this->rtl ? " dir=\"rtl\"" : "").">".($this->dig ? $this->digitize_arabics($i) : $i).(L_USE_YMD_DROP ? L_YEARC : "")."</option>";
 		}
-		echo("</select> ");
+		$str .= "</select> ";
+
+		return $str;
 	}
 
 	function eHidden($suffix, $value) {
-		if($suffix) $suffix = "_".$suffix;
-		echo("<input type=\"hidden\" name=\"".$this->objname.$suffix."\" id=\"".$this->objname.$suffix."\" value=\"".$value."\" />");
+		if(trim($value) != ""){
+			if($suffix) $suffix = "_".$suffix;
+			return "<input type=\"hidden\" name=\"".$this->objname.$suffix."\" id=\"".$this->objname.$suffix."\" value=\"".$value."\" />";
+		}
 	}
 
 	//write hidden components
 	function writeHidden(){
-		$this->eHidden('', $this->getDate());
-		$this->eHidden('dp', $this->date_picker);
-		$this->eHidden('year_start', $this->year_start);
-		$this->eHidden('year_end', $this->year_end);
-		$this->eHidden('da1', $this->time_allow1);
-		$this->eHidden('da2', $this->time_allow2);
-		$this->eHidden('sna', $this->show_not_allow);
-		$this->eHidden('aut', $this->auto_submit);
-		$this->eHidden('frm', $this->form_container);
-		$this->eHidden('tar', $this->target_url);
-		$this->eHidden('inp', $this->show_input);
-		$this->eHidden('fmt', $this->date_format);
-		$this->eHidden('dis', implode(",", $this->dsb_days));
-		$this->eHidden('pr1', $this->date_pair1);
-		$this->eHidden('pr2', $this->date_pair2);
-		$this->eHidden('prv', $this->date_pair_value);
-		$this->eHidden('pth', $this->path);
-		$this->eHidden('spd', $this->check_json_encode($this->sp_dates));
-		$this->eHidden('spt', $this->sp_type);
-		$this->eHidden('och', urlencode($this->tc_onchanged));
-		$this->eHidden('str', $this->startDate);
-		$this->eHidden('rtl', $this->rtl);
-		$this->eHidden('wks', $this->show_week);
-		$this->eHidden('int', $this->interval);
-		$this->eHidden('hid', $this->auto_hide);
-		$this->eHidden('hdt', $this->auto_hide_time);
-		$this->eHidden('hl', $this->hl);
+		$str = "";
+
+		$str .= $this->eHidden('', $this->getDate());
+		$str .= $this->eHidden('dp', $this->date_picker);
+		$str .= $this->eHidden('year_start', $this->year_start);
+		$str .= $this->eHidden('year_end', $this->year_end);
+		$str .= $this->eHidden('da1', $this->time_allow1);
+		$str .= $this->eHidden('da2', $this->time_allow2);
+		$str .= $this->eHidden('sna', $this->show_not_allow);
+		$str .= $this->eHidden('aut', $this->auto_submit);
+		$str .= $this->eHidden('frm', $this->form_container);
+		$str .= $this->eHidden('tar', $this->target_url);
+		$str .= $this->eHidden('inp', $this->show_input);
+		$str .= $this->eHidden('fmt', $this->date_format);
+		$str .= $this->eHidden('dis', implode(",", $this->dsb_days));
+		$str .= $this->eHidden('pr1', $this->date_pair1);
+		$str .= $this->eHidden('pr2', $this->date_pair2);
+		$str .= $this->eHidden('prv', $this->date_pair_value);
+		$str .= $this->eHidden('pth', $this->path);
+		$str .= $this->eHidden('spd', htmlspecialchars($this->check_json_encode($this->sp_dates), ENT_QUOTES));
+		$str .= $this->eHidden('spt', $this->sp_type);
+		$str .= $this->eHidden('och', rawurlencode($this->tc_onchanged));
+		$str .= $this->eHidden('str', $this->startDate);
+		$str .= $this->eHidden('rtl', $this->rtl);
+		$str .= $this->eHidden('wks', $this->show_week);
+		$str .= $this->eHidden('int', $this->interval);
+		$str .= $this->eHidden('hid', $this->auto_hide);
+		$str .= $this->eHidden('hdt', $this->auto_hide_time);
+		//Tooltips
+		$str .= $this->eHidden('ttd', htmlspecialchars($this->check_json_encode($this->tt_dates), ENT_QUOTES));
+		$str .= $this->eHidden('ttt', htmlspecialchars($this->check_json_encode($this->tt_tooltips), ENT_QUOTES));
+		$str .= $this->eHidden('tmz', $this->timezone);
+		//$str .= $this->eHidden('stz', $this->system_timezone);
+		$str .= $this->eHidden('thm', $this->theme);
+		$str .= $this->eHidden('hl', $this->hl);
+		//Digitizer
+		$str .= $this->eHidden('dig', $this->dig);
+
+		return $str;
 	}
 
 	//set width of calendar
@@ -557,6 +616,12 @@ class tc_calendar{
 	}
 
 	function setYearInterval($start, $end){
+		$this->year_start_input = $start;
+		$this->year_end_input = $end;
+
+		if(!$start) $start = $this->year_start;
+		if(!$end) $end = $this->year_end;
+
 		if($start < $end){
 			$this->year_start = $start;
 			$this->year_end = $end;
@@ -587,38 +652,32 @@ class tc_calendar{
 	}
 
 	function dateAllow($from = "", $to = "", $show_not_allow = true){
-		$time_from = strtotime($from);
-		$time_to = strtotime($to);
-
-		// prior to version 5.1 strtotime returns -1 for bad input
-        if (version_compare(PHP_VERSION,'5.1.0') < 0) {
-			if ($time_from == -1) $time_from = false;
-			if ($time_to == -1) $time_to = false;
-		}
+		$time_from = $this->mydate->validDate($from) ? $from : null;
+		$time_to = $this->mydate->validDate($to) ? $to : null;
 
 		// sanity check, ensure time_from earlier than time_to
-		if(is_int($time_from) && is_int($time_to) && $time_from > $time_to){
+		if($time_from != null && $time_to != null && $this->mydate->dateAfter($time_to, $time_from, true)){
 			$tmp = $time_from;
 			$time_from = $time_to;
 			$time_to = $tmp;
 		}
 
-		if (is_int($time_from)) {
+		if ($time_from != null) {
 			$this->time_allow1 = $time_from;
-			$y = date('Y', $time_from);
-			if($this->year_start && $y < $this->year_start) $this->year_start = $y;
+			$y = $this->mydate->getDate('Y', $time_from);
+			if($this->year_start && $y > $this->year_start) $this->year_start = $y;
 
 			//setup year end from year start
-			if(!is_int($time_to) && !$this->year_end) $this->year_end = $this->year_start + $this->year_display_from_current;
+			if($time_to == null && !$this->year_end) $this->year_end = $this->year_start + $this->year_display_from_current;
 		}
 
-		if (is_int($time_to)) {
+		if ($time_to>0) {
 			$this->time_allow2 = $time_to;
-			$y = date('Y', $time_to);
+			$y = $this->mydate->getDate('Y', $time_to);
 			if($this->year_end && $y < $this->year_end) $this->year_end = $y;
 
 			//setup year start from year end
-			if(!is_int($time_from) && !$this->year_start) $this->year_start = $this->year_end - $this->year_display_from_current;
+			if($time_from == null && !$this->year_start) $this->year_start = $this->year_end - $this->year_display_from_current;
 		}
 
 		$this->show_not_allow = $show_not_allow;
@@ -645,6 +704,7 @@ class tc_calendar{
 	}
 
 	function writeDateContainer(){
+		$dd = L_SEL_DATE;
 		if($this->day && $this->month && $this->year){
 			if($this->hl){
 				if(stristr(PHP_OS,"win")){
@@ -653,12 +713,12 @@ class tc_calendar{
 					$dd = strftime(L_CAL_FORMAT, mktime(0,0,0,$this->month,$this->day,$this->year));
 				}
 			}else{
-				$dd = date($this->date_format, mktime(0,0,0,$this->month,$this->day,$this->year));
+				$dd = $this->mydate->getDate($this->date_format, $this->year."-".$this->month."-".$this->day);
 			}
 		}
-		else $dd = L_SEL_DATE;
 
-		echo("<span id=\"divCalendar_".$this->objname."_lbl\" class=\"date-tccontainer\"".($this->rtl ? " dir=\"rtl\"" : "").">$dd</span>");
+		//Digitizer
+		return "<span id=\"divCalendar_".$this->objname."_lbl\" class=\"date-tccontainer\"".($this->rtl ? " dir=\"rtl\"" : "")." alt=\"".(($this->year != "undefined") ? $this->getDayName($this->year."-".$this->month."-".$this->day) : "")."\" title=\"".(($this->year != "undefined") ? $this->getDayName($this->year."-".$this->month."-".$this->day) : "")."\">".($this->dig ? $this->digitize_arabics($dd) : $dd)."</span>";
 	}
 
 	//------------------------------------------------------
@@ -694,21 +754,19 @@ class tc_calendar{
 
 			//change specific date to time
 			foreach($dates as $sp_date){
-				$sp_time = strtotime($sp_date);
-
-				if($sp_time > 0){
+				if($this->mydate->validDate($sp_date)){
 					switch($recursive){
 						case "month": //add to monthly
-							if(!in_array($sp_time, $this->sp_dates[1]))
-								$this->sp_dates[1][] = $sp_time;
+							if(!in_array($sp_date, $this->sp_dates[1]))
+								$this->sp_dates[1][] = $sp_date;
 							break;
 						case "year": //add to yearly
-							if(!in_array($sp_time, $this->sp_dates[2]))
-								$this->sp_dates[2][] = $sp_time;
+							if(!in_array($sp_date, $this->sp_dates[2]))
+								$this->sp_dates[2][] = $sp_date;
 							break;
 						default: //add to no recursive
-							if(!in_array($sp_time, $this->sp_dates[0]))
-								$this->sp_dates[0][] = $sp_time;
+							if(!in_array($sp_date, $this->sp_dates[0]))
+								$this->sp_dates[0][] = $sp_date;
 					}
 				}
 			}
@@ -717,17 +775,32 @@ class tc_calendar{
 		}
 	}
 
-	function checkDefaultDateValid(){
-		$default_datetime = mktime(0,0,0,$this->month,$this->day,$this->year);
-		$valid = true;
+	function checkDefaultDateValid($reset = true){
+		$date_str = $this->year."-".str_pad($this->month, 2, "0", STR_PAD_LEFT)."-".str_pad($this->day, 2, "0", STR_PAD_LEFT);
+
+		//check if set date is in year interval
+		$start_interval = $this->year_start."-01-01";
+		$end_interval = $this->year_end."-12-31";
+
+		//check if set date is before start_interval
+		if($this->mydate->dateBefore($start_interval, $date_str)){
+			return false;
+		}
+
+		//check if set date is after end_interval
+		if($this->mydate->dateAfter($end_interval, $date_str)){
+			return false;
+		}
 
 		//check with allow date
 		if($this->time_allow1 && $this->time_allow2){
-			if($default_datetime < $this->time_allow1 || $default_datetime > $this->time_allow2) $valid = false;
+			if($this->mydate->dateBefore($this->time_allow1, $date_str, false) || $this->mydate->dateAfter($this->time_allow2, $date_str, false)){
+				return false;
+			}
 		}elseif($this->time_allow1){
-			if($default_datetime < $this->time_allow1) $valid = false;
+			if($this->mydate->dateBefore($this->time_allow1, $date_str, false)) return false;
 		}elseif($this->time_allow2){
-			if($default_datetime > $this->time_allow2) $valid = false;
+			if($this->mydate->dateAfter($this->time_allow2, $date_str, false)) return false;
 		}
 
 		//check with specific date
@@ -737,8 +810,8 @@ class tc_calendar{
 
 			if(isset($this->sp_dates[2])){
 				foreach($this->sp_dates[2] as $sp_time){
-					$sp_time_md = date('md', $sp_time);
-					$this_md = date('md', $default_datetime);
+					$this_md = $this->mydate->getDate("md", $date_str);
+					$sp_time_md = $this->mydate->getDate("md", $sp_time);
 					if($sp_time_md == $this_md){
 						$sp_found = true;
 						break;
@@ -748,7 +821,7 @@ class tc_calendar{
 
 			if(isset($this->sp_dates[1]) && !$sp_found){
 				foreach($this->sp_dates[1] as $sp_time){
-					$sp_time_d = date('d', $sp_time);
+					$sp_time_d = $this->mydate->getDate("d", $sp_time);
 					if($sp_time_d == $this->day){
 						$sp_found = true;
 						break;
@@ -757,78 +830,89 @@ class tc_calendar{
 			}
 
 			if(isset($this->sp_dates[0]) && !$sp_found){
-				$sp_found = in_array($default_datetime, $this->sp_dates[0]);
+				$sp_found = in_array($date_str, $this->sp_dates[0]);
 			}
 
 			switch($this->sp_type){
 				case 0:
 				default:
 					//disabled specific and enabled others
-					if($sp_found) $valid = false;
+					if($sp_found) return false;
 					break;
 				case 1:
 					//enabled specific and disabled others
-					if(!$sp_found) $valid = false;
+					if(!$sp_found) return false;
 					break;
 			}
 		}
 
 		if(is_array($this->dsb_days) && sizeof($this->dsb_days) > 0){
-			$day_txt = date('D', $default_datetime);
+			$day_txt = $this->mydate->getDate("D", $date_str);
 			if(in_array(strtolower($day_txt), $this->dsb_days) !== false){
-				$valid = false;
+				return false;
 			}
 		}
 
-		return $valid;
+		return true;
 	}
 
 	function check_json_encode($obj){
 		//try customize to get it work, should replace with better solution in the future
-
-		if(function_exists("json_encode")){
-			return json_encode($obj);
-		}else{
-			//only array is assumed for now			
-			if(is_array($obj)){
+		if(is_array($obj)){
+			if(function_exists("json_encode") && false){
+				return json_encode($obj);
+			}else{
+				//only array is assumed for now
 				$return_arr = array();
 				foreach($obj as $arr){
-					if(is_array($arr))
-						$return_arr[] = "[".implode(",", $arr)."]";
+					if(is_array($arr) && sizeof($arr)>0)
+						$return_arr[] = "[\"".implode("\",\"", $arr)."\"]";
+					else $return_arr[] = "[]";
 				}
 				return "[".implode(",", $return_arr)."]";
-			}else return "";
-		}
+			}
+		}else return "";
 	}
 
 	function &check_json_decode($str){
 		//should replace with better solution in the future
 
-		if(function_exists("json_decode")){
+		if(function_exists("json_decode") && false){
 			return json_decode($str);
 		}else{
 			//only array is assume for now
+			$str = stripslashes(rawurldecode($str));
 			$str = trim($str);
+
 			if($str && strlen($str) > 2){
 				$str = substr($str, 1, strlen($str)-2);
-				
-				$return_arr = array();
-				
-				$offset = 0;
-				for($i=0; $i<3; $i++){
-					//find first '['
-					$start_pos = strpos($str, "[", $offset);
-					if($start_pos !== false){
-						//find next ']'	
-						$end_pos = strpos($str, "]", $offset);
-						if($end_pos !== false){
-							$return_str = substr($str, $start_pos+1, ($end_pos-$start_pos-1));
-							$return_arr[] = explode(",", $return_str);
-							$offset = $end_pos+1;
-						}else $return_arr[] = array();
-					}else $return_arr[] = array();
-				}
-				return $return_arr;
+
+				if($str && strlen($str) > 2){
+					$str = substr($str, 1, strlen($str)-2);
+
+					$return_arr = array();
+
+					$offset = 0;
+
+					$arr = explode("],[", $str);
+					for($i=0; $i<sizeof($arr); $i++){
+						$this_v = $arr[$i];
+						if($this_v == "")
+							$return_arr[] = array();
+						else{
+							$this_arr = explode(",", $this_v);
+
+							for($j=0; $j<sizeof($this_arr); $j++){
+								if(substr($this_arr[$j], 0, 1)=="\"" && substr($this_arr[$j], strlen($this_arr[$j])-1, 1)=="\""){
+									$this_arr[$j] = substr($this_arr[$j], 1, strlen($this_arr[$j])-2);
+								}
+							}
+
+							$return_arr[] = $this_arr;
+						}
+					}
+					return $return_arr;
+				}else return array();
 			}else return array();
 		}
 	}
@@ -840,12 +924,145 @@ class tc_calendar{
 	function showWeeks($flag){
 		$this->show_week = $flag;
 	}
-	
+
 	function setAutoHide($auto, $time = ""){
 		$this->auto_hide = ($auto) ? 1 : 0;
 		if($time != "" && $time >= 0){
 			$this->auto_hide_time = $time;
 		}
+	}
+
+	//*****************
+	// Validate the today date of calendar
+	//*****************
+	function validTodayDate(){
+		$today = $this->mydate->getDate();
+
+		//check if today is year 2038 and later
+		if(!$this->mydate->compatible && $this->mydate->getDate("Y") >= 2038){
+			return false;
+		}
+
+		//check if today is in range of date allow
+		if($this->time_allow1 != ""){
+			//check valid if today is after date_allow1
+			if($this->mydate->validDate($this->time_allow1) && !$this->mydate->dateAfter($this->time_allow1, $today))
+				return false;
+		}
+
+		if($this->time_allow2 > 0){
+			//check valid if today is before date_allow2
+			if($this->mydate->validDate($this->time_allow2) && !$this->mydate->dateBefore($this->time_allow2, $today))
+				return false;
+		}
+		return true;
+	}
+
+	//Digitizer
+	//transform numbers to Arabic variants digits
+	function digitize_arabics($digit)
+	{
+		$digitized = $digit;
+		if(defined("L_ARABIC_DIGIT") && L_ARABIC_DIGIT != "L_ARABIC_DIGIT")
+		{
+			$digit_arabic = explode(", ", L_ARABIC_DIGIT);
+			$digitized = str_replace(range(0, 9), $digit_arabic, $digit);
+		}
+		return $digitized;
+	}
+
+	//Tooltips
+	function setToolTips($dates, $tooltip="", $recursive=""){
+
+		if(is_array($dates)){
+			$recursive = strtolower($recursive);
+
+			//change specific date to time
+			foreach($dates as $tt_date){
+				$tt_time = $tt_date;
+//				if($tt_time > 0){
+				switch($recursive){
+					case "year": //add to yearly
+						if(!in_array($tt_time, $this->tt_dates[2])){
+							$this->tt_dates[2][] = $tt_time;
+							$this->tt_tooltips[2][] = $tooltip;
+						}
+						else{
+							$tt_key = array_search($tt_time, $this->tt_dates[2]);
+							$this->tt_tooltips[2][$tt_key] = $this->tt_tooltips[2][$tt_key]."\n".$tooltip;
+						}
+						break;
+					case "month": //add to monthly
+						if(!in_array($tt_time, $this->tt_dates[1])){
+							$this->tt_dates[1][] = $tt_time;
+							$this->tt_tooltips[1][] = $tooltip;
+						}
+						else{
+							$tt_key = array_search($tt_time, $this->tt_dates[1]);
+							$this->tt_tooltips[1][$tt_key] = $this->tt_tooltips[1][$tt_key]."\n".$tooltip;
+						}
+						break;
+					default: //add to no recursive
+						if(!in_array($tt_time, $this->tt_dates[0])){
+							$this->tt_dates[0][] = $tt_time;
+							$this->tt_tooltips[0][] = $tooltip;
+						}
+						else{
+							$tt_key = array_search($tt_time, $this->tt_dates[0]);
+							$this->tt_tooltips[0][$tt_key] = $this->tt_tooltips[0][$tt_key]."\n".$tooltip;
+						}
+				}
+//				}
+			}
+		}
+	}
+
+	function setTimezone($tz){
+		$this->timezone = $tz;
+		@date_default_timezone_set($tz);
+		$this->timezone_offset = date('Z');
+		//echo("new timezone: ".$this->timezone);
+	}
+
+	function setTheme($theme){
+		$this->theme = $theme;
+	}
+
+	function getThemes(){
+		$themes = array();
+		$themesDirectory = dir('./css/');
+		while($thname = $themesDirectory->read())
+		{
+			if(is_dir('./css/'.$thname) && file_exists('./css/'.$thname.'/calendar.css') && !preg_match("/^[\.]/", $thname))
+			{
+				$themes[$thname] = "./css/".$thname."/calendar.css";
+			};
+		};
+		natsort($themes);
+		$themesDirectory->close();
+		return $themes;
+	}
+
+	function getThemePath($theme){
+		$all_themes = $this->getThemes();
+		return isset($all_themes[$theme]) ? $all_themes[$theme] : "";
+	}
+
+	function getDayName($date){
+		$day_name = $this->mydate->getDate("D", $this->year."-".$this->month."-".$this->day);
+
+		$rday_name = $day_name;
+		switch(strtoupper($day_name)){
+			case "MON": $rday_name = L_MON; break;
+			case "TUE": $rday_name = L_TUE; break;
+			case "WED": $rday_name = L_WED; break;
+			case "THU": $rday_name = L_THU; break;
+			case "FRI": $rday_name = L_FRI; break;
+			case "SAT": $rday_name = L_SAT; break;
+			case "SUN": $rday_name = L_SUN; break;
+			default:
+		}
+		return $rday_name;
 	}
 }
 ?>

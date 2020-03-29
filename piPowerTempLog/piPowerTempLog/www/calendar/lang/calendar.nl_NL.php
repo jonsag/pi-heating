@@ -1,22 +1,22 @@
-﻿<?php
+<?php
 # nl_NL translation for
 # PHP-Calendar, DatePicker Calendar class: http://www.triconsole.com/php/calendar_datepicker.php
-# Version: 3.61
+# Version: 3.70
 # Language: Dutch / Nederlands
 # Translator: Bert Moorlag <berbia@hotmail.com>
-# Last file update: 01.09.2011
+# Last file update: 29.07.2013
 
 // Class strings localization
-define("L_DAY", "Dag");
-define("L_MONTH", "Maand");
-define("L_YEAR", "Jaar");
+define("L_DAYC", "Dag");
+define("L_MONTHC", "Maand");
+define("L_YEARC", "Jaar");
 define("L_TODAY", "Vandaag");
 define("L_PREV", "Vorige");
 define("L_NEXT", "Volgende");
 define("L_REF_CAL", "Kalender Vernieuwen...");
 define("L_CHK_VAL", "Controleer datum");
 define("L_SEL_LANG", "Selecteer Taal");
-define("L_SEL_ICON", "Selecteer Icoon");
+define("L_SEL_ICON", "Selecteer");
 define("L_SEL_DATE", "Selecteer Datum");
 define("L_ERR_SEL", "Dit is geen geldige selectie");
 define("L_NOT_ALLOWED", "Dit is geen geldige datum");
@@ -25,6 +25,16 @@ define("L_DATE_AFTER", "Kies een datum na %s");
 define("L_DATE_BETWEEN", "Kies een datum tussen\\n%s en %s");
 define("L_WEEK_HDR", ""); // Optional Short Name for the column header showing the current Week number (W or CW in English - max 2 letters)
 define("L_UNSET", "Uitzetten "); //Zet uit
+define("L_CLOSE", "Sluiten");
+define("L_WARN_2038", "Deze php server versie geeft geen ondersteuning vanaf het jaar 2038! (<5.3.0)");
+define("L_ERR_NOSET", "Fout! De kalender kan niet worden ingesteld");
+define("L_VERSION", "Versie: %s (%s talen)");
+define("L_POWBY", "Gemaakt door:");
+define("L_HERE", "hier");
+define("L_UPDATE", "Update beschikbaar %s !");
+define("L_TRANAME", "Bert Moorlag");
+define("L_TRABY", "Vertaling door %s");
+define("L_DONATE", "Wilt u doneren?");
 
 // Set the first day of the week in your language (0 for Sunday, 1 for Monday)
 define("FIRST_DAY", "1");
@@ -79,8 +89,8 @@ if(!defined("L_LANG") || L_LANG == "L_LANG") define("L_LANG", "nl_NL");
 
 // Set the NL specific date/time format
 if (stristr(PHP_OS,"win")) {
-setlocale(LC_ALL, "dutch.UTF-8", "nld_nld.UTF-8", "nld.UTF-8", "dutch");
+setlocale(LC_TIME, "dutch.UTF-8", "nld_nld.UTF-8", "nld.UTF-8", "dutch");
 } else {
-setlocale(LC_ALL, "nl_NL.UTF-8", "nl_NL.UTF-8@euro", "nld_nld.UTF-8", "nld.UTF-8");
+setlocale(LC_TIME, "nl_NL.UTF-8", "nl_NL.UTF-8@euro", "nld_nld.UTF-8", "nld.UTF-8");
 }
 ?>

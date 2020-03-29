@@ -1,23 +1,23 @@
-﻿<?php
+<?php
 # zh_CN translation for
 # PHP-Calendar, DatePicker Calendar class: http://www.triconsole.com/php/calendar_datepicker.php
 # Localized version of PHP-Calendar, DatePicker Calendar class: http://ciprianmp.com/scripts/calendar/
-# Version: 3.68
+# Version: 3.70
 # Language: Chinese Simplified / 简体中文 // ex: Romanian (English name) / Română (Original name)
-# Translator: Ciprian <ciprianmp@yahoo.com>
-# Last file update: 31.12.2011
+# Translator: clouds_music <clouds.music@gmail.com>
+# Last file update: 25.07.2013
 
 // Class strings localization
-define("L_DAY", "日");
-define("L_MONTH", "月");
-define("L_YEAR", "年");
+define("L_DAYC", "日");
+define("L_MONTHC", "月");
+define("L_YEARC", "年");
 define("L_TODAY", "今天");
 define("L_PREV", "上月");
 define("L_NEXT", "下月");
-define("L_REF_CAL", "清凉的日历...");
+define("L_REF_CAL", "更新日历...");
 define("L_CHK_VAL", "检查值");
 define("L_SEL_LANG", "语言选择");
-define("L_SEL_ICON", "选择图标");
+define("L_SEL_ICON", "选择");
 define("L_SEL_DATE", "选择日期");
 define("L_ERR_SEL", "你的选择是不正确");
 define("L_NOT_ALLOWED", "此日期是不允许被选中");
@@ -26,7 +26,16 @@ define("L_DATE_AFTER", "请选择%s以后的日期");
 define("L_DATE_BETWEEN", "请选择日期%s和%s之间");
 define("L_WEEK_HDR", ""); // Optional Short Name for the column header showing the current Week number (W or CW in English - max 2 letters)
 define("L_UNSET", "取消");
-
+define("L_CLOSE", "关闭");
+define("L_WARN_2038", "这个PHP服务器的版本没有支持2038年以后！(< 5.3.0 )");
+define("L_ERR_NOSET", "错误！日历值，不能设置！");
+define("L_VERSION", "版本： %s (%s语言)");
+define("L_POWBY", "技术支援："); //or "Based on:", "Supported by"
+define("L_HERE", "这里");
+define("L_UPDATE", "可用更新%s！");
+define("L_TRANAME", "clouds_music");
+define("L_TRABY", "中文翻译作者<br />%s云上的音乐");
+ 
 // Set the first day of the week in your language (0 for Sunday, 1 for Monday)
 define("FIRST_DAY", "1");
 
@@ -77,14 +86,14 @@ define("L_S_SUN", "日");
 define("L_USE_YMD_DROP", 1);
 
 // Windows encoding
-#define("WIN_DEFAULT", "windows-1252");
+define("WIN_DEFAULT", "utf-8");
 define("L_CAL_FORMAT", "%Y年%B%d日");
 if(!defined("L_LANG") || L_LANG == "L_LANG") define("L_LANG", "zh_CN"); // en_US format of your language
 
 // Set the ZH specific date/time format
 if (stristr(PHP_OS,"win")) {
-setlocale(LC_ALL, "zh-cn.UTF-8", "Chinese.UTF-8", "zh-cn", "Chinese_China");
+setlocale(LC_TIME, "zh-cn.UTF-8", "Chinese.UTF-8", "zh-cn", "Chinese_China");
 } else {
-setlocale(LC_ALL, "zh_CN.UTF-8", "Chinese.UTF-8");
+setlocale(LC_TIME, "zh_CN.UTF-8", "Chinese.UTF-8");
 }
 ?>

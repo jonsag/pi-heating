@@ -1,23 +1,23 @@
 <?php
 # ja_JP translation for
 # PHP-Calendar, DatePicker Calendar class: http://www.triconsole.com/php/calendar_datepicker.php
-# Version: 3.68
+# Version: 3.73
 # Language: Japanese / 日本語
 # Translator:  Dendeke <konchakka211@yahoo.co.jp>
-# Last file update: 31.12.2011
+# Last file update: 02.11.2014
 
 // Class strings localization
-define("L_DAY", "日");
-define("L_MONTH", "月");
-define("L_YEAR", "年");
+define("L_DAYC", "日");
+define("L_MONTHC", "月");
+define("L_YEARC", "年");
 define("L_TODAY", "今日");
 define("L_PREV", "前");
 define("L_NEXT", "次");
-define("L_REF_CAL", "カレンダーの更新...");
 define("L_CHK_VAL", "値の確認");
 define("L_SEL_LANG", "言語の選択");
-define("L_SEL_ICON", "アイコンの選択");
+define("L_SEL_ICON", "の選択");
 define("L_SEL_DATE", "日付の選択");
+define("L_REF_CAL", "カレンダーの更新...");
 define("L_ERR_SEL", "選択が間違っています");
 define("L_NOT_ALLOWED", "その日付は選択できません");
 define("L_DATE_BEFORE", "%sより前の日付を選択してください");
@@ -25,6 +25,15 @@ define("L_DATE_AFTER", "%s以降の日付を選択してください");
 define("L_DATE_BETWEEN", "%sと%sの間の日付を選択してください");
 define("L_WEEK_HDR", ""); // Optional Short Name for the column header showing the current Week number (W or CW in English - max 2 letters)
 define("L_UNSET", "リセット");
+define("L_CLOSE", "閉じる");
+define("L_ERR_NOSET", "エラー！カレンダーの値設定できません！");
+define("L_VERSION", "バージョン：%s(%s言語)");
+define("L_POWBY", "によって供給：");
+define("L_HERE", "ここで");
+define("L_UPDATE", "更新%s利用可能！");
+define("L_TRANAME", "Dendeke");
+define("L_TRABY", "%sによって翻訳");
+define("L_DONATE", "<bdo dir=\"ltr\">あなたが寄付しますか？</bdo>");
 
 // Set the first day of the week in your language (0 for Sunday, 1 for Monday)
 define("FIRST_DAY", "0");
@@ -81,8 +90,8 @@ if(!defined("L_LANG") || L_LANG == "L_LANG") define("L_LANG", "ja_JP");
 
 // Set the JP specific date/time format
 if (stristr(PHP_OS,"win")) {
-setlocale(LC_ALL, "jpn.utf8", "jpn.UTF-8", "japanese.UTF-8", "japanese", "ja_JP.UTF-8");
+setlocale(LC_TIME, "jpn.utf8", "jpn.UTF-8", "japanese.UTF-8", "japanese", "ja_JP.UTF-8");
 } else {
-setlocale(LC_ALL, "ja_JP.utf8", "ja_JP.UTF-8", "ja_JP", "ja", "japanese", "jpn");
+setlocale(LC_TIME, "ja_JP.utf8", "ja_JP.UTF-8", "ja_JP", "ja", "japanese", "jpn");
 }
 ?>

@@ -1,22 +1,22 @@
 <?php
 # es_ES translation for
 # PHP-Calendar, DatePicker Calendar class: http://www.triconsole.com/php/calendar_datepicker.php
-# Version: 3.61
+# Version: 3.70
 # Language: Spanish / español
-# Translator: Roxana Castañeda <roxminu@yahoo.com>
-# Last file update: 01.09.2011
+# Translator: Roxana Castañeda Sanguinetti <roxminu@yahoo.com>
+# Last file update: 11.09.2013
 
 // Class strings localization
-define("L_DAY", "Día");
-define("L_MONTH", "Mes");
-define("L_YEAR", "Año");
+define("L_DAYC", "Día");
+define("L_MONTHC", "Mes");
+define("L_YEARC", "Año");
 define("L_TODAY", "Hoy");
 define("L_PREV", "Anterior");
 define("L_NEXT", "Siguiente");
 define("L_REF_CAL", "Refrescando el Calendario...");
 define("L_CHK_VAL", "Revisar el valor");
 define("L_SEL_LANG", "Seleccionar el Idioma");
-define("L_SEL_ICON", "Seleccionar el Icono");
+define("L_SEL_ICON", "Seleccionar");
 define("L_SEL_DATE", "Seleccionar la Fecha");
 define("L_ERR_SEL", "Tu selección no es válida");
 define("L_NOT_ALLOWED", "Esta fecha no puede ser seleccionada");
@@ -25,6 +25,16 @@ define("L_DATE_AFTER", "Elija una fecha posterior al %s");
 define("L_DATE_BETWEEN", "Elija una fecha entre el\\n%s y el %s");
 define("L_WEEK_HDR", ""); // Optional Short Name for the column header showing the current Week number (W or CW in English - max 2 letters)
 define("L_UNSET", "Cancelar");
+define("L_CLOSE", "Cerrar");
+define("L_WARN_2038", "¡Esta versión de servidor PHP no tiene soporte para el año 2038 y en adelante! (<5.3.0)");
+define("L_ERR_NOSET", "¡Error! ¡El valor del calendario no puede ser grabado!");
+define("L_VERSION", "Version: %s (%s idiomas)");
+define("L_POWBY", "Desarrollado por:"); //or "Basado en:", "Soporte Técnico por"
+define("L_HERE", "aquí");
+define("L_UPDATE", "Actualización disponible %s !");
+define("L_TRANAME", "Roxana Castañeda");
+define("L_TRABY", "Traducido por %s");
+define("L_DONATE", "¿Deseas donar? Ninguna cantidad es muy pequeña.");
 
 // Set the first day of the week in your language
 define("FIRST_DAY", "1"); // 1 for Monday, 0 for Sunday
@@ -79,8 +89,8 @@ if(!defined("L_LANG") || L_LANG == "L_LANG") define("L_LANG", "es_ES");
 
 // Set the ES specific date/time format
 if (stristr(PHP_OS,"win")) {
-setlocale(LC_ALL, "esp_esp.UTF-8", "spanish.UTF-8", "spanish");
+setlocale(LC_TIME, "esp_esp.UTF-8", "spanish.UTF-8", "spanish");
 } else {
-setlocale(LC_ALL, "es_ES.UTF-8", "es_ES.UTF-8@euro", "esp.UTF-8", "es.UTF-8", "esp_esp.UTF-8", "spanish.UTF-8");
+setlocale(LC_TIME, "es_ES.UTF-8", "es_ES.UTF-8@euro", "esp.UTF-8", "es.UTF-8", "esp_esp.UTF-8", "spanish.UTF-8");
 }
 ?>

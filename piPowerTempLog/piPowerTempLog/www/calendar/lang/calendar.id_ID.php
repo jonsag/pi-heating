@@ -1,22 +1,22 @@
-﻿<?php
+<?php
 # id_ID translation for
 # PHP-Calendar, DatePicker Calendar class: http://www.triconsole.com/php/calendar_datepicker.php
-# Version: 3.61
-# Language: Indonesian - Bahasa / Bahasa Indonesia
-# Translator: Hendriyo <hendriyo@gmail.com>
-# Last file update: 01.09.2011
+# Version: 3.70
+# Language: Indonesian / Bahasa Indonesia
+# Translator: Hendriyo Kustrianjaya <hendriyo@gmail.com>
+# Last file update: 29.07.2013
 
 // Class strings localization
-define("L_DAY", "Hari");
-define("L_MONTH", "Bulan");
-define("L_YEAR", "Tahun");
+define("L_DAYC", "Hari");
+define("L_MONTHC", "Bulan");
+define("L_YEARC", "Tahun");
 define("L_TODAY", "Hari ini");
 define("L_PREV", "Sebelumnya");
 define("L_NEXT", "Selanjutnya");
 define("L_REF_CAL", "Menyegarkan Kalender...");
 define("L_CHK_VAL", "Periksa Nilainya");
 define("L_SEL_LANG", "Pilih Bahasa");
-define("L_SEL_ICON", "Pilih Ikon");
+define("L_SEL_ICON", "Pilih");
 define("L_SEL_DATE", "Pilih Tanggal");
 define("L_ERR_SEL", "Pilihan yang ada pilih salah");
 define("L_NOT_ALLOWED", "Tanggal ini tidak dijinkan untuk dipilih");
@@ -25,6 +25,16 @@ define("L_DATE_AFTER", "Silakan pilih tanggal setelah %s");
 define("L_DATE_BETWEEN", "Silakan pilih tanggal antara\\n%s dan %s");
 define("L_WEEK_HDR", ""); // Optional Short Name for the column header showing the current Week number (W or CW in English - max 2 letters)
 define("L_UNSET", "Belum diset");
+define("L_CLOSE", "Tutup");
+define("L_WARN_2038", "Versi server php ini tidak dapat pakai tahun 2038 atau lebih! (<5.3.0)");
+define("L_ERR_NOSET", "Gagal! Angka di kalender tidak dapat diset!");
+define("L_VERSION", "Versi: %s (%s Bahasa)");
+define("L_POWBY", "Ditenagai oleh:"); //or "Based on:", "Supported by"
+define("L_HERE", "sini");
+define("L_UPDATE", "Perbaharuan tersedia %s !");
+define("L_TRANAME", "Hendriyo Kustrianjaya");
+define("L_TRABY", "Diterjemahkan oleh<br />%s");
+define("L_DONATE", "Anda ingin mendonasikan?");
 
 // Set the first day of the week in your language (0 for Sunday, 1 for Monday)
 define("FIRST_DAY", "1");
@@ -48,8 +58,9 @@ define("L_S_FEB", "Feb");
 define("L_S_MAR", "Mar");
 define("L_S_APR", "Apr");
 define("L_S_MAY", "Mei");
+define("L_S_JUN", "Jun");
 define("L_S_JUL", "Jul");
-define("L_S_AUG", "Agust");
+define("L_S_AUG", "Agu");
 define("L_S_SEP", "Sep");
 define("L_S_OCT", "Okt");
 define("L_S_NOV", "Nov");
@@ -78,8 +89,8 @@ if(!defined("L_LANG") || L_LANG == "L_LANG") define("L_LANG", "id_ID");
 
 // Set the ID specific date/time format
 if (stristr(PHP_OS,"win")) {
-setlocale(LC_ALL, "IND_IND.UTF-8", "IND_IND", "indonesian.UTF-8", "indonesian"); // For Windows servers
+setlocale(LC_TIME, "IND_IND.UTF-8", "IND_IND", "indonesian.UTF-8", "indonesian"); // For Windows servers
 } else {
-setlocale(LC_ALL, "id_ID.UTF-8", "id_ID", "ind.UTF-8", "ind_ind.UTF-8"); // For Unix/FreeBSD servers
+setlocale(LC_TIME, "id_ID.UTF-8", "id_ID", "ind.UTF-8", "ind_ind.UTF-8"); // For Unix/FreeBSD servers
 }
 ?>

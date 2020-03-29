@@ -1,22 +1,22 @@
 <?php
 # es_AR translation for
 # PHP-Calendar, DatePicker Calendar class: http://www.triconsole.com/php/calendar_datepicker.php
-# Version: 3.61
+# Version: 3.70
 # Language: Argentinian Spanish / español Argentina
-# Translator: Matias Olivera <matiolivera@yahoo.com>
-# Last file update: 01.09.2011
+# Translator: Matías Olivera <matiolivera@yahoo.com>
+# Last file update: 23.07.2013
 
 // Class strings localization
-define("L_DAY", "Día");
-define("L_MONTH", "Mes");
-define("L_YEAR", "Año");
+define("L_DAYC", "Día");
+define("L_MONTHC", "Mes");
+define("L_YEARC", "Año");
 define("L_TODAY", "Hoy");
 define("L_PREV", "Anterior");
 define("L_NEXT", "Próximo");
 define("L_REF_CAL", "Actualizando Calendario...");
 define("L_CHK_VAL", "Verifica el valor");
 define("L_SEL_LANG", "Selecciona lenguage");
-define("L_SEL_ICON", "Selecciona Icono");
+define("L_SEL_ICON", "Selecciona");
 define("L_SEL_DATE", "Selecciona día");
 define("L_ERR_SEL", "Tu selección no es válida");
 define("L_NOT_ALLOWED", "Este día no puede ser seleccionado");
@@ -25,6 +25,15 @@ define("L_DATE_AFTER", "Elija una fecha posterior al %s");
 define("L_DATE_BETWEEN", "Elija una fecha entre el\\n%s y el %s");
 define("L_WEEK_HDR", ""); // Optional Short Name for the column header showing the current Week number (W or CW in English - max 2 letters)
 define("L_UNSET", "Cancelar");
+define("L_CLOSE", "Cerrar");
+define("L_WARN_2038", "La versión de este servidor php no tiene soporte para el año 2038 o posterior! (<5.3.0)");
+define("L_ERR_NOSET", "Error! No se puede definir este valor de calendario!");
+define("L_VERSION", "Versión: %s (%s lenguajes)");
+define("L_POWBY", "Desarrollado por:"); //or "Based on:", "Supported by"
+define("L_HERE", "aquí");
+define("L_UPDATE", "Actualización disponible %s !");
+define("L_TRANAME", "Matías Olivera");
+define("L_TRABY", "Traducido por %s");
 
 // Set the first day of the week in your language
 define("FIRST_DAY", "0"); // 1 for Monday, 0 for Sunday
@@ -79,8 +88,8 @@ if(!defined("L_LANG") || L_LANG == "L_LANG") define("L_LANG", "es_AR");
 
 // Set the AR specific date/time format
 if (stristr(PHP_OS,"win")) {
-setlocale(LC_ALL, "ESP_ARG.UTF-8", "ESP_ARG");
+setlocale(LC_TIME, "ESP_ARG.UTF-8", "ESP_ARG");
 } else {
-setlocale(LC_ALL, "es_AR.UTF-8", "esp_arg.UTF-8");
+setlocale(LC_TIME, "es_AR.UTF-8", "esp_arg.UTF-8");
 }
 ?>

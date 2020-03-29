@@ -1,23 +1,23 @@
-﻿<?php
+<?php
 # nn_NO translation for
 # PHP-Calendar, DatePicker Calendar class: http://www.triconsole.com/php/calendar_datepicker.php
 # Localized version of PHP-Calendar, DatePicker Calendar class: http://ciprianmp.com/scripts/calendar/
-# Version: 3.61
+# Version: 3.70
 # Language: Norwegian (Nynorsk) / norsk, nynorsk
-# Translator: Stian Hvatum <post@dream-web.no>
-# Last file update: 01.09.2011
+# Translator: Abraham Straume Bah <abraham.bah@gmail.com>
+# Last file update: 29.07.2013
 
 // Class strings localization
-define("L_DAY", "Dag");
-define("L_MONTH", "Månad");
-define("L_YEAR", "År");
+define("L_DAYC", "Dag");
+define("L_MONTHC", "Månad");
+define("L_YEARC", "År");
 define("L_TODAY", "I dag");
 define("L_PREV", "Førre");
 define("L_NEXT", "Neste");
 define("L_REF_CAL", "Oppdaterer kalenderen...");
 define("L_CHK_VAL", "Sjekk verdien");
 define("L_SEL_LANG", "Vel språk");
-define("L_SEL_ICON", "Vel ikon");
+define("L_SEL_ICON", "Vel");
 define("L_SEL_DATE", "Vel dato");
 define("L_ERR_SEL", "Valet er ikkje gyldig");
 define("L_NOT_ALLOWED", "Denne datoen kan ikkje veljast");
@@ -26,6 +26,15 @@ define("L_DATE_AFTER", "Vel ein dato etter %s");
 define("L_DATE_BETWEEN", "Vel ein dato mellom\\n%s og %s");
 define("L_WEEK_HDR", ""); // Optional Short Name for the column header showing the current Week number (W or CW in English - max 2 letters)
 define("L_UNSET", "Nullstill");
+define("L_CLOSE", "Lukka");
+define("L_WARN_2038", "Php versjonen på denne servaren støttar ikkje år 2038 eller seinare! (<5.3.0)");
+define("L_ERR_NOSET", "Feil! Kalenderverdien kan ikkje setjast!");
+define("L_VERSION", "Versjon: %s (%s språk)");
+define("L_POWBY", "Dreven av:"); //or "Based on:", "Supported by"
+define("L_HERE", "her");
+define("L_UPDATE", "Oppdatering tilgjengeleg %s !");
+define("L_DONATE", "Ynskjer du å donera?");
+# Keep translated by private!
 
 // Set the first day of the week in your language (0 for Sunday, 1 for Monday)
 define("FIRST_DAY", "1");
@@ -80,8 +89,8 @@ if(!defined("L_LANG") || L_LANG == "L_LANG") define("L_LANG", "nn_NO"); // en_US
 
 // Set the NN specific date/time format;
 if (stristr(PHP_OS,"win")) {
-setlocale(LC_ALL, "nn_NO.UTF-8", "nor-nyn.UTF-8", "nor", "nor.UTF-8", "nor-nor.UTF-8", "Norwegian-nynorsk.UTF-8", "Norwegian.UTF-8", "Norwegian", "Norwegian_Norway");
+setlocale(LC_TIME, "nn_NO.UTF-8", "nor-nyn.UTF-8", "nor", "nor.UTF-8", "nor-nor.UTF-8", "Norwegian-nynorsk.UTF-8", "Norwegian.UTF-8", "Norwegian", "Norwegian_Norway");
 } else {
-setlocale(LC_ALL, "nn_NO.UTF-8", "nn_NB.UTF-8", "no_NO.UTF-8", "nor.UTF-8", "nor_nyn.UTF-8", "Norwegian.UTF-8", "Norwegian-nynorsk.UTF-8");
+setlocale(LC_TIME, "nn_NO.UTF-8", "nn_NB.UTF-8", "no_NO.UTF-8", "nor.UTF-8", "nor_nyn.UTF-8", "Norwegian.UTF-8", "Norwegian-nynorsk.UTF-8");
 }
 ?>

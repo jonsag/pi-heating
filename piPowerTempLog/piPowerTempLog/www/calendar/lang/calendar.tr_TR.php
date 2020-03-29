@@ -1,22 +1,22 @@
 <?php
 # tr_TR translation for
 # PHP-Calendar, DatePicker Calendar class: http://www.triconsole.com/php/calendar_datepicker.php
-# Version: 3.62
+# Version: 3.70
 # Language: Turkish / Türkçe
 # Translator: Volkan Övün <vovun@hotmail.com>
-# Last file update: 26.09.2011
+# Last file update: 12.08.2013
 
 // Class strings localization
-define("L_DAY", "Gün");
-define("L_MONTH", "Ay");
-define("L_YEAR", "Yıl");
+define("L_DAYC", "Gün");
+define("L_MONTHC", "Ay");
+define("L_YEARC", "Yıl");
 define("L_TODAY", "Bu gün");
 define("L_PREV", "Önceki");
 define("L_NEXT", "Sonraki");
 define("L_REF_CAL", "Takvimi Yenile...");
 define("L_CHK_VAL", "Seçilmiş tarihi kontrol et");
 define("L_SEL_LANG", "Dil Seçimi");
-define("L_SEL_ICON", "İkon Seçimi");
+define("L_SEL_ICON", "Seç");
 define("L_SEL_DATE", "Tarih Seçimi");
 define("L_ERR_SEL", "Geçersiz bir seçim yeptınız");
 define("L_NOT_ALLOWED", "Bu tarihin seçilmesine izin verilmiyor");
@@ -25,6 +25,16 @@ define("L_DATE_AFTER", "%s sonra bir tarih seçin");
 define("L_DATE_BETWEEN", "%s ve %s\\narasındaki bir tarih seçin");
 define("L_WEEK_HDR", ""); // Optional Short Name for the column header showing the current Week number (W or CW in English - max 2 letters)
 define("L_UNSET", "İptal"); // Seçimi kaldır
+define("L_CLOSE", "Kapat");
+define("L_WARN_2038", "Bu php sunucusu sürümü 2038 yılı ve sonrasını desteklemiyor! (<5.3.0)");
+define("L_ERR_NOSET", "Hata! Takvim değeri ayarlanamıyor!");
+define("L_VERSION", "Sürüm: %s (%s diller)");
+define("L_POWBY", "Destekleyen:"); //or "Based on:", "Supported by"
+define("L_HERE", "burada");
+define("L_UPDATE", "Güncelleme %s !");
+define("L_TRANAME", "Volkan Övün");
+define("L_TRABY", "Çeviren: %s");
+define("L_DONATE", "Bağış yapmak ister misiniz?");
 
 // Set the first day of the week in your language (0 for Sunday, 1 for Monday... 6 for Saturday)
 define("FIRST_DAY", "1");
@@ -79,8 +89,10 @@ if(!defined("L_LANG") || L_LANG == "L_LANG") define("L_LANG", "tr_TR");
 
 // Set the TR specific date/time format
 if (stristr(PHP_OS,'win')) {
-setlocale(LC_ALL, "turkish.UTF-8", "turkish");
+setlocale(LC_TIME, "turkish.UTF-8", "turkish");
 } else {
-#setlocale(LC_ALL, "tr_TR.UTF-8", "turkish.UTF-8");
+setlocale(LC_TIME, "tr_TR.UTF-8", "turkish.UTF-8");
 }
+// workaround for http://bugs.php.net/bug.php?id=18556
+if (version_compare(PHP_VERSION,'5.5') < 0) setlocale(LC_CTYPE, 'en_US.utf8');
 ?>

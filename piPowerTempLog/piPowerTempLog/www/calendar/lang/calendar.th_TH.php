@@ -1,23 +1,23 @@
-﻿<?php
+<?php
 # th_TH translation for
 # PHP-Calendar, DatePicker Calendar class: http://www.triconsole.com/php/calendar_datepicker.php
-# Version: 3.61
+# Version: 3.70
 # Language: Thai / ภาษาไทย
-# Translator: 
-# Last file update: 01.09.2011
+# Translator: Ciprian using Google Translate
+# Last file update: 21.07.2013
 // Thailand mainly uses the Buddhist Era which is 543 years ahead of the Gregorian year. 1 January 2549 BE (AD 2006) 
 
 // Class strings localization
-define("L_DAY", "วัน");
-define("L_MONTH", "เดือน");
-define("L_YEAR", "ปี");
+define("L_DAYC", "วัน");
+define("L_MONTHC", "เดือน");
+define("L_YEARC", "ปี");
 define("L_TODAY", "วันนี้");
 define("L_PREV", "ย้อน");
 define("L_NEXT", "ถัดไป");
 define("L_REF_CAL", "ปฏิทินกิจกรรมรีเฟรช ...");
 define("L_CHK_VAL", "ตรวจสอบค่า");
 define("L_SEL_LANG", "เลือกภาษา");
-define("L_SEL_ICON", "เลือกไอคอน");
+define("L_SEL_ICON", "เลือก");
 define("L_SEL_DATE", "เลือกวันที่");
 define("L_ERR_SEL", "การเลือกของคุณไม่ถูกต้อง");
 define("L_NOT_ALLOWED", "วันนี้ไม่ได้รับอนุญาตให้มีการเลือก");
@@ -26,6 +26,15 @@ define("L_DATE_AFTER", "กรุณาเลือกวันหลังจ�
 define("L_DATE_BETWEEN", "กรุณาเลือกวันที่ระหว่าง\\n%s และ %s");
 define("L_WEEK_HDR", ""); // Optional Short Name for the column header showing the current Week number (W or CW in English - max 2 letters)
 define("L_UNSET", "ยกเลิก");
+define("L_CLOSE", "ปิด");
+define("L_WARN_2038", "รุ่นนี้ php server ของไม่ได้มีการสนับสนุนสำหรับปี 2038 และต่อมา! (<5.3.0)");
+define("L_ERR_NOSET", "ข้อผิดพลาด! ค่าปฏิทินไม่สามารถตั้งค่า!");
+define("L_VERSION", "เวอร์ชัน: %s (%s ภาษา)");
+define("L_POWBY", "บนพื้นฐานต่อไป:"); //or "Based on:", "Supported by"
+define("L_HERE", "ที่นี่");
+define("L_UPDATE", "ปรับปรุง %s !");
+define("L_TRANAME", "Google"); //Keep a short name
+define("L_TRABY", "แปลโดย %s");
 
 // Set the first day of the week in your language (0 for Sunday, 1 for Monday)
 define("FIRST_DAY", "1");
@@ -80,8 +89,15 @@ if(!defined("L_LANG") || L_LANG == "L_LANG") define("L_LANG", "th_TH"); // en_US
 
 // Set the RU specific date/time format
 if (stristr(PHP_OS,"win")) {
-setlocale(LC_ALL, "tha-tha.UTF-8", "tha-tha", "Thai.UTF-8", "Thai");
+setlocale(LC_TIME, "tha-tha.UTF-8", "tha-tha", "Thai.UTF-8", "Thai");
 } else {
-setlocale(LC_ALL, "th_TH.UTF-8", "tha.UTF-8", "tha_tha.UTF-8", "Thai.UTF-8");
+setlocale(LC_TIME, "th_TH.UTF-8", "tha.UTF-8", "tha_tha.UTF-8", "Thai.UTF-8");
 }
+
+// Thai Digits variant
+define("L_ARABIC_DIGIT", "๐ , ๑, ๒, ๓, ๔, ๕, ๖, ๗, ๘, ๙");
+define("L_DIGIT", 0); //Show Thai by default
+define("L_UTF_DIGIT", 3616);
+#define("L_ARABIC", "Arabic Digits"); // To switch to regular Arabic digits
+define("L_INDIC", "ภาษาไทย");
 ?>

@@ -1,22 +1,22 @@
 <?php
 # da_DK translation for
 # PHP-Calendar, DatePicker Calendar class: http://www.triconsole.com/php/calendar_datepicker.php
-# Version: 3.61
+# Version: 3.70
 # Language: Danish / dansk
 # Translator: Bente Feldballe
-# Last file update: 01.09.2011
+# Last file update: 28.07.2013
 
 // Class strings localization
-define("L_DAY", "Dato");
-define("L_MONTH", "Måned");
-define("L_YEAR", "År");
+define("L_DAYC", "Dato");
+define("L_MONTHC", "Måned");
+define("L_YEARC", "År");
 define("L_TODAY", "I dag");
 define("L_PREV", "Forrige");
 define("L_NEXT", "Næste");
 define("L_REF_CAL", "Opdatér kalender...");
 define("L_CHK_VAL", "Tjek værdi");
 define("L_SEL_LANG", "Vælg sprog");
-define("L_SEL_ICON", "Vælg ikon");
+define("L_SEL_ICON", "Vælg");
 define("L_SEL_DATE", "Vælg dato");
 define("L_ERR_SEL", "Ugyldigt valg");
 define("L_NOT_ALLOWED", "Du kan ikke vælge denne dato");
@@ -25,6 +25,16 @@ define("L_DATE_AFTER", "Vælg en dato, efter %s");
 define("L_DATE_BETWEEN", "Vælg en dato mellem\\n%s og %s");
 define("L_WEEK_HDR", ""); // Optional Short Name for the column header showing the current Week number (W or CW in English - max 2 letters)
 define("L_UNSET", "Frakoblet"); //Annuller
+define("L_CLOSE", "Luk");
+define("L_WARN_2038", "Denne version php-server understøtter ikke året 2038 og senere! (<5.3.0)");
+define("L_ERR_NOSET", "Fejl! Kalenderværdien kan ikke vælges!");
+define("L_VERSION", "Version: %s (%s sprog)");
+define("L_POWBY", "Baseret på:"); //or "Based on:", "Supported by"
+define("L_HERE", "her");
+define("L_UPDATE", "Opdatering tilgængelig %s !");
+define("L_TRANAME", "Bente Feldballe");
+define("L_TRABY", "Oversat af %s");
+define("L_DONATE", "Vil du give et bidrag?");
 
 // Set the first day of the week in your language
 define("FIRST_DAY", "1"); // 1 for Monday, 0 for Sunday
@@ -79,8 +89,8 @@ if(!defined("L_LANG") || L_LANG == "L_LANG") define("L_LANG", "da_DK");
 
 // Set the DK specific date/time format
 if (stristr(PHP_OS,"win")) {
-setlocale(LC_ALL, "danish.UTF-8", "danish"); // For DK formats
+setlocale(LC_TIME, "danish.UTF-8", "danish"); // For DK formats
 } else {
-setlocale(LC_ALL, "da_DK.UTF-8", "da_DK.UTF-8@euro", "dnk.UTF-8", "dnk.UTF-8"); // For DK formats
+setlocale(LC_TIME, "da_DK.UTF-8", "da_DK.UTF-8@euro", "dnk.UTF-8", "dnk.UTF-8"); // For DK formats
 }
 ?>

@@ -1,22 +1,22 @@
 <?php
 # sv_SE translation for
 # PHP-Calendar, DatePicker Calendar class: http://www.triconsole.com/php/calendar_datepicker.php
-# Version: 3.61
+# Version: 3.70
 # Language: Swedish / svenska
 # Translator: Fimpen Högström <fimpen@relative-work.se>
-# Last file update: 01.09.2011
+# Last file update: 05.08.2013
 
 // Class strings localization
-define("L_DAY", "Dag");
-define("L_MONTH", "Månad");
-define("L_YEAR", "År");
+define("L_DAYC", "Dag");
+define("L_MONTHC", "Månad");
+define("L_YEARC", "År");
 define("L_TODAY", "I dag");
 define("L_PREV", "Tidigare");
 define("L_NEXT", "Nästa");
 define("L_REF_CAL", "Uppdatera Kalendern...");
 define("L_CHK_VAL", "Kolla värdet");
 define("L_SEL_LANG", "Välj språk");
-define("L_SEL_ICON", "Välj icon");
+define("L_SEL_ICON", "Välj");
 define("L_SEL_DATE", "Välj datum");
 define("L_ERR_SEL", "Ditt val är inte giltig");
 define("L_NOT_ALLOWED", "Detta datum är inte tillåtet att välja");
@@ -25,6 +25,16 @@ define("L_DATE_AFTER", "Välj ett datum efter %s");
 define("L_DATE_BETWEEN", "Välj ett datum mellan\\n%s och %s");
 define("L_WEEK_HDR", ""); // Optional Short Name for the column header showing the current Week number (W or CW in English - max 2 letters)
 define("L_UNSET", "Avbryt");
+define("L_CLOSE", "Stäng");
+define("L_WARN_2038", "Denna version av php server stödjer inte datum efter år 2038! (<5.3.0)");
+define("L_ERR_NOSET", "FEL! Kalendervärdet kan inte användas!");
+define("L_VERSION", "Version: %s (%s språk)");
+define("L_POWBY", "Baserat på:"); //or "Based on:", "Supported by"
+define("L_HERE", "här");
+define("L_UPDATE", "Uppdatering tillgänglig %s !");
+define("L_TRANAME", "Fimpen Högström");
+define("L_TRABY", "Översatt till svenska av<br />%s");
+define("L_DONATE", "Om du vill lämna ett<br />ekonomiskt bidrag?");
 
 // Set the first day of the week in your language (0 for Sunday, 1 for Monday)
 define("FIRST_DAY", "1");
@@ -79,8 +89,8 @@ if(!defined("L_LANG") || L_LANG == "L_LANG") define("L_LANG", "sv_SE");
 
 // Set the SV specific date/time format
 if (stristr(PHP_OS,"win")) {
-setlocale(LC_ALL, "sve.UTF-8", "swedish.UTF-8", "swedish");
+setlocale(LC_TIME, "sve.UTF-8", "swedish.UTF-8", "swedish");
 } else {
-setlocale(LC_ALL, "sv_SE.UTF-8", "sv_SE.UTF-8@euro", "swedish.UTF-8", "sve.UTF-8", "sv.UTF-8", "sve_sve.UTF-8");
+setlocale(LC_TIME, "sv_SE.UTF-8", "sv_SE.UTF-8@euro", "swedish.UTF-8", "sve.UTF-8", "sv.UTF-8", "sve_sve.UTF-8");
 }
 ?>
