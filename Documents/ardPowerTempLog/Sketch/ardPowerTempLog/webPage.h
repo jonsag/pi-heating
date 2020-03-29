@@ -16,7 +16,7 @@ void presentWebPage(void) {
 
           //now output HTML data header
           if (readString.indexOf('?') >= 0) { //don't send new page
-            client.println("HTTP/1.1 204 JS Arduino");
+            client.println("HTTP/1.1 204 ardPowerTempLog");
             client.println();
             client.println();
           }
@@ -31,9 +31,12 @@ void presentWebPage(void) {
             client.println("<TITLE>ardPowerTempLog</TITLE>");
             client.println("</HEAD>");
             client.println("<BODY>");
+            client.println("<div style='text-align:center'>");
             client.println("<H1>ardPowerTempLog</H1>");
             client.println("- part of piHeating -");
-
+            client.println("</div>");
+            client.println("<br>");
+            
             // currents
             client.println("<br>");
             for (phaseCount = 0; phaseCount <= 2; phaseCount++) {
