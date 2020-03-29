@@ -128,10 +128,40 @@ Also you will have to answer some questions during the installs themselves, espe
 
 The electrical builds
 =========
+For all electrical builds there are CAD files for each project under 'Documentation'.  
+Not all have finished PCB etch masks available as pdf.  
+If you like to make some yourself, install KiCad (https://www.kicad-pcb.org) and just make them.  
+I have made all as single layer PCBs myself, but just go ahead and route some double layered ones.   
+If you don't want to make them them yourself, I can recommend JLCPCB (https://jlcpcb.com), reasonably fast and very cheap.  
+
 piHeatingLCD
 ----------
-![ ](./Documents/EclipseWorkspace/pi-heating/Documents/images/piHeatingLCD-full.JPG  "piHeatingLCD full view")
-	
+![ ](Documents/images/piHeatingLCD-pcb_top.JPG  "piHeatingLCD PCB top view")
+
+ardPowerTempLog
+----------
+![testing](Documents/images/ardWeatherLog-pcb_bottom.JPG  "ardPowerTempLog PCB bottom view")
+
+This build also require some current clamps.  
+![ ](Documents/images/ardPowerTempLog-current_clamp.JPG  "ardPowerTempLog current clamp")
+I use three of these. If you go with other ones you will have to adapt your resistor values accordingly.  
+
+Also of course you will need some DS18B20 1-wire temperature sensors.   
+![ ](Documents/images/ardPowerTempLog-dallas.JPG  "ard>PowerTempLog temp sensor")
+Other ones will also do, but then check what library and settings you use in the Arduino sketch.  
+
+Then you will need some device to catch the blinks on your power meter.  
+![ ](Documents/images/ardPowerTempLog-led_watch.JPG  "ardPowerLog LED watch")
+
+ardWeatherLog
+----------
+![ ](Documents/images/ardWeatherLog-full.JPG  "ardWeatherLog full")
+I use an ordinary ethernet cable to connect the Arduino to the weather sensors.  
+
+The sensors are some devices I got from a cheap weather station.  
+![ ](Documents/images/ardWeatherLog-sensors.JPG  "ardWeatherLog sensors")
+I just tossed the LCD that went with it.  
+
 Quick reference
 ==========
 What is installed and where
