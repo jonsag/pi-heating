@@ -140,28 +140,27 @@ piHeatingLCD
 
 ardPowerTempLog
 ----------
-![testing](Documents/images/ardWeatherLog-pcb_bottom.JPG  "ardPowerTempLog PCB bottom view")
+![testing](Documents/images/ardWeatherLog-pcb_bottom.JPG  "ardPowerTempLog PCB bottom view")  
 
 This build also require some current clamps.  
-![ ](Documents/images/ardPowerTempLog-current_clamp.JPG  "ardPowerTempLog current clamp")
-
+![ ](Documents/images/ardPowerTempLog-current_clamp.JPG  "ardPowerTempLog current clamp")  
 I use three of these. If you go with other ones you will have to adapt your resistor values accordingly.  
 
 Also of course you will need some DS18B20 1-wire temperature sensors.   
-![ ](Documents/images/ardPowerTempLog-dallas.JPG  "ard>PowerTempLog temp sensor")
-
+![ ](Documents/images/ardPowerTempLog-dallas.JPG  "ard>PowerTempLog temp sensor")  
 Other ones will also do, but then check what library and settings you use in the Arduino sketch.  
+I have soldered cables directly to the pins, and connected it to a phono plug.  
 
 Then you will need some device to catch the blinks on your power meter.  
-![ ](Documents/images/ardPowerTempLog-led_watch.JPG  "ardPowerLog LED watch")
+![ ](Documents/images/ardPowerTempLog-led_watch.JPG  "ardPowerLog LED watch")  
 
 ardWeatherLog
 ----------
-![ ](Documents/images/ardWeatherLog-full.JPG  "ardWeatherLog full")
+![ ](Documents/images/ardWeatherLog-full.JPG  "ardWeatherLog full")  
 I use an ordinary ethernet cable to connect the Arduino to the weather sensors.  
 
 The sensors are some devices I got from a cheap weather station.  
-![ ](Documents/images/ardWeatherLog-sensors.JPG  "ardWeatherLog sensors")
+![ ](Documents/images/ardWeatherLog-sensors.JPG  "ardWeatherLog sensors")  
 I just tossed the LCD that went with it.  
 
 Quick reference
