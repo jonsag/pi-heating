@@ -144,9 +144,10 @@ ardPowerTempLog
 
 This build also require some current clamps.  
 ![ ](Documents/images/ardPowerTempLog-current_clamp.JPG  "ardPowerTempLog current clamp")  
-I use three of these. If you go with other ones you will have to adapt your resistor values accordingly.  
+I use three of these.  
+If you go with other ones you will have to adapt your resistor values accordingly.  
 
-Also of course you will need some DS18B20 1-wire temperature sensors.   
+Also, of course, you will need some DS18B20 1-wire temperature sensors.   
 ![ ](Documents/images/ardPowerTempLog-dallas.JPG  "ard>PowerTempLog temp sensor")  
 Other ones will also do, but then check what library and settings you use in the Arduino sketch.  
 I have soldered cables directly to the pins, and connected it to a phono plug.  
