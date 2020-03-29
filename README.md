@@ -257,6 +257,7 @@ Click
 	
 on the newly added device.  
 Set  
+
 	Name: <name>
 	GPIO Pin: 10
 	Pin Active H/L: \<if you use the NO, then this should be 1\>
@@ -381,9 +382,9 @@ Click
 	Save
 	Done
 	
-The fourth, and last, timer will keep the temperature low at all other times
+The fourth, and last, schedule will keep the temperature low at all other times
 
-Add another timer as before and enter
+Add another schedule as before and enter
 
 	Name: <name, for example 'Cold'>
 	Start time: 00:00:00
@@ -433,6 +434,8 @@ piPowerTempLog
 Build according to files in  
 
 	Documents/ardPowerTempLog
+	
+This build requires an ethernet shield.  
 	
 piWeatherLog
 ==========
@@ -494,6 +497,19 @@ The sensors are some devices I got from a cheap weather station.
 ![ ](Documents/images/ardWeatherLog-sensors.JPG  "ardWeatherLog sensors")  
 I just tossed the LCD that went with it.  
 
+Install Arduino IDE
+==========
+Install Arduino IDE from https://www.arduino.cc/en/Main/Software  
+>$ mv arduino-*.tar.xz ~/bin  
+>$ cd ~/bin  
+>$ tar -xvJf arduino-*.tar.xz  
+>$ cd arduino-*  
+>$ ./install.sh  
+
+Install Average library
+==========
+Copy directory Average to your Arduino/libraries directory  
+
 Quick reference
 ==========
 What is installed and where
@@ -540,7 +556,7 @@ piHeatingHub
 * runs on port 8080  
 * mysql setup creates password, and stores credentials /home/pi/bin/piHeatingHub/config/config.ini  
 * secure install creates password for user 'admin', and stores it in /home/pi/bin/piHeatingHub/.htpasswd  
-* runs cron job at /home/pi/bin/piHeatingHub/cron/piHeatingHubWrapper.sh every minute  
+* runs cron job at /home/pi/bin/piHeatingHub/cron/wrapper.sh every minute  
 
 piHeatingRemote  
 
@@ -561,6 +577,13 @@ piPowerTempLog
 * runs on port 8082
 * runs cron job at /home/pi/bin/piPowerTempLog/cron/wrapper.sh every 2 minutes  
 
+piWeatherLog  
+
+* executables installs in /home/pi/bin/piWeatherLog  
+* www installs in /var/www/piWeatherLog  
+* runs on port 8083
+* runs cron job at /home/pi/bin/piWeatherLog/cron/wrapper.sh every 2 minutes  
+
 URLs:
 ----------
 Hub:  
@@ -574,30 +597,13 @@ Sensor value for sensor #1: http://\<IP\>:8081/value.php?id=1
 Power log:  
 Main page: http://\<IP\>:8082  
 
+Weather log:  
+Main page: http://\<IP\>:8083/weather.php
 
 Testing  
 ==========
 Below is only for my testing during development  
 Use with caution!  
-
-Install and run Arduino IDE:
-----------
-Install Arduino IDE from https://www.arduino.cc/en/Main/Software  
->$ mv arduino-*.tar.xz ~/bin  
->$ cd ~/bin  
->$ tar -xvJf arduino-*.tar.xz  
->$ cd arduino-*  
->$ ./install.sh  
-
-Install Average library:
-----------
-Copy directory Average to your Arduino/libraries directory  
-
-Set up passwordless ssh login
-----------
->$ ssh-keygen  
-
->$ ssh-copy-id  -i ~/.ssh/id_rsa.pub pi@192.168.10.52  
 
 Upload source  
 >$ rsync -avz --delete . pi@192.168.10.52:pi-heating/  
