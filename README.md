@@ -261,7 +261,7 @@ View config file
 >$ cat /home/pi/bin/piHeatingHub/config/config.ini  
 
 Login to database  
->$ mysql -u pi -p<password> piHeatingDB  
+>$ mysql -u pi -p$(cat /home/pi/bin/piHeatingHub/config/config.ini | grep password | awk '{ print $3 }') piHeatingDB  
 
 using password from the above config  
 

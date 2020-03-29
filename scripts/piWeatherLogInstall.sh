@@ -61,6 +61,7 @@ fi
 echo -e " Creating cron job ..."
 if [ -f "/etc/cron.d/piWeatherLog" ]; then
 	echo "     Cron job already exists"
+else
 	if [ $simulate ]; then
 		echo "$simulateMessage"
 	else
