@@ -67,6 +67,7 @@ else
 	else
 		cat > /etc/cron.d/piWeatherLog <<CRON
 MAILTO=""
+@reboot pi /bin/bash $installDir/piWeatherLog/cron/bootWrapper.sh
 */2 * * * * pi /bin/bash $installDir/piWeatherLog/cron/wrapper.sh
 CRON
 	fi

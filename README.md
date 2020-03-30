@@ -449,13 +449,25 @@ Find out tty-device
 >$ dmesg | grep tty  
 
 Probably named someting like '/dev/ttyACM0'  
-If not as above, edit  
+If not, edit  
 
 	/var/www/piWeatherLog/weather.php  
 	
 Change line  
 
 	$serial->deviceSet("/dev/ttyACM0");  
+	
+In file  
+
+	/home/pi/bin/piWeatherLog/cron/bootWrapper.sh  
+	
+change lines  
+
+	stty -F /dev/ttyACM0 cs8 9600 ign...  
+	
+and  
+
+	screen -d -m -S init /dev/ttyACM0 9600
 
 so it matches the output from dmesg command  
 
