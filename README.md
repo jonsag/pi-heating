@@ -132,7 +132,7 @@ piHeatingHub
 ==========
 In a browser, go to  
 
-	http://<IP\>:8080/status.php
+	http://<IP>:8080/status.php
 	
 Adding sensors
 ----------
@@ -260,7 +260,7 @@ Set
 
 	Name: <name>
 	GPIO Pin: 10
-	Pin Active H/L: <if you use the NO, then this should be 1\>
+	Pin Active H/L: <if you use the NO, then this should be 1>
 
 Click  
 
