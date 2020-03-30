@@ -106,7 +106,7 @@ else
         allow from all
     </Directory>
 
-    ErrorLog \${APACHE_LOG_DIR}error.log
+    ErrorLog \${APACHE_LOG_DIR}/error.log
     CustomLog \${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 VHOST

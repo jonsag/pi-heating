@@ -16,12 +16,16 @@
     include ('functions/functions.php');
     require ('classes/php_serial.class.php');
     
-    if($_GET['poll']) {
-      $poll = "true";
+    if(isset($_GET['poll'])) {
+        $poll = "true";
+    } else {
+        $poll = "false";
     }
     
-    if($_GET['debug']) {
-      $debug = "true";
+    if(isset($_GET['debug'])) {
+        $debug = "true";
+    } else {
+        $debug = "false";
     }
     
     $counter1 = 0;

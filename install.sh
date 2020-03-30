@@ -184,7 +184,7 @@ while true; do
 	echo -e "\n Is this correct ?"
     read -p " [Y/n] " input
     case $input in
-        [Nn] ) install=""; "Exiting ..."; exit;;
+        [Nn] ) install=""; echo "Exiting ..."; exit;;
         * ) install="y"; break;;
     esac
 done
