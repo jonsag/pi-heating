@@ -132,7 +132,7 @@ piHeatingHub
 ==========
 In a browser, go to  
 
-	http://\<IP\>:8080/status.php
+	http://<IP\>:8080/status.php
 	
 Adding sensors
 ----------
@@ -260,7 +260,7 @@ Set
 
 	Name: <name>
 	GPIO Pin: 10
-	Pin Active H/L: \<if you use the NO, then this should be 1\>
+	Pin Active H/L: <if you use the NO, then this should be 1\>
 
 Click  
 
@@ -655,7 +655,7 @@ Change ip on sensor
 >$ UPDATE sensors SET ip = 'new ip' WHERE ip = 'old ip';  
 
 Set values for tty communications  
->$ stty -F /dev/ttyACM0 ispeed 9600 ospeed 9600 -ignpar cs8 -cstopb -echo  
+>$ stty -F /dev/ttyACM0 cs8 9600 ignbrk -brkint -imaxbel -opost -onlcr -isig -icanon -iexten -echo -echoe -echok -echoctl -echoke noflsh -ixon -crtscts
 
 On remote
 ----------
@@ -673,7 +673,7 @@ Then type
 quit  
 and [Return]  
 	or from outside of screen  
->$ screen -X -S <session name> quit  
+>$ screen -XS <session name> quit  
 
 Kill screen with ^ak or control-a k    
 
