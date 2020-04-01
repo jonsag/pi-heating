@@ -2,23 +2,23 @@
   Blink LEDs
 *******************************/
 void blinkLEDs(void) {
-  if (blinkYellow && blinkYellowCounter < 20) {
+  /*if (blinkYellow && blinkYellowCounter < 20) {
     blinkYellowCounter++;
     digitalWrite(yellowPinTemp, HIGH);
-  }
-  else {
+    }
+    else {
     blinkYellow = false;
     blinkYellowCounter = 0;
     digitalWrite(yellowPinTemp, LOW);
-  }
+    }
 
-  if (!blinkYellow && blinkYellowOffCounter < 10000) {
+    if (!blinkYellow && blinkYellowOffCounter < 10000) {
     blinkYellowOffCounter++;
-  }
-  else {
+    }
+    else {
     blinkYellow = true;
     blinkYellowOffCounter = 0;
-  }
+    }*/
 
   if (blinkGreen && blinkGreenCounter < 20) {
     blinkGreenCounter++;

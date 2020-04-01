@@ -64,7 +64,7 @@ void presentWebPage(void) {
             client.println("<br><br>");
 
             // temps
-            for (tempsCounter = 0; tempsCounter < numberOfSensors; tempsCounter++) {
+            /*for (tempsCounter = 0; tempsCounter < numberOfSensors; tempsCounter++) {
               client.print("Temperature sensor ");
               client.print(tempsCounter);
               client.print(": ");
@@ -74,7 +74,7 @@ void presentWebPage(void) {
             client.print("Temps read ");
             client.print(tempAge / 1000);
             client.println(" seconds ago<br>");
-            client.println("<br>");
+            client.println("<br>");*/
 
             // pulses
             client.print("Pulses last poll: ");
@@ -114,9 +114,11 @@ void presentWebPage(void) {
           }
 
           ///////////////////// check if we should read temps
-          if (readString.indexOf("readTemps") > 0) { //will read 1-wire temps
+          /*if (readString.indexOf("readTemps") > 0) { //will read 1-wire temps
             getTemperatures();
-          }
+          }*/
+
+          ///////////////////// prepare for next read
           readString = ""; //clearing string for next read
           delay(100);
           client.stop(); //stopping client

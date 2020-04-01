@@ -1,7 +1,7 @@
 #include "configuration.h" // sets all variables
-#include "OneWireDiscover.h"
+//#include "OneWireDiscover.h"
 #include "blink.h"
-#include "getTemps.h"
+//#include "getTemps.h"
 #include "readCurr.h"
 #include "webPage.h"
 
@@ -30,7 +30,7 @@ void setup() {
   *******************************/
   Serial.println("Initiating in/outputs...");
   pinMode(pinPulse, INPUT);
-  pinMode(yellowPinTemp, OUTPUT); // initialize the LED pins as outputs
+  //pinMode(yellowPinTemp, OUTPUT); // initialize the LED pins as outputs
   pinMode(greenPinNetwork, OUTPUT);
   pinMode(redPinPulse, OUTPUT);
   Serial.println();
@@ -38,13 +38,13 @@ void setup() {
   /*******************************
     Start 1-wire
   *******************************/
-  Serial.println("Starting 1-wire sensors...");
-  sensors.begin(); // start up the oneWire library
-  Serial.println();
+  /*Serial.println("Starting 1-wire sensors...");
+    sensors.begin(); // start up the oneWire library
+    Serial.println();
 
-  Serial.println("Discovering and counting sensors...");
-  numberOfSensors = discoverOneWireDevices(); // count sensors
-  Serial.println();
+    Serial.println("Discovering and counting sensors...");
+    numberOfSensors = discoverOneWireDevices(); // count sensors
+    Serial.println();*/
 
   /*******************************
     Wait for stability
@@ -85,7 +85,7 @@ void loop() {
   *******************************/
   currentMillis = millis(); // millis right now
   pollAge = (currentMillis - pollMillis); // how much time elapsed since last log write
-  tempAge = (currentMillis - tempsMillis); // how much time elapsed since last temp reading
+  //tempAge = (currentMillis - tempsMillis); // how much time elapsed since last temp reading
 
   /*******************************
     Read digital inputs
@@ -95,9 +95,9 @@ void loop() {
   /*******************************
     Read analog values
   *******************************/
-  if (!readTemps) {
-    readCurrents();
-  }
+  //if (!readTemps) {
+  readCurrents();
+  //}
 
   /*******************************
     Check for pulse
@@ -125,10 +125,10 @@ void loop() {
   /*******************************
     Check if it's time to read temps
   *******************************/
-  if (!tempsRead || tempAge > 60000) { // read temperatures if we haven't before, or if it's time to do so
+  /*if (!tempsRead || tempAge > 60000) { // read temperatures if we haven't before, or if it's time to do so
     readTemps = true;
     getTemperatures();
-  }
+    }*/
 
   /*******************************
     Blink LEDs

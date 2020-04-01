@@ -143,13 +143,14 @@ for ($i = 0; $i < $numLines; $i ++) {
     }
 
     // /// find tempValue
-    for ($s = 0; $s <= 5; $s ++) {
-        if (preg_match('/(' . $powerTempValueMatch . '' . $s . ': )(.*)/', $line)) {
-            preg_match('/(' . $powerTempValueMatch . '' . $s . ': )(.*)/', $line, $matches);
-            $tempValue[$s] = $matches[2];
-            $tempValue[$s] = substr($tempValue[$s], 0, - 6);
-        }
-    }
+    /* 
+     *for ($s = 0; $s <= 5; $s ++) {
+     *   if (preg_match('/(' . $powerTempValueMatch . '' . $s . ': )(.*)/', $line)) {
+     *       preg_match('/(' . $powerTempValueMatch . '' . $s . ': )(.*)/', $line, $matches);
+     *       $tempValue[$s] = $matches[2];
+     *       $tempValue[$s] = substr($tempValue[$s], 0, - 6);
+     *   }
+     *}
 
     // /// find pulsesSinceStart
     /*
