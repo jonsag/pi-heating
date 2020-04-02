@@ -44,12 +44,12 @@ echo "['Time','Average wind speed']";
 
 $condition = "";
 
-$answer = getSQL($selection, $table, $condition, $groupby);
+$answer = getSQL($table, $selection, $groupby);
 
 $sql = $answer[0];
 $selection = $answer[1];
 
-// echo $sql;
+//echo $sql;
 $result = $conn->query($sql);
 
 // read result
@@ -81,11 +81,11 @@ echo "',\n";
 echo " curveType: 'function',\n";
 echo " legend: { position: 'bottom' },\n";
 
-$answer = getSQL("MAX(averageWindSpeed) as max", $table, $condition, "");
-$sql = $answer[0];
+$answer = getSQL($table, "MAX(averageWindSpeed) as max", $groupby);
+$sql2= $answer[0];
 $selection = $answer[1];
 // echo "<br>\n" . $sql . "<br>\n";
-$result = $conn->query($sql);
+$result = $conn->query($sql2);
 $row = ($result->fetch_assoc());
 $maxValue = $row['max'];
 chartOptions1(0, $maxValue);
