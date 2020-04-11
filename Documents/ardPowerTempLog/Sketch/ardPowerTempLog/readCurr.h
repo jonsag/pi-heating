@@ -22,18 +22,18 @@ void readCurrents(void) {
     currentDisplayedCounter++;
   }
   else {
-    Serial.print("Reading #");
-    Serial.print(currentPollCounter);
-    Serial.print("  ");
+    //Serial.print("Reading #");
+    //Serial.print(currentPollCounter);
+    //Serial.print("  ");
     for (phaseCount = 0; phaseCount <= 2; phaseCount++) {
       displayedCurrent[phaseCount] = ackDisplayedCurrent[phaseCount] / readAverageCounter; // set the displayed current value
-      Serial.print(phaseCount);
-      Serial.print(": ");
-      Serial.print(displayedCurrent[phaseCount]);
-      Serial.print(" A     ");
+      //Serial.print(phaseCount);
+      //Serial.print(": ");
+      //Serial.print(displayedCurrent[phaseCount]);
+      //Serial.print(" A     ");
       ackDisplayedCurrent[phaseCount] = 0;
     }
-    Serial.println();
+    //Serial.println();
     currentDisplayedCounter = 0;
     currentPollCounter++;
 

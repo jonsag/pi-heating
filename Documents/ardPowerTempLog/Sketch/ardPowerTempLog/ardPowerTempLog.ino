@@ -18,7 +18,7 @@ void setup() {
   Serial.println(programName); // print information
   Serial.println(date);
   Serial.print("by ");
-  Serial.print(author);
+  Serial.println(author);
   Serial.println(email);
   Serial.println();
 
