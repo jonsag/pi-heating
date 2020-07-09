@@ -1,5 +1,5 @@
-#include <ESPAsyncTCP.h>
-#include <ESPAsyncWebServer.h>
+#include <ESPAsyncTCP.h> // library found at https://github.com/me-no-dev/ESPAsyncTCP
+#include <ESPAsyncWebServer.h> // library found at https://github.com/me-no-dev/ESPAsyncWebServer
 
 // Create AsyncWebServer object on port 8081
 AsyncWebServer server(8081);
