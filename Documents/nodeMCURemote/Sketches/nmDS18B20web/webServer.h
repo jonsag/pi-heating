@@ -7,7 +7,7 @@ AsyncWebServer server(serverPort);
 const char* PARAM_MESSAGE = "id";
 
 void notFound(AsyncWebServerRequest *request) {
-  request->send(404, "text/plain", "Not found");
+  request->send(404, "text/plain", "404: Not found");
 }
 
 const char index_html[] PROGMEM = R"rawliteral(
@@ -71,3 +71,65 @@ setInterval(function ( ) {
 }, 10000 ) ;
 </script>
 </html>)rawliteral";
+
+String processor(const String& var) { // replaces placeholder with sensor values
+  //Serial.println(var);
+  if (var == "TEMPERATURE") {
+    //return String(t);
+  }
+  else if (var == "HUMIDITY") {
+    //return String(h);
+  }
+  return String();
+}
+
+void initiateServer() {
+  // Route for root / web page
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest * request) {
+    request->send_P(200, "text/html", index_html);
+  });
+
+  server.on("/count.php", HTTP_GET, [](AsyncWebServerRequest * request) {
+    request->send_P(200, "text/plain", String(sizeof(deviceAddresses) / sizeof(deviceAddresses[0])).c_str());
+  });
+
+  // Send a GET request to <IP>/get?message=<message>
+  server.on("/name.php", HTTP_GET, [] (AsyncWebServerRequest * request) {
+    String message;
+    if (request->hasParam(PARAM_MESSAGE)) {
+      message = request->getParam(PARAM_MESSAGE)->value();
+    } else {
+      message = "No message sent";
+    }
+    //request->send(200, "text/plain", "Hello, GET: " + message);
+    if (message.toInt() > sizeof(deviceAddresses) / sizeof(deviceAddresses[0]) || (message.toInt() <= 0)) {
+      request->send(404, "text/plain", "404: Not found");
+    } else {
+      request->send(200, "text/plain", String(deviceNames[message.toInt() - 1]).c_str());
+    }
+  });
+  
+    server.on("/value.php", HTTP_GET, [] (AsyncWebServerRequest * request) {
+      String message;
+      if (request->hasParam(PARAM_MESSAGE)) {
+        message = request->getParam(PARAM_MESSAGE)->value();
+      } else {
+        message = "No message sent";
+      }
+      if (message.toInt() > sizeof(deviceAddresses) / sizeof(deviceAddresses[0]) || (message.toInt() <= 0)) {
+      request->send(404, "text/plain", "404: Not found");
+    } else {
+      request->send(200, "text/plain", String(readTemp(message.toInt() - 1)));
+    }
+    });
+  
+  server.onNotFound(notFound);
+
+  // Start server
+  server.begin();
+
+  Serial.print("Web server started at port: ");
+  Serial.println(serverPort);
+  Serial.println();
+
+}
