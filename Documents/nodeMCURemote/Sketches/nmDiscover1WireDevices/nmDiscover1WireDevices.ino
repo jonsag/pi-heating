@@ -1,24 +1,36 @@
+// adapted from https://lastminuteengineers.com/multiple-ds18b20-esp8266-nodemcu-tutorial/
+
+#include "config.h";
+
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
-// Data wire is plugged into port D2 on the ESP8266
-#define ONE_WIRE_BUS D2
-
 // Setup a oneWire instance to communicate with any OneWire devices
-OneWire oneWire(ONE_WIRE_BUS);
+OneWire oneWire(dsPin);
 
 // Pass our oneWire reference to Dallas Temperature.
 DallasTemperature sensors(&oneWire);
 
-// variable to hold device addresses
-DeviceAddress Thermometer;
-
-int deviceCount = 0;
+DeviceAddress Thermometer; // variable to hold device addresses
 
 void setup(void)
 {
-  // start serial port
+  /*******************************
+    Start serial
+  *******************************/
   Serial.begin(115200);
+
+  Serial.println("");
+  Serial.println("---------- Starting ----------");
+  Serial.println(programName); // print information
+  Serial.println(date);
+  Serial.print("by ");
+  Serial.println(author);
+  Serial.println(email);
+  Serial.println();
+
+  Serial.println("Started serial communication");
+  Serial.println("");
 
   // Start up the library
   sensors.begin();
@@ -28,18 +40,19 @@ void setup(void)
   Serial.print("Found ");
   deviceCount = sensors.getDeviceCount();
   Serial.print(deviceCount, DEC);
-  Serial.println(" devices.");
+  Serial.println(" devices");
   Serial.println("");
 
   Serial.println("Printing addresses...");
   for (int i = 0;  i < deviceCount;  i++)
   {
     Serial.print("Sensor ");
-    Serial.print(i + 1);
-    Serial.print(" : ");
+    Serial.print(i);
+    Serial.print(": ");
     sensors.getAddress(Thermometer, i);
     printAddress(Thermometer);
   }
+  Serial.println();
 }
 
 void loop(void)

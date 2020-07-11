@@ -15,6 +15,11 @@ const String sensor1Name = "nodeMCU 1";
 const int dhtPin = 0; // Connect DHT sensor to GPIO0, D3
 
 /***********
+   Web server
+ ***********/
+ const int serverPort = 8081;
+
+/***********
    Misc
  ***********/
 // current temperature & humidity, updated in loop()
