@@ -34,18 +34,12 @@ const char index_html[] PROGMEM = R"rawliteral(
 </head>
 <body>
   <h2>ESP8266 DHT Server</h2>
-  <p>
+    <p>
     <i class="fas fa-thermometer-half" style="color:#059e8a;"></i> 
-    <span class="dht-labels">Temperature</span> 
-    <span id="temperature">%TEMPERATURE%</span>
-    <sup class="units">&deg;C</sup>
+    <span class="dht-labels">Temperatures</span>
+    %TEMPS%
   </p>
-  <p>
-    <i class="fas fa-tint" style="color:#00add6;"></i> 
-    <span class="dht-labels">Humidity</span>
-    <span id="humidity">%HUMIDITY%</span>
-    <sup class="units">%</sup>
-  </p>
+  
 </body>
 <script>
 setInterval(function ( ) {
@@ -79,6 +73,18 @@ String processor(const String& var) { // replaces placeholder with sensor values
   }
   else if (var == "HUMIDITY") {
     //return String(h);
+  } else if (var == "TEMPS") {
+    String temps = "<br>";
+    for (int i = 0; i < (sizeof(deviceAddresses) / sizeof(deviceAddresses[0])); i++) {
+      temps += "<span id='temperature'>";
+      temps += deviceNames[i];
+      temps += ": ";
+      temps += readTemp(i);
+      temps += "</span>";
+      temps += "<sup class='units'>&deg;C</sup>";
+      temps += "\n<br>";
+    }
+    return temps;
   }
   return String();
 }
@@ -86,7 +92,7 @@ String processor(const String& var) { // replaces placeholder with sensor values
 void initiateServer() {
   // Route for root / web page
   server.on("/", HTTP_GET, [](AsyncWebServerRequest * request) {
-    request->send_P(200, "text/html", index_html);
+    request->send_P(200, "text/html", index_html, processor);
   });
 
   server.on("/count.php", HTTP_GET, [](AsyncWebServerRequest * request) {
@@ -108,21 +114,21 @@ void initiateServer() {
       request->send(200, "text/plain", String(deviceNames[message.toInt() - 1]).c_str());
     }
   });
-  
-    server.on("/value.php", HTTP_GET, [] (AsyncWebServerRequest * request) {
-      String message;
-      if (request->hasParam(PARAM_MESSAGE)) {
-        message = request->getParam(PARAM_MESSAGE)->value();
-      } else {
-        message = "No message sent";
-      }
-      if (message.toInt() > sizeof(deviceAddresses) / sizeof(deviceAddresses[0]) || (message.toInt() <= 0)) {
+
+  server.on("/value.php", HTTP_GET, [] (AsyncWebServerRequest * request) {
+    String message;
+    if (request->hasParam(PARAM_MESSAGE)) {
+      message = request->getParam(PARAM_MESSAGE)->value();
+    } else {
+      message = "No message sent";
+    }
+    if (message.toInt() > sizeof(deviceAddresses) / sizeof(deviceAddresses[0]) || (message.toInt() <= 0)) {
       request->send(404, "text/plain", "404: Not found");
     } else {
       request->send(200, "text/plain", String(readTemp(message.toInt() - 1)));
     }
-    });
-  
+  });
+
   server.onNotFound(notFound);
 
   // Start server
