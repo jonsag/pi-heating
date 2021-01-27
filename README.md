@@ -676,15 +676,3 @@ and [Return]
 >$ screen -XS <session name> quit  
 
 Kill screen with ^ak or control-a k    
-
-
-
-
-
-
-
-
-
-
-
-
