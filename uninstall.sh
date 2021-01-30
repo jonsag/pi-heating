@@ -1,26 +1,30 @@
 #!/bin/bash
 
 ########## directory of this script
-scriptDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+scriptDir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 ########## read config
 . $scriptDir/scripts/config.ini
 
-if [[ `whoami` != "root" ]]; then
-  printf "\n\n Script must be run as root. \n\n"
-  exit 1
+if [[ $(whoami) != "root" ]]; then
+	printf "\n\n Script must be run as root. \n\n"
+	exit 1
 fi
 
 echo -e "\n\n Uninstall piHeating suite \n ----------"
 
 while true; do
 	echo -e " This will uninstall everything \n\n Do you want to continue ?"
-    read -p " [y/N/h] " input
-    case $input in
-    	[Hh] ) echo -e "\n This will not uninstall anything installed by apt package manager. \n Also gpio-watch and Python modules will be kept. \n";;
-        [Yy] ) break;;
-        * ) echo -e "\n Exiting ..."; exit 0; break;;
-    esac
+	read -p " [y/N/h] " input
+	case $input in
+	[Hh]) echo -e "\n This will not uninstall anything installed by apt package manager. \n Also gpio-watch and Python modules will be kept. \n" ;;
+	[Yy]) break ;;
+	*)
+		echo -e "\n Exiting ..."
+		exit 0
+		break
+		;;
+	esac
 done
 
 ########## piWeatherLog ##########
@@ -50,7 +54,7 @@ printf "   Removing listening directives ... \n"
 if grep -Fxq 'Listen 8083' /etc/apache2/ports.conf; then
 	sed -i '/Listen 8083/d' /etc/apache2/ports.conf
 else
-	printf "      Not present \n"	
+	printf "      Not present \n"
 fi
 
 printf "   Deleting site ... \n"
@@ -95,7 +99,7 @@ printf "   Removing listening directives ... \n"
 if grep -Fxq 'Listen 8082' /etc/apache2/ports.conf; then
 	sed -i '/Listen 8082/d' /etc/apache2/ports.conf
 else
-	printf "      Not present \n"	
+	printf "      Not present \n"
 fi
 
 printf "   Deleting site ... \n"
@@ -152,7 +156,7 @@ printf "   Removing listening directives ... \n"
 if grep -Fxq 'Listen 8081' /etc/apache2/ports.conf; then
 	sed -i '/Listen 8081/d' /etc/apache2/ports.conf
 else
-	printf "      Not present \n"	
+	printf "      Not present \n"
 fi
 
 printf "   Changing boot parameters ... \n"
@@ -184,14 +188,14 @@ if [ -d /var/lib/mysql/piHeatingDB ]; then
 	read -s ROOT_PASSWORD
 	printf "   Deleting database ... \n"
 	#mysqladmin -u root -p$ROOT_PASSWORD drop piHeatingDB
-	
-mysql -uroot -p$ROOT_PASSWORD<< DELETE
+
+	mysql -uroot -p$ROOT_PASSWORD <<DELETE
 	
 DROP USER IF EXISTS 'pi'@localhost;
 DROP DATABASE IF EXISTS piHeatingDB;
 	
 DELETE
-	
+
 else
 	printf "      Not present \n"
 fi
@@ -212,7 +216,6 @@ if [ -f /etc/apache2/sites-enabled/piHeatingHub.conf ]; then
 else
 	printf "      Not enabled \n"
 fi
-
 
 printf "   Deleting site configuration ... \n"
 if [ -f /etc/apache2/sites-available/piHeatingHub.conf ]; then
@@ -251,14 +254,14 @@ fi
 
 ########## restart services
 printf "\n\n Reloading apache ... \n"
-if [ $( systemctl is-active --quiet apache2 ) ]; then
+if [ $(systemctl is-active --quiet apache2) ]; then
 	printf "      Service is not runnning \n"
 else
 	service apache2 reload
 fi
 
 printf "\n\n Restarting mariadb ... \n"
-if [ $( systemctl is-active --quiet mariadb ) ]; then
+if [ $(systemctl is-active --quiet mariadb) ]; then
 	printf "      Service is not runnning \n"
 else
 	service mariadb restart
