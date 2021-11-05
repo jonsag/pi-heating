@@ -10,7 +10,9 @@ p {
 	color: red;
 }
 
-table, th, td {
+table,
+th,
+td {
 	border: 0px solid black;
 }
 

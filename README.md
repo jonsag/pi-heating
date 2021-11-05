@@ -618,7 +618,7 @@ Hub:
 Pi heating hub status page: http://\<IP\>:8080/status.php  
 
 Remote:  
-Sensors count: IP:8081/count.php  
+Sensors count: http://\<IP\>:8081/count.php  
 Sensor name for sensor #1: http://\<IP\>:8081/name.php?id=1  
 Sensor value for sensor #1: http://\<IP\>:8081/value.php?id=1
 

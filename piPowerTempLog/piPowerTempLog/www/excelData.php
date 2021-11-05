@@ -108,7 +108,7 @@
     	foreach( $qrow as $k => $v )
     	  {
     	    // take the key and make label
-    	    // make it uppper case and replace _ with ' '
+    	    // make it upper case and replace _ with ' '
     	    xlsWriteLabel( $row, $col, strtoupper( ereg_replace( "_" , " " , $k ) ) );
     	    $col++;
     	  }
@@ -136,5 +136,3 @@
     
     // close connection to mysql
     mysqli_close($conn);;
-
-?>

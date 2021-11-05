@@ -54,10 +54,10 @@ for option, argument in myopts:
 
 if verbose:
     i = 1
-    print "\n+++ Script run with:"
+    print("\n+++ Script run with:")
     for option, argument in myopts:     
-        print "        Option %s: %s" % (i, option)
-        print "        Argument %s: %s" % (i, argument)
+        print(("        Option %s: %s" % (i, option)))
+        print(("        Argument %s: %s" % (i, argument)))
         i += 1
 
 # connect to database
@@ -66,22 +66,22 @@ cnx = db_connect(verbose)
 # buttons
 if gpio:
     if verbose:
-        print
+        print()
     if gpio == "18":
         if verbose:
-            print "+++ Button 1 pressed, pin %s" % gpio
+            print("+++ Button 1 pressed, pin %s" % gpio)
     elif gpio == "23":
         toggleMode = True
         if verbose:
-            print "+++ Button 2 pressed, pin %s" % gpio
+            print("+++ Button 2 pressed, pin %s" % gpio)
     elif gpio == "24":
         toggleTimer = True
         if verbose:
-            print "+++ Button 3 pressed, pin %s" % gpio
+            print("+++ Button 3 pressed, pin %s" % gpio)
     elif gpio == "25":
         stopModeTimer = True
         if verbose:
-            print "+++ Button 4 pressed, pin %s" % gpio
+            print("+++ Button 4 pressed, pin %s" % gpio)
     else:
         onError(3, "No action for gpio %s" % gpio)
 
@@ -93,7 +93,7 @@ temp_id = temp_results[0][0]
 temp_name = temp_results[0][1].strip()
 temp_value = temp_results[0][2]
 if verbose:
-    print "\n+++ First temp: %s, ID: %s, Value: %s degrees" % (temp_name, temp_id, temp_value) 
+    print("\n+++ First temp: %s, ID: %s, Value: %s degrees" % (temp_name, temp_id, temp_value)) 
 db_close_cursor(cnx, cursor)
 
 # get first mode
@@ -104,8 +104,9 @@ mode_id = mode_results[0][0]
 mode_name = mode_results[0][1]
 mode_value = mode_results[0][2]
 if verbose:
-    print "+++ First mode: %s, ID: %s, Value: %s" % (mode_name, mode_id, mode_value)
-db_close_cursor(cnx, cursor)systemctl daemon-reload
+    print("+++ First mode: %s, ID: %s, Value: %s" % (mode_name, mode_id, mode_value))
+db_close_cursor(cnx, cursor)
+#systemctl daemon-reload
     
 # get first timer
 timer_query = "SELECT id, name, duration, value FROM timers LIMIT 1"
@@ -116,7 +117,7 @@ timer_name = timer_results[0][1]
 timer_duration = timer_results[0][2]
 timer_value = timer_results[0][3]
 if verbose:
-    print "+++ First timer: %s, ID: %s, Value: %s min" % (timer_name, timer_id, timer_value)
+    print("+++ First timer: %s, ID: %s, Value: %s min" % (timer_name, timer_id, timer_value))
 db_close_cursor(cnx, cursor)
     
 # find schedules that are not active all the time
@@ -125,21 +126,21 @@ cursor = db_create_cursor(cnx)
 schedule_results = db_query(cursor, schedule_query, verbose)
 for row in schedule_results:
     if verbose:
-        print "\n+++ Schedule %s: %s is intermittent" % (row[0], row[1])
+        print("\n+++ Schedule %s: %s is intermittent" % (row[0], row[1]))
 db_close_cursor(cnx, cursor)
 
 # toggle mode
 if toggleMode:
     if verbose:
-        print "\n+++ Toggling mode..."
+        print("\n+++ Toggling mode...")
     if not mode_value:
         if verbose:
-            print "+++ Setting mode '%s' active..." % mode_name
+            print("+++ Setting mode '%s' active..." % mode_name)
         toggleMode_query = "UPDATE modes SET value = '1' WHERE id = '%s'" % mode_id
         mode_value = True
     else:
         if verbose:
-            print "+++ Setting mode '%s' inactive..." % mode_name
+            print("+++ Setting mode '%s' inactive..." % mode_name)
         toggleMode_query = "UPDATE modes SET value = '0' WHERE id = '%s'" % mode_id
         mode_value = False
     cursor = db_create_cursor(cnx)
@@ -149,15 +150,15 @@ if toggleMode:
 # toggle timer
 if toggleTimer:
     if verbose:
-        print "\n+++ Toggling timer..."
+        print("\n+++ Toggling timer...")
     if timer_value == 0:
         if verbose:
-            print "+++ Starting timer '%s'..." % timer_name
+            print("+++ Starting timer '%s'..." % timer_name)
         toggleTimer_query = "UPDATE timers SET value = '%s' WHERE id = '%s'" % (timer_duration, timer_id)
         timer_value = timer_duration
     else:
         if verbose:
-            print "+++ Stopping timer '%s'..." % timer_name
+            print("+++ Stopping timer '%s'..." % timer_name)
         toggleTimer_query = "UPDATE timers SET value = '0' WHERE id = '%s'" % timer_id
         timer_value = 0
     cursor = db_create_cursor(cnx)
@@ -167,10 +168,10 @@ if toggleTimer:
 # stop mode and timer
 if stopModeTimer:
     if verbose:
-        print "\n+++ Stopping mode and timer..."
+        print("\n+++ Stopping mode and timer...")
     if mode_value:
         if verbose:
-            print "+++ Setting mode '%s' inactive..." % mode_name
+            print("+++ Setting mode '%s' inactive..." % mode_name)
         stopMode_query = "UPDATE modes SET value = '0' WHERE id = '%s'" % mode_id
         mode_value = False
         cursor = db_create_cursor(cnx)
@@ -178,7 +179,7 @@ if stopModeTimer:
         db_close_cursor(cnx, cursor)
     if timer_value != 0:
         if verbose:
-            print "+++ Stopping timer '%s'..." % timer_name
+            print("+++ Stopping timer '%s'..." % timer_name)
         stopTimer_query = "UPDATE timers SET value = '0' WHERE id = '%s'" % timer_id
         timer_value = 0
         cursor = db_create_cursor(cnx)
@@ -193,8 +194,8 @@ if activeNow:
     for schedule in activeNow:
         currentSetPoint = schedule['setPoint']
         if verbose:
-            print "\n+++ Schedule %s: %s is active" % (schedule['scheduleID'], schedule['scheduleName'])
-            print "    Trying to reach %s degrees" % schedule['setPoint']
+            print("\n+++ Schedule %s: %s is active" % (schedule['scheduleID'], schedule['scheduleName']))
+            print("    Trying to reach %s degrees" % schedule['setPoint'])
             # if schedule['scheduleActive']:
             #    print "+++ Schedule is activated"
             # else:
@@ -202,7 +203,7 @@ if activeNow:
             # print
 else:
     if verbose:
-        print "+++ No active schedules now"
+        print("+++ No active schedules now")
 
 # checkUpcoming = True
 # if checkUpcoming:       
@@ -241,8 +242,8 @@ if not mode_value:  # mode is not set
     # are there any upcoming schedules
             
 # what to write to lcd
-t = u"\u00b0"  # degree sign
-inf = u"\u221e"  # infinity symbol
+t = "\u00b0"  # degree sign
+inf = "\u221e"  # infinity symbol
 
 if not line_1:
     day = remove_leading_zero(timeNow.strftime('%d'))
@@ -268,26 +269,26 @@ if light:
     lcd.clear()
     lcd.set_backlight(1)
     if verbose:
-        print "\n--- Backlight ON"
+        print("\n--- Backlight ON")
     
     # print to LCD
     print_to_LCD(lcd, 0, 0, "1", line_1, lcd_columns, verbose)
     print_to_LCD(lcd, 0, 1, "2", line_2, lcd_columns, verbose)
 
     if verbose:
-        print "\n--- Wait %ss..." % lcd_wake_time
+        print("\n--- Wait %ss..." % lcd_wake_time)
     time.sleep(lcd_wake_time)
         
     # clear screen and turn backlight off.
     lcd.clear()
     lcd.set_backlight(0)
     if verbose:
-        print "\n--- Backlight OFF"
+        print("\n--- Backlight OFF")
         
 if verbose:
-    print "\n+++ Active schedules:"
+    print("\n+++ Active schedules:")
     active_schedules(cursor, cnx, verbose)
-    print "\n+++ Active devices:"
+    print("\n+++ Active devices:")
     active_devices(cursor, cnx, verbose)
 
 # close db

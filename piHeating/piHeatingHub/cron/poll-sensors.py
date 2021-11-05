@@ -2,85 +2,90 @@
 
 import MySQLdb
 import datetime
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import os
 
 try:
     from configparser import ConfigParser
 except ImportError:
-    from ConfigParser import ConfigParser
+    from configparser import ConfigParser
 
 config = ConfigParser()
-config.read('/home/pi/bin/piHeatingHub/config/config.ini')
+config.read("/home/pi/bin/piHeatingHub/config/config.ini")
 
-servername = config.get('db', 'server')
-username = config.get('db', 'user')
-password = config.get('db', 'password')
-dbname = config.get('db', 'database')
+servername = config.get("db", "server")
+username = config.get("db", "user")
+password = config.get("db", "password")
+dbname = config.get("db", "database")
 
-t = datetime.datetime.now().strftime('%s')
+t = datetime.datetime.now().strftime("%s")
 
 cnx = MySQLdb.connect(host=servername, user=username, passwd=password, db=dbname)
 cnx.autocommit(True)
 cursorread = cnx.cursor()
-query = ("SELECT id, ref, ip FROM sensors")
+query = "SELECT id, ref, ip FROM sensors"
 cursorread.execute(query)
-results =cursorread.fetchall()
+results = cursorread.fetchall()
 cursorread.close()
 cnx.close()
-  
+
 for i in results:
-  sensor_id = i[0]
-  sensor_ref = i[1]
-  sensor_ip = i[2]
-  
-    
-  sensor_url = "http://"+sensor_ip+":8081/value.php?id="+sensor_ref
+    sensor_id = i[0]
+    sensor_ref = i[1]
+    sensor_ip = i[2]
 
-  print sensor_url
-  
-  try:
-    data = float( urllib2.urlopen(sensor_url).read() )  
-  except:
-    data = 'NULL'
-    
-  print data
-  print sensor_id
-   
-  sql = "UPDATE sensors SET value="+str(data)+" WHERE id='"+str(sensor_id)+"';"
+    sensor_url = "http://" + sensor_ip + ":8081/value.php?id=" + sensor_ref
 
-  print sql
-       
-  #cursorwrite.execute( sql )
-    
-  try:
-    cnx = MySQLdb.connect(host=servername, user=username, passwd=password, db=dbname)
-    cnx.autocommit(True)
-    cursorwrite = cnx.cursor()
-    cursorwrite.execute( sql )
-      
-    print("affected rows = {}".format(cursorwrite.rowcount))
-      
-    cursorwrite.close()
-    cnx.close()
+    print(sensor_url)
 
-    #rows = cur.fetchall()
-  except MySQLdb.Error, e:
     try:
-      print "MySQL Error [%d]: %s" % (e.args[0], e.args[1])
-    except IndexError:
-      print "MySQL Error: %s" % str(e)
-    
+        data = float(urllib.request.urlopen(sensor_url).read())
+    except:
+        data = "NULL"
 
-  print "database done"
-  
-  filename = '/home/pi/bin/piHeatingHub/data/s-'+str(sensor_id)+'.rrd'
-  
-  print filename
+    print(data)
+    print(sensor_id)
 
-  if( not os.path.exists( filename ) ):
-      print ( os.path.exists( filename ))
-      os.system('/usr/bin/rrdtool create '+filename+' --step 60 \
+    sql = (
+        "UPDATE sensors SET value=" + str(data) + " WHERE id='" + str(sensor_id) + "';"
+    )
+
+    print(sql)
+
+    # cursorwrite.execute( sql )
+
+    try:
+        cnx = MySQLdb.connect(
+            host=servername, user=username, passwd=password, db=dbname
+        )
+        cnx.autocommit(True)
+        cursorwrite = cnx.cursor()
+        cursorwrite.execute(sql)
+
+        print(("affected rows = {}".format(cursorwrite.rowcount)))
+
+        cursorwrite.close()
+        cnx.close()
+
+        # rows = cur.fetchall()
+    except MySQLdb.Error as e:
+        try:
+            print("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
+        except IndexError:
+            print("MySQL Error: %s" % str(e))
+
+    print("database done")
+
+    filename = "/home/pi/bin/piHeatingHub/data/s-" + str(sensor_id) + ".rrd"
+
+    print(filename)
+
+    if not os.path.exists(filename):
+        print((os.path.exists(filename)))
+        os.system(
+            "/usr/bin/rrdtool create "
+            + filename
+            + " --step 60 \
       --start now \
       DS:data:GAUGE:120:U:U \
       RRA:MIN:0.5:1:10080 \
@@ -91,9 +96,11 @@ for i in results:
       RRA:AVERAGE:0.5:60:8760 \
       RRA:MAX:0.5:1:10080 \
       RRA:MAX:0.5:5:51840 \
-      RRA:MAX:0.5:60:8760')
+      RRA:MAX:0.5:60:8760"
+        )
 
-  if( data != 'NULL' ):
-    print"rrd"
-    os.system('/usr/bin/rrdtool update '+filename+" "+str(t)+':'+str(data))
-
+    if data != "NULL":
+        print("rrd")
+        os.system(
+            "/usr/bin/rrdtool update " + filename + " " + str(t) + ":" + str(data)
+        )

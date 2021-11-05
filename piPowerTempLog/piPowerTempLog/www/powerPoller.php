@@ -275,4 +275,3 @@ if ($poll) {
     mysqli_close($conn);
     ;
 }
-?>

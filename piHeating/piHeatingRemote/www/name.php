@@ -19,5 +19,3 @@ if ( $SENSOR_ID < 1 ) {
     print_r ( $name );
     
   }
-  
-?>

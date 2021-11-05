@@ -7,68 +7,68 @@ scriptDir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 . $scriptDir/scripts/config.ini
 
 if [[ $(whoami) != "root" ]]; then
-	printf "\n\n Script must be run as root. \n\n"
-	exit 1
+    printf "\n\n Script must be run as root. \n\n"
+    exit 1
 fi
 
 echo -e "\n\n Uninstall piHeating suite \n ----------"
 
 while true; do
-	echo -e " This will uninstall everything \n\n Do you want to continue ?"
-	read -p " [y/N/h] " input
-	case $input in
-	[Hh]) echo -e "\n This will not uninstall anything installed by apt package manager. \n Also gpio-watch and Python modules will be kept. \n" ;;
-	[Yy]) break ;;
-	*)
-		echo -e "\n Exiting ..."
-		exit 0
-		break
-		;;
-	esac
+    echo -e " This will uninstall everything \n\n Do you want to continue ?"
+    read -p " [y/N/h] " input
+    case $input in
+        [Hh]) echo -e "\n This will not uninstall anything installed by apt package manager. \n Also gpio-watch and Python modules will be kept. \n" ;;
+        [Yy]) break ;;
+        *)
+            echo -e "\n Exiting ..."
+            exit 0
+            break
+        ;;
+    esac
 done
 
 ########## piWeatherLog ##########
 printf "\n\n Uninstalling piWeatherLog ... \n"
 printf "   Removing cron jobs ... \n"
 if [ -f /etc/cron.d/piWeatherLog ]; then
-	rm /etc/cron.d/piWeatherLog
+    rm /etc/cron.d/piWeatherLog
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 printf "   Disabling site ... \n"
 if [ -f /etc/apache2/sites-enabled/piWeatherLog.conf ]; then
-	a2dissite piWeatherLog.conf
+    a2dissite piWeatherLog.conf
 else
-	printf "      Not enabled \n"
+    printf "      Not enabled \n"
 fi
 
 printf "   Deleting site configuration... \n"
 if [ -f /etc/apache2/sites-available/piWeatherLog.conf ]; then
-	rm /etc/apache2/sites-available/piWeatherLog.conf
+    rm /etc/apache2/sites-available/piWeatherLog.conf
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 printf "   Removing listening directives ... \n"
 if grep -Fxq 'Listen 8083' /etc/apache2/ports.conf; then
-	sed -i '/Listen 8083/d' /etc/apache2/ports.conf
+    sed -i '/Listen 8083/d' /etc/apache2/ports.conf
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 printf "   Deleting site ... \n"
 if [ -d /var/www/piWeatherLog ]; then
-	rm -R /var/www/piWeatherLog
+    rm -R /var/www/piWeatherLog
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 printf "  Deleting executables ... \n"
 if [ -d $installDir/piWeatherLog ]; then
-	rm -R $installDir/piWeatherLog
+    rm -R $installDir/piWeatherLog
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 ########## piPowerTempLog ##########
@@ -76,44 +76,44 @@ printf "\n\n Uninstalling piPowerTempLog ... \n"
 
 printf "   Removing cron jobs ... \n"
 if [ -f /etc/cron.d/piPowerTempLog ]; then
-	rm /etc/cron.d/piPowerTempLog
+    rm /etc/cron.d/piPowerTempLog
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 printf "   Disabling site ... \n"
 if [ -f /etc/apache2/sites-enabled/piPowerTempLog.conf ]; then
-	a2dissite piPowerTempLog.conf
+    a2dissite piPowerTempLog.conf
 else
-	printf "      Not enabled \n"
+    printf "      Not enabled \n"
 fi
 
 printf "   Deleting site configuration... \n"
 if [ -f /etc/apache2/sites-available/piPowerTempLog.conf ]; then
-	rm /etc/apache2/sites-available/piPowerTempLog.conf
+    rm /etc/apache2/sites-available/piPowerTempLog.conf
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 printf "   Removing listening directives ... \n"
 if grep -Fxq 'Listen 8082' /etc/apache2/ports.conf; then
-	sed -i '/Listen 8082/d' /etc/apache2/ports.conf
+    sed -i '/Listen 8082/d' /etc/apache2/ports.conf
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 printf "   Deleting site ... \n"
 if [ -d /var/www/piPowerTempLog ]; then
-	rm -R /var/www/piPowerTempLog
+    rm -R /var/www/piPowerTempLog
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 printf "   Deleting executables ... \n"
 if [ -d $installDir/piPowerTempLog ]; then
-	rm -R $installDir/piPowerTempLog
+    rm -R $installDir/piPowerTempLog
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 ########## piHeatingLCD ##########
@@ -121,18 +121,18 @@ printf "\n\n Uninstalling piHeatingLCD ... \n"
 
 printf "   Disabling service ...\n"
 if [ -f /lib/systemd/system/gpio.service ]; then
-	systemctl disable gpio.service
-	rm /lib/systemd/system/gpio.service
-	systemctl daemon-reload
+    systemctl disable gpio.service
+    rm /lib/systemd/system/gpio.service
+    systemctl daemon-reload
 else
-	printf "      No service installed \n"
+    printf "      No service installed \n"
 fi
 
 printf "   Deleting executables ... \n"
 if [ -d $installDir/piHeatingLCD ]; then
-	rm -R $installDir/piHeatingLCD
+    rm -R $installDir/piHeatingLCD
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 ########## piHeatingRemote ##########
@@ -140,64 +140,64 @@ printf "\n\n Uninstalling piHeatingRemote ... \n"
 
 printf "   Disabling site ... \n"
 if [ -f /etc/apache2/sites-enabled/piHeatingRemote.conf ]; then
-	a2dissite piHeatingRemote.conf
+    a2dissite piHeatingRemote.conf
 else
-	printf "      Not enabled \n"
+    printf "      Not enabled \n"
 fi
 
 printf "   Deleting site configuration... \n"
 if [ -f /etc/apache2/sites-available/piHeatingRemote.conf ]; then
-	rm /etc/apache2/sites-available/piHeatingRemote.conf
+    rm /etc/apache2/sites-available/piHeatingRemote.conf
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 printf "   Removing listening directives ... \n"
 if grep -Fxq 'Listen 8081' /etc/apache2/ports.conf; then
-	sed -i '/Listen 8081/d' /etc/apache2/ports.conf
+    sed -i '/Listen 8081/d' /etc/apache2/ports.conf
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 printf "   Changing boot parameters ... \n"
 if grep -Fxq 'dtoverlay=w1-gpio,gpiopin=14' /boot/config.txt; then
-	sed -i 's/dtoverlay=w1-gpio,gpiopin=14/dtoverlay=w1-gpio/g' /boot/config.txt
+    sed -i 's/dtoverlay=w1-gpio,gpiopin=14/dtoverlay=w1-gpio/g' /boot/config.txt
 else
-	printf "      Not necessary\n"
+    printf "      Not necessary\n"
 fi
 
 printf "   Deleting site ... \n"
 if [ -d /var/www/piHeatingRemote ]; then
-	rm -R /var/www/piHeatingRemote
+    rm -R /var/www/piHeatingRemote
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 printf "   Deleting executables ... \n"
 if [ -d $installDir/piHeatingRemote ]; then
-	rm -R $installDir/piHeatingRemote
+    rm -R $installDir/piHeatingRemote
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 ########## database ##########
 printf "\n\n Dropping database ... \n"
 
 if [ -d /var/lib/mysql/piHeatingDB ]; then
-	printf " Please enter the MySQL 'root' password : \n"
-	read -s ROOT_PASSWORD
-	printf "   Deleting database ... \n"
-	#mysqladmin -u root -p$ROOT_PASSWORD drop piHeatingDB
-
+    printf " Please enter the MySQL 'root' password : \n"
+    read -s ROOT_PASSWORD
+    printf "   Deleting database ... \n"
+    #mysqladmin -u root -p$ROOT_PASSWORD drop piHeatingDB
+    
 	mysql -uroot -p$ROOT_PASSWORD <<DELETE
-	
+
 DROP USER IF EXISTS 'pi'@localhost;
 DROP DATABASE IF EXISTS piHeatingDB;
-	
-DELETE
 
+DELETE
+    
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 ########## piHeatingHub ##########
@@ -205,64 +205,64 @@ printf "\n\n Uninstalling piHeatingHub ... \n"
 
 printf "   Removing cron jobs ... \n"
 if [ -f /etc/cron.d/piHeating ]; then
-	rm /etc/cron.d/piHeating
+    rm /etc/cron.d/piHeating
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 printf "   Disabling site ... \n"
 if [ -f /etc/apache2/sites-enabled/piHeatingHub.conf ]; then
-	a2dissite piHeatingHub.conf
+    a2dissite piHeatingHub.conf
 else
-	printf "      Not enabled \n"
+    printf "      Not enabled \n"
 fi
 
 printf "   Deleting site configuration ... \n"
 if [ -f /etc/apache2/sites-available/piHeatingHub.conf ]; then
-	rm /etc/apache2/sites-available/piHeatingHub.conf
+    rm /etc/apache2/sites-available/piHeatingHub.conf
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 printf "   Deleting listening directives ... \n"
 if grep -Fxq 'Listen 8080' /etc/apache2/ports.conf; then
-	sed -i '/Listen 8080/d' /etc/apache2/ports.conf
+    sed -i '/Listen 8080/d' /etc/apache2/ports.conf
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 printf "   Disabling SQL strict mode ... \n"
 if [ -f /etc/mysql/mariadb.conf.d/99-disable-strict-mode.cnf ]; then
-	rm /etc/mysql/mariadb.conf.d/99-disable-strict-mode.cnf
+    rm /etc/mysql/mariadb.conf.d/99-disable-strict-mode.cnf
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 printf "   Deleting site ... \n"
 if [ -d /var/www/piHeatingHub ]; then
-	rm -R /var/www/piHeatingHub
+    rm -R /var/www/piHeatingHub
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 printf "   Deleting executables ... \n"
 if [ -d $installDir/piHeatingHub ]; then
-	rm -R $installDir/piHeatingHub
+    rm -R $installDir/piHeatingHub
 else
-	printf "      Not present \n"
+    printf "      Not present \n"
 fi
 
 ########## restart services
 printf "\n\n Reloading apache ... \n"
 if [ $(systemctl is-active --quiet apache2) ]; then
-	printf "      Service is not runnning \n"
+    printf "      Service is not runnning \n"
 else
-	service apache2 reload
+    service apache2 reload
 fi
 
 printf "\n\n Restarting mariadb ... \n"
 if [ $(systemctl is-active --quiet mariadb) ]; then
-	printf "      Service is not runnning \n"
+    printf "      Service is not runnning \n"
 else
-	service mariadb restart
+    service mariadb restart
 fi

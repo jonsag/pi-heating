@@ -113,5 +113,3 @@ if (!$selected) {
   $sql = "SELECT * FROM $table";
   $selection = "since start";
 }
-
-?>

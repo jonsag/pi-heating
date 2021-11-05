@@ -1,188 +1,190 @@
 <html>
+
 <head>
-<title>piPowerTempLog - power/temp chart</title>
-<script type="text/javascript"
-	src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-  	google.charts.load('current', {'packages':['corechart']});
-  	google.charts.setOnLoadCallback(drawChart);
+    <title>piPowerTempLog - power/temp chart</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+        google.charts.setOnLoadCallback(drawChart);
 
-  	function drawChart() {
-  	var data = google.visualization.arrayToDataTable([
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
 
-<?php
-include ("config.php");
-include ('functions/functions.php');
-include ('functions/getSql.function.php');
-require_once ('functions/SqlFormatter.php');
+                        <?php
+                        include("config.php");
+                        include('functions/functions.php');
+                        include('functions/getSql.function.php');
+                        require_once('functions/SqlFormatter.php');
 
-$selected = false;
+                        $selected = false;
 
-// /// catch attributes
-if (isset($_GET['time'])) {
-    $timeSelection = $_GET['time'];
-}
+                        // /// catch attributes
+                        if (isset($_GET['time'])) {
+                            $timeSelection = $_GET['time'];
+                        }
 
-if (isset($_GET['table'])) {
-    $table = $_GET['table'];
-}
+                        if (isset($_GET['table'])) {
+                            $table = $_GET['table'];
+                        }
 
-if (isset($_GET['groupBy'])) {
-    $answer = create_selection($_GET['groupBy']);
-    $groupby = $answer[0];
-    $groupedby = $answer[1];
-    $selection = $answer[2];
-} else {
-    $groupby = "GROUP BY ts";
-    $groupedby = "";
-    $selection = "ts";
-}
+                        if (isset($_GET['groupBy'])) {
+                            $answer = create_selection($_GET['groupBy']);
+                            $groupby = $answer[0];
+                            $groupedby = $answer[1];
+                            $selection = $answer[2];
+                        } else {
+                            $groupby = "GROUP BY ts";
+                            $groupedby = "";
+                            $selection = "ts";
+                        }
 
-// $groupby = "GROUP BY ts";
-// $groupedby = "";
-// $selection = "ts";
+                        // $groupby = "GROUP BY ts";
+                        // $groupedby = "";
+                        // $selection = "ts";
 
-// find sensor ids
-$sql = "SELECT id FROM sensors";
-$result = $conn->query($sql);
-if ($result->num_rows > 0) {
-    $sensorids = [];
-    $i = 0;
-    echo "['Time'";
-    echo ", 'kW'";
-    while ($row = $result->fetch_assoc()) {
-        ++ $i;
-        $sensorids[$i] = $row['id'];
-        $namesql = "SELECT name FROM sensors WHERE id='" . $row['id'] . "'";
-        $nameresult = $conn->query($namesql);
-        if ($result->num_rows > 0) {
-            while ($namerow = $nameresult->fetch_assoc()) {
-                echo ", '";
-                echo trim($namerow['name']);
-                // echo " &deg;C";
-                // echo " &#x2103;";
-                echo " \u00B0C";
-                echo "'";
-            }
-        }
-    }
-    echo "]";
-}
+                        // find sensor ids
+                        $sql = "SELECT id FROM sensors";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                            $sensorids = [];
+                            $i = 0;
+                            echo "['Time'";
+                            echo ", 'kW'";
+                            while ($row = $result->fetch_assoc()) {
+                                ++$i;
+                                $sensorids[$i] = $row['id'];
+                                $namesql = "SELECT name FROM sensors WHERE id='" . $row['id'] . "'";
+                                $nameresult = $conn->query($namesql);
+                                if ($result->num_rows > 0) {
+                                    while ($namerow = $nameresult->fetch_assoc()) {
+                                        echo ", '";
+                                        echo trim($namerow['name']);
+                                        // echo " &deg;C";
+                                        // echo " &#x2103;";
+                                        echo " \u00B0C";
+                                        echo "'";
+                                    }
+                                }
+                            }
+                            echo "]";
+                        }
 
-$i = 0;
-foreach ($sensorids as $sensorid) {
-    if ($groupedby) {
-        $selection .= ", AVG(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END) AS sensor" . $sensorid;
-    } else {
-        $selection .= ", MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END) AS sensor" . $sensorid;
-    }
-}
+                        $i = 0;
+                        foreach ($sensorids as $sensorid) {
+                            if ($groupedby) {
+                                $selection .= ", AVG(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END) AS sensor" . $sensorid;
+                            } else {
+                                $selection .= ", MAX(CASE WHEN sensorid = " . $sensorid . " THEN value ELSE null END) AS sensor" . $sensorid;
+                            }
+                        }
 
-$condition = "";
+                        $condition = "";
 
-$answer = getSQL($table, $selection, $groupby);
+                        $answer = getSQL($table, $selection, $groupby);
 
-$sql = $answer[0];
-$selection = $answer[1];
+                        $sql = $answer[0];
+                        $selection = $answer[1];
 
-$result = $conn->query($sql);
+                        $result = $conn->query($sql);
 
-// read result
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $output = ",\n['";
-        $output .= $row['ts'];
-        $output .= "'";
-        
-        // $powerSql = "SELECT ts, currentAverageR1, currentAverageS2, currentAverageT3 ";
-        $powerSql = "SELECT ";
-        if ($groupedby) {
-            $powerSql .= "AVG(currentAverageR1) AS currentAverageR1, ";
-            $powerSql .= "AVG(currentAverageS2) AS currentAverageS2, ";
-            $powerSql .= "AVG(currentAverageT3) AS currentAverageT3 ";
-        } else {
-            $powerSql .= "currentAverageR1, ";
-            $powerSql .= "currentAverageS2, ";
-            $powerSql .= "currentAverageT3 ";
-        }
-        $powerSql .= "FROM powerLog WHERE ";
-        // $powerSql .= "ts > DATE_SUB('" . $row['ts'] . "', INTERVAL 1 ". $groupedby . ") AND ";
-        // $powerSql .= "ts < DATE_ADD('" . $row['ts'] . "', INTERVAL 1 ". $groupedby . ") ";
-        if ($groupedby) {
-            $powerSql .= "DATE(ts) = DATE('" . $row['ts'] . "') AND HOUR(ts) = HOUR('" . $row['ts'] . "')";
-        } else {
-            $powerSql .= "ts > DATE_SUB('" . $row['ts'] . "', INTERVAL 1 MINUTE) AND ";
-            $powerSql .= "ts < DATE_ADD('" . $row['ts'] . "', INTERVAL 1 MINUTE) ";
-        }
-        if ($groupedby) {
-            $powerSql .= $groupby;
-        } else {
-            $powerSql .= "LIMIT 1 ";
-        }
-        // echo $powerSql;
-        $powerResult = $conn->query($powerSql);
-        
-        $output .= ", ";
-        if ($powerResult->num_rows > 0) {
-            while ($powerRow = $powerResult->fetch_assoc()) {
-                $output .= ($powerRow['currentAverageR1'] + $powerRow['currentAverageS2'] + $powerRow['currentAverageT3']) * 230 * 1.732 / 1000;
-            }
-        } else {
-            $output .= "0";
-        }
-        
-        foreach ($sensorids as $sensorid) {
-            $output .= ", ";
-            $output .= $row['sensor' . $sensorid];
-        }
-        $output .= "]";
-        echo $output;
-    }
-}
+                        // read result
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                $output = ",\n['";
+                                $output .= $row['ts'];
+                                $output .= "'";
 
-echo "\n]);\n\n";
+                                // $powerSql = "SELECT ts, currentAverageR1, currentAverageS2, currentAverageT3 ";
+                                $powerSql = "SELECT ";
+                                if ($groupedby) {
+                                    $powerSql .= "AVG(currentAverageR1) AS currentAverageR1, ";
+                                    $powerSql .= "AVG(currentAverageS2) AS currentAverageS2, ";
+                                    $powerSql .= "AVG(currentAverageT3) AS currentAverageT3 ";
+                                } else {
+                                    $powerSql .= "currentAverageR1, ";
+                                    $powerSql .= "currentAverageS2, ";
+                                    $powerSql .= "currentAverageT3 ";
+                                }
+                                $powerSql .= "FROM powerLog WHERE ";
+                                // $powerSql .= "ts > DATE_SUB('" . $row['ts'] . "', INTERVAL 1 ". $groupedby . ") AND ";
+                                // $powerSql .= "ts < DATE_ADD('" . $row['ts'] . "', INTERVAL 1 ". $groupedby . ") ";
+                                if ($groupedby) {
+                                    $powerSql .= "DATE(ts) = DATE('" . $row['ts'] . "') AND HOUR(ts) = HOUR('" . $row['ts'] . "')";
+                                } else {
+                                    $powerSql .= "ts > DATE_SUB('" . $row['ts'] . "', INTERVAL 1 MINUTE) AND ";
+                                    $powerSql .= "ts < DATE_ADD('" . $row['ts'] . "', INTERVAL 1 MINUTE) ";
+                                }
+                                if ($groupedby) {
+                                    $powerSql .= $groupby;
+                                } else {
+                                    $powerSql .= "LIMIT 1 ";
+                                }
+                                // echo $powerSql;
+                                $powerResult = $conn->query($powerSql);
 
-// close connection to mysql
-mysqli_close($conn);
-;
+                                $output .= ", ";
+                                if ($powerResult->num_rows > 0) {
+                                    while ($powerRow = $powerResult->fetch_assoc()) {
+                                        $output .= ($powerRow['currentAverageR1'] + $powerRow['currentAverageS2'] + $powerRow['currentAverageT3']) * 230 * 1.732 / 1000;
+                                    }
+                                } else {
+                                    $output .= "0";
+                                }
 
-echo "var options = {\n";
-echo " title:' powerLog, " . $table . " - Power and temps ";
-echo $selection;
-if ($groupedby) {
-    echo ", grouped by " . $groupedby;
-}
-echo "',\n";
-// echo " width: 1200,\n";
-// echo " height: 550,\n";
-// echo " lineWidth: 1\n";
-// echo " colors: ['red', 'green', 'blue']\n";
-echo " curveType: 'function',\n";
-echo " legend: { position: 'bottom' },\n";
+                                foreach ($sensorids as $sensorid) {
+                                    $output .= ", ";
+                                    $output .= $row['sensor' . $sensorid];
+                                }
+                                $output .= "]";
+                                echo $output;
+                            }
+                        }
 
-chartOptions1(- 10, 10);
+                        echo "\n]);\n\n";
 
-echo "};\n";
-?>
+                        // close connection to mysql
+                        mysqli_close($conn);;
 
-  var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-  chart.draw(data, options);
-}
+                        echo "var options = {\n";
+                        echo " title:' powerLog, " . $table . " - Power and temps ";
+                        echo $selection;
+                        if ($groupedby) {
+                            echo ", grouped by " . $groupedby;
+                        }
+                        echo "',\n";
+                        // echo " width: 1200,\n";
+                        // echo " height: 550,\n";
+                        // echo " lineWidth: 1\n";
+                        // echo " colors: ['red', 'green', 'blue']\n";
+                        echo " curveType: 'function',\n";
+                        echo " legend: { position: 'bottom' },\n";
 
+                        chartOptions1(-10, 10);
+
+                        echo "};\n";
+                        ?>
+
+                        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+                        chart.draw(data, options);
+                    }
     </script>
 </head>
+
 <body>
-	<div id="curve_chart" style="width: 1350px; height: 600px"></div>
+    <div id="curve_chart" style="width: 1350px; height: 600px"></div>
 
-<?php
+    <?php
 
-lf();
-echo "SQL to get temperatures: \n" . SqlFormatter::format($sql);
+    lf();
+    echo "SQL to get temperatures: \n" . SqlFormatter::format($sql);
 
-dlf();
-echo "Last SQL to get power: \n" . SqlFormatter::format($powerSql);
+    dlf();
+    echo "Last SQL to get power: \n" . SqlFormatter::format($powerSql);
 
-?>
+    ?>
 
 </body>
+
 </html>

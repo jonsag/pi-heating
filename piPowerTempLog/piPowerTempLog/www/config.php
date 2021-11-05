@@ -64,5 +64,3 @@
     $weatherWindSpeedMatch = "Wind speed: ";
     $weatherAverageWindSpeedMatch = "Average wind speed: ";
     $weatherRainSinceLastMatch = "Rain since last poll: ";
-    
-?>

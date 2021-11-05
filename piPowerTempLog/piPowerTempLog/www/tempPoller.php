@@ -84,5 +84,3 @@
     
     // close connection to mysql
     mysqli_close($conn);;
-    
-?>
