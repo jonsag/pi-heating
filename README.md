@@ -19,11 +19,10 @@ Let's start it all by
 
 ## Installing OS
 
-Download Raspbian Buster Lite from [https://www.raspberrypi.org/downloads/raspbian/](https://www.raspberrypi.org/downloads/raspbian/)  
-Choose the Light zip-file  
+Download 'Raspberry Pi OS Lite' from [https://www.raspberrypi.com/software/operating-systems/](https://www.raspberrypi.com/software/operating-systems/)  
 
-Cd to where your download is  
->$ unzip *-raspbian-buster-lite.zip  
+Cd to where your download is and unpack it  
+>$ unzip *-raspios-buster-armhf-lite.zip  
 
 Insert SD-card and find out drive letter  
 >$ dmesg  
@@ -34,7 +33,12 @@ Unmount if mounted
 >$ umount /dev/mmcblk0p1  
 
 Write image to SD-card  
->$ sudo dd bs=4M if=<version\>-raspbian-buster-lite.img of=/dev/<device\> conv=fsync status=progress  
+>$ sudo dd bs=4M if=<version\>-raspios-buster-armhf-lite.img of=/dev/<device\> conv=fsync status=progress  
+
+    1870659584 bytes (1,9 GB, 1,7 GiB) copied, 105 s, 17,8 MB/s  
+    447+0 records in  
+    447+0 records out  
+    1874853888 bytes (1,9 GB, 1,7 GiB) copied, 139,716 s, 13,4 MB/s  
 
 Remove SD-card and insert it again to make new partitions visible  
 
@@ -59,7 +63,7 @@ You will get something like
 
     192.168.10.39/24  
 
-where the first of course is your ip, end the second is the netmask  
+where the first of is your ip, and the second is the netmask  
 
 Now scan your local network for hosts  
 >$ nmap -snP 192.168.10.0/24  
@@ -82,20 +86,20 @@ Copy the public key to RPi
 Login with user: pi and password:raspberry  
 
 Update  
->$ sudo apt-get update && sudo apt-get upgrade  
+>$ sudo apt-get update && sudo apt-get upgrade && sudo apt autoremove  
 
 Configure  
 >$ sudo raspi-config  
 
-1       Change password  
-2 N1    Change hostname  
-4 T1    Set locales (I choose en_GB.UTF-8 and sv_SE.UTF-8, setting en_GB.UTF-8 as default)  
-4 T2    Set time zone  
-4 T3    Choose keyboard layout  
-4 T4    Set wifi country  
-5 P7    Enable 1-wire at boot  
-7 A1    Expand file system to use whole SD-card  
-7 A3    Set memory split to 16  
+* 1    Change password  
+* 2 N1 Change hostname  
+* 4 T1 Set locales (I chose en_GB.UTF-8 and sv_SE.UTF-8, setting en_GB.UTF-8 as default)  
+* 4 T2 Set time zone  
+* 4 T3 Choose keyboard layout  
+* 4 T4 Set wifi country  
+* 5 P7 Enable 1-wire at boot  
+* 7 A1 Expand file system to use whole SD-card  
+* 7 A3 Set memory split to 16  
 
 Reboot to set new options  
 

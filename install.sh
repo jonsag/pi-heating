@@ -428,7 +428,7 @@ if [ $piHeatingRemote ] || [ $piWeatherLog ]; then
                     break
                 ;;
                 *)
-                    echo -e "\n Rebooting i 5 seconds ..."
+                    echo -e "\n Rebooting in 5 seconds ..."
                     sleep 5
                     reboot
                     break
