@@ -2,14 +2,18 @@
 
 ARG1=$1
 ARG2=$2
+ARG3=$3
+ARG4=$4
 
 ########## check for arguments
-if [ ! $ARG1 ] || [ ! $ARG2 ]; then
+if [[ ! $ARG1 ]] || [[ ! $ARG2 ]] || [[ ! $ARG3 ]]; then
     echo -e "\n\n Error: \n This script must be run with arguments, \n or rather started from main script \n Exiting ..."
     exit 1
 else
     scriptDir=$ARG1
     installDir=$ARG2
+    simulateMessage=$ARG3
+    simulate=$ARG4
 fi
 
 ########## check for root
@@ -95,15 +99,21 @@ fi
 
 ########## configure apache
 echo -e " Setting Apache listen port 8081 ..."
-if grep -Fxq 'Listen 8081' /etc/apache2/ports.conf; then
-    echo "     Apache already listening on port 8081"
+if [ ! -f "$installDir/piHeatingRemote/README.md" ]; then
+    echo -e "\n\n First you must install piHeatingHub. \n Exiting ..."
+    exit 1
 else
-    if [ $simulate ]; then
-        echo "$simulateMessage"
+    
+    if grep -Fxq 'Listen 8081' /etc/apache2/ports.conf; then
+        echo "     Apache already listening on port 8081"
     else
+        if [ $simulate ]; then
+            echo "$simulateMessage"
+        else
 		cat >> /etc/apache2/ports.conf <<PORTS
 Listen 8081
 PORTS
+        fi
     fi
 fi
 

@@ -269,7 +269,7 @@ fi
 
 ########## install py-mysql
 if [ $piHeatingHub ] || [ $piPowerTempLog ] || [ $piWeatherLog ]; then
-    $scriptDir/scripts/packagesInstall.sh "python-mysqldb" "$simulateMessage" $simulate
+    $scriptDir/scripts/packagesInstall.sh "python3-mysqldb" "$simulateMessage" $simulate
 fi
 
 ########## install rrd-tool
@@ -332,6 +332,9 @@ if [ $handy ]; then
     $scriptDir/scripts/packagesInstall.sh "$handyPrograms" "$simulateMessage" $simulate
 fi
 
+########## set python3 as default
+$scriptDir/scripts/setPython3asDefault.sh "$simulateMessage" $simulate
+
 ########## create ~/bin
 if [ $piHeatingHub ] || [ $piHeatingRemote ] || [ $piHeatingLCD ] || [ $piPowerTempLog ] || [ $piHeatingHubSecure ] || [ $piWeatherLog ]; then
     echo -e "\n\n Creating installation directory ... \n ----------"
@@ -353,27 +356,27 @@ fi
 
 ########## make piHeating Hub secure
 if [ $piHeatingHubSecure ]; then
-    $scriptDir/scripts/piHeatingHubSecureInstall.sh $scriptDir $installDir
+    $scriptDir/scripts/piHeatingHubSecureInstall.sh $scriptDir $installDir "$simulateMessage" $simulate
 fi
 
 ########## install piHeatingRemote
 if [ $piHeatingRemote ]; then
-    $scriptDir/scripts/piHeatingRemoteInstall.sh $scriptDir $installDir
+    $scriptDir/scripts/piHeatingRemoteInstall.sh $scriptDir $installDir "$simulateMessage" $simulate
 fi
 
 ########## install piHeatingLCD
 if [ $piHeatingLCD ]; then
-    $scriptDir/scripts/piHeatingLCDInstall.sh $scriptDir $installDir
+    $scriptDir/scripts/piHeatingLCDInstall.sh $scriptDir $installDir "$simulateMessage" $simulate
 fi
 
 ########## install piPowerTempLog
 if [ $piPowerTempLog ]; then
-    $scriptDir/scripts/piPowerTempLogInstall.sh $scriptDir $installDir
+    $scriptDir/scripts/piPowerTempLogInstall.sh $scriptDir $installDir "$simulateMessage" $simulate
 fi
 
 ########## install piWeatherLog
 if [ $piWeatherLog ]; then
-    $scriptDir/scripts/piWeatherLogInstall.sh $scriptDir $installDir
+    $scriptDir/scripts/piWeatherLogInstall.sh $scriptDir $installDir "$simulateMessage" $simulate
 fi
 
 ########## configure apache

@@ -229,7 +229,7 @@ CREATE DATABASE $DB_NAME CHARACTER SET = utf8;
             network_id    int(11)       DEFAULT NULL,
         test          tinyint(1)    DEFAULT NULL );
         
-        DATABASE
+DATABASE
     fi
     
     echo -e " Saving database credentials ..."

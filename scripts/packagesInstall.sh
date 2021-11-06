@@ -40,23 +40,40 @@ for program in $programs; do
         ########## mariadb post installation
         if [ $program == "mariadb-server" ]; then
             echo -e "\n\n Running MariaDB post install ...\n ----------"
-            mysql_secure_installation
+            if [ $simulate ]; then
+                echo "$simulateMessage"
+            else
+                mysql_secure_installation
+            fi
             
             echo -e "\n\n Disabling MariaDB strict mode ... \n ----------"
             if [ -f "/etc/mysql/mariadb.conf.d/99-disable-strict-mode.cnf" ]; then
                 echo "     Already in strict mode"
             else
-				cat > /etc/mysql/mariadb.conf.d/99-disable-strict-mode.cnf <<STRICT
+                if [ $simulate ]; then
+                    echo "$simulateMessage"
+                else
+                cat > /etc/mysql/mariadb.conf.d/99-disable-strict-mode.cnf <<STRICT
 [server]
 sql_mode = ""
 STRICT
+                fi
+                
             fi
             
             echo -e "\n\n Enabling MariaDB ... \n ----------"
-            systemctl enable mariadb
+            if [ $simulate ]; then
+                echo "$simulateMessage"
+            else
+                systemctl enable mariadb
+            fi
             
             echo -e "\n\n Restarting MariaDB ... \n ----------"
-            service mariadb restart
+            if [ $simulate ]; then
+                echo "$simulateMessage"
+            else
+                service mariadb restart
+            fi
         fi
         
         ########## apache2 post installation
@@ -64,19 +81,35 @@ STRICT
             echo -e "\n\n Configuring Apache ... \n ----------"
             
             echo -e " Disabling Apache default site ..."
-            a2dissite 000-default.conf
+            if [ $simulate ]; then
+                echo "$simulateMessage"
+            else
+                a2dissite 000-default.conf
+            fi
             
             echo -e " Enabling Apache ..."
-            systemctl enable apache2
+            if [ $simulate ]; then
+                echo "$simulateMessage"
+            else
+                systemctl enable apache2
+            fi
             
-            echo -e " Starting Apache ..."
-            service apache2 restart
+            echo -e " Restarting Apache ..."
+            if [ $simulate ]; then
+                echo "$simulateMessage"
+            else
+                service apache2 restart
+            fi
         fi
         
         ########## libapache2-mod-php post installation
         if [ $program == "libapache2-mod-php" ]; then
             echo -e "\n\n Enabling Apache PHP module ... \n ----------"
-            a2enmod php7.3
+            if [ $simulate ]; then
+                echo "$simulateMessage"
+            else
+                a2enmod php7.3
+            fi
         fi
     fi
 done

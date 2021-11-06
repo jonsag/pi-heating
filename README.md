@@ -91,24 +91,29 @@ Update
 Configure  
 >$ sudo raspi-config  
 
-* 1    Change password  
-* 2 N1 Change hostname  
-* 4 T1 Set locales (I chose en_GB.UTF-8 and sv_SE.UTF-8, setting en_GB.UTF-8 as default)  
-* 4 T2 Set time zone  
-* 4 T3 Choose keyboard layout  
-* 4 T4 Set wifi country  
-* 5 P7 Enable 1-wire at boot  
-* 7 A1 Expand file system to use whole SD-card  
-* 7 A3 Set memory split to 16  
+* 1 S3 Change password  
+* 1 S4 Change hostname  
+* 3 P7 Enable 1-wire at boot  
+* 4 P2 Set GPU memory to 16  
+* 5 L1 Set locales (I chose en_GB.UTF-8 and sv_SE.UTF-8, setting en_GB.UTF-8 as default)  
+* 5 L2 Set time zone  
+* 5 L3 Choose keyboard layout (not necessary if you only connect by ssh)  
+* 5 L4 Set wifi country  
+* 6 A1 Expand file system to use whole SD-card  
 
 Reboot to set new options  
+>$ sudo reboot && exit  
 
 Now it's time to:
 
 ## Download sources
 
+Connect to the RPi again  
 Install git, if you haven't already  
->$ sudo apt install git  
+>$ sudo apt install git -y  
+
+Make sure you're in pi's home directory  
+>$ cd /home/pi  
 
 Download source files  
 >$ git clone [https://github.com/jonsag/pi-heating.git](https://github.com/jonsag/pi-heating.git)  
