@@ -1,0 +1,44 @@
+# my favourite ls
+alias list='ls -alFh'
+
+# rsync aliases
+alias rs-move="rsync -a --progress --remove-source-files"
+alias rs-copy="rsync -a --no-perms --no-owner --no-group --delete --no-times --progress"
+alias rs-Sync="rsync -a --no-perms --no-owner --no-group --delete --no-times --delete --progress"
+
+# mediainfo aliases
+alias mi_duration='mediainfo --Inform="General;General duration: %Duration/String3%"'
+alias mi="mediainfo --Inform=file:///$HOME/.mediainfo.template"
+
+
+alias rmlinks="find . -maxdepth 1 -type l -exec rm -i {} \;"
+
+alias free-space="df -Ph . | tail -1 | awk '{print $4}'"
+
+alias dir-size="du . -h --max-depth=1"
+
+alias last-dirs="find . -maxdepth 1 -type d -printf '%T@ %p\0' | sort -zk 1nr | sed -z 's/^[^ ]* //' | tr '\0' '\n' | head -n 20"
+
+alias last-files="find . -maxdepth 2 -type f -printf '%T@ %p\0' | sort -zk 1nr | sed -z 's/^[^ ]* //' | tr '\0' '\n' | head -n 20"
+
+# unpack, tar
+alias unpack-tar.gz='tar zxvf'
+alias unpack-tar.bz2='tar jxvf'
+alias unpack-tar='tar xvf'
+alias unpack-tar.xz='tar Jxvf'
+
+alias apt-upgrade='sudo apt update && sudo apt upgrade && sudo apt autoremove'
+
+alias empty-trash='rm ~/.local/share/Trash/files/* -Rf'
+
+# youtube-dl
+alias yt-ignore='youtube-dl --ignore-config'
+alias my_yt-ignore='my_youtube-dl --ignore-config'
+
+# python
+alias python='python3'
+alias pip='pip3'
+
+# python aliases
+alias pip-upgrade="pip freeze --user | cut -d'=' -f1 | xargs -n1 pip install -U"
+alias pip-upgrade-venv="pip freeze | cut -d'=' -f1 | xargs -n1 pip install -U"
