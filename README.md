@@ -493,7 +493,7 @@ so it matches the output from dmesg command
 
 For all electrical builds there are CAD files for each project under 'Documentation'.  
 Not all have finished PCB etch masks available as pdf.  
-If you like to make some yourself, install KiCad ([https://www.kicad-pcb.org](https://www.kicad-pcb.org)) and just make them.  
+If you like to make some yourself, install KiCad ([https://www.kicad.org](https://www.kicad.org)) and just make them.  
 I have made all as single layer PCBs myself, but just go ahead and route some double layered ones.  
 If you don't want to make them them yourself, I can recommend JLCPCB ([https://jlcpcb.com](https://jlcpcb.com)), reasonably fast and very cheap.  
 
