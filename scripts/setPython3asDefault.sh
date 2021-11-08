@@ -22,10 +22,11 @@ if [[ $(whoami) != "root" ]]; then
     fi
 fi
 
-echo " Current python version: "
+echo -e "\n\n Setting Python3 as default ... \n ----------"
+echo "     Current python version: "
 python -V
 
-echo " Setting up new  link..."
+echo " Setting up new  link ..."
 if [ $simulate ]; then
     echo "$simulateMessage"
 else
@@ -33,5 +34,5 @@ else
     ln -s /usr/bin/python3 /usr/bin/python
 fi
 
-echo " New python version: "
+echo "     New python version: "
 python -V

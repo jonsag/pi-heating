@@ -166,6 +166,25 @@ while true; do
     esac
 done
 
+########## question: replace bashrc
+while true; do
+    echo -e "\n\n Do you wish to replace .bashrc ?"
+    read -p " [Y/n/h] " input
+    case $input in
+        [Hh])
+            echo -e "\n Saying yes to this will replace your bashrc \n with my one with lots of nice aliases "
+        ;;
+        [Nn])
+            bashrc=""
+            break
+        ;;
+        *)
+            bashrc="y"
+            break
+        ;;
+    esac
+done
+
 ########## view all before install
 while true; do
     echo -e "\n\n Summary \n ----------"
@@ -218,6 +237,13 @@ while true; do
         echo -e "\t Skip"
     fi
     
+    echo -n " Replace .bashrc "
+    if [ $bashrc ]; then
+        echo -e "\t\t OK"
+    else
+        echo -e "\t\t Skip"
+    fi
+
     ########## final question
     echo -e "\n Is this correct ?"
     read -p " [Y/n] " input
@@ -330,6 +356,11 @@ fi
 ########## install handy programs
 if [ $handy ]; then
     $scriptDir/scripts/packagesInstall.sh "$handyPrograms" "$simulateMessage" $simulate
+fi
+
+########## replace bashrc
+if [ $bashrc ]; then
+    $scriptDir/scripts/replace.bashrc.sh $scriptDir "$simulateMessage" $simulate
 fi
 
 ########## set python3 as default
