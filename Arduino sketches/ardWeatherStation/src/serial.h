@@ -1,6 +1,8 @@
 /////////////////////////////// print  complete output to serial ///////////////////////////////
-void serialPrintComplete() {
-  if (currentMillis - serialPrintMillis >= 1000) {
+void serialPrintComplete()
+{
+  if (currentMillis - serialPrintMillis >= 1000)
+  {
     //Serial.print(currentMillis);
     //Serial.print("    ");
 
@@ -20,10 +22,12 @@ void serialPrintComplete() {
     Serial.print(windSpeed);
     Serial.print(" m/s    ");
     Serial.print("Average wind speed: ");
-    if (windSpeedAverageCounter != 0) {
+    if (windSpeedAverageCounter != 0)
+    {
       Serial.print(windSpeedAverage / windSpeedAverageCounter);
     }
-    else {
+    else
+    {
       Serial.print(windSpeedAverage);
     }
     Serial.print(" m/s    ");
@@ -48,7 +52,8 @@ void serialPrintComplete() {
 }
 
 /////////////////////////////// help ///////////////////////////////
-void help() {
+void help()
+{
   Serial.println("---------- help ----------");
   Serial.println("Enter c for complete output");
   Serial.println("Enter p to simulate a poll");
@@ -62,7 +67,8 @@ void help() {
 }
 
 /////////////////////////////// poll ///////////////////////////////
-void poll() {
+void poll()
+{
   polled = true;
   lcd.setCursor(0, 3);
   lcd.print("Polled from serial");
@@ -77,10 +83,12 @@ void poll() {
   Serial.print(",");
   Serial.print(windSpeed);
   Serial.print(",");
-  if (windSpeedAverageCounter != 0) {
+  if (windSpeedAverageCounter != 0)
+  {
     Serial.print(windSpeedAverage / windSpeedAverageCounter);
   }
-  else {
+  else
+  {
     Serial.print(windSpeedAverage);
   }
   Serial.print(",");
@@ -94,7 +102,8 @@ void poll() {
 }
 
 /////////////////////////////// explain ///////////////////////////////
-void explain() {
+void explain()
+{
   Serial.print("pollStart");
   Serial.print(",");
   Serial.print("Wind direction");
@@ -116,28 +125,35 @@ void explain() {
 }
 
 /////////////////////////////// reset values after poll ///////////////////////////////
-void resetAll() {
+void resetAll()
+{
   rainSinceLastPoll = 0;
   windSpeedAverage = 0;
   windSpeedAverageCounter = 0;
   Serial.println("Values reset");
 }
 
-void serial() {
+void serial()
+{
 
   ///////////////////// check serial for message
-  if (Serial.available()) { // check if data has been sent from the computer
+  if (Serial.available())
+  {                           // check if data has been sent from the computer
     byteRead = Serial.read(); // read the most recent byte
-    if ( byteRead == 99 ) { // c outputs complete information
+    if (byteRead == 99)
+    { // c outputs complete information
       serialPrintComplete();
     }
-    else if ( byteRead == 104 ) { // h outputs help info
+    else if (byteRead == 104)
+    { // h outputs help info
       help();
     }
-    else if ( byteRead == 112 ) { // p does a poll
+    else if (byteRead == 112)
+    { // p does a poll
       poll();
     }
-    else if ( byteRead == 101 ) { // e explains polling output
+    else if (byteRead == 101)
+    { // e explains polling output
       explain();
     }
     /*
@@ -146,7 +162,8 @@ void serial() {
       rainSinceLastPoll += 0.279;
       }
     */
-    else if ( byteRead == 114 ) { // r resets rain since last poll
+    else if (byteRead == 114)
+    { // r resets rain since last poll
       resetAll();
     }
     /*
@@ -154,7 +171,8 @@ void serial() {
       totalRain = 0;
       }
     */
-    else {
+    else
+    {
       Serial.write(byteRead);
       Serial.println(" NA");
       Serial.println();

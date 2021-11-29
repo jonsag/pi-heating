@@ -45,7 +45,7 @@ void setup(void)
   Serial.println("");
 
   Serial.println("Printing addresses...");
-  for (int i = 0;  i < deviceCount;  i++)
+  for (int i = 0; i < deviceCount; i++)
   {
     Serial.print("Sensor ");
     Serial.print(i);
@@ -57,16 +57,19 @@ void setup(void)
 }
 
 void loop(void)
-{ }
+{
+}
 
 void printAddress(DeviceAddress deviceAddress)
 {
   for (uint8_t i = 0; i < 8; i++)
   {
     Serial.print("0x");
-    if (deviceAddress[i] < 0x10) Serial.print("0");
+    if (deviceAddress[i] < 0x10)
+      Serial.print("0");
     Serial.print(deviceAddress[i], HEX);
-    if (i < 7) Serial.print(", ");
+    if (i < 7)
+      Serial.print(", ");
   }
   Serial.println("");
 }

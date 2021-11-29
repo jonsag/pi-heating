@@ -6,12 +6,12 @@
 #include "webPage.h"
 
 //////////////////////////////////// setup ////////////////////////////////////
-void setup() {
+void setup()
+{
   /*******************************
     Start serial
   *******************************/
   Serial.begin(9600);
-
 
   Serial.println();
   Serial.println("---------- Starting ----------");
@@ -50,7 +50,7 @@ void setup() {
     Wait for stability
   *******************************/
   Serial.println("Waiting 5 seconds...");
-  delay(5000);  //important on linux a serial port can lock up otherwise
+  delay(5000); //important on linux a serial port can lock up otherwise
   Serial.println();
 
   /*******************************
@@ -79,11 +79,12 @@ void setup() {
 /*******************************
   Main
 *******************************/
-void loop() {
+void loop()
+{
   /*******************************
     Check some times
   *******************************/
-  currentMillis = millis(); // millis right now
+  currentMillis = millis();               // millis right now
   pollAge = (currentMillis - pollMillis); // how much time elapsed since last log write
   //tempAge = (currentMillis - tempsMillis); // how much time elapsed since last temp reading
 
@@ -102,10 +103,12 @@ void loop() {
   /*******************************
     Check for pulse
   *******************************/
-  if (pulseState != lastPulseState) { // light red LED if button is pressed
-    if (pulseState == HIGH) { // if the current state is HIGH then the button went from off to on
+  if (pulseState != lastPulseState)
+  { // light red LED if button is pressed
+    if (pulseState == HIGH)
+    {           // if the current state is HIGH then the button went from off to on
       pulses++; // +1 on puls counter
-      Serial.print("Pulse recieved, pulses this interval is now ");
+      Serial.print("Pulse received, pulses this interval is now ");
       Serial.println(pulses);
       blinkRed = true;
     }
@@ -115,7 +118,8 @@ void loop() {
   /*******************************
     Check if it's time to reset pulses
   *******************************/
-  if ( pollAge > 600000) {
+  if (pollAge > 600000)
+  {
     pollMillis = currentMillis;
     Serial.println("---Resetting pulses");
     pulsesLastPoll = pulses;

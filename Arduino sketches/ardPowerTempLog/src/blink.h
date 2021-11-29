@@ -1,7 +1,8 @@
 /*******************************
   Blink LEDs
 *******************************/
-void blinkLEDs(void) {
+void blinkLEDs(void)
+{
   /*if (blinkYellow && blinkYellowCounter < 20) {
     blinkYellowCounter++;
     digitalWrite(yellowPinTemp, HIGH);
@@ -20,21 +21,25 @@ void blinkLEDs(void) {
     blinkYellowOffCounter = 0;
     }*/
 
-  if (blinkGreen && blinkGreenCounter < 20) {
+  if (blinkGreen && blinkGreenCounter < 20)
+  {
     blinkGreenCounter++;
     digitalWrite(greenPinNetwork, HIGH);
   }
-  else {
+  else
+  {
     blinkGreen = false;
     blinkGreenCounter = 0;
     digitalWrite(greenPinNetwork, LOW);
   }
 
-  if (blinkRed  && blinkRedCounter < 20) {
+  if (blinkRed && blinkRedCounter < 20)
+  {
     blinkRedCounter++;
     digitalWrite(redPinPulse, HIGH);
   }
-  else {
+  else
+  {
     blinkRed = false;
     blinkRedCounter = 0;
     digitalWrite(redPinPulse, LOW);

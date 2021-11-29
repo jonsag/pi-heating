@@ -3,7 +3,7 @@
 #include "config.h"
 
 /* Add a file in this directory, called 'wifiConfig.h'
-    This file shpould include two lines, setting your SSID and wifi password:
+    This file should include two lines, setting your SSID and wifi password:
 
     const char* ssid = "SSID_name";
     const char* password = "Wifi_password";
@@ -16,7 +16,8 @@
 #include "dallas.h"
 #include "webServer.h"
 
-void setup() {
+void setup()
+{
   /*******************************
     Start serial
   *******************************/
@@ -56,38 +57,45 @@ void setup() {
   Serial.print("Number of sensors: ");
   Serial.println(sizeof(deviceAddresses) / sizeof(deviceAddresses[0]));
   Serial.println();
-  
+
   Serial.println("Sensor addresses: ");
-  for (int i = 0; i < (sizeof(deviceAddresses) / sizeof(deviceAddresses[0])); i++) {
+  for (int i = 0; i < (sizeof(deviceAddresses) / sizeof(deviceAddresses[0])); i++)
+  {
     Serial.print(deviceNames[i]);
     Serial.print(": ");
     printAddress(deviceAddresses[i]);
   }
   Serial.println();
-  
+
   Serial.println("Temperatures: ");
-  for (int i = 0; i < (sizeof(deviceAddresses) / sizeof(deviceAddresses[0])); i++) {
+  for (int i = 0; i < (sizeof(deviceAddresses) / sizeof(deviceAddresses[0])); i++)
+  {
     Serial.print(deviceNames[i]);
     Serial.print(": ");
     Serial.println(readTemp(i));
   }
   Serial.println();
-
 }
-void loop() {
+void loop()
+{
 }
 
-void printAddress(DeviceAddress deviceAddress) {
-  for (uint8_t i = 0; i < 8; i++) {
+void printAddress(DeviceAddress deviceAddress)
+{
+  for (uint8_t i = 0; i < 8; i++)
+  {
     Serial.print("0x");
-    if (deviceAddress[i] < 0x10) Serial.print("0");
+    if (deviceAddress[i] < 0x10)
+      Serial.print("0");
     Serial.print(deviceAddress[i], HEX);
-    if (i < 7) Serial.print(", ");
+    if (i < 7)
+      Serial.print(", ");
   }
   Serial.println("");
 }
 
-String SendHTML(float tempSensor0, float tempSensor1, float tempSensor2) {
+String SendHTML(float tempSensor0, float tempSensor1, float tempSensor2)
+{
   String ptr = "<!DOCTYPE html> <html>\n";
   ptr += "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">\n";
   ptr += "<title>ESP8266 Temperature Monitor</title>\n";

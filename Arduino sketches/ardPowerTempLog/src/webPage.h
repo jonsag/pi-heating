@@ -1,26 +1,34 @@
 /*******************************
   Present webpage
 *******************************/
-void presentWebPage(void) {
+void presentWebPage(void)
+{
   EthernetClient client = server.available(); // listen for incoming clients
-  if (client) {
+  if (client)
+  {
     digitalWrite(greenPinNetwork, HIGH); // turn green LED on
-    while (client.connected()) {
-      if (client.available()) {
+    while (client.connected())
+    {
+      if (client.available())
+      {
         char c = client.read();
-        if (readString.length() < 100) { //read char by char HTTP request
+        if (readString.length() < 100)
+        {                  //read char by char HTTP request
           readString += c; //store characters to string
         }
-        if (c == '\n') { //if HTTP request has ended
+        if (c == '\n')
+        {                             //if HTTP request has ended
           Serial.println(readString); //print to serial monitor for debuging
 
           //now output HTML data header
-          if (readString.indexOf('?') >= 0) { //don't send new page
+          if (readString.indexOf('?') >= 0)
+          { //don't send new page
             client.println("HTTP/1.1 204 ardPowerTempLog");
             client.println();
             client.println();
           }
-          else {
+          else
+          {
 
             // headers
             client.println("HTTP/1.1 200 OK"); //send new page
@@ -36,10 +44,11 @@ void presentWebPage(void) {
             client.println("- part of piHeating -");
             client.println("</div>");
             client.println("<br>");
-            
+
             // currents
             client.println("<br>");
-            for (phaseCount = 0; phaseCount <= 2; phaseCount++) {
+            for (phaseCount = 0; phaseCount <= 2; phaseCount++)
+            {
               client.print("Current phase ");
               client.print(phaseCount + 1);
               client.print(": ");
@@ -48,7 +57,8 @@ void presentWebPage(void) {
               client.println(" A<br>");
             }
             client.println("<br>");
-            for (phaseCount = 0; phaseCount <= 2; phaseCount++) {
+            for (phaseCount = 0; phaseCount <= 2; phaseCount++)
+            {
               client.print("Current average phase ");
               client.print(phaseCount + 1);
               client.print(": ");
@@ -93,7 +103,8 @@ void presentWebPage(void) {
           }
 
           ///////////////////// check if we should add a pulse
-          if (readString.indexOf("pulse") > 0) { //checks for click simulating a pulse
+          if (readString.indexOf("pulse") > 0)
+          { //checks for click simulating a pulse
             pulses++;
             Serial.print("Pulse from webpage, pulses this interval is now ");
             Serial.println(pulses);
@@ -101,14 +112,16 @@ void presentWebPage(void) {
           }
 
           ///////////////////// check if this is a poll
-          if (readString.indexOf("pollReset") > 0) { //checks for poll reset
+          if (readString.indexOf("pollReset") > 0)
+          { //checks for poll reset
             //Serial.println("---Recieved pollReset, will reset pulses and average current values");
-            Serial.println("---Recieved pollReset");
+            Serial.println("---Received pollReset");
             pollMillis = currentMillis;
             pulsesLastPoll = pulses;
             pulses = 0;
             currentPollCounter = 0;
-            for (phaseCount = 0; phaseCount <= 2; phaseCount++) {
+            for (phaseCount = 0; phaseCount <= 2; phaseCount++)
+            {
               ackPolledCurrent[phaseCount] = 0;
             }
           }
@@ -121,7 +134,7 @@ void presentWebPage(void) {
           ///////////////////// prepare for next read
           readString = ""; //clearing string for next read
           delay(100);
-          client.stop(); //stopping client
+          client.stop();                       //stopping client
           digitalWrite(greenPinNetwork, HIGH); // turn green LED on
         }
       }

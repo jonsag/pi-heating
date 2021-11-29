@@ -1,10 +1,10 @@
-#include <ESPAsyncTCP.h> // library found at https://github.com/me-no-dev/ESPAsyncTCP
+#include <ESPAsyncTCP.h>       // library found at https://github.com/me-no-dev/ESPAsyncTCP
 #include <ESPAsyncWebServer.h> // library found at https://github.com/me-no-dev/ESPAsyncWebServer
 
 // Create AsyncWebServer object on port 8081
 AsyncWebServer server(serverPort);
 
-const char* PARAM_MESSAGE = "id";
+const char *PARAM_MESSAGE = "id";
 
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
@@ -68,6 +68,7 @@ setInterval(function ( ) {
 </script>
 </html>)rawliteral";
 
-void notFound(AsyncWebServerRequest *request) {
+void notFound(AsyncWebServerRequest *request)
+{
   request->send(404, "text/plain", "Not found");
 }

@@ -30,7 +30,7 @@ String email = "jonsagebrand@gmail.com";
 
 #include <Arduino.h>
 
-#include <SPI.h> // ethernet libraries    
+#include <SPI.h> // ethernet libraries
 #include <Dhcp.h>
 #include <Dns.h>
 #include <Ethernet.h>
@@ -45,13 +45,12 @@ String email = "jonsagebrand@gmail.com";
   Ethernet settings
 *******************************/
 byte mac[] = {
-  0x90, 0xA2, 0xDA, 0x0C, 0x00, 0x76
-}; // MAC address, printed on a sticker on the shield
-IPAddress ip(192, 168, 10, 10); // ethernet shields wanted IP
+    0x90, 0xA2, 0xDA, 0x0C, 0x00, 0x76}; // MAC address, printed on a sticker on the shield
+IPAddress ip(192, 168, 10, 10);          // ethernet shields wanted IP
 //IPAddress gateway(192,168,10,1); // internet access via router
 //IPAddress subnet(255,255,255,0); //subnet mask
 EthernetServer server(80); // this arduinos web server port
-String readString; // string read from servers interface
+String readString;         // string read from servers interface
 
 /*******************************
   OneWire settings
@@ -74,15 +73,14 @@ String readString; // string read from servers interface
 *******************************/
 const int pinPulse = 4; // number of the pin connected to the photo transistor
 //const int yellowPinTemp =  7;      // number of the yellow LED pin, status
-const int greenPinNetwork =  8;      // number of the green LED pin, polled
-const int redPinPulse =  9;      // number of the red LED pin, pulse recieved
+const int greenPinNetwork = 8; // number of the green LED pin, polled
+const int redPinPulse = 9;     // number of the red LED pin, pulse received
 
 /*******************************
   Current clamps inputs
 *******************************/
 const int phase[] = {
-  A1, A2, A3
-};
+    A1, A2, A3};
 
 /*******************************
   Current values variables
@@ -90,24 +88,20 @@ const int phase[] = {
 double currentReading;
 
 double displayedCurrent[] = { // the displayed value on the web page
-  1, 2, 3
-};
-double ackDisplayedCurrent[] = { // all reads ackumulated
-  1, 2, 3
-};
+    1, 2, 3};
+double ackDisplayedCurrent[] = { // all reads accumulated
+    1, 2, 3};
 double polledCurrent[] = { // the average current between each poll
-  1, 2, 3
-};
-double ackPolledCurrent[] = { // all averages ackumulated
-  1, 2, 3
-};
+    1, 2, 3};
+double ackPolledCurrent[] = { // all averages accumulated
+    1, 2, 3};
 
 int readAverageCounter = 200; // counter for how many readings should be averaged
 
 /*******************************
   Misc variables
 *******************************/
-int pulseButtonState = 0; // variable for reading pulse button status
+int pulseButtonState = 0;     // variable for reading pulse button status
 int lastPulseButtonState = 0; // saves pulse buttons previous state
 byte pulseState = 0;
 int lastPulseState = 0;
@@ -132,7 +126,7 @@ int blinkYellowOffCounter = 0;
 unsigned long currentMillis = 000000; // will store millis()
 
 unsigned long pollMillis = 000000; // will store last time resetInterval was reset
-unsigned long pollAge = 000000; // how long since last poll
+unsigned long pollAge = 000000;    // how long since last poll
 
 //unsigned long tempsMillis = 000000; // will store last time temps was read
 //unsigned long tempAge = 000000; // how long since the temps was read
@@ -143,10 +137,10 @@ unsigned int pulses = 0;
 /*******************************
   Counter variables
 *******************************/
-int i = 0; // various purposes
-byte phaseCount = 0; // counting throug the 3 phases
+int i = 0;           // various purposes
+byte phaseCount = 0; // counting through the 3 phases
 //byte tempsCounter = 0; // counter for displaying values on web page
-int currentDisplayedCounter = 0; // counter for displayed current average
+int currentDisplayedCounter = 0;      // counter for displayed current average
 unsigned long currentPollCounter = 0; // counter för current interval average
-unsigned int readCounter = 0; // counter for how often to read currents
+unsigned int readCounter = 0;         // counter for how often to read currents
 //boolean readTemps = false;

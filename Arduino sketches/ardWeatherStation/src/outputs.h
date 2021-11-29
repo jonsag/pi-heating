@@ -1,11 +1,14 @@
 
 /////////////////////////////// blinking rain LED ///////////////////////////////
-void rainBlinking() {
-  if (redLedOn && blinkMillis - currentMillis >= 200) {
+void rainBlinking()
+{
+  if (redLedOn && blinkMillis - currentMillis >= 200)
+  {
     digitalWrite(redLed, LOW);
     redLedOn = false;
   }
-  else if (blinkRedLed) {
+  else if (blinkRedLed)
+  {
     digitalWrite(redLed, HIGH);
     blinkMillis = currentMillis;
     blinkRedLed = false;
@@ -14,19 +17,24 @@ void rainBlinking() {
 }
 
 /////////////////////////////// tick on lcd ///////////////////////////////
-void tickPrint() {
-  if (currentMillis - tickMillis > 2000) {
+void tickPrint()
+{
+  if (currentMillis - tickMillis > 2000)
+  {
     tickMillis = currentMillis;
   }
 
-  if (currentMillis - tickMillis > 1000) {
+  if (currentMillis - tickMillis > 1000)
+  {
     tick = 219;
   }
-  else {
+  else
+  {
     tick = 165;
   }
 
-  if (tick != lastTick) {
+  if (tick != lastTick)
+  {
     lcd.setCursor(19, 0);
     lcd.print((char)tick);
     //lcd.print(tick);
@@ -35,7 +43,8 @@ void tickPrint() {
 }
 
 /////////////////////////////// get length ///////////////////////////////
-int getLength(int value) {
+int getLength(int value)
+{
   int length;
 
   if (value > 9999)
@@ -53,11 +62,13 @@ int getLength(int value) {
 }
 
 /////////////////////////////// print to LCD ///////////////////////////////
-void lcdPrint(void) {
+void lcdPrint(void)
+{
   //lcd.setCursor(0, 0);
   //lcd.print(currentMillis);
 
-  if (currentMillis - lcdPrintMillis >= 1000) {
+  if (currentMillis - lcdPrintMillis >= 1000)
+  {
     ///// print wind
     lcd.setCursor(0, 1);
     lcd.print("   ");
@@ -87,10 +98,12 @@ void lcdPrint(void) {
   }
 }
 
-void outputs() {
+void outputs()
+{
 
   ///////////////////// blink
-  if (blinkRedLed || redLedOn) { // if we should light led or if it's already lit
+  if (blinkRedLed || redLedOn)
+  { // if we should light led or if it's already lit
     rainBlinking();
   }
 
@@ -98,12 +111,12 @@ void outputs() {
   lcdPrint();
 
   ///////////////////// erase status line
-  if (currentMillis - pollMillis >= 1000 ) {
+  if (currentMillis - pollMillis >= 1000)
+  {
     lcd.setCursor(0, 3);
     lcd.print("                    ");
   }
 
   ///////////////////// life tick
   tickPrint();
-
 }

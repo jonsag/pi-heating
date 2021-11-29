@@ -5,7 +5,8 @@
 #include "serial.h"
 
 ////////////////////////////// setup //////////////////////////////
-void setup() {
+void setup()
+{
   /*******************************
     Start LCD
   *******************************/
@@ -66,7 +67,8 @@ void setup() {
 }
 
 ////////////////////////////// main loop //////////////////////////////
-void loop() {
+void loop()
+{
   currentMillis = millis();
 
   inputs(); //read and evaluate inputs

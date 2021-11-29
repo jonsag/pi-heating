@@ -1,12 +1,13 @@
-#include <ESPAsyncTCP.h> // library found at https://github.com/me-no-dev/ESPAsyncTCP
+#include <ESPAsyncTCP.h>       // library found at https://github.com/me-no-dev/ESPAsyncTCP
 #include <ESPAsyncWebServer.h> // library found at https://github.com/me-no-dev/ESPAsyncWebServer
 
 // Create AsyncWebServer object on port 8081
 AsyncWebServer server(serverPort);
 
-const char* PARAM_MESSAGE = "id";
+const char *PARAM_MESSAGE = "id";
 
-void notFound(AsyncWebServerRequest *request) {
+void notFound(AsyncWebServerRequest *request)
+{
   request->send(404, "text/plain", "404: Not found");
 }
 
@@ -66,16 +67,22 @@ setInterval(function ( ) {
 </script>
 </html>)rawliteral";
 
-String processor(const String& var) { // replaces placeholder with sensor values
+String processor(const String &var)
+{ // replaces placeholder with sensor values
   //Serial.println(var);
-  if (var == "TEMPERATURE") {
+  if (var == "TEMPERATURE")
+  {
     //return String(t);
   }
-  else if (var == "HUMIDITY") {
+  else if (var == "HUMIDITY")
+  {
     //return String(h);
-  } else if (var == "TEMPS") {
+  }
+  else if (var == "TEMPS")
+  {
     String temps = "<br>";
-    for (int i = 0; i < (sizeof(deviceAddresses) / sizeof(deviceAddresses[0])); i++) {
+    for (int i = 0; i < (sizeof(deviceAddresses) / sizeof(deviceAddresses[0])); i++)
+    {
       temps += "<span id='temperature'>";
       temps += deviceNames[i];
       temps += ": ";
@@ -89,45 +96,58 @@ String processor(const String& var) { // replaces placeholder with sensor values
   return String();
 }
 
-void initiateServer() {
+void initiateServer()
+{
   // Route for root / web page
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest * request) {
-    request->send_P(200, "text/html", index_html, processor);
-  });
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
+            { request->send_P(200, "text/html", index_html, processor); });
 
-  server.on("/count.php", HTTP_GET, [](AsyncWebServerRequest * request) {
-    request->send_P(200, "text/plain", String(sizeof(deviceAddresses) / sizeof(deviceAddresses[0])).c_str());
-  });
+  server.on("/count.php", HTTP_GET, [](AsyncWebServerRequest *request)
+            { request->send_P(200, "text/plain", String(sizeof(deviceAddresses) / sizeof(deviceAddresses[0])).c_str()); });
 
   // Send a GET request to <IP>/get?message=<message>
-  server.on("/name.php", HTTP_GET, [] (AsyncWebServerRequest * request) {
-    String message;
-    if (request->hasParam(PARAM_MESSAGE)) {
-      message = request->getParam(PARAM_MESSAGE)->value();
-    } else {
-      message = "No message sent";
-    }
-    //request->send(200, "text/plain", "Hello, GET: " + message);
-    if (message.toInt() > sizeof(deviceAddresses) / sizeof(deviceAddresses[0]) || (message.toInt() <= 0)) {
-      request->send(404, "text/plain", "404: Not found");
-    } else {
-      request->send(200, "text/plain", String(deviceNames[message.toInt() - 1]).c_str());
-    }
-  });
+  server.on("/name.php", HTTP_GET, [](AsyncWebServerRequest *request)
+            {
+              String message;
+              if (request->hasParam(PARAM_MESSAGE))
+              {
+                message = request->getParam(PARAM_MESSAGE)->value();
+              }
+              else
+              {
+                message = "No message sent";
+              }
+              //request->send(200, "text/plain", "Hello, GET: " + message);
+              if (message.toInt() > sizeof(deviceAddresses) / sizeof(deviceAddresses[0]) || (message.toInt() <= 0))
+              {
+                request->send(404, "text/plain", "404: Not found");
+              }
+              else
+              {
+                request->send(200, "text/plain", String(deviceNames[message.toInt() - 1]).c_str());
+              }
+            });
 
-  server.on("/value.php", HTTP_GET, [] (AsyncWebServerRequest * request) {
-    String message;
-    if (request->hasParam(PARAM_MESSAGE)) {
-      message = request->getParam(PARAM_MESSAGE)->value();
-    } else {
-      message = "No message sent";
-    }
-    if (message.toInt() > sizeof(deviceAddresses) / sizeof(deviceAddresses[0]) || (message.toInt() <= 0)) {
-      request->send(404, "text/plain", "404: Not found");
-    } else {
-      request->send(200, "text/plain", String(readTemp(message.toInt() - 1)));
-    }
-  });
+  server.on("/value.php", HTTP_GET, [](AsyncWebServerRequest *request)
+            {
+              String message;
+              if (request->hasParam(PARAM_MESSAGE))
+              {
+                message = request->getParam(PARAM_MESSAGE)->value();
+              }
+              else
+              {
+                message = "No message sent";
+              }
+              if (message.toInt() > sizeof(deviceAddresses) / sizeof(deviceAddresses[0]) || (message.toInt() <= 0))
+              {
+                request->send(404, "text/plain", "404: Not found");
+              }
+              else
+              {
+                request->send(200, "text/plain", String(readTemp(message.toInt() - 1)));
+              }
+            });
 
   server.onNotFound(notFound);
 
@@ -137,5 +157,4 @@ void initiateServer() {
   Serial.print("Web server started at port: ");
   Serial.println(serverPort);
   Serial.println();
-
 }

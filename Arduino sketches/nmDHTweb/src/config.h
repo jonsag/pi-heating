@@ -17,7 +17,7 @@ const int dhtPin = 0; // Connect DHT sensor to GPIO0, D3
 /***********
    Web server
  ***********/
- const int serverPort = 8081;
+const int serverPort = 8081;
 
 /***********
    Misc
@@ -28,7 +28,7 @@ float h = 0.0;
 
 // Generally, you should use "unsigned long" for variables that hold time
 // The value will quickly become too large for an int to store
-unsigned long previousMillis = 0;    // will store last time DHT was updated
+unsigned long previousMillis = 0; // will store last time DHT was updated
 
 // Updates DHT readings every 10 seconds
 const long interval = 10000;
