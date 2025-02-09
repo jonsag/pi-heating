@@ -1,0 +1,46 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "ardPowerTempLog-pio",
+			"path": "Arduino sketches/ardPowerTempLog-pio"
+		},
+		{
+			"name": "ardWeatherStation-pio",
+			"path": "Arduino sketches/ardWeatherStation-pio"
+		},
+		{
+			"name": "nmDHTweb-pio",
+			"path": "Arduino sketches/nmDHTweb-pio"
+		},
+		{
+			"name": "nmDiscover1WireDevices-pio",
+			"path": "Arduino sketches/nmDiscover1WireDevices-pio"
+		},
+		{
+			"name": "nmDS18B20web-pio",
+			"path": "Arduino sketches/nmDS18B20web-pio"
+		}
+	],
+	"settings": {
+		"sqltools.connections": [
+			{
+				"mysqlOptions": {
+					"authProtocol": "default"
+				},
+				"previewLimit": 50,
+				"server": "192.168.10.52",
+				"port": 3306,
+				"driver": "MariaDB",
+				"name": "piHeatingDB@192.168.10.52",
+				"database": "piHeatingDB",
+				"group": "local",
+				"username": "pi",
+				"password": "raspberryrry",
+				"connectionTimeout": 5
+			}
+		]
+	}
+}
